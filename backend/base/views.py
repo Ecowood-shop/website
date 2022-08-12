@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
+# from base.models import Product, Review
 
 
 # Create your views here.
@@ -22,7 +23,12 @@ def getRoutes(request):
     ]
     return Response(routes)
 
-@api_view(['GET'])
-def getProducts(request):
-    return Response('agervar')
 
+# @api_view(['GET'])
+# def getProductCategories(request):
+#     categories = []
+#     for product in Product.objects.all():
+#         categories.append(product.category)
+#     categories = list(dict.fromkeys(categories))
+#
+#     return Response(categories)
