@@ -1,0 +1,19 @@
+.message {
+  width: 80%;
+  position: relative;
+  color: white;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 500;
+  bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  display: inline;
+}
+
+.message svg {
+  width: 2.5rem;
+  height: 2.5rem;
+  transform: translateY(25%);
+}

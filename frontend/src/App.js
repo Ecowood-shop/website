@@ -5,8 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // SCREENS
 
 //   APP
-import LoginScreen from "./screens/app/LoginScreen";
-import RegisterScreen from "./screens/app/RegisterScreen";
+import Authorization from "./screens/app/authorization/AuthorizationScreen";
 
 // LAYOUTS
 import HomeLayout from "./layouts/HomeLayout";
@@ -17,8 +16,7 @@ function App() {
     <Router>
       <Routes>
         <Route element={<HomeLayout />}>
-          <Route path="/Register" element={<RegisterScreen />} />
-          <Route path="/login" element={<LoginScreen />} />
+          <Route path="/authorization" element={<Authorization />} />
         </Route>
 
         <Route element={<AuthorizedLayout />}></Route>
