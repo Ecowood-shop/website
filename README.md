@@ -9,3 +9,8 @@
         Access-Control-Allow-Origin header).
 
         Fetching Data-ში განიხილავს ის ბიჭი ამ მონაკვეთს 
+
+    2. ბაზაში default ად რო სურათს იმიჯი მიცეს ეს უნდა ჩასწორდეს მოდელებში 
+       image = models.ImageField(null=True, blank=True, default='/placeholder.png')
+
+    3. Products - როცა ვამატებ Discount - არის required, მიუხედავად იმისა რო nullable მაქ მითითებული
