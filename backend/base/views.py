@@ -4,12 +4,38 @@ from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
+
 from .models import Product
 
-from .serializers import ProductSerializer
+from .serializers import ProductSerializer, UserSerializer
 
 
-# Create your views here.
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        data = super().validate(attrs)
+
+        data['username'] = self.user.username
+        data['first_name'] = self.user.first_name
+        data['last_name'] = self.user.last_name
+
+        return data
+
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+
+        # Add custom claims
+        token['username'] = user.username
+        # ...
+
+        return token
+
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
+
 
 @api_view(['GET'])
 def getRoutes(request):
@@ -24,6 +50,13 @@ def getRoutes(request):
         '/api/products/top',
     ]
     return Response(routes)
+
+
+@api_view(['GET'])
+def getUserProfile(request):
+    user = request.user
+    serializer = UserSerializer(user, many=False)
+    return Response(serializer.data)
 
 
 @api_view(['GET'])
