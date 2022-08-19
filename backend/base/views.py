@@ -82,7 +82,10 @@ def registerUser(request):
 
     return Response({
         "status": "success",
-        'user_id': user.id,
+        # 'user_id': user.id,
+        'first_name': user.first_name,
+        'last_name': user.last_name,
+        'isAdmin': user.is_staff,
         'refresh': str(refresh),
         'access': str(refresh.access_token)
     }, status=status.HTTP_201_CREATED)
