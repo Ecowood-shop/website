@@ -5,41 +5,41 @@
   border-radius: 8px;
   display: flex;
 
-  gap: 6rem;
+  gap: 2vw;
   align-items: center;
   position: relative;
 }
 .blockCarousel-container > img {
   height: 100%;
-  width: 30rem;
+  width: 20vw;
   border-radius: 8px;
   transform: scale(1.3);
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
-  margin-left: 10%;
+  margin-left: 6vw;
 }
 
 .blockCarousel-text {
-  font-size: 2.2rem;
+  position: relative;
+  font-size: 1.3vw;
   font-weight: 500;
   line-height: 1.5;
   margin-bottom: 10%;
 }
 
 .blockCarousel-author {
-  font-size: 1.6rem;
-
+  font-size: 1vw;
   margin-bottom: 0rem;
 }
 .blockCarousel-job {
-  font-size: 1.2rem;
-  padding-bottom: 2rem;
+  font-size: 0.8vw;
+  line-height: 1;
 }
 
 .blockCarousel-btn {
   background-color: black;
   border: none;
-  height: 4rem;
-  width: 4rem;
+  height: 3vw;
+  width: 3vw;
   position: absolute;
   border-radius: 50%;
   align-items: center;
@@ -50,8 +50,8 @@
 }
 
 .btn-icon {
-  height: 3rem;
-  width: 3rem;
+  height: 3vw;
+  width: 3vw;
   stroke: white;
 }
 
@@ -86,4 +86,49 @@
 
 .dot--fill {
   background-color: black;
+}
+
+@media all and (max-width: 90em) {
+  .blockCarousel-dots {
+    left: 70%;
+  }
+}
+
+@media all and (max-width: 70em) {
+  
+  .blockCarousel-text {
+    font-size: 2.2vw;
+  }
+  .blockCarousel-author {
+    font-size: 1.5vw;
+  }
+  .blockCarousel-job {
+    font-size: 1.2vw;
+  }
+  .blockCarousel-container > img {
+    width: 30vw;
+    margin-left: 10vw;
+  }
+
+  .blockCarousel-btn {
+    width: 5vw;
+    height: 5vw;
+  }
+}
+@media all and (max-width: 44em)  and (orientation: portrait) {
+  .btn--left {
+    left: 5vw;
+  }
+  .blockCarousel-btn {
+    width: 4vh;
+    height: 4vh;
+  }
+  .btn-icon{
+    width: 3vh;
+    height: 3vh;
+  }
+  .btn--right {
+  
+    right: 5vw;
+  }
 }
