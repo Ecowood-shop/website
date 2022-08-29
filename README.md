@@ -14,3 +14,5 @@
        image = models.ImageField(null=True, blank=True, default='/placeholder.png')
 
     3. Products - როცა ვამატებ Discount - არის required, მიუხედავად იმისა რო nullable მაქ მითითებული
+
+    4. View-ში Login-ისას წვდომა მაქ დაუშიფრავ პაროლებზე და ეგრე უნდა იყოს?
