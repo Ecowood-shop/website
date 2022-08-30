@@ -1,47 +1,37 @@
 from rest_framework import serializers
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from rest_framework_simplejwt.tokens import RefreshToken
+import django.contrib.auth.password_validation as validators
+
 from .models import Product, User
 
 
 class UserSerializer(serializers.ModelSerializer):
-    _id = serializers.SerializerMethodField(read_only=True)
-    isAdmin = serializers.SerializerMethodField(read_only=True)
-
     class Meta:
         model = User
-        fields = ['id', '_id', 'email', 'first_name', 'last_name', 'isAdmin']
+        fields = ['id', 'first_name', 'last_name', 'email', 'phone', 'password']
+        extra_kwargs = {
+            'password': {'write_only': True}
+        }
 
-    def get__id(self, obj):
-        return obj.id
-
-    def get_isAdmin(self, obj):
-        return obj.is_staff
-
-
-class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
-    def validate(self, attrs):
-        data = super().validate(attrs)
-
-        refresh = self.get_token(self.user)
-
-        data['first_name'] = self.user.first_name
-        data['last_name'] = self.user.last_name
-        data['isAdmin'] = self.user.is_staff
-        data['refresh'] = str(refresh)
-        data['access'] = str(refresh.access_token)
-
+    def validate_password(self, data):
+        validators.validate_password(password=data, user=User)
         return data
 
-    @classmethod
-    def get_token(cls, user):
-        token = super().get_token(user)
+    def create(self, validated_data):
+        return User.objects.create_user(**validated_data)
 
-        # Add custom claims
-        token['username'] = user.username
-        # ...
+    # def create(self, validated_data):
+    #     user = User.objects.create_user(**validated_data)
+    #     # user.is_active = Falseprint
+    #     # user.is_staff = False
+    #     user.save()
+    #     return user
 
-        return token
+
+class TokenSerializer(serializers.Serializer):
+    """
+    This serializer serializes the token data
+    """
+    token = serializers.CharField(max_length=255)
 
 
 class ProductSerializer(serializers.ModelSerializer):
