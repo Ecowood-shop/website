@@ -1,29 +1,46 @@
+// REACT
 import React, { useState, useEffect } from "react";
-// import { useDispatch, useSelector } from "react-redux";
-// import { login } from "../../store/actions/userActions";
 import { useNavigate } from "react-router-dom";
 
-// import Loader from "../../components/Loader"
-
 // COMPONENTS
+import Loader from "../../../components/Loader/Loader";
 import BlockCarousel from "./components/BlockCarousel";
 import Register from "./components/Register";
 import Message from "../../../components/Message/Message";
+
+// REDUX
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../../store/actions/systemActions";
 
 // OTHERS
 import "./authorization.css";
 
 function AuthorizationScreen() {
-  const [login, setLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(true);
   const [message, setMessage] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  // HOOKS
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const systemUser = useSelector((state) => state.systemUser);
+  const { error, loading, user } = systemUser;
+
+  useEffect(() => {
+    if (error) {
+      setMessage(error);
+    }
+      if (user) {
+        navigate("/", { replace: true });
+      }
+  }, [systemUser, navigate]);
+
   const SubmitHandler = (e) => {
     e.preventDefault();
     if (!message) {
-      // dispatch(login(loginData, password));
-      console.log(email + password);
+      dispatch(login(email, password));
     }
   };
 
@@ -38,11 +55,11 @@ function AuthorizationScreen() {
   return (
     <article className="auth-article">
       <section className="auth-container  w3-animate-left">
-        {login ? (
+        {isLogin ? (
           <form className="w3-animate-left" onSubmit={SubmitHandler}>
             <h1> ავტორიზაცია</h1>
             <Message>{message}</Message>
-
+            {loading && <Loader />}
             <section>
               <input
                 type="email"
@@ -61,7 +78,7 @@ function AuthorizationScreen() {
               />
             </section>
             <div className="auth-btn-container">
-              <h2 onClick={() => setLogin(!login)}>რეგისტრაცია</h2>
+              <h2 onClick={() => setIsLogin(!isLogin)}>რეგისტრაცია</h2>
               <button type="submit" onClick={() => Validation()}>
                 შესვლა
               </button>
@@ -69,8 +86,9 @@ function AuthorizationScreen() {
           </form>
         ) : (
           <Register
+          systemUser={systemUser}
             ChangeLogin={() => {
-              setLogin(!login);
+              setIsLogin(!isLogin);
             }}
           />
         )}

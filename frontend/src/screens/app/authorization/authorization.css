@@ -1,5 +1,5 @@
 .auth-article {
-  min-height: 100vh;
+  min-height: 86vh;
   min-width: 100vw;
   background-color: #862e9c;
   display: grid;
@@ -13,6 +13,8 @@
   margin-right: 5rem;
 }
 .auth-container {
+  margin-top: 5vh;
+  margin-bottom: 5vh;
   margin-left: 5rem;
 }
 
@@ -43,6 +45,7 @@
 }
 
 .auth-input {
+  border-radius: 10px;
   box-sizing: border-box;
   width: 80%;
   height: 3.5vw;
@@ -65,9 +68,10 @@
 }
 
 .auth-btn-container button {
+  border-radius: 10px;
   width: 50%;
   border: none;
-  background-color: black;
+  background-color:black;
   color: white;
   font-size: 1.4vw;
   letter-spacing: 0.2rem;
@@ -110,7 +114,7 @@
     width: 80vw;
     justify-self: center;
     margin-right: 0;
-    margin-top:200px;
+    margin-top: 200px;
     margin-bottom: 100px;
   }
   .auth-container {
@@ -153,7 +157,6 @@
     border: none;
     border-radius: 0;
     background-color: transparent;
-
   }
 
   .auth-carousel {
@@ -167,9 +170,8 @@
     align-items: center;
     justify-content: center;
   }
-  .auth-container form section{
+  .auth-container form section {
     margin-top: 5vh;
-
   }
   .auth-article {
     max-height: 100vh;
@@ -197,8 +199,7 @@
   .auth-btn-container h2 {
     font-size: 3vh;
     margin-left: 0;
-    order:2;
-
+    order: 2;
   }
 
   .auth-btn-container button {
@@ -208,12 +209,8 @@
   }
 }
 
-
-
 @media all and (max-width: 44em) and (orientation: landscape) {
-
   .auth-carousel {
-    margin-top:100px;
+    margin-top: 100px;
   }
-
 }

@@ -1,11 +1,16 @@
 // REACT
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 // COMPONENTS
 import Message from "../../../../components/Message/Message";
+import Loader from "../../../../components/Loader/Loader";
 
-// OTHERS
-import { Animation } from "../../../../functions/Animation";
+
+
+// REDUX
+import { useDispatch} from "react-redux";
+import { register } from "../../../../store/actions/systemActions";
 
 function Register(props) {
   const [nextPage, setNextPage] = useState(false);
@@ -18,11 +23,25 @@ function Register(props) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  // HOOKS
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { error, loading, user } = props.systemUser;
+
+   useEffect(() => {
+    if (error) {
+      setMessage(error);
+    }
+      if (user) {
+        navigate("/", { replace: true });
+      }
+  }, [props.systemUser, navigate]);
+
   const SubmitHandler = (e) => {
     e.preventDefault();
     if (!message) {
-      // dispatch(login(loginData, password));
-      console.log(firstName, lastName, email, phone, password, confirmPassword);
+     dispatch(register(firstName, lastName, email, phone, password))
     }
   };
 

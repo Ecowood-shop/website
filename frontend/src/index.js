@@ -11,6 +11,8 @@ import { Provider } from "react-redux";
 
 // ADDITIONAL
 import "./index.css";
+import 'animate.css';
+
 import reportWebVitals from "./reportWebVitals";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

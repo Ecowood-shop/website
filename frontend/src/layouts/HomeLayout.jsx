@@ -1,18 +1,20 @@
 // REACT
 import React, { useEffect } from "react";
 import { useNavigate, Outlet } from "react-router-dom";
-// import { useSelector } from "react-redux";
+
+// REDUX
+import { useSelector } from "react-redux";
 
 function HomeLayout() {
   const navigate = useNavigate();
-  //   const userLogin = useSelector((state) => state.userLogin);
-  //   const { userInfo } = userLogin;
+  const systemUser = useSelector((state) => state.systemUser);
+  const { user} =systemUser 
 
-  //   useEffect(() => {
-  //     if (userInfo) {
-  //       navigate(-1, { replace: true });
-  //     }
-  //   }, []);
+    useEffect(() => {
+      if (user) {
+        navigate(-1, { replace: true });
+      }
+    }, []);
 
   return <Outlet />;
 }

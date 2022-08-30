@@ -7,6 +7,11 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 //   APP
 import Authorization from "./screens/app/authorization/AuthorizationScreen";
 
+
+
+// COMPONENTS
+import Header from "./components/header/Header";
+
 // LAYOUTS
 import HomeLayout from "./layouts/HomeLayout";
 import AuthorizedLayout from "./layouts/AuthorizedLayout";
@@ -14,12 +19,15 @@ import AuthorizedLayout from "./layouts/AuthorizedLayout";
 function App() {
   return (
     <Router>
+      <Header />
       <Routes>
         <Route element={<HomeLayout />}>
           <Route path="/authorization" element={<Authorization />} />
         </Route>
 
-        <Route element={<AuthorizedLayout />}></Route>
+        <Route element={<AuthorizedLayout />}>
+          
+        </Route>
       </Routes>
     </Router>
   );
