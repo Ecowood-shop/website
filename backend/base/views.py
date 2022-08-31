@@ -47,7 +47,9 @@ def LoginView(request):
 
     response.set_cookie(key='jwt', value=token, httponly=True)
     response.data = {
-        'jwt': token
+        'first_name': user.first_name,
+        'last_name': user.last_name,
+        'isAdmin': user.is_staff
     }
     return response
 
