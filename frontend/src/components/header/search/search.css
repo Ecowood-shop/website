@@ -1,0 +1,135 @@
+.search-container {
+  margin-left: 2rem;
+  height: 100%;
+  max-width: 40rem;
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-container input {
+  height: 3.5rem;
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  padding-left: 2rem;
+  padding-right: 17rem;
+  font-size: var(--medium);
+}
+
+.search-icon {
+  height: 1.2rem;
+  color: white;
+  cursor: pointer;
+}
+
+.search-icon-container {
+  position: relative;
+  display: flex;
+  right: 3rem;
+  height: 2.5rem;
+  width: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-primary);
+  border-radius: 50%;
+}
+
+.search-icon-container:hover {
+  transform: scale(1.1);
+}
+
+/* CATEGORY */
+.search-category {
+  position: absolute;
+  width: 12rem !important;
+  right: 6rem;
+  font-size: var(--medium);
+  padding-right: 0 !important;
+  color: var(--color-second) !important;
+  z-index: 5 !important;
+}
+.search-container .MuiAutocomplete-paper {
+  font-size: var(--super-small);
+}
+.search-category input {
+  font-size: var(--small);
+  height: auto;
+  width: 11rem;
+  margin: 0 !important;
+  padding: 0 !important;
+  color: var(--color-primary) !important;
+}
+
+.search-category .MuiInputLabel-outlined,
+.search-category .MuiAutocomplete-clearIndicator,
+.search-category .MuiSvgIcon-root {
+  color: var(--color-primary);
+  font-weight: 600;
+  font-size: var(--small) !important ;
+}
+.search-category .MuiFormLabel-filled {
+  position: relative;
+  color: var(--color-second);
+  font-size: var(--medium) !important;
+}
+
+.search-category fieldset {
+  border: 3px solid var(--color-primary);
+  border-radius: 10px;
+}
+
+.search-category-field > label {
+  position: relative;
+  font-size: var(--medium) !important;
+}
+.MuiInputBase-formControl {
+  position: relative;
+  bottom: 0.9rem;
+  height: 2.5rem !important;
+}
+
+@media all and (max-width: 60em) {
+  .search-category input {
+    width: 11rem !important;
+    padding-right: 3rem !important;
+  }
+  .search-container {
+    width: 100%;
+    position: relative;
+    margin-bottom: 1rem;
+  }
+  .search-container input {
+    box-sizing: border-box;
+
+    padding: 0;
+    left: 4%;
+    right: 0;
+    position: absolute;
+    width: 92%;
+    padding-left: 2rem;
+    padding-right: 4rem;
+    font-size: var(--small);
+  }
+  .search-icon-container {
+    right: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    position: absolute;
+    right: 3rem !important;
+  }
+}
+@media all and (max-width: 40em) and (orientation: portrait) {
+  .search-container input {
+    padding-left: 1rem;
+    width: 90%;
+    padding-right: 4rem;
+  }
+  .search-icon-container {
+    right: 2rem !important;
+  }
+  .search-category {
+    display: none;
+  }
+}

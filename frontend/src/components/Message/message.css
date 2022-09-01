@@ -1,0 +1,22 @@
+.message {
+  width: 80%;
+  position: relative;
+  color: white;
+  text-align: center;
+  font-size: var(--medium);
+  font-weight: 500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.message p {
+  display: inline-block;
+}
+
+.message svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  position: relative;
+  top: 0.2rem;
+  margin-right: 0.5rem;
+}
