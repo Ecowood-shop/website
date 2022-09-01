@@ -26,7 +26,7 @@ function App() {
         </Route>
 
         <Route element={<AuthorizedLayout />}>
-          
+          <Route path="/profile" element={<Authorization/>} />
         </Route>
       </Routes>
     </Router>

@@ -12,7 +12,7 @@ function HomeLayout() {
 
     useEffect(() => {
       if (user) {
-        navigate(-1, { replace: true });
+                navigate(-1, { replace: true });
       }
     }, []);
 

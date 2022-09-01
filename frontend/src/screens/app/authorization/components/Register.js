@@ -54,18 +54,18 @@ function Register(props) {
       ? setMessage("შეიყვანეთ მეილი")
       : !phone
       ? setMessage("შეიყვანეთ ტელეფონის ნომერი")
-      : password != confirmPassword
+      : password !== confirmPassword
       ? setMessage("პაროლი არ ემთხვევა")
-      : !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(password)
-      ? setMessage(
-          "პაროლი უნდა შეიცავდეს მინიმუმ 8 სიმბოლოს, ერთ დიდ და ერთ პატარა სიმბოლოს და ციფრს"
-        )
+      // : !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(password)
+      // ? setMessage(
+      //     "პაროლი უნდა შეიცავდეს მინიმუმ 8 სიმბოლოს, ერთ დიდ და ერთ პატარა სიმბოლოს და ციფრს"
+        // )
       : setMessage("");
   };
 
   return (
     <form className="w3-animate-left" onSubmit={SubmitHandler}>
-      <h1> რეგისტრაცია</h1>
+      <h1 style={{marginBottom: message ? "0" : "3rem"}}> რეგისტრაცია</h1>
       <Message>{message}</Message>
       {nextPage ? (
         <button

@@ -8,7 +8,7 @@ import {
   SYSTEM_REGISTER_REQUEST,
   SYSTEM_REGISTER_SUCCESS,
 } from "../constants/systemConstants";
-import { useAxios } from "../../hooks/useAxios";
+import { useAxios, useCustomAxios } from "../../hooks/useAxios";
 
 export const login = (email, password) => async (dispatch) => {
   try {
@@ -25,7 +25,6 @@ export const login = (email, password) => async (dispatch) => {
       type: SYSTEM_LOGIN_SUCCESS,
       payload: data,
     });
-
     localStorage.setItem("userInfo", JSON.stringify(data));
   } catch (error) {
     dispatch({
@@ -35,9 +34,17 @@ export const login = (email, password) => async (dispatch) => {
   }
 };
 
-export const logout = () => (dispatch) => {
-  localStorage.removeItem("userInfo"); 
-  dispatch({ type: SYSTEM_LOGOUT });
+export const logout = () => async (dispatch) => {
+  try {
+
+    localStorage.removeItem("userInfo");
+    dispatch({ type: SYSTEM_LOGOUT });
+    const { data } = await useCustomAxios.post("/api/users/logout/", {
+      nothing: "nothing",
+    });
+  } catch (error) {
+   //    THERE SHOULD NOT BE ANY ERRORS
+  }
 };
 
 export const register =
@@ -47,27 +54,19 @@ export const register =
         type: SYSTEM_REGISTER_REQUEST,
       });
 
-      const { data } = await useAxios.post(
-        "/api/users/register/",
-        {
-          first_name: firstName,
-          last_name: lastName,
-          email: email,
-          phone: phone,
-          password: password,
-        },
-      );
+      const { data } = await useAxios.post("/api/users/register/", {
+        first_name: firstName,
+        last_name: lastName,
+        email: email,
+        phone: phone,
+        password: password,
+      });
 
       dispatch({
         type: SYSTEM_REGISTER_SUCCESS,
         payload: data,
       });
-      dispatch({
-        type: SYSTEM_LOGIN_SUCCESS,
-        payload: data,
-      });
-
-      localStorage.setItem("userInfo", JSON.stringify(data));
+      dispatch(login(email, password));
     } catch (error) {
       dispatch({
         type: SYSTEM_REGISTER_FAIL,

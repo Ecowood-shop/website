@@ -14,8 +14,8 @@ function AuthorizedLayout() {
   const { user} =systemUser 
 
     useEffect(() => {
-      if (user) {
-        navigate("/authorization");
+      if (!user) {
+        navigate("/");
       }
     }, []);
 

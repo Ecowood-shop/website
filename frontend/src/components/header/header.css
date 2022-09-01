@@ -39,19 +39,17 @@
 
 .header-logIn {
   border: none;
-  background-color: black;
+  background: transparent;
   height: 60%;
   padding: 0.1rem 1rem;
   color: white;
   letter-spacing: 0.2rem;
-  font-weight: 500;
-  transition: 0.5s all;
   border-radius: 10px;
+  font-size: var(--small);
 }
 
 .header-logIn:hover {
-  background-color: rgba(0, 0, 0, 0.7);
-  color: rgba(255, 255, 255, 0.7);
+   transform: scale(1.05);
 }
 .header-user,
 .header-dropdown-element {
@@ -81,7 +79,7 @@
 
 .header-dropdown-element {
   border: none;
-  background-color:var(--color-primary-lg);
+  background-color: var(--color-primary-lg);
   height: 3rem;
   border-radius: 10px;
   padding: 1rem;
@@ -119,7 +117,7 @@
   color: white;
 }
 
-@media all and (max-width: 60em){
+@media all and (max-width: 60em) {
   .header-container > *:not(:first-child) {
     display: none;
   }
@@ -165,10 +163,8 @@
     align-self: center !important ;
     transform: none !important;
     margin-top: 3rem;
-    
-    margin-bottom: 2rem;
-  
 
+    margin-bottom: 2rem;
   }
   .header-dropdown {
     position: relative;
@@ -180,22 +176,18 @@
   }
   .header-logIn {
     margin-bottom: 1rem;
-    font-size: var(--super-small);
     margin-right: 1rem;
     padding: 0.5rem;
   }
 }
 
-@media all and (max-width: 50em)  and (orientation: portrait) {
-.header-user{
-  font-size: var(--small);
-  margin-bottom: 1rem;
-  height: 2rem;
-}
-
-.header-dropdown-element:first-of-type {
-margin-top: 1rem;
-}
-
-
+@media all and (max-width: 50em) and (orientation: portrait) {
+  .header-user {
+    font-size: var(--small);
+    margin-bottom: 1rem;
+    height: 2rem;
+  }
+  .header-dropdown-element:first-of-type {
+    margin-top: 1rem;
+  }
 }

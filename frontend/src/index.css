@@ -33,14 +33,14 @@ code {
 
 /* VARIABLES */
 :root {
-
-   /* COLORS */
+  /* COLORS */
   --color-primary: #9c36b5;
-  --color-primary-lg:#862e9c;
+  --color-primary-lg: #862e9c;
+  --color-second:#DA1212;
   /* FONT SIZE */
-  --medium:1.4rem;
-  --small:1.2rem;
-  --super-small:1rem;
-
-
+  --medium: 1.4rem;
+  --small: 1.2rem;
+  --x-small: 1rem;
+  --xx-large: 3rem;
+  --x-large:2.5rem;
 }

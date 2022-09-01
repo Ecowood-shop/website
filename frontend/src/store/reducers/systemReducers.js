@@ -27,7 +27,7 @@ export const systemUserReducer = (state = {}, action) => {
       return { loading: true };
 
     case SYSTEM_REGISTER_SUCCESS:
-      return { loading: false, user: action.payload };
+      return { loading: false };
 
     case SYSTEM_REGISTER_FAIL:
       return { loading: false, error: action.payload };
