@@ -169,7 +169,7 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django_advanced_password_validation.advanced_password_validation.ContainsSpecialCharactersValidator',
         'OPTIONS': {
-            'min_characters': 1
+            'min_characters': 0
         }
     },
 ]
