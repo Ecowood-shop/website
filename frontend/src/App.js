@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 //   APP
 import Authorization from "./screens/app/authorization/AuthorizationScreen";
-
+import HomeScreen from "./screens/app/home/HomeScreen";
 
 
 // COMPONENTS
@@ -23,6 +23,7 @@ function App() {
       <Routes>
         <Route element={<HomeLayout />}>
           <Route path="/authorization" element={<Authorization />} />
+          <Route path="/" element={<HomeScreen/>}/>
         </Route>
 
         <Route element={<AuthorizedLayout />}>

@@ -1,0 +1,12 @@
+.home-container {
+  width: 80vw;
+  /* background-color: white; */
+  height: 100vh;
+  border-radius: 8%;
+}
+
+.home-container > header > h1 {
+  width: 100%;
+  text-align: center;
+  font-size: var(--x-large);
+}

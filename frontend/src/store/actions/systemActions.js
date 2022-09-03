@@ -29,21 +29,22 @@ export const login = (email, password) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: SYSTEM_LOGIN_FAIL,
-      payload: error?.message,
+      payload: error.response?.data
+        ? Object.values(error.response?.data)[0][0]
+        : error.response,
     });
   }
 };
 
 export const logout = () => async (dispatch) => {
   try {
-
     localStorage.removeItem("userInfo");
     dispatch({ type: SYSTEM_LOGOUT });
     const { data } = await useCustomAxios.post("/api/users/logout/", {
       nothing: "nothing",
     });
   } catch (error) {
-   //    THERE SHOULD NOT BE ANY ERRORS
+    //    THERE SHOULD NOT BE ANY ERRORS
   }
 };
 
@@ -70,10 +71,9 @@ export const register =
     } catch (error) {
       dispatch({
         type: SYSTEM_REGISTER_FAIL,
-        payload:
-          error.response && error.response.data[0].description
-            ? error.response.data[0].description
-            : error.message,
+        payload: error.response?.data
+          ? Object.values(error.response?.data)[0][0]
+          : error.response,
       });
     }
   };

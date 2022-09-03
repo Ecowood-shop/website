@@ -28,6 +28,7 @@ function AuthorizationScreen() {
   const systemUser = useSelector((state) => state.systemUser);
   const { error, loading, user } = systemUser;
 
+
   useEffect(() => {
     if (error) {
       setMessage(error);

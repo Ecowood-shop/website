@@ -6,7 +6,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--color-primary);
 }
-
+* {
+  box-sizing: border-box;
+}
 #root {
   display: flex;
   flex-direction: column;
@@ -36,11 +38,11 @@ code {
   /* COLORS */
   --color-primary: #9c36b5;
   --color-primary-lg: #862e9c;
-  --color-second:#DA1212;
+  --color-second: #da1212;
   /* FONT SIZE */
   --medium: 1.4rem;
   --small: 1.2rem;
   --x-small: 1rem;
   --xx-large: 3rem;
-  --x-large:2.5rem;
+  --x-large: 2.5rem;
 }
