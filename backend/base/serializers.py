@@ -1,7 +1,7 @@
 from rest_framework import serializers
 import django.contrib.auth.password_validation as validators
 
-from .models import Product, User
+from .models import Product, User, Category
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -35,6 +35,29 @@ class TokenSerializer(serializers.Serializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    category = serializers.ReadOnlyField(source='category.name')
+    color = serializers.ReadOnlyField(source='color.name')
+    discount = serializers.ReadOnlyField(source='discount.name')
+
     class Meta:
         model = Product
-        fields = '__all__'
+        fields = ['_id', 'category', 'color', 'discount', 'name_geo',
+                  'name_eng', 'name_rus', 'image', 'brand', 'size',
+                  'description_geo', 'description_eng', 'description_rus', 'rating',
+                  'numReviews', 'price', 'countInStock', 'createdAt', 'user']
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    category = serializers.ReadOnlyField(source='category.name')
+
+    class Meta:
+        model = Category
+        fields = ['_id', 'category']
+
+
+class TopProductSerializer(serializers.ModelSerializer):
+    category = serializers.ReadOnlyField(source='category.name')
+
+    class Meta:
+        model = Product
+        fields = ['_id', 'name_geo', 'price', 'image', 'category']
