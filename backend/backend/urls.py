@@ -21,8 +21,10 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('base.urls')),
+    # path('api/', include('base.urls')),
+    path('api/products/', include('base.urls.product_urls')),
+    path('api/users/', include('base.urls.user_urls')),
+    path('api/orders/', include('base.urls.order_urls')),
 ]
 
-# სურათი რო ბექზეც გაიხსნას უშუალოდ URL-თი
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
