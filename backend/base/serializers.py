@@ -48,11 +48,10 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class CategorySerializer(serializers.ModelSerializer):
-    category = serializers.ReadOnlyField(source='category.name')
 
     class Meta:
         model = Category
-        fields = ['_id', 'category']
+        fields = ['_id', 'name']
 
 
 class TopProductSerializer(serializers.ModelSerializer):
