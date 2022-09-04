@@ -1,10 +1,12 @@
 .carousel-container {
-  background-color: white;
+  background-color: var(--color-primary-lg);
   height: auto;
   border-radius: 10px;
+  margin-bottom: 5rem;
+}
+.carousel-container:first-of-type {
   margin-top: 5rem;
 }
-
 .carousel-container header button {
   position: absolute;
   right: 1rem;
@@ -25,7 +27,7 @@
   position: relative;
   border-radius: 10px 10px 0 0;
   background-color: var(--color-second);
-  height: 5rem;
+  min-height: 5rem;
   width: 100%;
   display: flex;
   align-items: center;
@@ -34,4 +36,29 @@
 }
 .carousel-container header h1 {
   font-size: var(--x-large);
+}
+
+@media all and (max-width: 50em) {
+  .carousel-container header {
+    justify-content: flex-start;
+  }
+  .carousel-container header h1 {
+    display: table-caption;
+    font-size: var(--large);
+    margin-left: 2rem;
+  }
+  .carousel-container header button {
+    font-size: var(--super-small);
+  }
+}
+
+@media all and (max-width: 40em) {
+  .carousel-container header h1 {
+    display: table-caption;
+    font-size: var(--x-medium);
+    margin-left: 2rem;
+  }
+  .carousel-container header {
+    word-spacing: 100vw;
+  }
 }

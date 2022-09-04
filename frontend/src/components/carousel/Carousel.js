@@ -35,12 +35,12 @@ function Carousel(props) {
   };
 
   return (
-    <section className="carousel-container">
+    <section className="carousel-container w3-animate-right">
       <header>
         <h1>{props.category.category}</h1>
         <button>სრულად</button>
       </header>
-      <ReactCarousel responsive={responsive} className="carousel">
+      <ReactCarousel responsive={responsive} className="carousel ">
         <Product />
         <Product />
         <Product />

@@ -7,6 +7,9 @@ import {
   SYSTEM_REGISTER_FAIL,
   SYSTEM_REGISTER_REQUEST,
   SYSTEM_REGISTER_SUCCESS,
+  SYSTEM_GET_CATEGORIES_FAIL,
+  SYSTEM_GET_CATEGORIES_SUCCESS,
+  SYSTEM_GET_CATEGORIES_REQUEST
 } from "../constants/systemConstants";
 
 export const systemUserReducer = (state = {}, action) => {
@@ -36,3 +39,19 @@ export const systemUserReducer = (state = {}, action) => {
       return state;
   }
 };
+
+export const systemCategoriesReducer = (state = {}, action) => {
+  switch (action.type) {
+    case SYSTEM_GET_CATEGORIES_REQUEST:
+      return { loading: true };
+
+    case SYSTEM_GET_CATEGORIES_SUCCESS:
+      return { loading: false, categories: action.payload 
+      };
+      case SYSTEM_GET_CATEGORIES_FAIL:
+        return { loading: false, error: action.payload };
+        default:
+          return state;
+      }
+    };
+    

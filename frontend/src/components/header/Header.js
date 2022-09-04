@@ -12,17 +12,32 @@ import Search from "./search/Search";
 
 // OTHERS
 import { Opener } from "../../functions/Animation";
-import "./header.css";
+import "./header.scss";
 import logo from "../../static/images/altax.png";
 
 
 function Header() {
+  // VARIABLES
   const [isOpen, setIsOpen] = useState(false);
+  const [word,setWord]=useState("");
+  const [category,setCategory]=useState()
+
+  // HOOKS
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const systemUser = useSelector((state) => state.systemUser);
   const { user } = systemUser;
+
+  // FUNCTIONS
+
+  const CategorySetter=(category)=>{
+    setCategory(category);
+  }
+
+  const WordSetter=(word)=>{
+    setWord(word)
+  }
 
   const toggle = () => {
     let toggleElement = document.getElementById("header-container");
@@ -36,6 +51,7 @@ function Header() {
   };
  
   return (
+    <div className="header-block">
     <header
       className="header-container w3-animate-top"
       id="header-container"
@@ -64,7 +80,7 @@ function Header() {
           />
         </svg>
       </button>
-      <Search />
+      <Search CategorySetter={CategorySetter} category={category} WordSetter={WordSetter} word={word}/>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         className="header-cart-icon"
@@ -152,7 +168,7 @@ function Header() {
           ავტორიზაცია
         </button>
       )}
-    </header>
+    </header></div>
   );
 }
 

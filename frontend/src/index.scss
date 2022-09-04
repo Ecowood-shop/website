@@ -4,7 +4,7 @@ body {
   color: #212529;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: var(--color-primary);
+ 
 }
 * {
   box-sizing: border-box;
@@ -15,13 +15,17 @@ body {
   align-items: center;
   justify-content: center;
   font-size: 16px;
-  background-color: var(--color-primary);
+
+
+  
 }
 
 html {
   padding: 0;
   margin: 0;
-  box-sizing: border-box;
+  box-sizing: border-box;   background-color:whitesmoke;
+  min-height: 100vh;
+  height: auto;
 }
 
 button {
@@ -40,9 +44,12 @@ code {
   --color-primary-lg: #862e9c;
   --color-second: #da1212;
   /* FONT SIZE */
+  --xx-medium:1.8rem;
+  --x-medium:1.6rem;
   --medium: 1.4rem;
   --small: 1.2rem;
   --x-small: 1rem;
   --xx-large: 3rem;
   --x-large: 2.5rem;
+  --large:2rem;
 }

@@ -11,6 +11,7 @@ import HomeScreen from "./screens/app/home/HomeScreen";
 
 // COMPONENTS
 import Header from "./components/header/Header";
+import Footer from "./components/footer/Footer"
 
 // LAYOUTS
 import HomeLayout from "./layouts/HomeLayout";
@@ -30,6 +31,7 @@ function App() {
           <Route path="/profile" element={<Authorization/>} />
         </Route>
       </Routes>
+      <Footer/>
     </Router>
   );
 }

@@ -9,20 +9,27 @@
   z-index: 1;
   position: relative;
   margin: 2rem 1rem;
+  background-color: white; overflow: hidden;
+  transition: transform 0.5s ease; 
+  -webkit-backface-visibility: hidden;
+    -webkit-transform: translateZ(0); 
 }
 .carousel-product-container:hover {
-  transform: scale(1.05);
+  transform: scale(1.05);  
+
 }
 .carousel-product-container img {
   position: relative;
-  height: 60%;
-  z-index: -1;
-  transition: transform 0.5s ease;
+  max-height: 60%;
+  transition:max-height 0.5s ease; 
 }
 
+
 .carousel-product-container img:hover {
-  transform: scale(1.1);
+  position: absolute;
+ max-height: 100%;
 }
+
 .carousel-product-container .text-container {
   width: 80%;
 }

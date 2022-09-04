@@ -4,9 +4,10 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
 
 // REDUCERS
-import { systemUserReducer } from "./reducers/systemReducers";
+import { systemUserReducer,systemCategoriesReducer } from "./reducers/systemReducers";
 const reducer = combineReducers({
   systemUser: systemUserReducer,
+  systemCategories:systemCategoriesReducer
 });
 
 const userInfoFromStorage = localStorage.getItem("userInfo")

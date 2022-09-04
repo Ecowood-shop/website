@@ -7,6 +7,10 @@ import {
   SYSTEM_REGISTER_FAIL,
   SYSTEM_REGISTER_REQUEST,
   SYSTEM_REGISTER_SUCCESS,
+  
+  SYSTEM_GET_CATEGORIES_FAIL,
+  SYSTEM_GET_CATEGORIES_SUCCESS,
+  SYSTEM_GET_CATEGORIES_REQUEST
 } from "../constants/systemConstants";
 import { useAxios, useCustomAxios } from "../../hooks/useAxios";
 
@@ -77,3 +81,28 @@ export const register =
       });
     }
   };
+
+
+  
+export const getCategories = (email, password) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SYSTEM_GET_CATEGORIES_REQUEST,
+    });
+
+    const { data } = await useAxios.get("/api/products/categories/");
+
+    dispatch({
+      type: SYSTEM_GET_CATEGORIES_SUCCESS,
+      payload: data,
+    });
+ 
+  } catch (error) {
+    dispatch({
+      type: SYSTEM_GET_CATEGORIES_FAIL,
+      payload: error.response?.data
+        ? Object.values(error.response?.data)[0][0]
+        : error.response,
+    });
+  }
+};

@@ -1,35 +1,54 @@
 // REACT
-import React from "react";
+import React, { useEffect, useState } from "react";
+
+// REDUX
+import { useDispatch, useSelector } from "react-redux";
+import { getCategories } from "../../../store/actions/systemActions";
 
 // OTHERS
 import "./search.css";
 
-
 // MATERIAL MUI
-import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
 
-function Search() {
-  const top100Films = [
-    { label: 'კატეგრია', year: 1994 },
-    { label: 'საღებავები', year: 1972 },
-    { label: 'The Godfather: Part II', year: 1974 },
-    { label: 'The Dark Knight', year: 2008 },
-    { label: '12 Angry Men', year: 1957 },
-    { label: "Schindler's List", year: 1993 },
-    { label: 'Pulp Fiction', year: 1994 }]
+function Search(props) {
+  // HOOKS
+  const dispatch = useDispatch();
+
+  const systemCategories = useSelector((state) => state.systemCategories);
+  const { error, loading, categories } = systemCategories;
+
+  useEffect(() => {
+    dispatch(getCategories());
+  }, [dispatch]);
 
   return (
     <div className="search-container">
-      <input type="text" placeholder="ძიება..." />
-      <Autocomplete
-      disablePortal
-      id="combo-box-demo"
-      options={top100Films}
-      sx={{ width: 300 }}
-      className="search-category"
-      renderInput={(params) => <TextField {...params} label="კატეგორია" className="search-category-field"/>}
-    />
+      <input type="text" placeholder="ძიება..." value={props.word} onChange={e => props.WordSetter(e.target.value)}/>
+      {categories && (
+        <Autocomplete
+          disablePortal
+          id="combo-box-demo"
+          options={categories}
+          value={props.category}
+          isOptionEqualToValue={(option, value) => option._id === value._id}
+          getOptionLabel={(option) => option.category || ""}
+          onChange={(_event, category) => {
+            props.CategorySetter(category);
+          }}
+          sx={{ width: 300 }}
+          className="search-category"
+          renderInput={(params) => (
+            <TextField
+         
+              {...params}
+              label="კატეგორია"
+              className="search-category-field"
+            />
+          )}
+        />
+      )}
       <div className="search-icon-container">
         {" "}
         <svg
