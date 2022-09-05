@@ -1,19 +1,11 @@
 // CONSTANTS
-import {
-  SYSTEM_LOGIN_FAIL,
-  SYSTEM_LOGIN_REQUEST,
-  SYSTEM_LOGIN_SUCCESS,
-  SYSTEM_LOGOUT,
-  SYSTEM_REGISTER_FAIL,
-  SYSTEM_REGISTER_REQUEST,
-  SYSTEM_REGISTER_SUCCESS,
-} from "../constants/systemConstants";
+import SYSTEM from "../constants/systemConstants";
 import { useAxios, useCustomAxios } from "../../hooks/useAxios";
 
 export const login = (email, password) => async (dispatch) => {
   try {
     dispatch({
-      type: SYSTEM_LOGIN_REQUEST,
+      type: SYSTEM.LOGIN_REQUEST,
     });
 
     const { data } = await useAxios.post("/api/users/login/", {
@@ -22,28 +14,30 @@ export const login = (email, password) => async (dispatch) => {
     });
 
     dispatch({
-      type: SYSTEM_LOGIN_SUCCESS,
+      type: SYSTEM.LOGIN_SUCCESS,
       payload: data,
     });
     localStorage.setItem("userInfo", JSON.stringify(data));
   } catch (error) {
+
     dispatch({
-      type: SYSTEM_LOGIN_FAIL,
-      payload: error?.message,
+      type: SYSTEM.LOGIN_FAIL,
+      payload: error.response?.data
+        ? Object.values(error.response?.data)[0]
+        : error.response,
     });
   }
 };
 
 export const logout = () => async (dispatch) => {
   try {
-
     localStorage.removeItem("userInfo");
-    dispatch({ type: SYSTEM_LOGOUT });
+    dispatch({ type: SYSTEM.LOGOUT });
     const { data } = await useCustomAxios.post("/api/users/logout/", {
       nothing: "nothing",
     });
   } catch (error) {
-   //    THERE SHOULD NOT BE ANY ERRORS
+    //    THERE SHOULD NOT BE ANY ERRORS
   }
 };
 
@@ -51,7 +45,7 @@ export const register =
   (firstName, lastName, email, phone, password) => async (dispatch) => {
     try {
       dispatch({
-        type: SYSTEM_REGISTER_REQUEST,
+        type: SYSTEM.REGISTER_REQUEST,
       });
 
       const { data } = await useAxios.post("/api/users/register/", {
@@ -63,17 +57,60 @@ export const register =
       });
 
       dispatch({
-        type: SYSTEM_REGISTER_SUCCESS,
+        type: SYSTEM.REGISTER_SUCCESS,
         payload: data,
       });
       dispatch(login(email, password));
     } catch (error) {
       dispatch({
-        type: SYSTEM_REGISTER_FAIL,
-        payload:
-          error.response && error.response.data[0].description
-            ? error.response.data[0].description
-            : error.message,
+        type: SYSTEM.REGISTER_FAIL,
+        payload: error.response?.data
+          ? Object.values(error.response?.data)[0][0]
+          : error.response,
       });
     }
   };
+
+export const getCategories = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: SYSTEM.GET_CATEGORIES_REQUEST,
+    });
+
+    const { data } = await useAxios.get("/api/products/categories/");
+
+    dispatch({
+      type: SYSTEM.GET_CATEGORIES_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: SYSTEM.GET_CATEGORIES_FAIL,
+      payload: error.response?.data
+        ? Object.values(error.response?.data)[0][0]
+        : error.response,
+    });
+  }
+};
+
+export const getProducts = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: SYSTEM.GET_PRODUCTS_REQUEST,
+    });
+
+    const { data } = await useAxios.get("/api/products/latest/");
+
+    dispatch({
+      type: SYSTEM.GET_PRODUCTS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: SYSTEM.GET_PRODUCTS_FAIL,
+      payload: error.response?.data
+        ? Object.values(error.response?.data)[0]
+        : error.response,
+    });
+  }
+};

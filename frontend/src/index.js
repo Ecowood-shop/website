@@ -10,7 +10,7 @@ import store from "./store/store";
 import { Provider } from "react-redux";
 
 // ADDITIONAL
-import "./index.css";
+import "./index.scss";
 import 'animate.css';
 
 import reportWebVitals from "./reportWebVitals";
