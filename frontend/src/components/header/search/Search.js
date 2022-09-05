@@ -17,7 +17,7 @@ function Search(props) {
   const dispatch = useDispatch();
 
   const systemCategories = useSelector((state) => state.systemCategories);
-  const { error, loading, categories } = systemCategories;
+  const {categories } = systemCategories;
 
   useEffect(() => {
     dispatch(getCategories());
@@ -25,23 +25,27 @@ function Search(props) {
 
   return (
     <div className="search-container">
-      <input type="text" placeholder="ძიება..." value={props.word} onChange={e => props.WordSetter(e.target.value)}/>
+      <input
+        type="text"
+        placeholder="ძიება..."
+        value={props.word}
+        onChange={(e) => props.WordSetter(e.target.value)}
+      />
       {categories && (
         <Autocomplete
           disablePortal
           id="combo-box-demo"
           options={categories}
-          value={props.category}
+          inputValue={props.category?.name}
           isOptionEqualToValue={(option, value) => option._id === value._id}
-          getOptionLabel={(option) => option.category || ""}
-          onChange={(_event, category) => {
+          getOptionLabel={(option) => option.name || ""}
+          onInputChange={(_event, category) => {
             props.CategorySetter(category);
           }}
           sx={{ width: 300 }}
           className="search-category"
           renderInput={(params) => (
             <TextField
-         
               {...params}
               label="კატეგორია"
               className="search-category-field"

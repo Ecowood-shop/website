@@ -33,7 +33,6 @@ function Carousel(props) {
       items: 1,
     },
   };
-
   return (
     <section className="carousel-container w3-animate-right">
       <header>
@@ -41,12 +40,13 @@ function Carousel(props) {
         <button>სრულად</button>
       </header>
       <ReactCarousel responsive={responsive} className="carousel ">
-        <Product />
-        <Product />
-        <Product />
-        <Product />
-        <Product />
-        <Product />
+        {props.products &&
+          props.products.map((productObject) => (
+            <Product
+              key={productObject.product._id}
+              product={productObject.product}
+            />
+          ))}
       </ReactCarousel>
     </section>
   );

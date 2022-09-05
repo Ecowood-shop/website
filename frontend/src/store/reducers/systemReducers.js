@@ -1,38 +1,27 @@
 // CONSTANTS
-import {
-  SYSTEM_LOGIN_FAIL,
-  SYSTEM_LOGIN_REQUEST,
-  SYSTEM_LOGIN_SUCCESS,
-  SYSTEM_LOGOUT,
-  SYSTEM_REGISTER_FAIL,
-  SYSTEM_REGISTER_REQUEST,
-  SYSTEM_REGISTER_SUCCESS,
-  SYSTEM_GET_CATEGORIES_FAIL,
-  SYSTEM_GET_CATEGORIES_SUCCESS,
-  SYSTEM_GET_CATEGORIES_REQUEST
-} from "../constants/systemConstants";
+import SYSTEM from "../constants/systemConstants";
 
 export const systemUserReducer = (state = {}, action) => {
   switch (action.type) {
-    case SYSTEM_LOGIN_REQUEST:
+    case SYSTEM.LOGIN_REQUEST:
       return { loading: true };
 
-    case SYSTEM_LOGIN_SUCCESS:
+    case SYSTEM.LOGIN_SUCCESS:
       return { loading: false, user: action.payload };
 
-    case SYSTEM_LOGIN_FAIL:
+    case SYSTEM.LOGIN_FAIL:
       return { loading: false, error: action.payload };
 
-    case SYSTEM_LOGOUT:
+    case SYSTEM.LOGOUT:
       return {};
 
-    case SYSTEM_REGISTER_REQUEST:
+    case SYSTEM.REGISTER_REQUEST:
       return { loading: true };
 
-    case SYSTEM_REGISTER_SUCCESS:
+    case SYSTEM.REGISTER_SUCCESS:
       return { loading: false };
 
-    case SYSTEM_REGISTER_FAIL:
+    case SYSTEM.REGISTER_FAIL:
       return { loading: false, error: action.payload };
 
     default:
@@ -42,16 +31,28 @@ export const systemUserReducer = (state = {}, action) => {
 
 export const systemCategoriesReducer = (state = {}, action) => {
   switch (action.type) {
-    case SYSTEM_GET_CATEGORIES_REQUEST:
+    case SYSTEM.GET_CATEGORIES_REQUEST:
       return { loading: true };
 
-    case SYSTEM_GET_CATEGORIES_SUCCESS:
-      return { loading: false, categories: action.payload 
-      };
-      case SYSTEM_GET_CATEGORIES_FAIL:
-        return { loading: false, error: action.payload };
-        default:
-          return state;
-      }
-    };
-    
+    case SYSTEM.GET_CATEGORIES_SUCCESS:
+      return { loading: false, categories: action.payload };
+    case SYSTEM.GET_CATEGORIES_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const systemProductsReducer = (state = {}, action) => {
+  switch (action.type) {
+    case SYSTEM.GET_PRODUCTS_REQUEST:
+      return { loading: true };
+
+    case SYSTEM.GET_PRODUCTS_SUCCESS:
+      return { loading: false, products: action.payload };
+    case SYSTEM.GET_PRODUCTS_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};

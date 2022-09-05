@@ -7,7 +7,7 @@ import styles from "./styles.module.scss";
   
 const Footer = () => {
   return (
-    <Footer className={styles.box}>
+    <footer className={styles.box}>
       <article className={styles.container}>
         <div className={styles.row}>
           <section className={styles.column}>
@@ -63,7 +63,7 @@ const Footer = () => {
           </section>
         </div>
       </article>
-    </Footer>
+    </footer>
   );
 };
 export default Footer;

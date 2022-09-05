@@ -28,14 +28,13 @@ function AuthorizationScreen() {
   const systemUser = useSelector((state) => state.systemUser);
   const { error, loading, user } = systemUser;
 
-
   useEffect(() => {
     if (error) {
       setMessage(error);
     }
-      if (user) {
-        navigate("/", { replace: true });
-      }
+    if (user) {
+      navigate("/", { replace: true });
+    }
   }, [systemUser, navigate]);
 
   const SubmitHandler = (e) => {
@@ -58,7 +57,10 @@ function AuthorizationScreen() {
       <section className="auth-container  w3-animate-left">
         {isLogin ? (
           <form className="w3-animate-left" onSubmit={SubmitHandler}>
-            <h1 style={{marginBottom: message ? "0" : "3rem"}}> ავტორიზაცია</h1>
+            <h1 style={{ marginBottom: message ? "0" : "3rem" }}>
+              {" "}
+              ავტორიზაცია
+            </h1>
             <Message>{message}</Message>
             {loading && <Loader />}
             <section>
@@ -87,7 +89,7 @@ function AuthorizationScreen() {
           </form>
         ) : (
           <Register
-          systemUser={systemUser}
+            systemUser={systemUser}
             ChangeLogin={() => {
               setIsLogin(!isLogin);
             }}
