@@ -40,6 +40,10 @@ function Header() {
     setWord(word);
   };
 
+  const AdminProductsNavigator = () => {
+    navigate("/admin/products");
+  };
+
   const ClosePanel = () => {
     Opener(["profile-link", "logOut-link", "admin-panel"], isOpen, setIsOpen);
     Opener(
@@ -195,7 +199,7 @@ function Header() {
                 <button
                   id="logOut-link"
                   className="header-dropdown-element w3-animate-right animate__animated"
-                  onClick={() => dispatch(logout())}
+                  onClick={() => {dispatch(logout());window.location.reload(false);}}
                 >
                   გამოსვლა{" "}
                   <svg
@@ -215,7 +219,12 @@ function Header() {
                 </button>
               </div>
             )}
-            {isPanelOpen && <AdminPanel Close={() => ClosePanel()} />}
+            {isPanelOpen && (
+              <AdminPanel
+                Close={() => ClosePanel()}
+                ProductsNavigator={() => AdminProductsNavigator()}
+              />
+            )}
           </h2>
         ) : (
           <button

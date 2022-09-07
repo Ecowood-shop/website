@@ -1,0 +1,138 @@
+.container {
+  min-width: fit-content;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  height: 5rem;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
+    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
+  background-color: var(--color-primary);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  @media all and (max-width: 90em) {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: max-content;
+    border-radius: 999px;
+    .logo {
+      display: none;
+    }
+    .inputContainer,
+    .input {
+      width: 80%;
+      margin-top: 1.5rem;
+    }
+    .inputContainer {
+      margin-bottom: 1.5rem;
+    }
+    .button {
+      margin-right: 0;
+    }
+    .select:first-of-type {
+      margin: 0;
+    }
+  }
+  @media all and (max-width: 55em) {
+    .inputContainer,.input {
+      display: none;
+    }
+  }
+}
+.toggle {
+  display: none;
+}
+.logo {
+  height: 100%;
+  transform: translateX(-50%);
+  cursor: pointer;
+}
+
+.input {
+  height: 3rem;
+  width: 30rem;
+  border-radius: 10px;
+  padding-left: 1rem;
+  font-size: var(--small);
+}
+
+.select {
+  margin-left: 5rem;
+  min-width: 10rem;
+  max-width: 15rem;
+  font-size: var(--small);
+  div {
+    border-color: white;
+    border-radius: 10px;
+  }
+}
+
+.button {
+  margin-left: auto;
+  margin-right: 1rem;
+  border-radius: 10px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
+    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
+  padding: 0.5rem;
+  border: none;
+  background-color: var(--color-second);
+  color: white;
+  font-size: var(--small);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.inputContainer {
+  display: flex;
+  width: 100%;
+}
+.icon {
+  height: 1.3rem;
+  
+  fill: white;
+  margin-left: 0.5rem;
+}
+@media all and (max-width: 55em) {
+  .toggle {
+    display: flex;
+    margin: 1rem;
+    button{
+      font-size: var(--medium);
+      height: max-content;
+      padding: 0;
+      border: none;
+      
+      background: transparent;
+      display: flex;
+      align-items: center;
+      color:white;
+      cursor: pointer;
+    }
+  }
+  .containerResponsive { 
+    border-radius: 10px;
+
+    .inputContainer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      > * {
+        margin: 0;
+        margin-top: 1rem;
+        max-width: 80%;
+        width: 80%;
+        transition: none;
+        &:hover {
+          transform: none;
+        }
+      }
+    }
+    .input { display: flex;
+      margin-top: 3rem;
+    }
+  }
+}

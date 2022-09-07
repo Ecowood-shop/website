@@ -1,5 +1,4 @@
 .header-block {
-  background-color: red;
   width: 100%;
   background-color: var(--color-primary);
   display: flex;
@@ -85,6 +84,8 @@
   right: 0;
 
   .header-dropdown-element {
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
+      rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
     z-index: 5;
     border: none;
     background-color: var(--color-primary-lg);
@@ -97,6 +98,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: all 0.5s ease;
   }
 }
 .header-dropdown-element:not(:first-of-type) {
@@ -104,8 +106,7 @@
 }
 
 .header-dropdown-element:hover {
-  background-color: rgba(134, 46, 156, 0.9);
-  color: rgba(255, 255, 255, 0.8);
+  transform: scale(1.05);
 }
 
 .custom-icon {

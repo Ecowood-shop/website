@@ -1,0 +1,9 @@
+.container{
+    width: 80%;
+
+    min-height: 100vh;
+    @media  all and (max-width:60em) {
+        width: 90%;
+        
+    }
+}

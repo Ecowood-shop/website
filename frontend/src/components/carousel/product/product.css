@@ -5,7 +5,7 @@
   flex-direction: column;
   align-items: center;
   cursor: pointer;
-  outline: 3px solid black;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
   z-index: 1;
   position: relative;
   margin: 2rem 1rem;
@@ -40,4 +40,11 @@
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+
+@media all and (max-width:40em) and (orientation:portrait){
+  .carousel-product-container:hover {
+    transform:none;
+  }
 }
