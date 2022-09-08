@@ -8,13 +8,13 @@
   justify-content: center;
 }
 
-.search-container input {
+.search-container > input {
   height: 3.5rem;
   width: 100%;
   border: none;
   border-radius: 10px;
-  padding-left: 2rem;
-  padding-right: 17rem;
+  padding-left: 1rem;
+  padding-right: 16rem;
   font-size: var(--medium);
 }
 
@@ -42,59 +42,20 @@
 
 /* CATEGORY */
 .search-category {
-  position: absolute;
-  width: 12rem !important;
+  position: absolute !important;
   right: 6rem;
-  font-size: var(--medium);
-  padding-right: 0 !important;
-  color: var(--color-second) !important;
-  z-index: 5 !important;
-}
-.search-container .MuiAutocomplete-paper {
-  font-size: var(--super-small);
-}
-.search-category input {
+  min-width: 10rem;
+  max-width: 11rem;
   font-size: var(--small);
-  height: auto;
-  width: 11rem;
-  margin: 0 !important;
-  padding: 0 !important;
-  color: var(--color-primary) !important;
-}
 
-.search-category .MuiInputLabel-outlined,
-.search-category .MuiAutocomplete-clearIndicator,
-.search-category .MuiSvgIcon-root {
-  color: var(--color-primary);
-  font-weight: 600;
-  font-size: var(--small) !important ;
 }
-.search-category .MuiFormLabel-filled {
-  position: relative;
-  color: var(--color-second);
-  font-size: var(--medium) !important;
-}
-
-.search-category fieldset {
-  border: 3px solid var(--color-primary);
+.search-category div{
+  color:var(--color-primary);
+  border-width: 2px;
   border-radius: 10px;
+  border-color: var(--color-primary);
 }
-
-.search-category-field > label {
-  position: relative;
-  font-size: var(--medium) !important;
-}
-.MuiInputBase-formControl {
-  position: relative;
-  bottom: 0.9rem;
-  height: 2.5rem !important;
-}
-
 @media all and (max-width: 60em) {
-  .search-category input {
-    width: 11rem !important;
-    padding-right: 3rem !important;
-  }
   .search-container {
     width: 100%;
     position: relative;
@@ -109,7 +70,7 @@
     position: absolute;
     width: 92%;
     padding-left: 2rem;
-    padding-right: 4rem;
+    padding-right: 16rem;
     font-size: var(--small);
   }
   .search-icon-container {

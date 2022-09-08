@@ -21,6 +21,8 @@
 /* FORMS  */
 
 .auth-article form {
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
+    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -82,7 +84,6 @@
 }
 
 .auth-btn-container button:hover {
-  background-color: rgba(DA, 12, 12, 0.6);
   color: rgba(255, 255, 255, 0.7);
 }
 
@@ -127,15 +128,13 @@
   }
 }
 
-
-
-@media all and (max-width:70em){
+@media all and (max-width: 70em) {
   .auth-carousel {
     display: none;
   }
 
-  .auth-article{    
-    height: max(calc(100vh - 8.5rem),auto);
+  .auth-article {
+    height: max(calc(100vh - 8.5rem), auto);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -150,14 +149,11 @@
     margin: 0;
   }
 
-
-
   .auth-container {
     width: 100%;
     margin: 0;
     height: min-content;
   }
-  
 
   .auth-article {
     height: calc(100vh - 8.5rem);
@@ -182,7 +178,7 @@
     width: 100%;
     height: 3rem;
   }
-  .auth-input{
+  .auth-input {
     margin-top: 1rem;
   }
 }

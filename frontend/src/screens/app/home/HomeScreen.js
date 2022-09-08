@@ -7,7 +7,7 @@ import { getProducts } from "../../../store/actions/systemActions";
 
 // COMPONENTS
 import Carousel from "../../../components/carousel/Carousel";
-import Loader from "../../../components/Loader/Loader";
+import Loader from "../../../components/loader/Loader";
 import Message from "../../../components/Message/Message";
 
 // OTHERS
@@ -24,8 +24,6 @@ function HomeScreen() {
   useEffect(() => {
     dispatch(getProducts());
   }, [dispatch]);
-
-
 
   return (
     <article className="home-container">

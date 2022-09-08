@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 // COMPONENTS
-import Loader from "../../../components/Loader/Loader";
+import Loader from "../../../components/loader/Loader";
 import BlockCarousel from "./components/BlockCarousel";
 import Register from "./components/Register";
 import Message from "../../../components/Message/Message";

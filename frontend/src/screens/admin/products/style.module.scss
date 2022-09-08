@@ -1,0 +1,39 @@
+.container {
+  width: 80%;
+  margin-bottom: 10rem;
+  @media all and (max-width: 60em) {
+    width: 90%;
+  }
+  .table {
+    overflow-x: auto;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
+      rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
+  }
+  .addBtn {
+    margin: 3rem 0;
+    margin-left: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
+    background-color: green;
+    border-radius: 10px;
+    color: white;
+    font-size: var(--medium);
+    padding: 0.5rem 1rem;
+    backface-visibility: hidden;
+    -webkit-font-smoothing: subpixel-antialiased;
+    will-change: transform;
+    &:hover {
+      transform: scale(1.05) translate3d(0, 0, 0) perspective(0.5px);
+    }
+  }
+  .icon {
+    fill: white;
+    height: 2rem;
+    vertical-align: bottom;
+    margin-right: 0.5rem;
+  }
+}

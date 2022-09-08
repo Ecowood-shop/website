@@ -1,8 +1,8 @@
 .carousel-container {
-  background-color: var(--color-primary-lg);
   height: auto;
   border-radius: 10px;
   margin-bottom: 5rem;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
 }
 .carousel-container:first-of-type {
   margin-top: 5rem;
@@ -17,7 +17,7 @@
   border: none;
   border-radius: 10px;
   padding: 0.6rem;
-  background-color: black;
+  background-color:var(--color-second);
   color: white;
   transition: transform 0.5s ease;
   cursor: pointer;
@@ -29,8 +29,9 @@
 .carousel-container header {
   position: relative;
   border-radius: 10px 10px 0 0;
-  background-color: var(--color-second);
+  background-color: var(--color-primary);
   min-height: 5rem;
+  font-weight: 900;
   width: 100%;
   display: flex;
   align-items: center;
@@ -39,6 +40,7 @@
 }
 .carousel-container header h1 {
   font-size: var(--x-large);
+
 }
 
 @media all and (max-width: 50em) {

@@ -4,12 +4,10 @@ import { useNavigate } from "react-router-dom";
 
 // COMPONENTS
 import Message from "../../../../components/Message/Message";
-import Loader from "../../../../components/Loader/Loader";
-
-
+import Loader from "../../../../components/loader/Loader";
 
 // REDUX
-import { useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 import { register } from "../../../../store/actions/systemActions";
 
 function Register(props) {
@@ -29,19 +27,19 @@ function Register(props) {
 
   const { error, loading, user } = props.systemUser;
 
-   useEffect(() => {
+  useEffect(() => {
     if (error) {
       setMessage(error);
     }
-      if (user) {
-        navigate("/", { replace: true });
-      }
+    if (user) {
+      navigate("/", { replace: true });
+    }
   }, [props.systemUser, navigate]);
 
   const SubmitHandler = (e) => {
     e.preventDefault();
     if (!message) {
-     dispatch(register(firstName, lastName, email, phone, password))
+      dispatch(register(firstName, lastName, email, phone, password));
     }
   };
 
@@ -65,7 +63,7 @@ function Register(props) {
 
   return (
     <form className="w3-animate-left" onSubmit={SubmitHandler}>
-      <h1 style={{marginBottom: message ? "0" : "3rem"}}> რეგისტრაცია</h1>
+      <h1 style={{ marginBottom: message ? "0" : "3rem" }}> რეგისტრაცია</h1>
       <Message>{message}</Message>
       {nextPage ? (
         <button
