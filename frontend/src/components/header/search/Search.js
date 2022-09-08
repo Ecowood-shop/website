@@ -1,5 +1,6 @@
 // REACT
 import React, { useEffect } from "react";
+import Select from "react-select";
 
 // REDUX
 import { useDispatch, useSelector } from "react-redux";
@@ -8,21 +9,18 @@ import { getCategories } from "../../../store/actions/systemActions";
 // OTHERS
 import "./search.css";
 
-// MATERIAL MUI
-import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
 
 function Search(props) {
   // HOOKS
   const dispatch = useDispatch();
 
   const systemCategories = useSelector((state) => state.systemCategories);
-  const {categories } = systemCategories;
+  const { categories } = systemCategories;
 
   useEffect(() => {
     dispatch(getCategories());
   }, [dispatch]);
-
+  
   return (
     <div className="search-container">
       <input
@@ -32,26 +30,17 @@ function Search(props) {
         onChange={(e) => props.WordSetter(e.target.value)}
       />
       {categories && (
-        <Autocomplete
-          disablePortal
-          id="combo-box-demo"
-          options={categories}
-          inputValue={props.category?.name}
-          isOptionEqualToValue={(option, value) => option._id === value._id}
-          getOptionLabel={(option) => option.name || ""}
-          onInputChange={(_event, category) => {
-            props.CategorySetter(category);
-          }}
-          sx={{ width: 300 }}
-          className="search-category"
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="კატეგორია"
-              className="search-category-field"
-            />
-          )}
-        />
+   
+          <Select
+            options={categories}
+            isClearable={true}
+            placeholder="კატეგორია"
+           className="search-category"
+            getOptionLabel={(option) => option.name}
+            getOptionValue={(option) => option._id}
+            onChange={(option) => props.CategorySetter(option)}
+          />
+    
       )}
       <div className="search-icon-container">
         {" "}

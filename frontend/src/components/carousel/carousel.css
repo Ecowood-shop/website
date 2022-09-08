@@ -17,7 +17,7 @@
   border: none;
   border-radius: 10px;
   padding: 0.6rem;
-  background-color: black;
+  background-color:var(--color-second);
   color: white;
   transition: transform 0.5s ease;
   cursor: pointer;
@@ -29,7 +29,7 @@
 .carousel-container header {
   position: relative;
   border-radius: 10px 10px 0 0;
-  background-color: var(--color-second);
+  background-color: var(--color-primary);
   min-height: 5rem;
   font-weight: 900;
   width: 100%;

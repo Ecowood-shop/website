@@ -1,10 +1,7 @@
 .container {
   min-width: fit-content;
   margin-top: 2rem;
-  margin-bottom: 2rem;
   height: 5rem;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
-    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
   background-color: var(--color-primary);
   border-radius: 10px;
   display: flex;
@@ -34,7 +31,8 @@
     }
   }
   @media all and (max-width: 55em) {
-    .inputContainer,.input {
+    .inputContainer,
+    .input {
       display: none;
     }
   }
@@ -79,9 +77,11 @@
   color: white;
   font-size: var(--small);
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  backface-visibility: hidden;
+  -webkit-font-smoothing: subpixel-antialiased;
+  will-change: transform;
   &:hover {
-    transform: scale(1.05);
+    transform: scale(1.05) translate3d(0, 0, 0) perspective(0.5px);
   }
 }
 
@@ -91,7 +91,7 @@
 }
 .icon {
   height: 1.3rem;
-  
+
   fill: white;
   margin-left: 0.5rem;
 }
@@ -99,20 +99,20 @@
   .toggle {
     display: flex;
     margin: 1rem;
-    button{
+    button {
       font-size: var(--medium);
       height: max-content;
       padding: 0;
       border: none;
-      
+
       background: transparent;
       display: flex;
       align-items: center;
-      color:white;
+      color: white;
       cursor: pointer;
     }
   }
-  .containerResponsive { 
+  .containerResponsive {
     border-radius: 10px;
 
     .inputContainer {
@@ -131,7 +131,8 @@
         }
       }
     }
-    .input { display: flex;
+    .input {
+      display: flex;
       margin-top: 3rem;
     }
   }

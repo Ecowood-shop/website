@@ -9,6 +9,7 @@ import { getCategories } from "../../store/actions/systemActions";
 // OTHERS
 import styles from "./filter.module.scss";
 import logo from "../../static/images/altax.png";
+
 function Filter() {
   const [word, setWord] = useState("");
   const [category, setCategory] = useState("");

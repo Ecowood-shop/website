@@ -1,0 +1,81 @@
+.container {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
+.popup {
+  position: relative;
+  min-height: 20rem;
+  max-width:80rem;
+  background-color: var(--color-primary-lg);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  h1,
+  .btnContainer {
+    font-size: var(--x-medium);
+    text-align: center;
+  }
+  h1 {
+    margin: 6rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .btnContainer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+
+    display: flex;
+    button {
+      padding: 0.5rem 0.8rem;
+      margin-left: 2rem;
+      margin-bottom: 1rem;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      background-color: green;
+      cursor: pointer;
+      &:last-of-type {
+        margin-left: auto;
+        margin-right: 2rem;
+        background-color: var(--color-second);
+      }
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+  }
+
+  @media all and (max-width: 45em) {
+    width: 80%;
+    h1 {
+      font-size: var(--medium);
+      margin: 2rem;
+    }
+    .btnContainer {
+      font-size: var(--medium);
+    }
+  }
+  @media all and (max-width: 45em) and (orientation: portrait) {
+    min-height: 10rem;
+    justify-content: start;
+    h1 {
+      margin-top: 5rem;
+      margin-bottom: 7rem;
+      width: 80%;
+    }
+  }
+}

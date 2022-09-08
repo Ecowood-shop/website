@@ -1,0 +1,63 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 5rem;
+ 
+}
+.pagination {
+  display: flex;  
+  padding: 0;
+  margin: 0;
+
+  & * {
+    text-decoration: none;
+    list-style: none;
+    border: none;
+  }
+  .next {
+    margin-left: 1rem;
+  }
+}
+.page:hover,
+.break:hover,
+.next:hover,
+.previous:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+}
+.page,
+.break {
+  color: white;
+  height: 2.5rem;
+  width: 2.5rem;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 1rem;
+  font-size: var(--medium);
+  border-radius: 50%;
+  background-color: var(--color-primary);
+}
+.icon {
+  fill: white;
+  height: 2.5rem;
+  width: 2.5rem;
+  background-color: var(--color-primary);
+  border-radius: 50%;
+}
+path {
+  padding: 0;
+  margin: 0;
+}
+
+@media all and (max-width: 40em) and (orientation: portrait) {
+  .page,
+  .break,
+  .icon {
+    height: 2rem;
+    width: 2rem;
+  }
+
+}

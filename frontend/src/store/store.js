@@ -9,10 +9,13 @@ import {
   systemCategoriesReducer,
   systemProductsReducer,
 } from "./reducers/systemReducers";
+import { adminProductReducer } from "./reducers/adminReducers";
+
 const reducer = combineReducers({
   systemUser: systemUserReducer,
   systemCategories: systemCategoriesReducer,
   systemProducts: systemProductsReducer,
+  adminProduct: adminProductReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem("userInfo")

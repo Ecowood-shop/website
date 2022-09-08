@@ -67,12 +67,22 @@
 }
 
 .header-user-icon {
-  display: inline-block;
   height: 1.2rem;
   margin-left: 0.5rem;
 }
 .header-user {
   position: relative;
+  p {
+    display: flex;
+    align-items: center;
+
+    span {
+      max-width: 20rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block;
+    }
+  }
 }
 /* HEADER DROPDOWN */
 
@@ -80,7 +90,7 @@
   position: absolute;
   display: flex;
   flex-direction: column;
-  top: 5rem;
+  top: 6.5rem;
   right: 0;
 
   .header-dropdown-element {
@@ -125,6 +135,18 @@
   color: white;
 }
 
+@media all and (max-width: 80em) {
+  .header-user {
+    p {
+      span {
+        display: none;
+      }
+      .header-user-icon {
+        height: 1.8rem;
+      }
+    }
+  }
+}
 @media all and (max-width: 60em) {
   .header-container > *:not(:first-child) {
     display: none;
@@ -186,13 +208,28 @@
     margin-right: 1rem;
     padding: 0.5rem;
   }
+  .header-user {
+    p {
+      margin: 0;
+      span {
+        display: block;
+      }
+    }
+  }
 }
 
 @media all and (max-width: 50em) and (orientation: portrait) {
   .header-user {
     font-size: var(--small);
-    margin-bottom: 1rem;
     height: 2rem;
+    width: auto;
+    @media all and (max-width: 40em) and (orientation: portrait) {
+      p {
+        span {
+          display: none;
+        }
+      }
+    }
   }
   .header-dropdown-element:first-of-type {
     margin-top: 1rem;

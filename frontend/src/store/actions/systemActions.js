@@ -1,5 +1,7 @@
 // CONSTANTS
 import SYSTEM from "../constants/systemConstants";
+
+//AXIOS
 import { useAxios, useCustomAxios } from "../../hooks/useAxios";
 
 export const login = (email, password) => async (dispatch) => {
@@ -12,6 +14,7 @@ export const login = (email, password) => async (dispatch) => {
       email: email,
       password: password,
     });
+    
 
     dispatch({
       type: SYSTEM.LOGIN_SUCCESS,
@@ -33,7 +36,7 @@ export const logout = () => async (dispatch) => {
   try {
     localStorage.removeItem("userInfo");
     dispatch({ type: SYSTEM.LOGOUT });
-    const { data } = await useCustomAxios.post("/api/users/logout/", {
+    const {} = await useCustomAxios.post("/api/users/logout/", {
       nothing: "nothing",
     });
   } catch (error) {
