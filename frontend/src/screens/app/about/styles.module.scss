@@ -1,0 +1,167 @@
+.container {
+  width: 80%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 5rem 0;
+  margin-bottom: 10rem;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
+    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
+
+  header {
+    width: 100%;
+    text-align: center;
+  }
+  img {
+    width: 80%;
+    height: 40rem;
+    margin-bottom: 5rem;
+  }
+  p {
+    width: 80%;
+    display: block;
+
+    text-align: justify;
+    word-break: keep-all;
+    font-size: var(--medium);
+  }
+  h1 {
+    margin: 5rem 0;
+
+    font-weight: 600;
+    font-size: var(--xx-large);
+    color: var(--color-primary-lg);
+  }
+
+  section {
+    width: 80%;
+    display: flex;
+    margin-bottom: 10rem;
+  }
+  @media all and (max-width: 70em) {
+    width: 90%;
+    section {
+      flex-direction: column;
+      .text {
+        width: 100%;
+      }
+
+      .iframe {
+        width: 100%;
+      }
+      .element {
+        justify-content: center;
+      }
+    }
+    .work {
+      p {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  }
+}
+
+.text {
+  width: 40%;
+  h2 {
+    margin: 2rem 0;
+    text-align: center;
+    color: var(--color-primary-lg);
+    font-size: var(--x-large);
+    font-weight: 500;
+
+    &:first-of-type {
+      margin-top: 0;
+    }
+  }
+}
+.iframe {
+  border: none;
+  border-radius: 10px;
+  width: 60%;
+  min-height: 20rem;
+}
+.element {
+  color: black;
+  margin-bottom: 20px;
+  font-size: 18px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.work { 
+  p {
+    margin: 0;
+    font-size: 18px;
+    
+  }
+  h2 {
+    color: black;text-align: start;
+  }
+  @media all and (max-width: 70em) {
+    p:last-of-type {
+      margin-bottom: 3rem;
+    }
+    h2{
+      text-align: center;
+    }
+  }
+}
+
+.icon,
+.iconSm {
+  height: 2rem;
+  fill: black;
+}
+.iconSm {
+  height: 1.5rem;
+}
+
+//   MOBILES
+
+@media all and (max-width: 40em) and (orientation: portrait) {
+  .container {
+    width: 100%;
+    h1 {
+      margin: 3rem 0;
+      font-size: var(--x-large);
+    }
+    img {
+      height: 20rem;
+      margin-bottom: 1rem;
+    }
+    p {
+      font-size: var(--small);
+    }
+  }
+  .text {
+    h2 {
+      margin: 2rem 0;
+
+      font-size: var(--large);
+      font-weight: 600;
+
+      &:first-of-type {
+        margin-top: 0;
+      }
+    }
+  }
+  .work {
+    p {
+      font-size: var(--small);
+      word-spacing: 9999rem;
+      width: 100%;
+      text-align: start;
+    }
+  }
+  .element {
+    font-size: var(--small);
+    justify-content: flex-start  !important;;
+  }
+}

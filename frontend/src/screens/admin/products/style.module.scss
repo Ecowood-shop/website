@@ -9,9 +9,20 @@
     box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
       rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
   }
-  .addBtn {
+  .btnContainer {
+    display: flex;
+    @media all and (max-width: 40em) and (orientation:portrait) {
+      flex-direction: column;
+      align-items: center;
+      margin: 1rem 0;
+      .btn {
+        margin: 0.5rem 0 !important;
+        width: 80%;
+      }
+    }
+  }
+  .btn {
     margin: 3rem 0;
-    margin-left: auto;
 
     display: flex;
     align-items: center;
@@ -28,6 +39,10 @@
     will-change: transform;
     &:hover {
       transform: scale(1.05) translate3d(0, 0, 0) perspective(0.5px);
+    }
+    &:first-of-type {
+      margin-left: auto;
+      margin-right: 1rem;
     }
   }
   .icon {

@@ -7,7 +7,7 @@ import thunk from "redux-thunk";
 import {
   systemUserReducer,
   systemCategoriesReducer,
-  systemProductsReducer,
+  systemProductsReducer,systemProductReducer
 } from "./reducers/systemReducers";
 import { adminProductReducer } from "./reducers/adminReducers";
 
@@ -15,6 +15,7 @@ const reducer = combineReducers({
   systemUser: systemUserReducer,
   systemCategories: systemCategoriesReducer,
   systemProducts: systemProductsReducer,
+  systemProduct:systemProductReducer,
   adminProduct: adminProductReducer,
 });
 
