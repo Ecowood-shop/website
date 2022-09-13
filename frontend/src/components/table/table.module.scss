@@ -1,7 +1,6 @@
 .table {
   width: 100%;
   height: max-content;
-
 }
 .column {
   background-color: var(--color-primary-lg);
@@ -28,10 +27,12 @@ td {
     background-color: var(--color-primary-lg);
     color: white;
   }
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 30rem;
   &:nth-of-type(2) {
     max-width: 20rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
   &:last-of-type {
     background-color: var(--color-primary-lg);

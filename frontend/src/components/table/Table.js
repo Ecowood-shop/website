@@ -1,5 +1,5 @@
 // REACT
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTable } from "react-table";
 
@@ -13,16 +13,21 @@ import Popup from "../popup/Popup";
 // OTHERS
 import styles from "./table.module.scss";
 
-const Table = ({ columns, data, link }) => {
+const Table = ({ columns, data, link, user }) => {
   // HOOKS
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const Delete = () => {
+    user ? console.log(id) : dispatch(deleteProduct(id));
+  };
+
   const [isPopped, setIsPopped] = useState(false);
-  const [productId, setProductId] = useState("");
+  const [id, setId] = useState("");
+
   const popper = (id) => {
     if (id) {
-      setProductId(id);
+      setId(id);
     }
     setIsPopped(!isPopped);
   };
@@ -38,9 +43,9 @@ const Table = ({ columns, data, link }) => {
       {" "}
       {isPopped && (
         <Popup
-          text="ნამდვილად გსურთ პროდუქტის წაშლა?"
+          text={`ნამდვილად გსურთ ${user ? "მომხმარებლის" : "პროდუქტის"}  წაშლა?`}
           popper={() => popper()}
-          Delete={() => dispatch(deleteProduct(productId))}
+          Delete={() => Delete()}
         />
       )}
       <table

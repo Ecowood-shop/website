@@ -1,5 +1,5 @@
 // REACT
-import  { useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 // REDUX
@@ -7,12 +7,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { getProducts } from "../../../store/actions/systemActions";
 
 // COMPONENTS
-import Filter from "../../../components/filter/Filter";
+import UserFilter from "../../../components/filter/UserFilter";
 import Table from "../../../components/table/Table";
 import Loader from "../../../components/loader/Loader";
 import Message from "../../../components/Message/Message";
 import Pagination from "../../../components/pagination/Pagination";
-import Nav from "./Nav";
 
 // OTHERS
 import styles from "./style.module.scss";
@@ -23,20 +22,24 @@ const columns = [
     accessor: "_id",
   },
   {
-    Header: "დასახელება",
-    accessor: "name_geo",
+    Header: "სახელი",
+    accessor: "first_name",
   },
   {
-    Header: "კატეგორია",
-    accessor: "category",
+    Header: "გვარი",
+    accessor: "last_name",
   },
   {
-    Header: "ფასი",
-    accessor: "price",
+    Header: "მეილი",
+    accessor: "mail",
+  },
+  {
+    Header: "ადმინი",
+    accessor: "isAdmin",
   },
 ];
 
-function ProductsScreen() {
+function UsersScreen() {
   // HOOKS
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -53,12 +56,11 @@ function ProductsScreen() {
 
   return (
     <section className={styles.container}>
-      <Filter />
-      <Nav styles={styles} navigate={navigate} />
+      <UserFilter />
       {loading && <Loader />} {error && <Message>{error}</Message>}
       {products && (
         <div className={styles.table}>
-          <Table columns={columns} data={products} link="/admin/products/" />
+          <Table columns={columns} data={products} link="/admin/users/" user />
         </div>
       )}
       <Pagination />
@@ -66,4 +68,4 @@ function ProductsScreen() {
   );
 }
 
-export default ProductsScreen;
+export default UsersScreen;

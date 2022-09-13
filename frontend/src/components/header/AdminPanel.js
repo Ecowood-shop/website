@@ -27,6 +27,7 @@ function AdminPanel(props) {
       <button
         id="admin-users"
         className="header-dropdown-element w3-animate-right animate__animated"
+        onClick={props.UsersNavigator}
       >
         მომხმარებლები
         <svg
@@ -47,7 +48,7 @@ function AdminPanel(props) {
       <button
         id="admin-products"
         className="header-dropdown-element w3-animate-right animate__animated"
-        onClick={() => props.ProductsNavigator()}
+        onClick={props.ProductsNavigator}
       >
         პროდუქტები
         <svg

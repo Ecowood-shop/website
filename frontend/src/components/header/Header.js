@@ -44,6 +44,9 @@ function Header() {
     navigate("/admin/products");
   };
 
+  const AdminUsersNavigator=()=>{
+    navigate("/admin/users");
+  }
   const ClosePanel = () => {
     Opener(["profile-link", "logOut-link", "admin-panel"], isOpen, setIsOpen);
     Opener(
@@ -230,6 +233,7 @@ function Header() {
               <AdminPanel
                 Close={() => ClosePanel()}
                 ProductsNavigator={() => AdminProductsNavigator()}
+                UsersNavigator={()=>AdminUsersNavigator()}
               />
             )}
           </h2>

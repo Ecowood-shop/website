@@ -117,3 +117,26 @@ export const getProducts = () => async (dispatch) => {
     });
   }
 };
+
+export const getProduct = (id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SYSTEM.GET_PRODUCT_REQUEST,
+    });
+
+    const { data } = await useAxios.get(`/api/products/${id}`);
+
+    dispatch({
+      type: SYSTEM.GET_PRODUCT_SUCCESS,
+      payload: data,
+    });
+
+  } catch (error) {
+    dispatch({
+      type: SYSTEM.GET_PRODUCT_FAIL,
+      payload: error.response?.data
+        ? Object.values(error.response?.data)[0]
+        : error.response,
+    });
+  }
+};

@@ -39,6 +39,7 @@ export const systemCategoriesReducer = (state = {}, action) => {
   }
 };
 
+
 export const systemProductsReducer = (state = {}, action) => {
   switch (action.type) {
     case SYSTEM.GET_PRODUCTS_REQUEST:
@@ -52,3 +53,18 @@ export const systemProductsReducer = (state = {}, action) => {
       return state;
   }
 };
+
+export const systemProductReducer = (state = {}, action) => {
+  switch (action.type) {
+    case SYSTEM.GET_PRODUCT_REQUEST:
+      return { loading: true };
+    case SYSTEM.GET_PRODUCT_SUCCESS:
+      return { loading: false, product: action.payload };
+    case SYSTEM.GET_PRODUCT_FAIL:
+      return { loading: false, error: action.payload };
+
+    default:
+      return state;
+  }
+};
+
