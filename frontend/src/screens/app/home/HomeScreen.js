@@ -1,5 +1,6 @@
 // REACT
 import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
@@ -16,6 +17,7 @@ import { Products } from "../../../functions/CustomFunctions";
 
 function HomeScreen() {
   // HOOKS
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const systemProducts = useSelector((state) => state.systemProducts);
@@ -34,6 +36,7 @@ function HomeScreen() {
             key={element.category}
             category={{ category: element.category }}
             products={element.products}
+            navigate={navigate}
           />
         ))}
     </article>

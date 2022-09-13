@@ -1,11 +1,12 @@
 // REACT
-import React, { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
+import { useSearchParams } from "react-router-dom";
 
 // OTHERS
 import styles from "./pagination.module.scss";
 
 function Pagination() {
+  const [searchParams, setSearchParams] = useSearchParams();
 
   return (
     <nav className={styles.container}>
@@ -15,11 +16,13 @@ function Pagination() {
         breakClassName={styles.break}
         previousClassName={styles.previous}
         nextClassName={styles.next}
-
         breakLabel="..."
-        // onPageChange={(event) => alert(event.selected)}
+        onPageChange={(event) => {
+          searchParams.set("page", event.selected + 1);
+          setSearchParams(searchParams);
+        }}
         marginPagesDisplayed={1}
-        pageRangeDisplayed={window.innerWidth>1000 ? 2 :1}
+        pageRangeDisplayed={window.innerWidth > 1000 ? 2 : 1}
         pageCount={15}
         previousLabel={
           <svg

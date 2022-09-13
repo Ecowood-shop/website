@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Authorization from "./screens/app/authorization/AuthorizationScreen";
 import HomeScreen from "./screens/app/home/HomeScreen";
 import About from "./screens/app/about/About";
+import Products from "./screens/app/products/Products";
 
 // ADMIN
 import ProductsScreen from "./screens/admin/products/ProductsScreen";
@@ -32,6 +33,7 @@ function App() {
           <Route path="/authorization" element={<Authorization />} />
           <Route path="/about-us" element={<About/>} />
           <Route path="/" element={<HomeScreen />} />
+          <Route path="/products/search" element={<Products />} />
         </Route>
 
         <Route element={<AuthorizedLayout />}>

@@ -1,5 +1,6 @@
 // REACT
-import React, { useEffect, useState } from "react";
+import  {useState } from "react";
+import { useNavigate, createSearchParams } from "react-router-dom";
 import Select from "react-select";
 
 // OTHERS
@@ -13,8 +14,11 @@ function UserFilter() {
   const [word, setWord] = useState("");
   const [status, setStatus] = useState("");
 
+  // HOOKS 
+  const navigate = useNavigate();
+
   const adminOptions = [
-    { value: "-1", label: "მომხმარებელი" },
+    { value: "0", label: "მომხმარებელი" },
     { value: "1", label: "ადმინი" },
   ];
 
@@ -25,6 +29,17 @@ function UserFilter() {
       : (filter.className = container + " w3-animate-right");
   };
 
+  const Navigator = () => {
+    navigate({
+      search: `?${createSearchParams(
+        Object.assign(
+          {},
+          word && { word: word },
+          status && { status: status.value }
+        )
+      )}`,
+    });
+  };
   return (
     <header id="filter" className={styles.container + " w3-animate-right"}>
       <FilterPanel
@@ -48,7 +63,7 @@ function UserFilter() {
           onChange={(option) => setStatus(option)}
           className={styles.select}
         />
-        <button className={styles.button}>გაფილტვრა</button>
+        <button className={styles.button} onClick={()=>Navigator()}>გაფილტვრა</button>
       </div>
     </header>
   );
