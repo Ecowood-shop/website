@@ -7,7 +7,7 @@ from .models import Product, User, Category
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'first_name', 'last_name', 'email', 'phone', 'password']
+        fields = ['id', 'first_name', 'last_name', 'email', 'phone', 'password', 'is_staff']
         extra_kwargs = {
             'password': {'write_only': True}
         }
@@ -44,11 +44,10 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = ['_id', 'category', 'color', 'discount', 'name_geo',
                   'name_eng', 'name_rus', 'image', 'brand', 'size',
                   'description_geo', 'description_eng', 'description_rus', 'rating',
-                  'numReviews', 'price', 'countInStock', 'createdAt', 'user']
+                  'price', 'countInStock', 'createdAt', 'user']
 
 
 class CategorySerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Category
         fields = ['_id', 'name']

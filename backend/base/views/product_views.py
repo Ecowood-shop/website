@@ -1,9 +1,12 @@
+import jwt
+
 from rest_framework.decorators import api_view, permission_classes
+from rest_framework.exceptions import AuthenticationFailed, NotFound, ValidationError
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-from base.models import Product, Review, Category
+from base.models import Product, Review, Category, User, Color, Discount
 from base.serializers import ProductSerializer, CategorySerializer, TopProductSerializer
 
 from rest_framework import status
@@ -96,18 +99,45 @@ def getProduct(request, pk):
 
 
 @api_view(['POST'])
-@permission_classes([IsAdminUser])
 def createProduct(request):
-    user = request.user
+    token = request.COOKIES.get('jwt')
+
+    if not token:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    try:
+        payload = jwt.decode(token, 'secret', algorithm=['HS256'])
+    except jwt.ExpiredSignatureError:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    user = User.objects.filter(id=payload['id']).first()
+
+    if not user.is_staff:
+        raise AuthenticationFailed('You do not have permission to perform this action.')
+
+    data = request.data
+
+    category = Category.objects.get(name=data['category'])
+    color = Color.objects.get(name=data['color'])
+    discount = Discount.objects.get(discount_percent=data['discount'])
 
     product = Product.objects.create(
         user=user,
-        name="Sample Name",
-        price=0,
-        brand='Sample Brand',
-        countInStock=0,
-        category='Sample Category',
-        description=''
+        name_geo=data['name_geo'],
+        name_eng=data['name_eng'],
+        name_rus=data['name_rus'],
+
+        brand=data['brand'],
+        category=category,
+        color=color,
+        discount=discount,
+
+        size=data['size'],
+        description_geo=data['description_geo'],
+        description_eng=data['description_eng'],
+        description_rus=data['description_rus'],
+        price=data['price'],
+        countInStock=data['countInStock'],
     )
 
     serializer = ProductSerializer(product, many=False)
@@ -115,29 +145,77 @@ def createProduct(request):
 
 
 @api_view(['PUT'])
-@permission_classes([IsAdminUser])
 def updateProduct(request, pk):
-    data = request.data
-    product = Product.objects.get(_id=pk)
+    token = request.COOKIES.get('jwt')
 
-    product.name = data['name']
+    if not token:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    try:
+        payload = jwt.decode(token, 'secret', algorithm=['HS256'])
+    except jwt.ExpiredSignatureError:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    user = User.objects.filter(id=payload['id']).first()
+
+    if not user.is_staff:
+        raise AuthenticationFailed('You do not have permission to perform this action.')
+
+    data = request.data
+
+    product = Product.objects.get(_id=pk)
+    category = Category.objects.get(name=data['category'])
+    color = Color.objects.get(name=data['color'])
+    discount = Discount.objects.get(discount_percent=data['discount'])
+
+    product.name_geo = data['name_geo']
+    product.name_eng = data['name_eng']
+    product.name_rus = data['name_rus']
+
     product.price = data['price']
     product.brand = data['brand']
     product.countInStock = data['countInStock']
-    product.category = data['category']
-    product.description = data['description']
+
+    product.category = category
+
+    product.color = color
+    product.discount = discount
+
+    product.size = data['size']
+
+    product.description_geo = data['description_geo']
+    product.description_eng = data['description_eng']
+    product.description_rus = data['description_rus']
 
     product.save()
 
     serializer = ProductSerializer(product, many=False)
+
     return Response(serializer.data)
 
 
 @api_view(['DELETE'])
-@permission_classes([IsAdminUser])
 def deleteProduct(request, pk):
-    product = Product.objects.get(_id=pk)
-    product.delete()
+    token = request.COOKIES.get('jwt')
+
+    if not token:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    try:
+        payload = jwt.decode(token, 'secret', algorithm=['HS256'])
+    except jwt.ExpiredSignatureError:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    user = User.objects.filter(id=payload['id']).first()
+
+    if not user.is_staff:
+        raise AuthenticationFailed('You do not have permission to perform this action.')
+
+    try:
+        product = Product.objects.get(_id=pk)
+        product.delete()
+    except:
+        raise NotFound()
 
     return Response('Product Deleted')
 
@@ -153,47 +231,3 @@ def uploadImage(request):
     product.save()
 
     return Response('Image was uploaded')
-
-
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def createProductReview(request, pk):
-    user = request.user
-    product = Product.objects.get(_id=pk)
-    data = request.data
-
-    # 1 - Review already exists
-
-    alreadyExists = product.review_set.filter(user=user).exists()
-
-    if alreadyExists:
-        content = {'detail': 'Product already reviewed'}
-        return Response(content, status=status.HTTP_400_BAD_REQUEST)
-
-    # 2 - Nor Rating or 0
-
-    elif data['rating'] == 0:
-        content = {'detail': 'Please select a rating'}
-        return Response(content, status=status.HTTP_400_BAD_REQUEST)
-
-    # 3 - Create review
-    else:
-        review = Review.objects.create(
-            user=user,
-            product=product,
-            name=user.first_name,
-            rating=data['rating'],
-            comment=data['comment'],
-        )
-
-        reviews = product.review_set.all()
-        product.numReviews = len(reviews)
-
-        total = 0
-        for i in reviews:
-            total += i.rating
-
-        product.rating = total / len(reviews)
-        product.save()
-
-        return Response('Review Added')
