@@ -1,7 +1,8 @@
 import datetime
 import jwt
+from django.contrib.auth.hashers import make_password
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.exceptions import AuthenticationFailed
+from rest_framework.exceptions import AuthenticationFailed, NotFound, ValidationError
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from rest_framework_jwt.settings import api_settings
@@ -15,7 +16,7 @@ jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
 
 
 @api_view(['POST'])
-def RegisterView(request):
+def RegisterUser(request):
     serializer = UserSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
     serializer.save()
@@ -23,7 +24,7 @@ def RegisterView(request):
 
 
 @api_view(['POST'])
-def LoginView(request):
+def LoginUser(request):
     email = request.data['email']
     password = request.data['password']
 
@@ -55,7 +56,7 @@ def LoginView(request):
 
 
 @api_view(['GET'])
-def UserView(request):
+def getUserProfile(request):
     token = request.COOKIES.get('jwt')
 
     if not token:
@@ -72,8 +73,42 @@ def UserView(request):
     return Response(serializer.data)
 
 
+@api_view(['PUT'])
+def updateUserProfile(request):
+    token = request.COOKIES.get('jwt')
+
+    if not token:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    try:
+        payload = jwt.decode(token, 'secret', algorithm=['HS256'])
+    except jwt.ExpiredSignatureError:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    user = User.objects.filter(id=payload['id']).first()
+
+    data = request.data
+
+    try:
+        user.first_name = data['first_name']
+        user.last_name = data['last_name']
+        user.phone = data['phone']
+
+        if data['password'] != '':
+            user.password = make_password(data['password'])
+
+        user.save()
+
+    except:
+        raise ValidationError()
+
+    serializer = UserSerializer(user, many=False)
+
+    return Response(serializer.data)
+
+
 @api_view(['POST'])
-def LogoutView(request):
+def LogoutUser(request):
     response = Response()
     response.delete_cookie('jwt')
     response.data = {
@@ -84,16 +119,108 @@ def LogoutView(request):
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def getUserProfile(request):
-    user = request.user
-    serializer = UserSerializer(user, many=False)
+def getUsers(request):
+    token = request.COOKIES.get('jwt')
+
+    if not token:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    try:
+        payload = jwt.decode(token, 'secret', algorithm=['HS256'])
+    except jwt.ExpiredSignatureError:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    user = User.objects.filter(id=payload['id']).first()
+
+    if not user.is_staff:
+        raise AuthenticationFailed('You do not have permission to perform this action.')
+
+    users = User.objects.all()
+    serializer = UserSerializer(users, many=True)
     return Response(serializer.data)
 
 
 @api_view(['GET'])
-@permission_classes([IsAdminUser])
-def getUsers(request):
-    users = User.objects.all()
-    serializer = UserSerializer(users, many=True)
+def getUserById(request, pk):
+    token = request.COOKIES.get('jwt')
+
+    if not token:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    try:
+        payload = jwt.decode(token, 'secret', algorithm=['HS256'])
+    except jwt.ExpiredSignatureError:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    user = User.objects.filter(id=payload['id']).first()
+
+    if not user.is_staff:
+        raise AuthenticationFailed('You do not have permission to perform this action.')
+
+    try:
+        userById = User.objects.get(id=pk)
+    except:
+        raise NotFound()
+
+    serializer = UserSerializer(userById, many=False)
     return Response(serializer.data)
+
+
+@api_view(['PUT'])
+def updateUserById(request, pk):
+    token = request.COOKIES.get('jwt')
+
+    if not token:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    try:
+        payload = jwt.decode(token, 'secret', algorithm=['HS256'])
+    except jwt.ExpiredSignatureError:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    user = User.objects.filter(id=payload['id']).first()
+
+    if not user.is_staff:
+        raise AuthenticationFailed('You do not have permission to perform this action.')
+
+    try:
+        userById = User.objects.get(id=pk)
+    except:
+        raise NotFound()
+
+    data = request.data
+
+    userById.first_name = data['first_name']
+    userById.last_name = data['last_name']
+    userById.is_staff = data['is_staff']
+
+    user.save()
+
+    serializer = UserSerializer(userById, many=False)
+
+    return Response(serializer.data)
+
+
+@api_view(['DELETE'])
+def deleteUser(request, pk):
+    token = request.COOKIES.get('jwt')
+
+    if not token:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    try:
+        payload = jwt.decode(token, 'secret', algorithm=['HS256'])
+    except jwt.ExpiredSignatureError:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    user = User.objects.filter(id=payload['id']).first()
+
+    if not user.is_staff:
+        raise AuthenticationFailed('You do not have permission to perform this action.')
+
+    try:
+        userForDeletion = User.objects.get(id=pk)
+        userForDeletion.delete()
+    except:
+        raise NotFound()
+    return Response('User was deleted')
