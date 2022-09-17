@@ -225,9 +225,11 @@ def updateUserById(request, pk):
 
     userById.first_name = data['first_name']
     userById.last_name = data['last_name']
+    userById.phone = data['phone']
+    userById.email = data['email']
     userById.is_staff = data['is_staff']
 
-    user.save()
+    userById.save()
 
     serializer = UserSerializer(userById, many=False)
 
