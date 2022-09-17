@@ -15,11 +15,24 @@ from rest_framework import status
 @api_view(['GET'])
 def getProducts(request):
     query = request.query_params.get('keyword')
+
     if query is None:
         query = ''
 
     products = Product.objects.filter(
         name_geo__icontains=query).order_by('-createdAt')
+
+    category = request.query_params.get('category')
+    if category == 'null':
+        category = ''
+
+    products = products.filter(category__icontains=category)
+
+    order = request.query_params.get('order')
+    if order == 'ascending':
+        products = products.order_by('price')
+    elif order == 'descending':
+        products = products.order_by('-price')
 
     page = request.query_params.get('page')
     paginator = Paginator(products, 5)
@@ -50,34 +63,6 @@ def getCategories(request):
 
 
 @api_view(['GET'])
-def getTopProducts(request):
-    category = Category.objects.all()
-
-    first = Product.objects.filter(category=category[0]).order_by('-createdAt')[0:8]
-    second = Product.objects.filter(category=category[1]).order_by('-createdAt')[0:8]
-    third = Product.objects.filter(category=category[2]).order_by('-createdAt')[0:8]
-    fourth = Product.objects.filter(category=category[3]).order_by('-createdAt')[0:8]
-    fifth = Product.objects.filter(category=category[4]).order_by('-createdAt')[0:8]
-    sixth = Product.objects.filter(category=category[5]).order_by('-createdAt')[0:8]
-    seventh = Product.objects.filter(category=category[6]).order_by('-createdAt')[0:8]
-    eighth = Product.objects.filter(category=category[7]).order_by('-createdAt')[0:8]
-
-    serializer = TopProductSerializer(first, many=True)
-    serializer2 = TopProductSerializer(second, many=True)
-    serializer3 = TopProductSerializer(third, many=True)
-    serializer4 = TopProductSerializer(fourth, many=True)
-    serializer5 = TopProductSerializer(fifth, many=True)
-    serializer6 = TopProductSerializer(sixth, many=True)
-    serializer7 = TopProductSerializer(seventh, many=True)
-    serializer8 = TopProductSerializer(eighth, many=True)
-
-    return Response({str(category[0]): serializer.data, str(category[1]): serializer2.data,
-                     str(category[2]): serializer3.data, str(category[3]): serializer4.data,
-                     str(category[4]): serializer5.data, str(category[5]): serializer6.data,
-                     str(category[6]): serializer7.data, str(category[7]): serializer8.data})
-
-
-@api_view(['GET'])
 def getLatestProducts(request):
     category = Category.objects.all()
 
@@ -85,6 +70,19 @@ def getLatestProducts(request):
 
     for e in category:
         products += Product.objects.filter(category=e).order_by('-createdAt')[0:8]
+
+    serializer = TopProductSerializer(products, many=True)
+
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def getLatestProduct(request, pk):
+    category = Category.objects.get(name=pk)
+
+    products = []
+
+    products += Product.objects.filter(category=category).order_by('-createdAt')[0:8]
 
     serializer = TopProductSerializer(products, many=True)
 
