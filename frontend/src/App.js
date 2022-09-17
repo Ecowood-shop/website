@@ -15,6 +15,7 @@ import Product from "./screens/app/product/Product";
 import ProductsScreen from "./screens/admin/products/ProductsScreen";
 import UsersScreen from "./screens/admin/users/UsersScreen";
 import ProductScreen from "./screens/admin/edit/product/Product";
+import UserScreen from "./screens/admin/edit/user/User";
 
 // COMPONENTS
 import Header from "./components/header/Header";
@@ -45,8 +46,9 @@ function App() {
           </Route>
           <Route element={<AdminLayout />}>
             <Route path="/admin/products" element={<ProductsScreen />} />
-            <Route path="/admin/products/:id" element={<ProductScreen />} />
+            <Route path="/admin/products/:id/edit" element={<ProductScreen />} />
             <Route path="/admin/users" element={<UsersScreen />} />
+            <Route path="/admin/users/:id/edit" element={<UserScreen />} />
           </Route>
         </Routes>
         <Footer />
