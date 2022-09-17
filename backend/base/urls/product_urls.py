@@ -11,7 +11,7 @@ urlpatterns = [
     path('categories/', views.getCategories, name="category"),
 
     path('latest/', views.getLatestProducts, name='latest-products'),
-    path('top/', views.getTopProducts, name='top-products'),
+    path('latest/<str:pk>/', views.getLatestProduct, name="latest-product-by-category"),
 
     path('<str:pk>/', views.getProduct, name="product"),
 
