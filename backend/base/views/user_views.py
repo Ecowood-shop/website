@@ -1,6 +1,8 @@
 import datetime
 import jwt
 from django.contrib.auth.hashers import make_password
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.db.models import Q
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.exceptions import AuthenticationFailed, NotFound, ValidationError
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
@@ -135,9 +137,40 @@ def getUsers(request):
     if not user.is_staff:
         raise AuthenticationFailed('You do not have permission to perform this action.')
 
-    users = User.objects.all()
+    query = request.query_params.get('keyword')
+
+    if query is None:
+        query = ''
+
+    users = User.objects.filter(Q(first_name__icontains=query)
+                                | Q(last_name__icontains=query) | Q(email__icontains=query))
+
+    is_staff = request.query_params.get('is_staff')
+
+    if is_staff is None:
+        is_staff = ''
+
+    users = users.filter(is_staff__icontains=is_staff)
+
+    page = request.query_params.get('page')
+    paginator = Paginator(users, 5)
+
+    try:
+        users = paginator.page(page)
+    except PageNotAnInteger:
+        users = paginator.page(1)
+    except EmptyPage:
+        users = paginator.page(paginator.num_pages)
+
+    if page is None:
+        page = 1
+
+    page = int(page)
+    print('Page:', page)
+    print(users)
+
     serializer = UserSerializer(users, many=True)
-    return Response(serializer.data)
+    return Response({'users': serializer.data, 'page': page, 'pages': paginator.num_pages})
 
 
 @api_view(['GET'])
