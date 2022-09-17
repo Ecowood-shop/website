@@ -40,6 +40,7 @@
 }
 
 .auth-article form h1 {
+  color: white;
   font-weight: 700;
   font-size: var(--xx-large);
   text-transform: uppercase;

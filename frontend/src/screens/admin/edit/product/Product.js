@@ -2,6 +2,7 @@
 import  { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
 import { getProduct } from "../../../../store/actions/systemActions";

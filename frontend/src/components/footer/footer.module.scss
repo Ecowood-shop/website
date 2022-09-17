@@ -35,8 +35,13 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   width: 100%;
-  @media (max-width: 1000px) {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  @media (max-width: 1400px) {
+    grid-template-columns: repeat(2, 1fr);
+
+    div {
+      width: 100%;
+      align-items: center;
+    }
   }
 }
 
@@ -67,6 +72,30 @@
 }
 
 .map {
-  border:none;
+  border: none;
   border-radius: 10px;
+}
+
+@media (max-width: 700px) and (orientation: portrait) {
+  .box {
+    padding: 80px 0;
+  }
+  .row {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+  }
+  .column:nth-of-type(3) {
+    grid-column: span 2;
+  }
+  .column:last-of-type {
+    grid-row: 3;
+    grid-column: span 2;
+  }
+}
+@media (max-width: 380px) and (orientation: portrait) {
+.column{
+  grid-column: span 2;
+  grid-row: auto;
+}
 }

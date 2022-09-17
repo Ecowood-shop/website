@@ -1,5 +1,5 @@
 // REACT
-import  {useState } from "react";
+import { useState } from "react";
 import { useNavigate, createSearchParams } from "react-router-dom";
 import Select from "react-select";
 
@@ -14,7 +14,7 @@ function UserFilter() {
   const [word, setWord] = useState("");
   const [status, setStatus] = useState("");
 
-  // HOOKS 
+  // HOOKS
   const navigate = useNavigate();
 
   const adminOptions = [
@@ -47,7 +47,12 @@ function UserFilter() {
         toggle={(class1, class2) => toggle(class1, class2)}
       />
 
-      <img src={logo} alt="alta logo" className={styles.logo} />
+      <img
+        src={logo}
+        alt="alta logo"
+        className={styles.logo}
+        onClick={() => navigate("/")}
+      />
       <input
         type="text"
         className={styles.input}
@@ -55,7 +60,6 @@ function UserFilter() {
         onChange={(e) => setWord(e.target.value)}
       />
       <div className={styles.inputContainer}>
-    
         <Select
           options={adminOptions}
           isClearable={true}
@@ -63,7 +67,9 @@ function UserFilter() {
           onChange={(option) => setStatus(option)}
           className={styles.select}
         />
-        <button className={styles.button} onClick={()=>Navigator()}>გაფილტვრა</button>
+        <button className={styles.button} onClick={() => Navigator()}>
+          გაფილტვრა
+        </button>
       </div>
     </header>
   );

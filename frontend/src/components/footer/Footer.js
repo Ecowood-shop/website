@@ -12,7 +12,7 @@ const Footer = () => {
           <section className={styles.column}>
             <div>
               <header className={styles.heading}>ნავიგაცია</header>
-              <Link className={styles.element} onClick={()=>window.scrollTo(0, 0)} to="/about-us">
+              <Link className={styles.element} to="/about-us">
                 ჩვენს შესახებ
               </Link>
               <a className={styles.element} href="#">

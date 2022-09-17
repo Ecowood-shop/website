@@ -3,7 +3,7 @@ import styles from "./styles.module.scss";
 
 function About() {
   return (
-    <article className={styles.container}>
+    <article className={styles.container + " w3-animate-right"}>
       <header>
         {" "}
         <h1>ჩვენს შესახებ</h1>
