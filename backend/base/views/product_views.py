@@ -23,12 +23,13 @@ def getProducts(request):
         name_geo__icontains=query).order_by('-createdAt')
 
     category = request.query_params.get('category')
-    if category == 'null':
+    if category is None:
         category = ''
 
-    products = products.filter(category__icontains=category)
+    products = products.filter(category__name__icontains=category)
 
     order = request.query_params.get('order')
+
     if order == 'ascending':
         products = products.order_by('price')
     elif order == 'descending':
