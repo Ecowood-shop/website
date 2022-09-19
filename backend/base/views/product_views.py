@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-from base.models import Product, Review, Category, User, Color, Discount
+from base.models import Product, Category, User, Color, Discount
 from base.serializers import ProductSerializer, CategorySerializer, TopProductSerializer
 
 from rest_framework import status
@@ -16,14 +16,14 @@ from rest_framework import status
 def getProducts(request):
     query = request.query_params.get('keyword')
 
-    if query is None:
+    if query is None or query == "null":
         query = ''
 
     products = Product.objects.filter(
         name_geo__icontains=query).order_by('-createdAt')
 
     category = request.query_params.get('category')
-    if category is None:
+    if category is None or category == "null":
         category = ''
 
     products = products.filter(category__name__icontains=category)
@@ -45,7 +45,7 @@ def getProducts(request):
     except EmptyPage:
         products = paginator.page(paginator.num_pages)
 
-    if page is None:
+    if page is None or page == "null":
         page = 1
 
     page = int(page)
