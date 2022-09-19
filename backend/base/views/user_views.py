@@ -12,6 +12,10 @@ from rest_framework_jwt.settings import api_settings
 from base.models import Product, User
 from base.serializers import ProductSerializer, UserSerializer
 
+from django.core.mail import send_mail
+from django.conf import settings
+from base.templates import generate_verification_template
+
 # Get the JWT settings
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
@@ -22,6 +26,7 @@ def RegisterUser(request):
     serializer = UserSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
     serializer.save()
+
     return Response(serializer.data)
 
 
@@ -139,7 +144,7 @@ def getUsers(request):
 
     query = request.query_params.get('keyword')
 
-    if query is None:
+    if query is None or query == "null":
         query = ''
 
     users = User.objects.filter(Q(first_name__icontains=query)
@@ -147,7 +152,7 @@ def getUsers(request):
 
     is_staff = request.query_params.get('is_staff')
 
-    if is_staff is None:
+    if is_staff is None or query == "null":
         is_staff = ''
 
     users = users.filter(is_staff__icontains=is_staff)
@@ -162,7 +167,7 @@ def getUsers(request):
     except EmptyPage:
         users = paginator.page(paginator.num_pages)
 
-    if page is None:
+    if page is None or page == "null":
         page = 1
 
     page = int(page)
@@ -259,3 +264,12 @@ def deleteUser(request, pk):
     except:
         raise NotFound()
     return Response('User was deleted')
+
+
+def sendMail(token, receiver):
+    send_mail(
+        subject='Verification',
+        message='Rame',
+        html_message=generate_verification_template('Temo',  'Google.com'),
+        from_email=settings.EMAIL_HOST_USER,
+        recipient_list=[receiver])
