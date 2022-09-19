@@ -3,6 +3,9 @@ import django.contrib.auth.password_validation as validators
 
 from .models import Product, User, Category
 
+from .generator import generate_random_code
+from .sendEmail import sendMail
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -17,7 +20,16 @@ class UserSerializer(serializers.ModelSerializer):
         return data
 
     def create(self, validated_data):
-        return User.objects.create_user(**validated_data)
+        user = User.objects.create_user(**validated_data)
+
+        user.email_verification_token = generate_random_code()
+
+        user.is_active = False
+        user.save()
+
+        sendMail(user.email_verification_token, 'temopkhakadze2002@gmail.com')
+
+        return user
 
     # def create(self, validated_data):
     #     user = User.objects.create_user(**validated_data)

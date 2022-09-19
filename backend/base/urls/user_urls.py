@@ -13,5 +13,7 @@ urlpatterns = [
     path('<str:pk>/', views.getUserById, name='user'),
 
     path('update/<str:pk>/', views.updateUserById, name='user-update-by-id'),
-    path('delete/<str:pk>/', views.deleteUser, name='user-delete')
+    path('delete/<str:pk>/', views.deleteUser, name='user-delete'),
+
+    # path('verify/<str:pk>/token')
 ]
