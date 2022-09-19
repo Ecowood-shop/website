@@ -24,12 +24,13 @@ function Products() {
   const category = searchParams.get("category");
   const word = searchParams.get("word");
   const orderby = searchParams.get("orderby");
+  const page = searchParams.get("page");
 
   const systemProducts = useSelector((state) => state.systemProducts);
   const { error, loading, products } = systemProducts;
 
   useEffect(() => {
-    dispatch(getProducts());
+    dispatch(getProducts(word,category,orderby,page));
   }, [dispatch]);
 
   return (

@@ -22,9 +22,8 @@ useCustomAxios.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response.status === 401) {
-      alert("gasulia gasulii");
+ 
       const navigate = useNavigate();
-      navigate("/");
       store.dispatch(logout());
     }
   }

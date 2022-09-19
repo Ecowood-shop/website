@@ -5,7 +5,7 @@ import { useSearchParams } from "react-router-dom";
 // OTHERS
 import styles from "./pagination.module.scss";
 
-function Pagination() {
+function Pagination({pages}) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   return (
@@ -23,7 +23,7 @@ function Pagination() {
         }}
         marginPagesDisplayed={1}
         pageRangeDisplayed={window.innerWidth > 1000 ? 2 : 1}
-        pageCount={15}
+        pageCount={pages}
         previousLabel={
           <svg
             xmlns="http://www.w3.org/2000/svg"

@@ -1,6 +1,6 @@
 // REACT
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
@@ -60,25 +60,38 @@ function UsersScreen() {
   // HOOKS
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const adminUsers = useSelector((state) => state.adminUsers);
   const { error, loading, users, success } = adminUsers;
 
-  useEffect(() => {
-    dispatch(getUsers());
-  }, [dispatch, success]);
+  // PARAMS
+  const word = searchParams.get("word");
+  const status = searchParams.get("status");
+  const page = searchParams.get("page");
 
-  console.log(users);
+  useEffect(() => {
+    dispatch(getUsers(page, word, status));
+  }, [dispatch, word, status, page, success]);
+
   return (
     <section className={styles.container}>
       <UserFilter />
       {loading && <Loader />} {error && <Message>{error}</Message>}
       {users && (
-        <div className={styles.table}>
-          <Table columns={columns} data={users} link="/admin/users/" user />
-        </div>
+        <>
+          <div className={styles.table}>
+            <Table
+              columns={columns}
+              data={users.users}
+              link="/admin/users/"
+              user
+            />
+          </div>
+
+          <Pagination pages={users.pages} />
+        </>
       )}
-      <Pagination />
     </section>
   );
 }

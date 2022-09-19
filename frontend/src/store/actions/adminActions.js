@@ -23,12 +23,14 @@ export const deleteProduct = (id) => async (dispatch) => {
   }
 };
 
-export const getUsers = () => async (dispatch) => {
+export const getUsers = (page, word, status) => async (dispatch) => {
   try {
     dispatch({
       type: ADMIN.GET_USERS_REQUEST,
     });
-    const { data } = await useCustomAxios.get("/api/users/");
+    const { data } = await useCustomAxios.get(
+      `/api/users?keyword=${word}&page=${page}&is_staff=${status}/`
+    );
 
     dispatch({
       type: ADMIN.GET_USERS_SUCCESS,

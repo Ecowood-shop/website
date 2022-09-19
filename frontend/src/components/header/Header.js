@@ -192,7 +192,6 @@ function Header() {
                   className="header-dropdown-element w3-animate-right animate__animated"
                   onClick={() => {
                     dispatch(logout());
-                    window.location.reload(false);
                   }}
                 >
                   გამოსვლა{" "}

@@ -14,7 +14,6 @@ export const login = (email, password) => async (dispatch) => {
       email: email,
       password: password,
     });
-    
 
     dispatch({
       type: SYSTEM.LOGIN_SUCCESS,
@@ -22,7 +21,6 @@ export const login = (email, password) => async (dispatch) => {
     });
     localStorage.setItem("userInfo", JSON.stringify(data));
   } catch (error) {
-
     dispatch({
       type: SYSTEM.LOGIN_FAIL,
       payload: error.response?.data
@@ -39,6 +37,7 @@ export const logout = () => async (dispatch) => {
     const {} = await useCustomAxios.post("/api/users/logout/", {
       nothing: "nothing",
     });
+    window.location.reload(false);
   } catch (error) {
     //    THERE SHOULD NOT BE ANY ERRORS
   }
@@ -96,27 +95,28 @@ export const getCategories = () => async (dispatch) => {
   }
 };
 
-export const getProducts = () => async (dispatch) => {
-  try {
-    dispatch({
-      type: SYSTEM.GET_PRODUCTS_REQUEST,
-    });
+export const getProducts =
+  (word, category, orderby, page) => async (dispatch) => {
+    try {
+      dispatch({
+        type: SYSTEM.GET_PRODUCTS_REQUEST,
+      });
 
-    const { data } = await useAxios.get("/api/products/latest/");
+      const { data } = await useAxios.get("/api/products/latest/");
 
-    dispatch({
-      type: SYSTEM.GET_PRODUCTS_SUCCESS,
-      payload: data,
-    });
-  } catch (error) {
-    dispatch({
-      type: SYSTEM.GET_PRODUCTS_FAIL,
-      payload: error.response?.data
-        ? Object.values(error.response?.data)[0]
-        : error.response,
-    });
-  }
-};
+      dispatch({
+        type: SYSTEM.GET_PRODUCTS_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: SYSTEM.GET_PRODUCTS_FAIL,
+        payload: error.response?.data
+          ? Object.values(error.response?.data)[0]
+          : error.response,
+      });
+    }
+  };
 
 export const getProduct = (id) => async (dispatch) => {
   try {
@@ -130,7 +130,6 @@ export const getProduct = (id) => async (dispatch) => {
       type: SYSTEM.GET_PRODUCT_SUCCESS,
       payload: data,
     });
-
   } catch (error) {
     dispatch({
       type: SYSTEM.GET_PRODUCT_FAIL,
