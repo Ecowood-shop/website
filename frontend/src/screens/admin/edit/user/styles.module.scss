@@ -1,0 +1,94 @@
+.container {
+  width: 60%;
+
+  & > button {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    @media all and (max-width: 40rem) {
+      margin-left: 1rem;
+    }
+  }
+  section {
+    margin-bottom: 10rem;
+    width: 100%;
+    min-height: 40rem;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
+      rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
+
+    h1 {
+      font-size: var(--xx-large);
+      font-weight: bold;
+      text-align: center;
+      padding: 3rem 0;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  @media all and (max-width: 80rem) {
+    width: 80%;
+  }
+  @media all and (max-width: 40rem) {
+    width: 100%;
+    section {
+      background-color: transparent;
+      background: transparent;
+      box-shadow: none;
+      border: none;
+      margin-bottom: 5rem;
+      h1 {
+        font-size: var(--x-large);
+      }
+      input {
+        width: 80%;
+      }
+    }
+  }
+}
+.input,
+.button {
+  height: 3rem;
+  width: 50%;
+  margin-top: 1rem;
+  border: 2px solid black;
+  border-radius: 999px;
+  text-align: center;
+  font-size: var(--x-medium);
+  font-weight: normal;
+}
+.admin {
+  font-size: var(--x-medium);
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.input {
+  padding: 0 2rem;
+}
+.checkbox[type="checkbox"] {
+  margin-right: 0.5rem;
+  height: 1.5rem;
+  width: 1.5rem;
+}
+.button {
+  margin: 2rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  padding: 1rem 2rem;
+  color: white;
+  background-color: var(--color-second);
+  border-color: var(--color-second);
+  cursor: pointer;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
+    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
+  &:hover {
+    transform: scale(1.05);
+  }
+}

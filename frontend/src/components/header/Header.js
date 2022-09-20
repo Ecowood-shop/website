@@ -1,6 +1,5 @@
 // REACT
-
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // REDUX
@@ -20,8 +19,6 @@ function Header() {
   // VARIABLES
   const [isOpen, setIsOpen] = useState(false);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
-  const [word, setWord] = useState("");
-  const [category, setCategory] = useState();
 
   // HOOKS
   const navigate = useNavigate();
@@ -32,21 +29,13 @@ function Header() {
 
   // FUNCTIONS
 
-  const CategorySetter = (category) => {
-    setCategory(category);
-  };
-
-  const WordSetter = (word) => {
-    setWord(word);
-  };
-
   const AdminProductsNavigator = () => {
     navigate("/admin/products");
   };
 
-  const AdminUsersNavigator=()=>{
+  const AdminUsersNavigator = () => {
     navigate("/admin/users");
-  }
+  };
   const ClosePanel = () => {
     Opener(["profile-link", "logOut-link", "admin-panel"], isOpen, setIsOpen);
     Opener(
@@ -107,12 +96,7 @@ function Header() {
             />
           </svg>
         </button>
-        <Search
-          CategorySetter={CategorySetter}
-          category={category}
-          WordSetter={WordSetter}
-          word={word}
-        />
+        <Search navigate={navigate}/>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="header-cart-icon"
@@ -208,7 +192,6 @@ function Header() {
                   className="header-dropdown-element w3-animate-right animate__animated"
                   onClick={() => {
                     dispatch(logout());
-                    window.location.reload(false);
                   }}
                 >
                   გამოსვლა{" "}
@@ -233,7 +216,7 @@ function Header() {
               <AdminPanel
                 Close={() => ClosePanel()}
                 ProductsNavigator={() => AdminProductsNavigator()}
-                UsersNavigator={()=>AdminUsersNavigator()}
+                UsersNavigator={() => AdminUsersNavigator()}
               />
             )}
           </h2>

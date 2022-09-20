@@ -30,9 +30,9 @@ def getProducts(request):
 
     order = request.query_params.get('order')
 
-    if order == 'ascending':
+    if order == '1':
         products = products.order_by('price')
-    elif order == 'descending':
+    elif order == '-1':
         products = products.order_by('-price')
 
     page = request.query_params.get('page')

@@ -1,6 +1,6 @@
 // REACT
-import  { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useSearchParams, useNavigate } from "react-router-dom";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
@@ -40,6 +40,13 @@ function ProductsScreen() {
   // HOOKS
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // QUERY PARAMS
+  const category = searchParams.get("category");
+  const word = searchParams.get("word");
+  const orderby = searchParams.get("orderby");
+  const page = searchParams.get("page");
 
   const systemProducts = useSelector((state) => state.systemProducts);
   const { error, loading, products } = systemProducts;
@@ -48,8 +55,8 @@ function ProductsScreen() {
   const { error: errorDelete, loading: loadingDelete, success } = adminProduct;
 
   useEffect(() => {
-    dispatch(getProducts());
-  }, [dispatch, success]);
+    dispatch(getProducts(word, category, orderby, page));
+  }, [dispatch, category, word, orderby, page]);
 
   return (
     <section className={styles.container}>
@@ -57,11 +64,17 @@ function ProductsScreen() {
       <Nav styles={styles} navigate={navigate} />
       {loading && <Loader />} {error && <Message>{error}</Message>}
       {products && (
-        <div className={styles.table}>
-          <Table columns={columns} data={products} link="/admin/products/" />
-        </div>
+        <>
+          <div className={styles.table}>
+            <Table
+              columns={columns}
+              data={products.products}
+              link="/admin/products/"
+            />
+          </div>{" "}
+          <Pagination pages={products.pages} page={products.page} />
+        </>
       )}
-      <Pagination />
     </section>
   );
 }

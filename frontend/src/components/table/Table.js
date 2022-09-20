@@ -5,7 +5,7 @@ import { useTable } from "react-table";
 
 // REDUX
 import { useDispatch } from "react-redux";
-import { deleteProduct } from "../../store/actions/adminActions";
+import { deleteProduct, deleteUser } from "../../store/actions/adminActions";
 
 // COMPONENTS
 import Popup from "../popup/Popup";
@@ -19,7 +19,7 @@ const Table = ({ columns, data, link, user }) => {
   const dispatch = useDispatch();
 
   const Delete = () => {
-    user ? console.log(id) : dispatch(deleteProduct(id));
+    user ? dispatch(deleteUser(id)) : dispatch(deleteProduct(id));
   };
 
   const [isPopped, setIsPopped] = useState(false);
@@ -43,7 +43,9 @@ const Table = ({ columns, data, link, user }) => {
       {" "}
       {isPopped && (
         <Popup
-          text={`ნამდვილად გსურთ ${user ? "მომხმარებლის" : "პროდუქტის"}  წაშლა?`}
+          text={`ნამდვილად გსურთ ${
+            user ? "მომხმარებლის" : "პროდუქტის"
+          }  წაშლა?`}
           popper={() => popper()}
           Delete={() => Delete()}
         />
@@ -77,7 +79,9 @@ const Table = ({ columns, data, link, user }) => {
                   <div className={styles.buttonContainer}>
                     <button
                       className={styles.button}
-                      onClick={() => navigate(link + row.values._id)}
+                      onClick={() =>
+                        navigate(link + (user ? row.values.id : row.values._id)+"/edit")
+                      }
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -89,7 +93,9 @@ const Table = ({ columns, data, link, user }) => {
                     </button>
                     <button
                       className={styles.button}
-                      onClick={() => popper(row.values._id)}
+                      onClick={() =>
+                        popper(user ? row.values.id : row.values._id)
+                      }
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"

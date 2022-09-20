@@ -1,5 +1,4 @@
 // REACT
-import React from "react";
 import ReactCarousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 
@@ -37,7 +36,7 @@ function Carousel(props) {
     <section className="carousel-container w3-animate-right">
       <header>
         <h1>{props.category.category}</h1>
-        <button>სრულად</button>
+        <button onClick={()=>{props.navigate("/products/search?category=" + props.category.category)}}>სრულად</button>
       </header>
       <ReactCarousel responsive={responsive} className="carousel ">
         {props.products &&

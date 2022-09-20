@@ -1,6 +1,7 @@
 // REACT
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Select from "react-select";
+import { createSearchParams } from "react-router-dom";
 
 // REDUX
 import { useDispatch, useSelector } from "react-redux";
@@ -9,41 +10,52 @@ import { getCategories } from "../../../store/actions/systemActions";
 // OTHERS
 import "./search.css";
 
-
 function Search(props) {
+  const [word, setWord] = useState("");
+  const [category, setCategory] = useState();
+
   // HOOKS
   const dispatch = useDispatch();
 
   const systemCategories = useSelector((state) => state.systemCategories);
   const { categories } = systemCategories;
 
+  const Navigator = () => {
+    props.navigate({
+      pathname: "products/search",
+      search: `?${createSearchParams(
+        Object.assign(
+          {},
+          category && { category: category.name },
+          word && { word: word }
+        )
+      )}`,
+    });
+  };
   useEffect(() => {
     dispatch(getCategories());
   }, [dispatch]);
-  
+
   return (
     <div className="search-container">
       <input
         type="text"
         placeholder="ძიება..."
         value={props.word}
-        onChange={(e) => props.WordSetter(e.target.value)}
+        onChange={(e) => setWord(e.target.value)}
       />
       {categories && (
-   
-          <Select
-            options={categories}
-            isClearable={true}
-            placeholder="კატეგორია"
-           className="search-category"
-            getOptionLabel={(option) => option.name}
-            getOptionValue={(option) => option._id}
-            onChange={(option) => props.CategorySetter(option)}
-          />
-    
+        <Select
+          options={categories}
+          isClearable={true}
+          placeholder="კატეგორია"
+          className="search-category"
+          getOptionLabel={(option) => option.name}
+          getOptionValue={(option) => option._id}
+          onChange={(option) => setCategory(option)}
+        />
       )}
-      <div className="search-icon-container">
-        {" "}
+      <div className="search-icon-container" onClick={() => Navigator()}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="search-icon"

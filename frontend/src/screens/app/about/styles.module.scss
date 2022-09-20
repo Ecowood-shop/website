@@ -127,6 +127,7 @@
 
 @media all and (max-width: 40em) and (orientation: portrait) {
   .container {
+    box-shadow: none;
     width: 100%;
     h1 {
       margin: 3rem 0;

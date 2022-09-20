@@ -7,16 +7,23 @@ import thunk from "redux-thunk";
 import {
   systemUserReducer,
   systemCategoriesReducer,
-  systemProductsReducer,systemProductReducer
+  systemProductsReducer,
+  systemProductReducer,
+  systemLatestProductsReducer,
 } from "./reducers/systemReducers";
-import { adminProductReducer } from "./reducers/adminReducers";
+import {
+  adminProductReducer,
+  adminUserReducer,
+} from "./reducers/adminReducers";
 
 const reducer = combineReducers({
   systemUser: systemUserReducer,
   systemCategories: systemCategoriesReducer,
   systemProducts: systemProductsReducer,
-  systemProduct:systemProductReducer,
+  systemProduct: systemProductReducer,
+  systemLatestProducts: systemLatestProductsReducer,
   adminProduct: adminProductReducer,
+  adminUsers: adminUserReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem("userInfo")
