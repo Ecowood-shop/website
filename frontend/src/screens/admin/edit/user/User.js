@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
-import { getUser,updateUser } from "../../../../store/actions/adminActions";
+import { getUser, updateUser } from "../../../../store/actions/adminActions";
 import { useForm } from "react-hook-form";
 
 // COMPONENTS
@@ -19,10 +19,10 @@ function User() {
   // HOOKS
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const {id} = useParams();
+  const { id } = useParams();
 
   const adminUsers = useSelector((state) => state.adminUsers);
-  const { errorUser, loadingUser, user,success } = adminUsers;
+  const { errorUser, loadingUser, user, success } = adminUsers;
 
   const {
     register,
@@ -31,22 +31,22 @@ function User() {
   } = useForm();
 
   const onSubmit = (data) => {
-    data.id=id;
-   dispatch(updateUser(data))
- 
+    data.id = id;
+    dispatch(updateUser(data));
   };
 
   useEffect(() => {
-    dispatch(getUser(id));if(success){
-    navigate("/admin/users/")
-  }
-  }, [dispatch,success]);
+    success ? navigate("/admin/users/") : dispatch(getUser(id));
+  }, [dispatch, success]);
 
-  
-  console.log(user);
   return (
     <article className={styles.container}>
-      <button onClick={()=>navigate("/admin/users/")} className={styles.button}>უკან</button>
+      <button
+        onClick={() => navigate("/admin/users/")}
+        className={styles.button}
+      >
+        უკან
+      </button>
       {loadingUser && <Loader />} {errorUser && <Message>{errorUser}</Message>}
       {user && (
         <section>
@@ -91,7 +91,9 @@ function User() {
               />
               <label>ადმინი</label>
             </div>
-            <button type="submit" className={styles.button}>Submit</button>
+            <button type="submit" className={styles.button}>
+              Submit
+            </button>
           </form>
         </section>
       )}

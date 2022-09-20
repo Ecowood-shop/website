@@ -21,9 +21,7 @@ export const useCustomAxios = axios.create({
 useCustomAxios.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response.status === 401) {
- 
-      const navigate = useNavigate();
+    if (error.response.status == 401) {
       store.dispatch(logout());
     }
   }

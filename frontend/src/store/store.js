@@ -9,6 +9,7 @@ import {
   systemCategoriesReducer,
   systemProductsReducer,
   systemProductReducer,
+  systemLatestProductsReducer,
 } from "./reducers/systemReducers";
 import {
   adminProductReducer,
@@ -20,6 +21,7 @@ const reducer = combineReducers({
   systemCategories: systemCategoriesReducer,
   systemProducts: systemProductsReducer,
   systemProduct: systemProductReducer,
+  systemLatestProducts: systemLatestProductsReducer,
   adminProduct: adminProductReducer,
   adminUsers: adminUserReducer,
 });

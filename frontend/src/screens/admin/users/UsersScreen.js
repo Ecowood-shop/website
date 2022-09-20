@@ -89,7 +89,7 @@ function UsersScreen() {
             />
           </div>
 
-          <Pagination pages={users.pages} />
+          <Pagination pages={users.pages} page={users.page} />
         </>
       )}
     </section>

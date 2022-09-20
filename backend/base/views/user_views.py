@@ -152,10 +152,10 @@ def getUsers(request):
 
     is_staff = request.query_params.get('is_staff')
 
-    if is_staff is None or query == "null":
+    if is_staff is None or is_staff == "null":
         is_staff = ''
 
-    users = users.filter(is_staff__icontains=is_staff)
+    users = users.filter(is_staff__icontains=is_staff)  
 
     page = request.query_params.get('page')
     paginator = Paginator(users, 5)

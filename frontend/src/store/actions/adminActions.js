@@ -29,7 +29,7 @@ export const getUsers = (page, word, status) => async (dispatch) => {
       type: ADMIN.GET_USERS_REQUEST,
     });
     const { data } = await useCustomAxios.get(
-      `/api/users?keyword=${word}&page=${page}&is_staff=${status}/`
+      `/api/users/?keyword=${word}&page=${page}&is_staff=${status}`
     );
 
     dispatch({

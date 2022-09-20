@@ -7,7 +7,7 @@
   cursor: pointer;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
     rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
-  z-index: 1;
+
   position: relative;
   margin: 2rem 1rem;
   background-color: white;
@@ -28,10 +28,9 @@
 .carousel-product-container img:hover {
   position: absolute;
   max-height: 100%;
-  
 }
 .carousel-product-container img:hover + .text-container {
- display: none;
+  display: none;
 }
 
 .carousel-product-container .text-container {

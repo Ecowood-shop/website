@@ -1,10 +1,10 @@
 // REACT
-import  { useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
-import { getProducts } from "../../../store/actions/systemActions";
+import { getLatestProducts } from "../../../store/actions/systemActions";
 
 // COMPONENTS
 import Carousel from "../../../components/carousel/Carousel";
@@ -20,11 +20,13 @@ function HomeScreen() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const systemProducts = useSelector((state) => state.systemProducts);
-  const { error, loading, products } = systemProducts;
+  const systemLatestProducts = useSelector(
+    (state) => state.systemLatestProducts
+  );
+  const { error, loading, products } = systemLatestProducts;
 
   useEffect(() => {
-    dispatch(getProducts());
+    dispatch(getLatestProducts());
   }, [dispatch]);
 
   return (

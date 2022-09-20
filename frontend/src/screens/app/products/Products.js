@@ -30,21 +30,21 @@ function Products() {
   const { error, loading, products } = systemProducts;
 
   useEffect(() => {
-    dispatch(getProducts(word,category,orderby,page));
-  }, [dispatch]);
-
+    dispatch(getProducts(word, category, orderby, page));
+  }, [dispatch, category, word, orderby, page]);
   return (
     <article className={styles.container}>
       <Filter />
-      {products && (
-        <section className={styles.section + " w3-animate-right"}>
-          {products.map((product) => (
-            <Product key={product._id} product={product} />
-          ))}{" "}
-        </section>
+      {products?.products && (
+        <>
+          <section className={styles.section + " w3-animate-right"}>
+            {products.products.map((product) => (
+              <Product key={product._id} product={product} />
+            ))}
+          </section>{" "}
+          <Pagination pages={products.pages} page={products.page} />
+        </>
       )}
-
-      <Pagination />
     </article>
   );
 }

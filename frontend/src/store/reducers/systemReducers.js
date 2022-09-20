@@ -39,7 +39,6 @@ export const systemCategoriesReducer = (state = {}, action) => {
   }
 };
 
-
 export const systemProductsReducer = (state = {}, action) => {
   switch (action.type) {
     case SYSTEM.GET_PRODUCTS_REQUEST:
@@ -47,6 +46,20 @@ export const systemProductsReducer = (state = {}, action) => {
     case SYSTEM.GET_PRODUCTS_SUCCESS:
       return { loading: false, products: action.payload };
     case SYSTEM.GET_PRODUCTS_FAIL:
+      return { loading: false, error: action.payload };
+
+    default:
+      return state;
+  }
+};
+
+export const systemLatestProductsReducer = (state = {}, action) => {
+  switch (action.type) {
+    case SYSTEM.GET_LATEST_PRODUCTS_REQUEST:
+      return { loading: true };
+    case SYSTEM.GET_LATEST_PRODUCTS_SUCCESS:
+      return { loading: false, products: action.payload };
+    case SYSTEM.GET_LATEST_PRODUCTS_FAIL:
       return { loading: false, error: action.payload };
 
     default:
@@ -67,4 +80,3 @@ export const systemProductReducer = (state = {}, action) => {
       return state;
   }
 };
-

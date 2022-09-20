@@ -62,7 +62,12 @@ function Filter() {
         toggle={(class1, class2) => toggle(class1, class2)}
       />
 
-      <img src={logo} alt="alta logo" className={styles.logo} onClick={() => navigate("/")}/>
+      <img
+        src={logo}
+        alt="alta logo"
+        className={styles.logo}
+        onClick={() => navigate("/")}
+      />
       <input
         type="text"
         className={styles.input}
