@@ -1,0 +1,58 @@
+.section0 {
+  margin: 2rem 0;
+  display: flex;
+
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+
+    color: white;
+    font-size: var(--medium);
+    font-weight: normal;
+
+    border: none;
+    border-radius: 999px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
+      rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
+    background-color: var(--color-second);
+    cursor: pointer;
+    backface-visibility: hidden;
+    -webkit-font-smoothing: subpixel-antialiased;
+    will-change: transform;
+    &:hover {
+      transform: scale(1.05) translate3d(0, 0, 0) perspective(0.5px);
+    }
+    &:not(:first-of-type) {
+      margin-left: 2rem;
+    }
+
+ 
+
+    svg {
+      height: 2rem;
+      position: relative;
+      fill: white;
+      margin-right: 0.5rem;
+    }
+  }
+  .youtube{
+    background: red;
+
+    font-weight: bold;
+  }
+}
+
+@media all and (max-width: 40em) {
+  .section0 {
+    width: 100%;
+    flex-direction: column;
+    button {
+      margin: 0.5rem 0 !important;
+      font-size: var(--medium);
+    }
+  }
+  svg {
+  }
+}

@@ -67,6 +67,20 @@ export const systemLatestProductsReducer = (state = {}, action) => {
   }
 };
 
+export const systemSimilarProductsReducer = (state = {}, action) => {
+  switch (action.type) {
+    case SYSTEM.GET_SIMILAR_PRODUCTS_REQUEST:
+      return { loading: true };
+    case SYSTEM.GET_SIMILAR_PRODUCTS_SUCCESS:
+      return { loading: false, products: action.payload };
+    case SYSTEM.GET_SIMILAR_PRODUCTS_FAIL:
+      return { loading: false, error: action.payload };
+
+    default:
+      return state;
+  }
+};
+
 export const systemProductReducer = (state = {}, action) => {
   switch (action.type) {
     case SYSTEM.GET_PRODUCT_REQUEST:

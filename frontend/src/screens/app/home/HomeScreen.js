@@ -27,6 +27,7 @@ function HomeScreen() {
 
   useEffect(() => {
     dispatch(getLatestProducts());
+    
   }, [dispatch]);
 
   return (

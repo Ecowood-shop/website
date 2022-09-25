@@ -118,6 +118,28 @@ export const getLatestProducts =
     }
   };
 
+  export const getSimilarProducts =
+  (category) => async (dispatch) => {
+    try {
+      dispatch({
+        type: SYSTEM.GET_SIMILAR_PRODUCTS_REQUEST,
+      });
+
+      const { data } = await useAxios.get(`/api/products/latest/${category}`);
+
+      dispatch({
+        type: SYSTEM.GET_SIMILAR_PRODUCTS_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: SYSTEM.GET_SIMILAR_PRODUCTS_FAIL,
+        payload: error.response?.data
+          ? Object.values(error.response?.data)[0]
+          : error.response,
+      });
+    }
+  };
   
 export const getProducts =
   (word, category, orderby, page) => async (dispatch) => {
