@@ -1,7 +1,24 @@
-import { useState } from "react";
+// REACT
+import { useState, useEffect } from "react";
 
-function Section2({ product, styles }) {
+// REDUX
+import { useSelector } from "react-redux";
+import { getSimilarProducts } from "../../../../store/actions/systemActions";
+
+// COMPONENTS
+import Carousel from "../../../../components/carousel/Carousel";
+
+function Section2({ product, styles, navigate, category, dispatch }) {
   const [current, setCurrent] = useState(0);
+
+  const systemSimilarProducts = useSelector(
+    (state) => state.systemSimilarProducts
+  );
+  const { products } = systemSimilarProducts;
+
+  useEffect(() => {
+    dispatch(getSimilarProducts(category));
+  }, [dispatch]);
 
   function renderSwitch(param) {
     switch (param) {
@@ -15,6 +32,10 @@ function Section2({ product, styles }) {
         return product.description_eng;
     }
   }
+
+  let k = [];
+  products?.forEach((element) => k.push({ product: element }));
+
   return (
     <section className={styles.section2}>
       <header>
@@ -38,6 +59,13 @@ function Section2({ product, styles }) {
         </h2>
       </header>
       <p> {renderSwitch(current)}</p>
+      {products && (
+        <Carousel
+          category={{ category: category }}
+          products={k}
+          navigate={navigate}
+        />
+      )}
     </section>
   );
 }

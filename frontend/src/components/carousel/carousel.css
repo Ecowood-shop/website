@@ -43,7 +43,7 @@
   font-size: var(--x-large);
 }
 
-@media all and (max-width: 50em) {
+@media all and (max-width: 70em) {
   .carousel-container header {
     justify-content: flex-start;
   }
