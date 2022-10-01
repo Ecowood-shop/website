@@ -84,32 +84,43 @@ class Discount(models.Model):
 
 
 class Product(models.Model):
+
+    VARIANTS = (
+        ('Color', 'Color'),
+    )
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     name_geo = models.CharField(max_length=200, null=True, blank=True)
-    name_eng = models.CharField(max_length=200, null=True, blank=True)
-    name_rus = models.CharField(max_length=200, null=True, blank=True)
     image = models.ImageField(null=True, blank=True, default='/placeholder.png')
     brand = models.CharField(max_length=200, null=True, blank=True)
-
-    category = models.ForeignKey(Category, null=False, default=0, on_delete=models.CASCADE)
-    color = models.ForeignKey(Color, null=False, default=0, on_delete=models.CASCADE)
-
-    size = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
-    description_geo = models.TextField(null=True, blank=True)
-    description_eng = models.TextField(null=True, blank=True)
-    description_rus = models.TextField(null=True, blank=True)
-    rating = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
-    numReviews = models.IntegerField(null=True, blank=True, default=0)
-
-    price = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    variant = models.CharField(max_length=10, choices=VARIANTS, default="None")
+    size = models.CharField(max_length=10, null=True, blank=True)
+    technicalRequirements = models.TextField(null=True, blank=True)
+    instructionForUse = models.TextField(null=True, blank=True)
+    safetyStandard = models.TextField(null=True, blank=True)
+    youtubeUrl = models.URLField(max_length=200, null=True, blank=True)
+    price = models.DecimalField(max_digits=7, decimal_places=2, null=False, blank=True)
     discount = models.ForeignKey(Discount, null=True, default='0', on_delete=models.CASCADE)
-
-    countInStock = models.IntegerField(null=True, blank=True, default=0)
     createdAt = models.DateTimeField(auto_now_add=True)
     _id = models.AutoField(primary_key=True, editable=False)
 
     def __str__(self):
         return self.name_geo
+
+
+class Variants(models.Model):
+    title = models.CharField(max_length=100, blank=True, null=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE,)
+    color = models.ForeignKey(Color, on_delete=models.CASCADE, blank=True, null=True)
+    quantity = models.IntegerField(null=True, blank=True, default=0)
+
+    def __str__(self):
+        return self.title
+
+
+class ProductAttribute(models.Model):
+    product = models.ForeignKey(Product, related_name="product_attrs", on_delete=models.CASCADE)
+    colors = models.ManyToManyField(Color, related_name="product_colors", null=True, blank=True)
 
 
 class Order(models.Model):

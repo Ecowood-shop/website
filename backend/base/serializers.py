@@ -1,7 +1,7 @@
 from rest_framework import serializers
 import django.contrib.auth.password_validation as validators
 
-from .models import Product, User, Category
+from .models import Product, User, Category, ProductAttribute, Variants
 
 from .generator import generate_random_code
 from .sendEmail import sendMail
@@ -46,17 +46,29 @@ class TokenSerializer(serializers.Serializer):
     token = serializers.CharField(max_length=255)
 
 
+class ProductAttributeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductAttribute
+        fields = '__all__'
+
+
 class ProductSerializer(serializers.ModelSerializer):
     category = serializers.ReadOnlyField(source='category.name')
-    color = serializers.ReadOnlyField(source='color.name')
     discount = serializers.ReadOnlyField(source='discount.name')
 
     class Meta:
         model = Product
-        fields = ['_id', 'category', 'color', 'discount', 'name_geo',
-                  'name_eng', 'name_rus', 'image', 'brand', 'size',
-                  'description_geo', 'description_eng', 'description_rus', 'rating',
-                  'price', 'countInStock', 'createdAt', 'user']
+        fields = ['_id', 'category', 'discount', 'name_geo', 'image', 'brand', 'size',
+                  'technicalRequirements', 'instructionForUse', 'safetyStandard',
+                  'youtubeUrl', 'price', 'createdAt', 'user']
+
+
+class VariantSerializer(serializers.ModelSerializer):
+    color = serializers.ReadOnlyField(source='color.name')
+
+    class Meta:
+        model = Variants
+        fields = '__all__'
 
 
 class CategorySerializer(serializers.ModelSerializer):
