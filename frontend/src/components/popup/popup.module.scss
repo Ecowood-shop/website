@@ -16,7 +16,7 @@
   position: relative;
   min-height: 20rem;
   max-width:80rem;
-  background-color: var(--color-primary-lg);
+  background-image: var(--linear-primary);
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -51,7 +51,7 @@
       &:last-of-type {
         margin-left: auto;
         margin-right: 2rem;
-        background-color: var(--color-second);
+        background-image:var(--linear-second);
       }
       &:hover {
         transform: scale(1.05);

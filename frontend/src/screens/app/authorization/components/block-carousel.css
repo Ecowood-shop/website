@@ -8,6 +8,8 @@
   gap: 2rem;
   align-items: center;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
+  color:var(--color-black);
+
 }
 
 .blockCarousel-container > img {
@@ -50,7 +52,7 @@
 }
 
 .blockCarousel-btn {
-  background-color: var(--color-second);;
+  background-color:var(--color-magenta);
   border: none;
   height: 3rem;
   width: 3rem;
@@ -92,13 +94,13 @@
   height: 1.4rem;
   width: 1.4rem;
   background-color: white;
-  border: 2px solid var(--color-second);
+  border: 2px solid var(--color-magenta);
   border-radius: 50%;
   cursor: pointer;
 }
 
 .dot--fill {
-  background-color: var(--color-second);
+  background-color: var(--color-magenta);
 }
 
 @media all and (max-width: 44em) and (orientation:portrait) {

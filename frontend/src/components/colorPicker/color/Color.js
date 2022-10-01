@@ -1,23 +1,33 @@
+// REACT
 import { useState } from "react";
 
-function Color({ styles, src, id, Changer, color }) {
+// OTHERS
+import styles from "./color.module.scss"
+
+function Color(props) {
   const [hover, setHover] = useState(false);
 
   return (
     <div
       className={styles.color}
       onClick={() => {
-        Changer(id);
+        if (props.picker) {
+          props.Changer(props.id);
+        }
       }}
     >
       <img
-        src={src}
+        src={props.src}
         className={styles.thumbnail}
         onMouseOver={() => setHover(true)}
         onMouseOut={() => setHover(false)}
-        style={color == id ? { border: "3px solid  var(--color-second)" } : {}}
+        style={
+          props?.color == props?.id && props.picker
+            ? { border: "3px solid  var(--color-second)" }
+            : {}
+        }
       />
-      {hover && <img src={src} className={styles.img} />}
+      {hover && <img src={props.src} className={styles.img} />}
     </div>
   );
 }

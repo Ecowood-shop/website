@@ -13,7 +13,7 @@ function AuthorizedLayout() {
 
     useEffect(() => {
       if (!user) {
-        navigate("/");
+        navigate("/authorization  ");
       }
     }, []);
 

@@ -3,7 +3,7 @@
   height: max-content;
 }
 .column {
-  background-color: var(--color-primary-lg);
+  background-image:var(--linear-primary);
   color: white;
   font-size: var(--medium);
   padding: 0.5rem !important;
@@ -14,7 +14,7 @@
 th,
 td {
   padding: 0.5rem;
-  border: 3px solid var(--color-primary-lg);
+  border: 3px solid var(--color-magenta);
 }
 
 td {
@@ -24,7 +24,7 @@ td {
   &:hover:not(:last-of-type) {
     transform: scale(1.05);
     z-index: 99;
-    background-color: var(--color-primary-lg);
+    background-color: var(--color-magenta);
     color: white;
   }
 
@@ -35,7 +35,7 @@ td {
     max-width: 20rem;
   }
   &:last-of-type {
-    background-color: var(--color-primary-lg);
+    background-color: var(--color-magenta);
     width: 10rem;
   }
   @media all and (max-width: 60em) {
@@ -71,8 +71,8 @@ th:last-of-type {
 
   &:last-of-type {
     margin-right: 1rem;
-    background-color: var(--color-second);
-    border-color: var(--color-second);
+    background-image: var(--linear-second);
+    border-color: var(--color-magenta);
   }
 
   &:hover {

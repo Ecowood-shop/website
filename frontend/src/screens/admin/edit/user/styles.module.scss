@@ -2,8 +2,8 @@
   width: 60%;
 
   & > button {
-    background-color: var(--color-primary);
-    border-color: var(--color-primary);
+    background-image:var(--linear-primary);
+    border:none;
     @media all and (max-width: 40rem) {
       margin-left: 1rem;
     }
@@ -83,8 +83,8 @@
   width: auto;
   padding: 1rem 2rem;
   color: white;
-  background-color: var(--color-second);
-  border-color: var(--color-second);
+  background-image: var(--linear-second);
+  border: none;
   cursor: pointer;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
     rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;

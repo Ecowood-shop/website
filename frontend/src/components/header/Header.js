@@ -104,6 +104,7 @@ function Header() {
           viewBox="0 0 24 24"
           strokeWidth="1.5"
           stroke="currentColor"
+          onClick={()=>navigate("/cart")}
         >
           <path
             strokeLinecap="round"

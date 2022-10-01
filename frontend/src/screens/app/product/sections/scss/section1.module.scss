@@ -75,10 +75,10 @@
       transform: scale(1.05);
     }
     &:first-of-type {
-      background-color: var(--color-second);
-    }
+      background-image: var(--linear-second);
+    } 
     &:last-of-type {
-      background-color: var(--color-primary-lg);
+      background-image: var(--linear-primary);
     }
   }
 }
@@ -102,7 +102,7 @@ b {
 }
 .error {
   font-size: var(--medium);
-  color: var(--color-second);
+  color: var(--color-error);
 }
 
 .select {
