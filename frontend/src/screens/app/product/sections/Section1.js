@@ -91,6 +91,10 @@ function Section1({ product, iframe }) {
           <b>კატეგორია:</b>
           {product.category}
         </p>
+        <p>
+          <b>მოცულობა:</b>
+          0.5 ლიტრი
+        </p>
         {color && (
           <>
             {product.countInStock > 0 ? (

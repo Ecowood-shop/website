@@ -30,7 +30,7 @@
 .carousel-container header {
   position: relative;
   border-radius: 10px 10px 0 0;
-  background-color: var(--color-primary);
+  background: var(--linear-primary);
   min-height: 5rem;
   font-weight: 900;
   width: 100%;
@@ -55,12 +55,16 @@
   .carousel-container header button {
     font-size: var(--super-small);
   }
+  .carousel-container header button:hover {
+      
+  }
 }
 
 @media all and (max-width: 40em) {
   .carousel-container header {
     flex-direction: column;
     justify-content: center;
+    text-align: center;
   }
   .carousel-container header h1 {
     display: flex;
@@ -69,8 +73,16 @@
     margin-right: 2rem;
   }
   .carousel-container header button {
-    position: relative;
-    margin-bottom: 1rem;
-    margin-left: auto;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(20%, -50%);
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
+      rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
+     
+  }
+  .carousel-container header button:hover {
+
+    transform: translate(20%, -50%);
   }
 }

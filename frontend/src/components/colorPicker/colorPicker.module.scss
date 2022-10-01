@@ -4,29 +4,6 @@
     margin: 1rem 0;
   }
 }
-.thumbnail {
-  height: 3rem;
-  width: 3rem;
-  border-radius: 50%;
-  &:hover {
-    border: 3px solid var(--color-second);
-  }
-}
-.color {
-  cursor: pointer;
-  margin: 1rem;
-  margin-left: 0;
-  position: relative;
-  display: inline;
-}
-.img {
-  position: absolute;
-  height: 8rem;
-  border: none;
-  border-radius: 50%;
-  bottom: 2rem;
-  transform: translateX(calc(-50% - 1.5rem));
-}
 
 @media all and (max-width: 70em) {
 }

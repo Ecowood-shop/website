@@ -17,6 +17,9 @@ import UsersScreen from "./screens/admin/users/UsersScreen";
 import ProductScreen from "./screens/admin/edit/product/Product";
 import UserScreen from "./screens/admin/edit/user/User";
 
+// AUTHORIZED
+import Cart from "./screens/auth/cart/Cart";
+
 // COMPONENTS
 import Header from "./components/header/Header";
 import Footer from "./components/footer/Footer";
@@ -26,6 +29,7 @@ import ScrollToTop from "./components/scroll/ScrollToTop";
 import HomeLayout from "./layouts/HomeLayout";
 import AuthorizedLayout from "./layouts/AuthorizedLayout";
 import AdminLayout from "./layouts/AdminLayout";
+
 
 function App() {
   return (
@@ -43,6 +47,7 @@ function App() {
 
           <Route element={<AuthorizedLayout />}>
             <Route path="/profile" element={<HomeScreen />} />
+            <Route path="/cart"  element={<Cart/>}/>
           </Route>
           <Route element={<AdminLayout />}>
             <Route path="/admin/products" element={<ProductsScreen />} />

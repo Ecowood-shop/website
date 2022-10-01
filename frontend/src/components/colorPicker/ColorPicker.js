@@ -24,12 +24,12 @@ function ColorPicker({ Changer, color }) {
     <section className={styles.container}>
       {colors.map((element) => (
         <Color
-          styles={styles}
           src={image}
           Changer={(id) => Changer(id)}
           id={element.id}
           key={element.id}
           color={color}
+          picker
         />
       ))}
     </section>
