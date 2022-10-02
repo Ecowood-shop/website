@@ -6,10 +6,9 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-from base.models import Product, Category, User, Color, Discount
-from base.serializers import ProductSerializer, CategorySerializer, TopProductSerializer
-
-from rest_framework import status
+from base.models import Product, Category, User, Color, Discount, ProductAttribute, Variants
+from base.serializers import ProductSerializer, CategorySerializer, TopProductSerializer, ProductAttributeSerializer, \
+    VariantSerializer
 
 
 @api_view(['GET'])
@@ -23,10 +22,12 @@ def getProducts(request):
         name_geo__icontains=query).order_by('-createdAt')
 
     category = request.query_params.get('category')
+
     if category is None or category == "null":
         category = ''
-
-    products = products.filter(category__name__icontains=category)
+        products = products.filter(category__name__icontains=category)
+    else:
+        products = products.filter(category__name__exact=category)
 
     order = request.query_params.get('order')
 
@@ -51,6 +52,7 @@ def getProducts(request):
     page = int(page)
     print('Page:', page)
     print(products)
+
     serializer = ProductSerializer(products, many=True)
     return Response({'products': serializer.data, 'page': page, 'pages': paginator.num_pages})
 
@@ -92,9 +94,16 @@ def getLatestProduct(request, pk):
 
 @api_view(['GET'])
 def getProduct(request, pk):
-    product = Product.objects.get(_id=pk)
+    try:
+        product = Product.objects.get(_id=pk)
+    except:
+        raise ValidationError('Product with this ID does now exist')
+
+    variants = Variants.objects.filter(product_id=pk)
+
     serializer = ProductSerializer(product, many=False)
-    return Response(serializer.data)
+    variantSerializer = VariantSerializer(variants, many=True)
+    return Response({'products': serializer.data, 'variants': variantSerializer.data})
 
 
 @api_view(['POST'])
@@ -116,30 +125,98 @@ def createProduct(request):
 
     data = request.data
 
-    category = Category.objects.get(name=data['category'])
-    color = Color.objects.get(name=data['color'])
-    discount = Discount.objects.get(discount_percent=data['discount'])
+    try:
+        category = Category.objects.get(name=data['category'])
+    except:
+        raise ValidationError('Category does not exist')
+
+    try:
+        discount = Discount.objects.get(discount_percent=data['discount'])
+    except:
+        raise ValidationError('Such kind of discount does not exist')
 
     product = Product.objects.create(
         user=user,
         name_geo=data['name_geo'],
-        name_eng=data['name_eng'],
-        name_rus=data['name_rus'],
-
         brand=data['brand'],
         category=category,
-        color=color,
-        discount=discount,
-
         size=data['size'],
-        description_geo=data['description_geo'],
-        description_eng=data['description_eng'],
-        description_rus=data['description_rus'],
+        technicalRequirements=data['technicalRequirements'],
+        instructionForUse=data['instructionForUse'],
+        safetyStandard=data['safetyStandard'],
+        youtubeUrl=data['youtubeUrl'],
         price=data['price'],
-        countInStock=data['countInStock'],
+        discount=discount,
     )
 
     serializer = ProductSerializer(product, many=False)
+    return Response(serializer.data)
+
+
+@api_view(['POST'])
+def createCategory(request):
+    token = request.COOKIES.get('jwt')
+
+    if not token:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    try:
+        payload = jwt.decode(token, 'secret', algorithm=['HS256'])
+    except jwt.ExpiredSignatureError:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    user = User.objects.filter(id=payload['id']).first()
+
+    if not user.is_staff:
+        raise AuthenticationFailed('You do not have permission to perform this action.')
+
+    data = request.data
+
+    if Category.objects.filter(name=data['name']).exists():
+        raise ValidationError("This category already exist.")
+    else:
+        category = Category.objects.create(
+            name=data['name']
+        )
+
+    return Response("Category " + data['name'] + " Created Successfully")
+
+
+@api_view(['POST'])
+def createVariants(request):
+    token = request.COOKIES.get('jwt')
+
+    if not token:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    try:
+        payload = jwt.decode(token, 'secret', algorithm=['HS256'])
+    except jwt.ExpiredSignatureError:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    user = User.objects.filter(id=payload['id']).first()
+
+    if not user.is_staff:
+        raise AuthenticationFailed('You do not have permission to perform this action.')
+
+    data = request.data
+
+    color = Color.objects.get(name=data['color'])
+    product = Product.objects.get(_id=data['productID'])
+
+    possibleVariants = Variants.objects.filter(product_id=data['productID'])
+
+    if possibleVariants.filter(title=data['variantTitle']).exists():
+        raise ValidationError("Product's variant with this title already exist")
+
+    variants = Variants.objects.create(
+        product=product,
+        title=data['variantTitle'],
+        color=color,
+        quantity=data['quantity']
+    )
+
+    serializer = VariantSerializer(variants, many=False)
     return Response(serializer.data)
 
 
@@ -161,36 +238,53 @@ def updateProduct(request, pk):
         raise AuthenticationFailed('You do not have permission to perform this action.')
 
     data = request.data
-
     product = Product.objects.get(_id=pk)
-    category = Category.objects.get(name=data['category'])
+
+    possibleVariants = Variants.objects.filter(product_id=pk)
+    print('adana')
+    print(possibleVariants)
+
+    if possibleVariants.filter(id=data['variantID']).exists():
+        variant = Variants.objects.get(id=data['variantID'])
+    else:
+        raise ValidationError('This kind of variant does not exist')
+
+    try:
+        category = Category.objects.get(name=data['category'])
+    except:
+        raise ValidationError('Category does not exist')
+
+    try:
+        discount = Discount.objects.get(discount_percent=data['discount'])
+    except:
+        raise ValidationError('Such kind of discount does not exist')
+
     color = Color.objects.get(name=data['color'])
-    discount = Discount.objects.get(discount_percent=data['discount'])
 
     product.name_geo = data['name_geo']
-    product.name_eng = data['name_eng']
-    product.name_rus = data['name_rus']
-
     product.price = data['price']
     product.brand = data['brand']
-    product.countInStock = data['countInStock']
-
     product.category = category
-
-    product.color = color
     product.discount = discount
-
     product.size = data['size']
-
-    product.description_geo = data['description_geo']
-    product.description_eng = data['description_eng']
-    product.description_rus = data['description_rus']
+    product.technicalRequirements = data['technicalRequirements']
+    product.instructionForUse = data['instructionForUse']
+    product.safetyStandard = data['safetyStandard']
+    product.youtubeUrl = data['youtubeUrl']
 
     product.save()
 
-    serializer = ProductSerializer(product, many=False)
+    variant.title = data['variantTitle']
+    variant.product = product
+    variant.color = color
+    variant.quantity = data['quantity']
 
-    return Response(serializer.data)
+    variant.save()
+
+    serializer = ProductSerializer(product, many=False)
+    variantSerializer = VariantSerializer(variant, many=False)
+
+    return Response({'products': serializer.data, 'variants': variantSerializer.data})
 
 
 @api_view(['DELETE'])
