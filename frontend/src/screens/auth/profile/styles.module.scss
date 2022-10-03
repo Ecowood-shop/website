@@ -1,0 +1,14 @@
+.container {
+  width: 80%;
+  height: 40rem;
+  display: flex;
+  flex-direction: column;
+  &>section:last-of-type{
+    h1{
+        font-size: var(--xx-large);
+        text-align: center;
+        font-weight: bold;
+
+    }
+  }
+}

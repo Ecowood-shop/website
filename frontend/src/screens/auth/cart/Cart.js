@@ -19,7 +19,7 @@ function Cart() {
   const { error, loading, products } = systemProducts;
 
   useEffect(() => {
-    dispatch(getProducts(null, "sample category", null, null));
+    dispatch(getProducts(null, "Tech", null, null));
   }, [dispatch]);
   console.log(products);
   return (

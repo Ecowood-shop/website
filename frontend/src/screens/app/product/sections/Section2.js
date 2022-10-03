@@ -23,13 +23,13 @@ function Section2({ product, styles, navigate, category, dispatch }) {
   function renderSwitch(param) {
     switch (param) {
       case 0:
-        return product.description_eng;
+        return product.instructionForUse;
       case 1:
-        return product.description_geo;
+        return product.safetyStandard;
       case 2:
-        return product.description_rus;
+        return product.technicalRequirements;
       default:
-        return product.description_eng;
+        return product.instructionForUse;
     }
   }
 

@@ -46,7 +46,7 @@ const images = [
   },
 ];
 
-function Section1({ product, iframe }) {
+function Section1({ product, iframe,youtube }) {
   // VARIABLES
   const [color, setColor] = useState();
   const [quantity, setQuantity] = useState();
@@ -54,15 +54,21 @@ function Section1({ product, iframe }) {
 
   const { height, width } = useWindowDimensions();
 
+  function youtube_parser(url){
+    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+    var match = url.match(regExp);
+    return (match&&match[7].length==11)? match[7] : false;
+}
+
   console.log(color, quantity);
   console.log(color);
   return (
     <section className={styles.section1}>
       <div className={styles.imgContainer}>
-        {iframe ? (
+        {(youtube & iframe) ? (
           <div className={styles.video}>
             <iframe
-              src="https://www.youtube.com/embed/25TiKVqGI5Q?rel=0&autoplay=1"
+              src={`https://www.youtube.com/embed/${youtube_parser(product.youtubeUrl)}?rel=0&autoplay=1`}
               title="Youtube"
               width="100%"
               height="100%"
@@ -75,7 +81,7 @@ function Section1({ product, iframe }) {
           <ImageGallery
             items={images}
             originalClass={styles.img}
-            thumbnailPosition={width >800  ? "right" : "bottom"}
+            thumbnailPosition={width > 800 ? "right" : "bottom"}
             autoPlay={true}
             disableThumbnailScroll={true}
           />
@@ -93,7 +99,7 @@ function Section1({ product, iframe }) {
         </p>
         <p>
           <b>მოცულობა:</b>
-          0.5 ლიტრი
+         {product.size}
         </p>
         {color && (
           <>

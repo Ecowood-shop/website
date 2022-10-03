@@ -55,6 +55,7 @@ function ProductsScreen() {
   const { error: errorDelete, loading: loadingDelete, success } = adminProduct;
 
   useEffect(() => {
+    dispatch({ type: "RESET_PRODUCT" });
     dispatch(getProducts(word, category, orderby, page));
   }, [dispatch, category, word, orderby, page]);
 
