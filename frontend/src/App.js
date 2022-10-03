@@ -16,9 +16,12 @@ import ProductsScreen from "./screens/admin/products/ProductsScreen";
 import UsersScreen from "./screens/admin/users/UsersScreen";
 import ProductScreen from "./screens/admin/edit/product/Product";
 import UserScreen from "./screens/admin/edit/user/User";
+import CreateProductScreen from "./screens/admin/create/product/Product";
 
 // AUTHORIZED
 import Cart from "./screens/auth/cart/Cart";
+import profile from "./screens/auth/profile/Profile";
+import ProfileUpdate from "./screens/auth/edit/Profile";
 
 // COMPONENTS
 import Header from "./components/header/Header";
@@ -29,7 +32,7 @@ import ScrollToTop from "./components/scroll/ScrollToTop";
 import HomeLayout from "./layouts/HomeLayout";
 import AuthorizedLayout from "./layouts/AuthorizedLayout";
 import AdminLayout from "./layouts/AdminLayout";
-
+import Profile from "./screens/auth/profile/Profile";
 
 function App() {
   return (
@@ -46,14 +49,22 @@ function App() {
           </Route>
 
           <Route element={<AuthorizedLayout />}>
-            <Route path="/profile" element={<HomeScreen />} />
-            <Route path="/cart"  element={<Cart/>}/>
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/profile/update" element={<ProfileUpdate />} />
           </Route>
           <Route element={<AdminLayout />}>
             <Route path="/admin/products" element={<ProductsScreen />} />
-            <Route path="/admin/products/:id/edit" element={<ProductScreen />} />
+            <Route
+              path="/admin/products/:id/edit"
+              element={<ProductScreen />}
+            />
             <Route path="/admin/users" element={<UsersScreen />} />
             <Route path="/admin/users/:id/edit" element={<UserScreen />} />
+            <Route
+              path="/admin/products/create"
+              element={<CreateProductScreen />}
+            />
           </Route>
         </Routes>
         <Footer />

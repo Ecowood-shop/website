@@ -16,6 +16,7 @@ import {
   adminProductReducer,
   adminUserReducer,
 } from "./reducers/adminReducers";
+import { userReducer } from "./reducers/userReducers";
 
 const reducer = combineReducers({
   systemUser: systemUserReducer,
@@ -26,11 +27,13 @@ const reducer = combineReducers({
   systemLatestProducts: systemLatestProductsReducer,
   adminProduct: adminProductReducer,
   adminUsers: adminUserReducer,
+  User:userReducer
 });
 
 const userInfoFromStorage = localStorage.getItem("userInfo")
   ? JSON.parse(localStorage.getItem("userInfo"))
   : null;
+  
 const initialState = { systemUser: { user: userInfoFromStorage } };
 
 const middleware = [thunk];

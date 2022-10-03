@@ -5,10 +5,7 @@ import { useParams } from "react-router-dom";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
-import {
-  getProduct,
-  getSimilarProducts,
-} from "../../../store/actions/systemActions";
+import { getProduct } from "../../../store/actions/systemActions";
 
 // COMPONENTS
 import Message from "../../../components/Message/Message";
@@ -46,14 +43,19 @@ function Product() {
       {error && <Message>{error}</Message>}
       {product && (
         <>
-          <Section0 setter={(value) => setIframe(value)} navigate={navigate} iframe={iframe} />
-          <Section1 product={product} iframe={iframe} />
+          <Section0
+            setter={(value) => setIframe(value)}
+            navigate={navigate}
+            iframe={iframe}
+            youtube={product.products.youtubeUrl ? true : false}
+          />
+          <Section1 product={product.products} iframe={iframe} youtube={product.products.youtubeUrl ? true : false}/>
           <Section2
             styles={styles}
-            product={product}
+            product={product.products}
             navigate={navigate}
             dispatch={dispatch}
-            category={product.category}
+            category={product.products.category}
           />
         </>
       )}

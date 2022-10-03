@@ -23,6 +23,46 @@ export const deleteProduct = (id) => async (dispatch) => {
   }
 };
 
+export const createProduct = (formData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: ADMIN.CREATE_PRODUCT_REQUEST,
+    });
+    const { data } = await useCustomAxios.post("/api/products/create/", {
+      ...formData,
+    });
+    dispatch({
+      type: ADMIN.CREATE_PRODUCT_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADMIN.CREATE_PRODUCT_FAIL,
+      payload: error?.message,
+    });
+  }
+};
+
+export const updateProduct = (id,formData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: ADMIN.CREATE_PRODUCT_REQUEST,
+    });
+    const { data } = await useCustomAxios.put(`/api/products/update/${id}/`, {
+      ...formData,
+    });
+    dispatch({
+      type: ADMIN.CREATE_PRODUCT_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADMIN.CREATE_PRODUCT_FAIL,
+      payload: error?.message,
+    });
+  }
+};
+
 export const getUsers = (page, word, status) => async (dispatch) => {
   try {
     dispatch({
