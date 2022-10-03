@@ -106,6 +106,19 @@ def getProduct(request, pk):
     return Response({'products': serializer.data, 'variants': variantSerializer.data})
 
 
+@api_view(['GET'])
+def getProductVariants(request, pk):
+    try:
+        product = Product.objects.get(_id=pk)
+    except:
+        raise ValidationError('Product with this ID does now exist')
+
+    variants = Variants.objects.filter(product_id=pk)
+
+    variantSerializer = VariantSerializer(variants, many=True)
+    return Response(variantSerializer.data)
+
+
 @api_view(['POST'])
 def createProduct(request):
     token = request.COOKIES.get('jwt')
@@ -220,6 +233,69 @@ def createVariants(request):
     return Response(serializer.data)
 
 
+@api_view(['POST'])
+def updateVariant(request, pk):
+    token = request.COOKIES.get('jwt')
+
+    if not token:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    try:
+        payload = jwt.decode(token, 'secret', algorithm=['HS256'])
+    except jwt.ExpiredSignatureError:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    user = User.objects.filter(id=payload['id']).first()
+
+    if not user.is_staff:
+        raise AuthenticationFailed('You do not have permission to perform this action.')
+
+    data = request.data
+
+    try:
+        variant = Variants.objects.get(id=pk)
+    except:
+        raise ValidationError('Variant with this id does not exist')
+
+    color = Color.objects.get(name=data['color'])
+
+    variant.title = data['title']
+    variant.color = color
+    variant.quantity = data['quantity']
+
+    variant.save()
+
+    variantSerializer = VariantSerializer(variant, many=False)
+
+    return Response(variantSerializer.data)
+
+
+@api_view(['DELETE'])
+def deleteVariant(request, pk):
+    token = request.COOKIES.get('jwt')
+
+    if not token:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    try:
+        payload = jwt.decode(token, 'secret', algorithm=['HS256'])
+    except jwt.ExpiredSignatureError:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    user = User.objects.filter(id=payload['id']).first()
+
+    if not user.is_staff:
+        raise AuthenticationFailed('You do not have permission to perform this action.')
+
+    try:
+        variant = Variants.objects.get(id=pk)
+        variant.delete()
+    except:
+        raise NotFound()
+
+    return Response('Variant Deleted')
+
+
 @api_view(['PUT'])
 def updateProduct(request, pk):
     token = request.COOKIES.get('jwt')
@@ -240,15 +316,6 @@ def updateProduct(request, pk):
     data = request.data
     product = Product.objects.get(_id=pk)
 
-    possibleVariants = Variants.objects.filter(product_id=pk)
-    print('adana')
-    print(possibleVariants)
-
-    if possibleVariants.filter(id=data['variantID']).exists():
-        variant = Variants.objects.get(id=data['variantID'])
-    else:
-        raise ValidationError('This kind of variant does not exist')
-
     try:
         category = Category.objects.get(name=data['category'])
     except:
@@ -258,8 +325,6 @@ def updateProduct(request, pk):
         discount = Discount.objects.get(discount_percent=data['discount'])
     except:
         raise ValidationError('Such kind of discount does not exist')
-
-    color = Color.objects.get(name=data['color'])
 
     product.name_geo = data['name_geo']
     product.price = data['price']
@@ -274,17 +339,9 @@ def updateProduct(request, pk):
 
     product.save()
 
-    variant.title = data['variantTitle']
-    variant.product = product
-    variant.color = color
-    variant.quantity = data['quantity']
-
-    variant.save()
-
     serializer = ProductSerializer(product, many=False)
-    variantSerializer = VariantSerializer(variant, many=False)
 
-    return Response({'products': serializer.data, 'variants': variantSerializer.data})
+    return Response({'products': serializer.data})
 
 
 @api_view(['DELETE'])
