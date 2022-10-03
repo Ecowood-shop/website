@@ -65,6 +65,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
 class VariantSerializer(serializers.ModelSerializer):
     color = serializers.ReadOnlyField(source='color.name')
+    image = serializers.ReadOnlyField(source='color.image.url')
 
     class Meta:
         model = Variants

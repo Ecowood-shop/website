@@ -10,8 +10,12 @@ urlpatterns = [
 
     path('categories/', views.getCategories, name="category"),
 
-    path('variants/', views.createVariants, name="variants"),
-    path('category/', views.createCategory, name='create-category'),
+    path('variants/<str:pk>/', views.getProductVariants, name='variants'),
+    path('variants/create', views.createVariants, name="variant-create"),
+    path('variants/<str:pk>/', views.updateVariant, name="variant-update"),
+    path('variants/delete/<str:pk>/', views.deleteVariant, name="variant-delete"),
+
+    path('category/create', views.createCategory, name='create-category'),
 
     path('latest/', views.getLatestProducts, name='latest-products'),
     path('latest/<str:pk>/', views.getLatestProduct, name="latest-product-by-category"),
