@@ -9,10 +9,11 @@ urlpatterns = [
     path('upload/', views.uploadImage, name="image-upload"),
 
     path('categories/', views.getCategories, name="category"),
+    path('colors/', views.getProductColors, name="category"),
 
     path('variants/<str:pk>/', views.getProductVariants, name='variants'),
     path('variants/create', views.createVariants, name="variant-create"),
-    path('variants/<str:pk>/', views.updateVariant, name="variant-update"),
+    path('variants/update/<str:pk>/', views.updateVariant, name="variant-update"),
     path('variants/delete/<str:pk>/', views.deleteVariant, name="variant-delete"),
 
     path('category/create', views.createCategory, name='create-category'),

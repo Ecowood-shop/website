@@ -8,7 +8,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from base.models import Product, Category, User, Color, Discount, ProductAttribute, Variants
 from base.serializers import ProductSerializer, CategorySerializer, TopProductSerializer, ProductAttributeSerializer, \
-    VariantSerializer
+    VariantSerializer, ColorSerializer
 
 
 @api_view(['GET'])
@@ -117,6 +117,17 @@ def getProductVariants(request, pk):
 
     variantSerializer = VariantSerializer(variants, many=True)
     return Response(variantSerializer.data)
+
+
+@api_view(['GET'])
+def getProductColors(request):
+    try:
+        colors = Color.objects.all()
+    except:
+        raise ValidationError('There is no color yet')
+
+    colorSerializer = ColorSerializer(colors, many=True)
+    return Response(colorSerializer.data)
 
 
 @api_view(['POST'])
@@ -233,7 +244,7 @@ def createVariants(request):
     return Response(serializer.data)
 
 
-@api_view(['POST'])
+@api_view(['PUT'])
 def updateVariant(request, pk):
     token = request.COOKIES.get('jwt')
 
