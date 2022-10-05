@@ -134,7 +134,7 @@
   color: white;
 }
 
-@media all and (max-width: 80em) {
+@media all and (max-width: 75em) {
   .header-user {
     p {
       span {
@@ -144,6 +144,10 @@
         height: 1.8rem;
       }
     }
+  }
+  .header-cart-icon {
+    height: 3rem !important;
+    width: 3rem !important;
   }
 }
 @media all and (max-width: 60em) {
@@ -185,7 +189,7 @@
   }
   .header-cart-icon {
     position: absolute !important;
-    bottom: 1rem !important;
+    bottom: 1.5rem !important;
     left: 1.5rem !important;
   }
   .header-logo-responsive {

@@ -1,5 +1,5 @@
 // REACT
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // COMPONENTS
 import ImageGallery from "react-image-gallery";
@@ -12,63 +12,36 @@ import useWindowDimensions from "../../../../functions/Window";
 import "react-image-gallery/styles/css/image-gallery.css";
 import styles from "./scss/section1.module.scss";
 
-const images = [
-  {
-    original:
-      "https://nova.ge/images/thumbs/0016851_25l-fasadis-laqi-tiki-altax_600.jpeg",
-    thumbnail:
-      "https://nova.ge/images/thumbs/0016851_25l-fasadis-laqi-tiki-altax_600.jpeg",
-  },
-  {
-    original:
-      "https://nova.ge/images/thumbs/0016851_25l-fasadis-laqi-tiki-altax_600.jpeg",
-    thumbnail:
-      "https://nova.ge/images/thumbs/0016851_25l-fasadis-laqi-tiki-altax_600.jpeg",
-  },
-  {
-    original:
-      "https://nova.ge/images/thumbs/0016851_25l-fasadis-laqi-tiki-altax_600.jpeg",
-    thumbnail:
-      "https://nova.ge/images/thumbs/0016851_25l-fasadis-laqi-tiki-altax_600.jpeg",
-  },
 
-  {
-    original:
-      "https://nova.ge/images/thumbs/0016900_075l-khis-laqi-stsrafshrobadi-emali-tsabli-priala-altax_600.jpeg",
-    thumbnail:
-      "https://nova.ge/images/thumbs/0016900_075l-khis-laqi-stsrafshrobadi-emali-tsabli-priala-altax_600.jpeg",
-  },
-  {
-    original:
-      "https://nova.ge/images/thumbs/0016851_25l-fasadis-laqi-tiki-altax_600.jpeg",
-    thumbnail:
-      "https://nova.ge/images/thumbs/0016851_25l-fasadis-laqi-tiki-altax_600.jpeg",
-  },
-];
-
-function Section1({ product, iframe,youtube }) {
+function Section1({ product, iframe, youtube, variants }) {
   // VARIABLES
-  const [color, setColor] = useState();
+  const [color, setColor] = useState(
+    variants.length > 0 && variants[0].color.toLowerCase() == "default"
+      ? variants[0]
+      : null
+  );
   const [quantity, setQuantity] = useState();
   const [message, setMessage] = useState();
 
   const { height, width } = useWindowDimensions();
 
-  function youtube_parser(url){
-    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+  function youtube_parser(url) {
+    var regExp =
+      /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
     var match = url.match(regExp);
-    return (match&&match[7].length==11)? match[7] : false;
-}
+    return match && match[7].length == 11 ? match[7] : false;
+  }
 
   console.log(color, quantity);
-  console.log(color);
   return (
     <section className={styles.section1}>
       <div className={styles.imgContainer}>
-        {(youtube & iframe) ? (
+        {youtube & iframe ? (
           <div className={styles.video}>
             <iframe
-              src={`https://www.youtube.com/embed/${youtube_parser(product.youtubeUrl)}?rel=0&autoplay=1`}
+              src={`https://www.youtube.com/embed/${youtube_parser(
+                product.youtubeUrl
+              )}?rel=0&autoplay=1`}
               title="Youtube"
               width="100%"
               height="100%"
@@ -79,7 +52,7 @@ function Section1({ product, iframe,youtube }) {
           </div>
         ) : (
           <ImageGallery
-            items={images}
+            items={[{original:product.image, thumbnail:product.image}]}
             originalClass={styles.img}
             thumbnailPosition={width > 800 ? "right" : "bottom"}
             autoPlay={true}
@@ -99,25 +72,29 @@ function Section1({ product, iframe,youtube }) {
         </p>
         <p>
           <b>მოცულობა:</b>
-         {product.size}
+          {product.size}
         </p>
         {color && (
           <>
-            {product.countInStock > 0 ? (
+            {color.quantity > 0 ? (
               <>
                 <label className={styles.selectContainer}>
                   <b>რაოდენობა:</b>
                   <input
                     type="number"
                     className={styles.select}
-                    defaultValue={0}
-                    max={4}
+                    value={quantity ? quantity : 0}
+                    max={color.quantity}
                     onChange={(e) => {
-                      if (e.target.value <= 4 && e.target.value > 0) {
+                      if (
+                        e.target.value > 0 &&
+                        e.target.value <= color.quantity
+                      ) {
                         setMessage("");
-                        setQuantity(e.target.value);
+                        setQuantity(Number(e.target.value).toString());
                       } else {
-                        setMessage("მარაგშია 4");
+                        setMessage(`მარაგშია ${color.quantity}`);
+                        setQuantity(0);
                       }
                     }}
                   />
@@ -125,31 +102,41 @@ function Section1({ product, iframe,youtube }) {
                 <p className={styles.error}>{message}</p>
               </>
             ) : (
-              <p>არ არის მარაგში</p>
+              <p className={styles.error}>არ არის მარაგში</p>
             )}
           </>
         )}
 
-        <ColorPicker Changer={setColor} color={color} />
+        {variants.length > 0 && variants[0].color.toLowerCase() != "default" && (
+          <ColorPicker
+            Changer={setColor}
+            color={color}
+            variants={variants}
+            Nuller={() => {
+              setQuantity(0);
+              setMessage("");
+            }}
+          />
+        )}
 
         <p className={styles.price}>
           <b>ფასი:</b>
           {product.price} ლ
         </p>
-        {quantity && !message && (
+        {quantity && !message ? (
           <div className={styles.btnContainer}>
             <button>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                stroke-width="1.5"
+                strokeWidth="1.5"
                 stroke="currentColor"
-                class="w-6 h-6"
+                className="w-6 h-6"
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
                 />
               </svg>
@@ -172,6 +159,8 @@ function Section1({ product, iframe,youtube }) {
               დამატება
             </button>
           </div>
+        ) : (
+          <></>
         )}
       </div>
     </section>

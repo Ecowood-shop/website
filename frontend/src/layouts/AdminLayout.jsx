@@ -6,26 +6,25 @@ import { useNavigate, Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 function AdminLayout() {
-    const navigate = useNavigate();
-    const systemUser = useSelector((state) => state.systemUser);
-    const { user} =systemUser 
-  
-      useEffect(() => {
-        if (!user?.isAdmin || !user) {
-          navigate("/");
-        }
-      }, []);
-  
-  
-    return (  
-       <>
-        {user?.isAdmin && (
-          <>
-            <Outlet />
-          </>
-         )}
-       </>
-    );
+  const navigate = useNavigate();
+  const systemUser = useSelector((state) => state.systemUser);
+  const { user } = systemUser;
+
+  useEffect(() => {
+    if (!user?.isAdmin || !user) {
+      navigate("/");
+    }
+  }, []);
+
+  return (
+    <>
+      {user?.isAdmin && (
+        <>
+          <Outlet />
+        </>
+      )}
+    </>
+  );
 }
 
-export default AdminLayout
+export default AdminLayout;

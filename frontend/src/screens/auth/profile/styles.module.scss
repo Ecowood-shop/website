@@ -1,5 +1,6 @@
 .container {
   width: 80%;
+  min-height: var(--height);
   height: 40rem;
   display: flex;
   flex-direction: column;

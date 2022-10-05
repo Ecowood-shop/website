@@ -59,7 +59,7 @@ function Product({ product }) {
 
           <p>
             <b>ფერი </b>
-            <Color src={image} />
+            {/* <Color src={image} /> */}
           </p>
           <h2>
             <b>ფასი: </b>

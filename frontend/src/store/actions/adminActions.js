@@ -4,6 +4,8 @@ import ADMIN from "../constants/adminConstants";
 // AXIOS
 import { useCustomAxios } from "../../hooks/useAxios";
 
+// PRODUCTS
+
 export const deleteProduct = (id) => async (dispatch) => {
   try {
     dispatch({
@@ -43,25 +45,28 @@ export const createProduct = (formData) => async (dispatch) => {
   }
 };
 
-export const updateProduct = (id,formData) => async (dispatch) => {
+export const updateProduct = (id, formData) => async (dispatch) => {
   try {
     dispatch({
-      type: ADMIN.CREATE_PRODUCT_REQUEST,
+      type: ADMIN.UPDATE_PRODUCT_REQUEST,
     });
     const { data } = await useCustomAxios.put(`/api/products/update/${id}/`, {
       ...formData,
     });
     dispatch({
-      type: ADMIN.CREATE_PRODUCT_SUCCESS,
+      type: ADMIN.UPDATE_PRODUCT_SUCCESS,
       payload: data,
     });
   } catch (error) {
+    console.log(error);
     dispatch({
-      type: ADMIN.CREATE_PRODUCT_FAIL,
+      type: ADMIN.UPDATE_PRODUCT_FAIL,
       payload: error?.message,
     });
   }
 };
+
+// USERS
 
 export const getUsers = (page, word, status) => async (dispatch) => {
   try {
@@ -148,3 +153,121 @@ export const updateUser =
       });
     }
   };
+
+// VARIANTS
+
+export const getVariants = (id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: ADMIN.GET_VARIANTS_REQUEST,
+    });
+
+    const { data } = await useCustomAxios.get(`/api/products/variants/${id}`);
+
+    dispatch({
+      type: ADMIN.GET_VARIANTS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADMIN.GET_VARIANTS_FAIL,
+      payload: error?.message,
+    });
+  }
+};
+
+export const createVariant = (formData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: ADMIN.CREATE_VARIANT_REQUEST,
+    });
+    console.log(formData);
+    const { data } = await useCustomAxios.post(
+      "/api/products/variants/create",
+      {
+        ...formData,
+      }
+    );
+
+    dispatch({
+      type: ADMIN.CREATE_VARIANT_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADMIN.CREATE_VARIANT_FAIL,
+      payload: error?.message,
+    });
+  }
+};
+
+export const deleteVariant = (id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: ADMIN.DELETE_VARIANT_REQUEST,
+    });
+
+    const { data } = await useCustomAxios.delete(
+      `/api/products/variants/delete/${id}`
+    );
+
+    dispatch({
+      type: ADMIN.DELETE_VARIANT_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADMIN.DELETE_VARIANT_FAIL,
+      payload: error?.message,
+    });
+  }
+};
+
+export const updateVariant = (formData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: ADMIN.UPDATE_VARIANT_REQUEST,
+    });
+
+    const { data } = await useCustomAxios.put(
+      `/api/products/variants/update/${formData.id}/`,
+      {
+        quantity: formData.quantity,
+        color: formData.color,
+        title: formData.title,
+      }
+    );
+
+    dispatch({
+      type: ADMIN.UPDATE_VARIANT_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADMIN.UPDATE_VARIANT_FAIL,
+      payload: error?.message,
+    });
+  }
+};
+
+// COLORS
+
+export const getColors = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: ADMIN.GET_COLORS_REQUEST,
+    });
+
+    const { data } = await useCustomAxios.get("/api/products/colors/");
+
+    dispatch({
+      type: ADMIN.GET_COLORS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADMIN.GET_COLORS_FAIL,
+      payload: error?.message,
+    });
+  }
+};

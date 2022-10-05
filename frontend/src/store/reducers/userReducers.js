@@ -17,6 +17,28 @@ export const userReducer = (state = {}, action) => {
     case USER.PROFILE_UPDATE_FAIL:
       return { loading: false, error: action.payload };
 
+      case USER.GET_CART_REQUEST:
+        return { loading: true };
+      case USER.GET_CART_SUCCESS:
+        return { loading: false, cart: true };
+      case USER.GET_CART_FAIL:
+        return { loading: false, error: action.payload };
+
+        case USER.CART_UPDATE_REQUEST:
+          return { loading: true };
+        case USER.CART_UPDATE_SUCCESS:
+          return { loading: false, successCartUpdate: true };
+        case USER.CART_UPDATE_FAIL:
+          return { loading: false, error: action.payload };
+
+          case USER.CART_DELETE_REQUEST:
+            return { loading: true };
+          case USER.CART_DELETE_SUCCESS:
+            return { loading: false, successCartDelete: true };
+          case USER.CART_DELETE_FAIL:
+            return { loading: false, error: action.payload };
+  
+
     default:
       return state;
   }

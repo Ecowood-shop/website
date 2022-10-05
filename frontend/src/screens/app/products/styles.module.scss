@@ -1,17 +1,13 @@
 .container {
   width: 80%;
+  min-height: var(--height);
   margin-bottom: 5rem;
   .section {
     margin-top: 5rem;
     width: 100%;
     display: grid;
     column-gap: 20px;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    @media (max-width: 80em){
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      }
-    @media (max-width: 60em){
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    }
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    
   }
 }

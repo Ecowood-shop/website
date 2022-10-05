@@ -15,6 +15,8 @@ import {
 import {
   adminProductReducer,
   adminUserReducer,
+  adminVariantReducer,
+  adminColorReducer
 } from "./reducers/adminReducers";
 import { userReducer } from "./reducers/userReducers";
 
@@ -27,6 +29,8 @@ const reducer = combineReducers({
   systemLatestProducts: systemLatestProductsReducer,
   adminProduct: adminProductReducer,
   adminUsers: adminUserReducer,
+  adminVariants:adminVariantReducer,
+  adminColors:adminColorReducer,
   User:userReducer
 });
 
