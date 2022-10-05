@@ -1,7 +1,7 @@
 from rest_framework import serializers
 import django.contrib.auth.password_validation as validators
 
-from .models import Product, User, Category, ProductAttribute, Variants, ShippingAddress, Order, OrderItem, Color
+from .models import Product, User, Category, ProductAttribute, Variants, ShippingAddress, Order, OrderItem, Color, AddToCart
 
 from .generator import generate_random_code
 from .sendEmail import sendMail
@@ -130,3 +130,19 @@ class OrderItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderItem
         fields = '__all__'
+
+
+class AddToCartSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AddToCart
+        fields = ['id', 'user', 'product', 'variants', 'qty']
+        read_only_fields = ['user', 'product']
+
+
+class SpecificProductSerializer(serializers.ModelSerializer):
+    discount = serializers.ReadOnlyField(source='discount.discount_percent')
+
+    class Meta:
+        model = Product
+        fields = ['_id', 'name_geo', 'image', 'size', 'price', 'discount']
+

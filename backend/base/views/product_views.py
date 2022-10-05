@@ -1,4 +1,5 @@
 import jwt
+from django.http import JsonResponse
 
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.exceptions import AuthenticationFailed, NotFound, ValidationError
@@ -6,9 +7,9 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-from base.models import Product, Category, User, Color, Discount, ProductAttribute, Variants
+from base.models import Product, Category, User, Color, Discount, ProductAttribute, Variants, AddToCart
 from base.serializers import ProductSerializer, CategorySerializer, TopProductSerializer, ProductAttributeSerializer, \
-    VariantSerializer, ColorSerializer
+    VariantSerializer, ColorSerializer, AddToCartSerializer, UserSerializer, SpecificProductSerializer
 
 
 @api_view(['GET'])
@@ -242,6 +243,112 @@ def createVariants(request):
 
     serializer = VariantSerializer(variants, many=False)
     return Response(serializer.data)
+
+
+@api_view(['POST'])
+def addToCart(request, pk):
+    token = request.COOKIES.get('jwt')
+
+    if not token:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    try:
+        payload = jwt.decode(token, 'secret', algorithm=['HS256'])
+    except jwt.ExpiredSignatureError:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    product = Product.objects.get(_id=pk)
+
+    user = User.objects.filter(id=payload['id']).first()
+
+    data = request.data
+
+    variants = Variants.objects.get(id=data['variantID'])
+
+    cart = AddToCart.objects.create(user=user, product=product, variants=variants, qty=data['qty'])
+
+    cart.save()
+
+    return Response("Product Added")
+
+
+@api_view(['PUT'])
+def updateCart(request, pk):
+    token = request.COOKIES.get('jwt')
+
+    if not token:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    try:
+        payload = jwt.decode(token, 'secret', algorithm=['HS256'])
+    except jwt.ExpiredSignatureError:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    user = User.objects.filter(id=payload['id']).first()
+
+    data = request.data
+
+    try:
+        carts = AddToCart.objects.get(id=pk)
+    except:
+        raise ValidationError('Variant with this id does not exist')
+
+    carts.qty = data['qty']
+
+    carts.save()
+
+    addToCartSerializer = AddToCartSerializer(carts, many=False)
+
+    return Response(addToCartSerializer.data)
+
+
+@api_view(['GET'])
+def getUserCart(request):
+    token = request.COOKIES.get('jwt')
+
+    if not token:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    try:
+        payload = jwt.decode(token, 'secret', algorithm=['HS256'])
+    except jwt.ExpiredSignatureError:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    user = User.objects.filter(id=payload['id']).first()
+
+    carts = AddToCart.objects.filter(user=user)
+
+    products = []
+    variants = []
+    # qty = []
+    sum_price = 0
+    discountedPrice = 0
+
+    for i in carts:
+        products.append(i.product)
+        variants.append(i.variants)
+        # qty.append(i.qty)
+        sum_price += int(i.product.price)
+
+    serializer = AddToCartSerializer(carts, many=True)
+    productSerializer = SpecificProductSerializer(products, many=True)
+    variantSerializer = VariantSerializer(variants, many=True)
+    data = {
+        'carts': serializer.data,
+        'products': productSerializer.data,
+        'variants': variantSerializer.data,
+        # 'qty': qty,
+        'sum_price': sum_price,
+    }
+
+    return Response(data)
+
+
+@api_view(['DELETE'])
+def deleteCart(request, pk):
+    AddToCart.objects.get(id=pk).delete()
+
+    return Response("Product Deleted")
 
 
 @api_view(['PUT'])

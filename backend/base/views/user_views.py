@@ -155,7 +155,7 @@ def getUsers(request):
     if is_staff is None or is_staff == "null":
         is_staff = ''
 
-    users = users.filter(is_staff__icontains=is_staff)  
+    users = users.filter(is_staff__icontains=is_staff)
 
     page = request.query_params.get('page')
     paginator = Paginator(users, 5)
@@ -270,6 +270,6 @@ def sendMail(token, receiver):
     send_mail(
         subject='Verification',
         message='Rame',
-        html_message=generate_verification_template('Temo',  'Google.com'),
+        html_message=generate_verification_template('Temo', 'Google.com'),
         from_email=settings.EMAIL_HOST_USER,
         recipient_list=[receiver])
