@@ -11,6 +11,11 @@ urlpatterns = [
     path('categories/', views.getCategories, name="category"),
     path('colors/', views.getProductColors, name="category"),
 
+    path('cartload/<str:pk>/', views.addToCart, name='addToCart'),
+    path('removecart/<str:pk>/', views.deleteCart, name='deleteCart'),
+    path('updatecart/<str:pk>/', views.updateCart, name='updateCart'),
+    path('cart/', views.getUserCart, name='cart'),
+
     path('variants/<str:pk>/', views.getProductVariants, name='variants'),
     path('variants/create', views.createVariants, name="variant-create"),
     path('variants/update/<str:pk>/', views.updateVariant, name="variant-update"),

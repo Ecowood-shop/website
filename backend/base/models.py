@@ -84,7 +84,6 @@ class Discount(models.Model):
 
 
 class Product(models.Model):
-
     VARIANTS = (
         ('Color', 'Color'),
     )
@@ -110,7 +109,7 @@ class Product(models.Model):
 
 class Variants(models.Model):
     title = models.CharField(max_length=100, blank=True, null=True)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE,)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, )
     color = models.ForeignKey(Color, on_delete=models.CASCADE, blank=True, null=True)
     quantity = models.IntegerField(null=True, blank=True, default=0)
 
@@ -185,3 +184,11 @@ class WithoutShipping(models.Model):
 
     def __str__(self):
         return str(self.phone)
+
+
+class AddToCart(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    variants = models.ForeignKey(Variants, on_delete=models.CASCADE)
+    qty = models.IntegerField(null=True, blank=True, default=0)
+
