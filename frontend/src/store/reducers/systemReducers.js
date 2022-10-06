@@ -89,9 +89,9 @@ export const systemProductReducer = (state = {}, action) => {
       return { loading: false, product: action.payload };
     case SYSTEM.GET_PRODUCT_FAIL:
       return { loading: false, error: action.payload };
-      
-    case SYSTEM.RESET_PRODUCT:
-      return { loading: false,  product:{} };
+
+    case SYSTEM.GET_PRODUCT_RESET:
+      return { loading: false, product: {} };
 
     default:
       return state;

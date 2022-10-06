@@ -1,6 +1,6 @@
 .container {
   width: 60%;
-
+  min-height: var(--height);
   & > button {
     background-image: var(--linear-primary);
     border: none;
@@ -46,11 +46,14 @@
       border: none;
       margin-bottom: 5rem;
 
-      input,
-      .textarea,
+      input,.textarea,
       .inputCategory {
         width: 80%;
         font-size: var(--medium);
+      }
+      
+      .textarea{
+        font-size: var(--small);
       }
       .input:first-of-type {
         margin-top: 0;

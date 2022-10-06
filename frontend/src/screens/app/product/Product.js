@@ -41,7 +41,7 @@ function Product() {
     <article className={styles.container}>
       {loading && <Loader />}
       {error && <Message>{error}</Message>}
-      {product && (
+      {product?.products && (
         <>
           <Section0
             setter={(value) => setIframe(value)}
@@ -49,7 +49,7 @@ function Product() {
             iframe={iframe}
             youtube={product.products.youtubeUrl ? true : false}
           />
-          <Section1 product={product.products} iframe={iframe} youtube={product.products.youtubeUrl ? true : false}/>
+          <Section1 product={product.products} variants={product.variants} iframe={iframe} youtube={product.products.youtubeUrl ? true : false}/>
           <Section2
             styles={styles}
             product={product.products}

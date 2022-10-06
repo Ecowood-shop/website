@@ -5,6 +5,7 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
 import { getProducts } from "../../../store/actions/systemActions";
+import ADMIN from "../../../store/constants/adminConstants";
 
 // COMPONENTS
 import Filter from "../../../components/filter/Filter";
@@ -52,12 +53,13 @@ function ProductsScreen() {
   const { error, loading, products } = systemProducts;
 
   const adminProduct = useSelector((state) => state.adminProduct);
-  const { error: errorDelete, loading: loadingDelete, success } = adminProduct;
+  const { success } = adminProduct;
 
   useEffect(() => {
-    dispatch({ type: "RESET_PRODUCT" });
+    dispatch({ type: ADMIN.UPDATE_PRODUCT_RESET });
+    dispatch({ type: "GET_PRODUCT_RESET" });
     dispatch(getProducts(word, category, orderby, page));
-  }, [dispatch, category, word, orderby, page]);
+  }, [dispatch, category, word, orderby, page, success]);
 
   return (
     <section className={styles.container}>

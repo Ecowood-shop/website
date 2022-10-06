@@ -1,6 +1,7 @@
 .auth-article {
-  min-height: calc(100vh);
+  min-height: 100vh;
   min-width: 100vw;
+
   background: var(--linear-primary);
   display: grid;
   grid-template-columns: 35% 55%;
@@ -95,6 +96,7 @@
   color: var(--color-black);
   cursor: pointer;
   margin-left: 0.5rem;
+  color: white;
 }
 
 .auth-btn-container h2:hover {
@@ -124,6 +126,7 @@
     width: 60vw;
     margin-left: 0;
     justify-self: center;
+    margin-top: 10rem;
   }
   .auth-btn-container {
     margin-top: 2rem;
@@ -140,6 +143,9 @@
     justify-content: center;
     align-items: center;
   }
+  .auth-container {
+    margin-top: 5rem;
+  }
 }
 @media all and (max-width: 44em) and (orientation: portrait) {
   .auth-article form {
@@ -147,7 +153,7 @@
     border: none;
     border-radius: 0;
     margin: 0;
-    box-shadow: none ;
+    box-shadow: none;
     background-image: none;
   }
 

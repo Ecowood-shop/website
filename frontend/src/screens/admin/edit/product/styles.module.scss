@@ -1,6 +1,7 @@
 .container {
   width: 60%;
-  color: #212529; 
+  min-height: var(--height);
+  color: #212529;
   & > button {
     background-image: var(--linear-primary);
     border: none;
@@ -52,6 +53,10 @@
       .inputCategory {
         width: 80%;
         font-size: var(--medium);
+      }
+
+      .textarea {
+        font-size: var(--small);
       }
       .input:first-of-type {
         margin-top: 0;

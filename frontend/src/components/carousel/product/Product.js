@@ -2,7 +2,7 @@
 import { useNavigate } from "react-router-dom";
 
 // OTHERS
-import "./product.css";
+import  styles from"./product.module.scss";
 
 function Product(props) {
   // HOOKS
@@ -10,11 +10,11 @@ function Product(props) {
 
   return (
     <div
-      className="carousel-product-container"
+      className={styles.container}
       onClick={() => navigate(`/product/${props.product._id}`)}
     >
-      <img src="https://nova.ge/images/thumbs/0016851_25l-fasadis-laqi-tiki-altax_600.jpeg" />
-      <div className="text-container">
+      <img src={props.product.image} />
+      <div className={styles.table}>
         <h2>{props.product.name_geo}</h2>
         <div>
           <h2>0.5 ლიტრი</h2> 

@@ -76,7 +76,7 @@
     }
     &:first-of-type {
       background-image: var(--linear-second);
-    } 
+    }
     &:last-of-type {
       background-image: var(--linear-primary);
     }
@@ -84,7 +84,7 @@
 }
 
 .price {
-  margin-top: 0;
+  margin-top: 1rem;
   margin-bottom: 2rem;
   font-size: var(--x-large);
   b {

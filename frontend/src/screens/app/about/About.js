@@ -10,27 +10,16 @@ function About() {
       </header>
       <img src="https://ecowood.ge/wp-content/uploads/2021/02/fb-offer.jpg" />
       <p>
-        The standard Lorem Ipsum passage, used since the 1500s "Lorem ipsum
-        dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-        esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-        cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
-        id est laborum." Section 1.10.32 of "de Finibus Bonorum et Malorum",
-        written by Cicero in 45 BC "Sed ut perspiciatis unde omnis iste natus
-        error sit voluptatem accusantium doloremque laudantium, totam rem
-        aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto
-        beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia
-        voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni
-        dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam
-        est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit,
-        sed quia non numquam eius modi tempora incidunt ut labore et dolore
-        magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis
-        nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut
-        aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit
-        qui in ea voluptate velit esse quam nihil molestiae consequatur, vel
-        illum qui dolorem eum fugiat quo voluptas nulla pariatur?"
+        კომპანია "Altax" დაარსდა 1988 წელს პოლონეთში, კომპანიის მიმართულებაა
+        პრემიუმ ხარისხის ხის დაცვითი და დასამუშავებელი საშუალებების წარმოება,
+        როგორიცაა ხის ლაქი,ზეთი და საღებავი. პროდუქციის ასორტიმენტში შედის
+        როგორც გარე, ასევე შიდა სამუშაოებისთვის. 2009 წელს ალტაქსი გახდა
+        ამერიკული მსოფლიო ბრენდის "Sherwin-Williams"- ის წევრი, რომელსაც გააჩნია
+        ლაქ-საღებავების 150 წელზე მეტი გამოცდილება და ისტორია. ცნობილი ჰოლივუდის
+        ნიშანი, თავისუფლების ქანდაკება და Golden Gate Bridge უზრუნველყოფილია
+        "Sherwin-Williams" -ის საღებავებით, ამჟამად ოპერირებს 120 მეტ ქვეყანაში
+        6 კონტინეტზე. საქართველოში Altax -ის ოფიციალური წარმომადგენელია კომპანია
+        "ეკოვუდი".
       </p>
       <h1>ფილიალები</h1>
 
@@ -115,7 +104,7 @@ function About() {
               >
                 <path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 256c-35.3 0-64-28.7-64-64s28.7-64 64-64s64 28.7 64 64s-28.7 64-64 64z" />
               </svg>
-              თბილისი, რაფაელ აგლაძის  ქ. N15
+              თბილისი, რაფაელ აგლაძის ქ. N15
             </span>
             <span className={styles.work}>
               <h2>სამუშაო საათები</h2>
