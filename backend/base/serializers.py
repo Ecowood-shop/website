@@ -83,7 +83,7 @@ class TopProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ['_id', 'name_geo', 'price', 'image', 'category']
+        fields = ['_id', 'name_geo', 'price', 'image',"size", 'category']
 
 
 class ColorSerializer(serializers.ModelSerializer):

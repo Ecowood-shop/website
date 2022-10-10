@@ -1,6 +1,5 @@
 // CONSTANTS
 import ADMIN from "../constants/adminConstants";
-
 // AXIOS
 import { useCustomAxios } from "../../hooks/useAxios";
 
@@ -271,3 +270,4 @@ export const getColors = () => async (dispatch) => {
     });
   }
 };
+

@@ -16,14 +16,15 @@
   }
 
   .table {
+    position: relative;
     padding: 1rem 3rem;
     width: 40%;
     margin-left: auto;
     display: flex;
     flex-direction: column;
     h2 {
-      word-break: break-all;
-      text-align: start;
+     
+      text-align: center;
       font-size: var(--large);
       font-weight: bold;
       white-space: normal;
@@ -135,6 +136,7 @@ b {
 }
 
 @media all and (max-width: 75em) {
+  
   .video {
     height: 30rem;
   }
@@ -157,6 +159,7 @@ b {
     padding: 0 !important;
     background: none !important;
     box-shadow: none !important;
+    text-align: start !important;
     h2 {
       margin-top: 2rem;
     }
@@ -172,4 +175,16 @@ b {
       width: 100%;
     }
   }
+}
+
+@media all and (max-width: 40em) {
+  .section1 {
+  .table{
+    h2{
+      font-size: var(--x-medium);
+     
+    }
+  }}
+
+
 }

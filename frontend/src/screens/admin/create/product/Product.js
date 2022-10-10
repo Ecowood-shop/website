@@ -14,7 +14,7 @@ import { getCategories } from "../../../../store/actions/systemActions";
 // COMPONENTS
 import Loader from "../../../../components/loader/Loader";
 import Message from "../../../../components/Message/Message";
-
+  
 // OTHERS
 import styles from "./styles.module.scss";
 

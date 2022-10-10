@@ -11,6 +11,7 @@ import { getProduct } from "../../../store/actions/systemActions";
 import Message from "../../../components/Message/Message";
 import Loader from "../../../components/loader/Loader";
 
+
 // SECTIONS
 import Section0 from "./sections/Section0";
 import Section1 from "./sections/Section1";
@@ -49,7 +50,8 @@ function Product() {
             iframe={iframe}
             youtube={product.products.youtubeUrl ? true : false}
           />
-          <Section1 product={product.products} variants={product.variants} iframe={iframe} youtube={product.products.youtubeUrl ? true : false}/>
+          <Section1 product={product.products} variants={product.variants} iframe={iframe} youtube={product.products.youtubeUrl ? true : false} navigate={navigate}/>
+     
           <Section2
             styles={styles}
             product={product.products}
