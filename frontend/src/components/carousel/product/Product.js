@@ -17,7 +17,7 @@ function Product(props) {
       <div className={styles.table}>
         <h2>{props.product.name_geo}</h2>
         <div>
-          <h2>0.5 ლიტრი</h2> 
+          <h2>{props.product.size}</h2> 
           <h2>{props.product.price} ლ</h2>
         </div>
       </div>

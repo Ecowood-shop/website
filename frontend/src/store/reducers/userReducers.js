@@ -20,7 +20,7 @@ export const userReducer = (state = {}, action) => {
       case USER.GET_CART_REQUEST:
         return { loading: true };
       case USER.GET_CART_SUCCESS:
-        return { loading: false, cart: true };
+        return { loading: false, cart: action.payload  };
       case USER.GET_CART_FAIL:
         return { loading: false, error: action.payload };
 
@@ -30,6 +30,13 @@ export const userReducer = (state = {}, action) => {
           return { loading: false, successCartUpdate: true };
         case USER.CART_UPDATE_FAIL:
           return { loading: false, error: action.payload };
+
+          case USER.CART_ADD_REQUEST:
+            return { loading: true };
+          case USER.CART_ADD_SUCCESS:
+            return { loading: false, successCartAdd: true };
+          case USER.CART_ADD_FAIL:
+            return { loading: false, error: action.payload };
 
           case USER.CART_DELETE_REQUEST:
             return { loading: true };

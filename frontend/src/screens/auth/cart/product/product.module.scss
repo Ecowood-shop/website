@@ -48,6 +48,14 @@
     }
   }
 }
+.color{
+  display: inline;
+  &> div{
+  div{
+    top:-12rem !important
+  }
+        }
+}
 .message {
   color: var(--color-error);
   display: inline;
