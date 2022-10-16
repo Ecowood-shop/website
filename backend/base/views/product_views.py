@@ -7,8 +7,8 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-from base.models import Product, Category, User, Color, Discount, ProductAttribute, Variants, AddToCart
-from base.serializers import ProductSerializer, CategorySerializer, TopProductSerializer, ProductAttributeSerializer, \
+from base.models import Product, Category, User, Color, Discount, Variants, AddToCart, Picture
+from base.serializers import ProductSerializer, CategorySerializer, TopProductSerializer, \
     VariantSerializer, ColorSerializer, AddToCartSerializer, UserSerializer, SpecificProductSerializer
 
 
@@ -265,6 +265,9 @@ def addToCart(request, pk):
 
     variants = Variants.objects.get(id=data['variantID'])
 
+    if AddToCart.objects.filter(user=user, product_id=product._id, variants=variants.id).exists():
+        return Response("This product is already in Cart")
+
     cart = AddToCart.objects.create(user=user, product=product, variants=variants, qty=data['qty'])
 
     cart.save()
@@ -322,13 +325,14 @@ def getUserCart(request):
     variants = []
     # qty = []
     sum_price = 0
-    discountedPrice = 0
+    discounted_sum_price = 0
 
     for i in carts:
         products.append(i.product)
         variants.append(i.variants)
-        # qty.append(i.qty)
-        sum_price += int(i.product.price)
+        sum_price += i.qty * (int(i.product.price))
+        discounted_sum_price += i.qty * (
+                    int(i.product.price) - int(i.product.price) * int(i.product.discount.discount_percent) / 100)
 
     serializer = AddToCartSerializer(carts, many=True)
     productSerializer = SpecificProductSerializer(products, many=True)
@@ -339,6 +343,7 @@ def getUserCart(request):
         'variants': variantSerializer.data,
         # 'qty': qty,
         'sum_price': sum_price,
+        'discounted_sum_price': discounted_sum_price
     }
 
     return Response(data)
@@ -493,9 +498,40 @@ def uploadImage(request):
     data = request.data
 
     product_id = data['product_id']
-    product = Product.objects.get(_id=product_id)
 
-    product.image = request.FILES.get('image')
-    product.save()
+    try:
+        product = Product.objects.get(_id=product_id)
+    except:
+        raise ValidationError('Products with this id does not exist')
+
+    Picture.product = product
+    Picture.picture = request.FILES.get('picture')
+    Picture.save()
 
     return Response('Image was uploaded')
+
+
+@api_view(['DELETE'])
+def deleteImage(request, pk):
+    token = request.COOKIES.get('jwt')
+
+    if not token:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    try:
+        payload = jwt.decode(token, 'secret', algorithm=['HS256'])
+    except jwt.ExpiredSignatureError:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    user = User.objects.filter(id=payload['id']).first()
+
+    if not user.is_staff:
+        raise AuthenticationFailed('You do not have permission to perform this action.')
+
+    try:
+        picture = Picture.objects.get(id=pk)
+        picture.delete()
+    except:
+        raise NotFound()
+
+    return Response('Image Deleted')

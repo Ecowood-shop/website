@@ -1,7 +1,8 @@
 from rest_framework import serializers
 import django.contrib.auth.password_validation as validators
 
-from .models import Product, User, Category, ProductAttribute, Variants, ShippingAddress, Order, OrderItem, Color, AddToCart
+from .models import Product, User, Category, Variants, \
+    ShippingAddress, Order, OrderItem, Color, AddToCart, Picture
 
 from .generator import generate_random_code
 from .sendEmail import sendMail
@@ -46,21 +47,22 @@ class TokenSerializer(serializers.Serializer):
     token = serializers.CharField(max_length=255)
 
 
-class ProductAttributeSerializer(serializers.ModelSerializer):
+class ProductImageSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ProductAttribute
-        fields = '__all__'
+        model = Picture
+        fields = ['id', 'picture', 'ord']
 
 
 class ProductSerializer(serializers.ModelSerializer):
     category = serializers.ReadOnlyField(source='category.name')
     discount = serializers.ReadOnlyField(source='discount.name')
+    picture_set = ProductImageSerializer(many=True)
 
     class Meta:
         model = Product
-        fields = ['_id', 'category', 'discount', 'name_geo', 'image', 'brand', 'size',
+        fields = ['_id', 'category', 'discount', 'name_geo', 'picture_set', 'brand', 'size',
                   'technicalRequirements', 'instructionForUse', 'safetyStandard',
-                  'youtubeUrl', 'price', 'createdAt', 'user']
+                  'youtubeUrl', 'coverageLength', 'price', 'createdAt', 'user']
 
 
 class VariantSerializer(serializers.ModelSerializer):
@@ -80,10 +82,11 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class TopProductSerializer(serializers.ModelSerializer):
     category = serializers.ReadOnlyField(source='category.name')
+    picture_set = ProductImageSerializer(many=True)
 
     class Meta:
         model = Product
-        fields = ['_id', 'name_geo', 'price', 'image',"size", 'category']
+        fields = ['_id', 'name_geo', 'price', 'picture_set', "size", 'category']
 
 
 class ColorSerializer(serializers.ModelSerializer):
@@ -141,8 +144,8 @@ class AddToCartSerializer(serializers.ModelSerializer):
 
 class SpecificProductSerializer(serializers.ModelSerializer):
     discount = serializers.ReadOnlyField(source='discount.discount_percent')
+    picture_set = ProductImageSerializer(many=True)
 
     class Meta:
         model = Product
-        fields = ['_id', 'name_geo', 'image', 'size', 'price', 'discount']
-
+        fields = ['_id', 'name_geo', 'picture_set', 'size', 'price', 'discount']
