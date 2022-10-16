@@ -1,9 +1,9 @@
 // REACT
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 
 // REDUX
-import { deleteCart } from "../../../../store/actions/userActions";
+import { deleteCart,updateCart } from "../../../../store/actions/userActions";
 
 // COMPONENTS
 import Color from "../../../../components/colorPicker/color/Color";
@@ -11,17 +11,61 @@ import image from "../../../../components/colorPicker/a.png";
 // OTHERS
 import styles from "./product.module.scss";
 
-function Product({ product, variant, cart,dispatch }) {
+function Product({ product, variant, cart, dispatch }) {
   const navigate = useNavigate();
+  const [quantity, setQuantity] = useState(cart?.qty);
   const [message, setMessage] = useState("");
-  // console.log(product, variant);
+
+  const changer = (number) => {
+    switch (number) {
+      case "-":
+        if (quantity - 1 < 1) {
+          setMessage(`მარაგშია ${variant.quantity}`);
+        } else {
+          setMessage("");
+          setQuantity(Number(quantity - 1));
+        }
+        break;
+      case "+":
+        if (quantity + 1 <= variant.quantity && quantity + 1 > 0) {
+          setMessage("");
+          setQuantity(Number(quantity + 1));
+        } else {
+          setMessage(`მარაგშია ${variant.quantity}`);
+        }
+        break;
+      default:
+        if (number <= variant.quantity && number > 0) {
+          setMessage("");
+          setQuantity(Number(number));
+        } else {
+          setMessage(`მარაგშია ${variant.quantity}`);
+        }
+        break;
+    }
+  };
+
+ 
+  
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if(quantity>0 && quantity<=variant.quantity && quantity != cart.qty){
+       
+        dispatch(updateCart(cart.id,quantity))}
+    }, 800)
+
+    return () => clearTimeout(timer)
+  }, [quantity])
   return (
     <section className={styles.container}>
       <img
         src={product.image}
         onClick={() => navigate(`/product/${product._id}`)}
       />{" "}
-      <button className={styles.deleteBtn} onClick={()=>dispatch(deleteCart(cart.id))}>
+      <button
+        className={styles.deleteBtn}
+        onClick={() => dispatch(deleteCart(cart.id))}
+      >
         {" "}
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -41,24 +85,28 @@ function Product({ product, variant, cart,dispatch }) {
               <b>მოცულობა</b>
               {product.size}
             </p>
-            <label className={styles.selectContainer}>
+            <div className={styles.selectContainer}>
               <b>რაოდენობა</b>
+              <button onClick={() => changer("-")}>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                  <path d="M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z" />
+                </svg>
+              </button>
               <input
                 type="number"
                 className={styles.select}
-                defaultValue={cart.qty}
+                value={quantity}
                 max={variant.quantity}
-                onChange={(e) => {
-                  if (e.target.value <= 4 && e.target.value > 0) {
-                    setMessage("");
-                    // setQuantity(e.target.value);
-                  } else {
-                    setMessage("მარაგშია 4");
-                  }
-                }}
+                min="0"
+                onChange={(e) => changer(e.target.value)}
               />
+              <button onClick={() => changer("+")}>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                  <path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" />
+                </svg>
+              </button>
               <p className={styles.message}>{message}</p>
-            </label>
+            </div>
           </section>
           {variant.color != "default" && (
             <span className={styles.color}>

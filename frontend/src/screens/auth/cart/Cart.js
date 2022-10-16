@@ -17,12 +17,12 @@ function Cart() {
   const [coupon, setCoupon] = useState();
 
   const User = useSelector((state) => state.User);
-  const { error, loading, cart, successCartDelete } = User;
+  const { error, loading, cart, successCartDelete,successCartUpdate } = User;
 
 
   useEffect(() => {
     dispatch(getCart());
-  }, [dispatch, successCartDelete]);
+  }, [dispatch, successCartDelete,successCartUpdate]);
   console.log(cart);
   return (
     <article className={styles.container}>

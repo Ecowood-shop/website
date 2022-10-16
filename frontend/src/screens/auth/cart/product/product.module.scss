@@ -89,7 +89,6 @@
   border: none;
   text-align: center;
   width: 3rem;
-  margin-left: 1rem;
   &::-webkit-outer-spin-button,
   &::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -101,9 +100,28 @@
 }
 
 .selectContainer {
-  display: inline;
+  display: flex;
   align-items: center;
   margin-left: 2rem;
+ & button{
+  cursor: pointer;
+  padding: 0.3rem 0.8rem;
+  display: flex;
+  background-color: rgb(34, 193, 34);
+ 
+  border: none;
+  border-radius: 10px;
+
+  &:first-of-type{
+    margin-left: 2rem;
+    background-color: red;
+  
+  }
+  & svg{
+    fill:white;
+    height: 1.2rem; 
+  }
+  }
 }
 
 @media all and (max-width: 60em) {
@@ -132,6 +150,10 @@
       }
     }
   }
+  .selectContainer {
+    & button{
+     padding: 0.2rem 0.6rem !important;
+    }}
 }
 
 @media all and (max-width: 40em) and (orientation: portrait) {
@@ -165,4 +187,5 @@
     transform: none;
     border-radius: 0 10px 0   10px ;
   }
+
 }

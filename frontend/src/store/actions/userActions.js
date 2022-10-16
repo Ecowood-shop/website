@@ -123,9 +123,9 @@ export const updateCart = (cartId, qty) => async (dispatch) => {
     dispatch({
       type: USER.CART_UPDATE_REQUEST,
     });
-    console.log(cartId);
+    console.log("id",cartId);
     const { data } = await useCustomAxios.put(
-      `/api/products/updatecart/${cartId}`,
+      `/api/products/updatecart/${cartId}/`,
       { qty: qty }
     );
 
