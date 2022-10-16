@@ -99,6 +99,8 @@ function Product() {
             placeholder="ფასი"
             type="number"
             {...register("price")}
+            min={0}
+            step={.01}
             className={styles.input}
             required
           />
@@ -107,7 +109,7 @@ function Product() {
             type="text"
             {...register("discount")}
             className={styles.input}
-            required
+      
           />
 
           {categories && (
