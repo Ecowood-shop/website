@@ -9,7 +9,8 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from base.models import Product, Category, User, Color, Discount, Variants, AddToCart, Picture
 from base.serializers import ProductSerializer, CategorySerializer, TopProductSerializer, \
-    VariantSerializer, ColorSerializer, AddToCartSerializer, UserSerializer, SpecificProductSerializer
+    VariantSerializer, ColorSerializer, AddToCartSerializer, UserSerializer, SpecificProductSerializer, \
+    ProductImageSerializer
 
 
 @api_view(['GET'])
@@ -323,16 +324,19 @@ def getUserCart(request):
 
     products = []
     variants = []
-    # qty = []
+    totalQuantity = 0
     sum_price = 0
     discounted_sum_price = 0
 
     for i in carts:
         products.append(i.product)
         variants.append(i.variants)
-        sum_price += i.qty * (int(i.product.price))
+
+        totalQuantity += i.qty
+
+        sum_price += i.qty * (float(i.product.price))
         discounted_sum_price += i.qty * (
-                    int(i.product.price) - int(i.product.price) * int(i.product.discount.discount_percent) / 100)
+                float(i.product.price) - float(i.product.price) * float(i.product.discount.discount_percent) / 100)
 
     serializer = AddToCartSerializer(carts, many=True)
     productSerializer = SpecificProductSerializer(products, many=True)
@@ -341,7 +345,7 @@ def getUserCart(request):
         'carts': serializer.data,
         'products': productSerializer.data,
         'variants': variantSerializer.data,
-        # 'qty': qty,
+        'qty': totalQuantity,
         'sum_price': sum_price,
         'discounted_sum_price': discounted_sum_price
     }
@@ -498,15 +502,17 @@ def uploadImage(request):
     data = request.data
 
     product_id = data['product_id']
+    ord = data['ord']
 
     try:
         product = Product.objects.get(_id=product_id)
     except:
         raise ValidationError('Products with this id does not exist')
 
-    Picture.product = product
-    Picture.picture = request.FILES.get('picture')
-    Picture.save()
+    picture = Picture()
+    picture.product = product
+    picture.picture = request.FILES.get('picture')
+    picture.save()
 
     return Response('Image was uploaded')
 
@@ -535,3 +541,30 @@ def deleteImage(request, pk):
         raise NotFound()
 
     return Response('Image Deleted')
+
+
+@api_view(['GET'])
+def getProductImagesById(request, pk):
+    token = request.COOKIES.get('jwt')
+
+    if not token:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    try:
+        payload = jwt.decode(token, 'secret', algorithm=['HS256'])
+    except jwt.ExpiredSignatureError:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    user = User.objects.filter(id=payload['id']).first()
+
+    if not user.is_staff:
+        raise AuthenticationFailed('You do not have permission to perform this action.')
+
+    try:
+        product = Picture.objects.filter(product_id=pk)
+    except:
+        raise ValidationError('Product with this ID does now exist')
+
+    serializer = ProductImageSerializer(product, many=True)
+
+    return Response(serializer.data)

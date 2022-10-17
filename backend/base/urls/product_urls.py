@@ -9,6 +9,8 @@ urlpatterns = [
     path('upload/', views.uploadImage, name="image-upload"),
     path('image/delete/<str:pk>/', views.deleteImage, name="deleteImage"),
 
+    path('image/<str:pk>/', views.getProductImagesById, name="getImages"),
+
     path('categories/', views.getCategories, name="category"),
     path('colors/', views.getProductColors, name="category"),
 
