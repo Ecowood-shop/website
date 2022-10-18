@@ -40,6 +40,7 @@ function Product() {
 
   const onSubmit = (data) => {
     if (category) {
+      setMessage("");
       data.category = category.name;
       dispatch(createProduct(data));
     } else {
@@ -62,7 +63,9 @@ function Product() {
         უკან
       </button>{" "}
       <section>
-        <h1>რედაქტირება</h1>
+        <h1>პროდუქტი</h1>
+        {loading && <Loader/>}
+        {error && <Message>{error}</Message>}
         <p className={styles.error}>{message}</p>
         <form onSubmit={handleSubmit(onSubmit)}>
 

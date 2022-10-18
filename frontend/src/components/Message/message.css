@@ -1,7 +1,7 @@
 .message {
   width: 80%;
   position: relative;
-  color: white;
+  color: var(--color-error);
   text-align: center;
   font-size: var(--medium);
   font-weight: 500;

@@ -7,7 +7,6 @@ import { deleteCart,updateCart } from "../../../../store/actions/userActions";
 
 // COMPONENTS
 import Color from "../../../../components/colorPicker/color/Color";
-import image from "../../../../components/colorPicker/a.png";
 // OTHERS
 import styles from "./product.module.scss";
 
@@ -59,7 +58,7 @@ function Product({ product, variant, cart, dispatch }) {
   return (
     <section className={styles.container}>
       <img
-        src={product.image}
+        src={product?.picture_set[0]?.picture}
         onClick={() => navigate(`/product/${product._id}`)}
       />{" "}
       <button

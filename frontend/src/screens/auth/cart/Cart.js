@@ -47,7 +47,7 @@ function Cart() {
               <b>რაოდენობა:</b> {cart.carts.qty}
             </h2>
             <h2>
-              <b>ჯამი: </b>
+              <b>ჯამი: </b>{cart.sum_price} ლ
             </h2>
             {coupon=="dd" && <p className={styles.error}>კუპონი ვერ მოიძებნა</p>}
             <input

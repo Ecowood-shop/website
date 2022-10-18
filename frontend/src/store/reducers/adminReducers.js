@@ -64,45 +64,42 @@ export const adminUserReducer = (state = {}, action) => {
     default:
       return state;
   }
-}
-
-
-
-  export const adminVariantReducer = (state = {}, action) => {
-    switch (action.type) {
-      case ADMIN.GET_VARIANTS_REQUEST:
-        return { loading: true };
-      case ADMIN.GET_VARIANTS_SUCCESS:
-        return { loading: false, variants: action.payload };
-      case ADMIN.GET_VARIANTS_FAIL:
-        return { loading: false, error: action.payload };
-  
-        case ADMIN.DELETE_VARIANT_REQUEST:
-          return { loading: true };
-        case ADMIN.DELETE_VARIANT_SUCCESS:
-          return { loading: false, success: action.payload };
-        case ADMIN.DELETE_VARIANT_FAIL:
-          return { loading: false, error: action.payload };
-
-        case ADMIN.UPDATE_VARIANT_REQUEST:
-          return { loading: true };
-        case ADMIN.UPDATE_VARIANT_SUCCESS:
-          return { loading: false, successUpdate: action.payload };
-        case ADMIN.UPDATE_VARIANT_FAIL:
-          return { loading: false, error: action.payload };
-
-          case ADMIN.CREATE_VARIANT_REQUEST:
-          return { loading: true };
-        case ADMIN.CREATE_VARIANT_SUCCESS:
-          return { loading: false, successCreate: action.payload };
-        case ADMIN.CREATE_VARIANT_FAIL:
-          return { loading: false, error: action.payload };
-          
-        default:
-          return state;
-      }
 };
 
+export const adminVariantReducer = (state = {}, action) => {
+  switch (action.type) {
+    case ADMIN.GET_VARIANTS_REQUEST:
+      return { loading: true };
+    case ADMIN.GET_VARIANTS_SUCCESS:
+      return { loading: false, variants: action.payload };
+    case ADMIN.GET_VARIANTS_FAIL:
+      return { loading: false, error: action.payload };
+
+    case ADMIN.DELETE_VARIANT_REQUEST:
+      return { loading: true };
+    case ADMIN.DELETE_VARIANT_SUCCESS:
+      return { loading: false, success: action.payload };
+    case ADMIN.DELETE_VARIANT_FAIL:
+      return { loading: false, error: action.payload };
+
+    case ADMIN.UPDATE_VARIANT_REQUEST:
+      return { loading: true };
+    case ADMIN.UPDATE_VARIANT_SUCCESS:
+      return { loading: false, successUpdate: action.payload };
+    case ADMIN.UPDATE_VARIANT_FAIL:
+      return { loading: false, error: action.payload };
+
+    case ADMIN.CREATE_VARIANT_REQUEST:
+      return { loading: true };
+    case ADMIN.CREATE_VARIANT_SUCCESS:
+      return { loading: false, successCreate: action.payload };
+    case ADMIN.CREATE_VARIANT_FAIL:
+      return { loading: false, error: action.payload };
+
+    default:
+      return state;
+  }
+};
 
 export const adminColorReducer = (state = {}, action) => {
   switch (action.type) {
@@ -112,7 +109,35 @@ export const adminColorReducer = (state = {}, action) => {
       return { loading: false, colors: action.payload };
     case ADMIN.GET_COLORS_FAIL:
       return { loading: false, error: action.payload };
-      default:
-        return state;
-    }
+    default:
+      return state;
+  }
+};
+
+export const adminImageReducer = (state = {}, action) => {
+  switch (action.type) {
+    case ADMIN.GET_IMAGES_REQUEST:
+      return { loading: true };
+    case ADMIN.GET_IMAGES_SUCCESS:
+      return { loading: false, images: action.payload };
+    case ADMIN.GET_IMAGES_FAIL:
+      return { loading: false, error: action.payload };
+
+    case ADMIN.CREATE_IMAGE_REQUEST:
+      return { loading: true };
+    case ADMIN.CREATE_IMAGE_SUCCESS:
+      return { loading: false, successCreate: action.payload };
+    case ADMIN.CREATE_IMAGE_FAIL:
+      return { loading: false, error: action.payload };
+
+    case ADMIN.DELETE_IMAGE_REQUEST:
+      return { loading: true };
+    case ADMIN.DELETE_IMAGE_SUCCESS:
+      return { loading: false, success: action.payload };
+    case ADMIN.DELETE_IMAGE_FAIL:
+      return { loading: false, error: action.payload };
+
+    default:
+      return state;
+  }
 };

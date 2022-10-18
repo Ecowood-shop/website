@@ -73,7 +73,7 @@ function Section1({ product, iframe, youtube, variants ,navigate}) {
           </div>
         ) : (
           <ImageGallery
-            items={[{ original: product.image, thumbnail: product.image }]}
+            items={product?.picture_set.map((element) => Object.assign({},{original: element.picture , thumbnail: element.picture }))}
             originalClass={styles.img}
             thumbnailPosition={(width > 800 & width<1200) || width>1600 ? "right" : "bottom"}
             autoPlay={true}
