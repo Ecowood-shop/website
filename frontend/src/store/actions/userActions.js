@@ -89,9 +89,10 @@ export const addToCart = (productId, variantID, qty) => async (dispatch) => {
       payload: data,
     });
   } catch (error) {
+    console.log(error)
     dispatch({
       type: USER.CART_ADD_FAIL,
-      payload: error?.message,
+      payload: error?.data[0],
     });
   }
 };
@@ -123,9 +124,9 @@ export const updateCart = (cartId, qty) => async (dispatch) => {
     dispatch({
       type: USER.CART_UPDATE_REQUEST,
     });
-    console.log(cartId);
+    console.log("id",cartId);
     const { data } = await useCustomAxios.put(
-      `/api/products/updatecart/${cartId}`,
+      `/api/products/updatecart/${cartId}/`,
       { qty: qty }
     );
 

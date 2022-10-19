@@ -1,7 +1,7 @@
 // CONSTANTS
 import ADMIN from "../constants/adminConstants";
 // AXIOS
-import { useCustomAxios } from "../../hooks/useAxios";
+import { useCustomAxios, useCustomFileAxios } from "../../hooks/useAxios";
 
 // PRODUCTS
 
@@ -39,7 +39,7 @@ export const createProduct = (formData) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: ADMIN.CREATE_PRODUCT_FAIL,
-      payload: error?.message,
+      payload: error?.data[0],
     });
   }
 };
@@ -57,7 +57,6 @@ export const updateProduct = (id, formData) => async (dispatch) => {
       payload: data,
     });
   } catch (error) {
-    console.log(error);
     dispatch({
       type: ADMIN.UPDATE_PRODUCT_FAIL,
       payload: error?.message,
@@ -180,7 +179,6 @@ export const createVariant = (formData) => async (dispatch) => {
     dispatch({
       type: ADMIN.CREATE_VARIANT_REQUEST,
     });
-    console.log(formData);
     const { data } = await useCustomAxios.post(
       "/api/products/variants/create",
       {
@@ -271,3 +269,71 @@ export const getColors = () => async (dispatch) => {
   }
 };
 
+//   IMAGES
+
+export const getImages = (id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: ADMIN.GET_IMAGES_REQUEST,
+    });
+
+    const { data } = await useCustomAxios.get(`/api/products/image/${id}/`);
+
+    dispatch({
+      type: ADMIN.GET_IMAGES_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADMIN.GET_IMAGES_FAIL,
+      payload: error?.message,
+    });
+  }
+};
+
+export const createImage = (id, image, type) => async (dispatch) => {
+  try {
+    dispatch({
+      type: ADMIN.CREATE_IMAGE_REQUEST,
+    });
+    const formData = new FormData();
+    formData.append("picture", image);
+    formData.append("product_id", id);
+    formData.append("ord", type);
+    const { data } = await useCustomFileAxios.post(
+      "/api/products/upload/",
+      formData
+    );
+
+    dispatch({
+      type: ADMIN.CREATE_IMAGE_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADMIN.CREATE_IMAGE_FAIL,
+      payload: error?.message,
+    });
+  }
+};
+
+export const deleteImage = (id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: ADMIN.DELETE_IMAGE_REQUEST,
+    });
+    const { data } = await useCustomAxios.delete(
+      `/api/products/image/delete/${id}/`
+    );
+
+    dispatch({
+      type: ADMIN.DELETE_IMAGE_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADMIN.DELETE_IMAGE_FAIL,
+      payload: error?.message,
+    });
+  }
+};

@@ -27,9 +27,6 @@ function Variants() {
   const adminColors = useSelector((state) => state.adminColors);
   const { colors } = adminColors;
 
-  const onSubmit = () => {
-    // dispatch(updateProduct(id, data));
-  };
 
   useEffect(() => {
     dispatch(getVariants(id));

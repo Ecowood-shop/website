@@ -24,5 +24,23 @@ useCustomAxios.interceptors.response.use(
     if (error.response.status == 401) {
       store.dispatch(logout());
     }
+    return Promise.reject(error.response);
+  }
+);
+
+
+export const useCustomFileAxios=axios.create({
+  withCredentials: true,
+  headers: {
+    "Content-Type": "multipart/form-data",
+  },
+});
+
+useCustomFileAxios.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response.status == 401) {
+      store.dispatch(logout());
+    }
   }
 );

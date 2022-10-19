@@ -2,6 +2,14 @@
   width: 60%;
   min-height: var(--height);
   color: #212529;
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
   & > button {
     background-image: var(--linear-primary);
     border: none;
@@ -83,31 +91,43 @@
   font-size: var(--x-medium);
   font-weight: normal;
 }
-
+.textarea {
+  font-size: var(--small);
+}
 .color {
-  cursor: pointer;
+  display: flex;
   position: absolute;
   right: 0;
   top: 0;
   width: auto;
-  border: none;
-  display: flex;
-  align-items: center;
-  font-size: var(--x-medium);
-  padding: 0.3rem 0.8rem 0.1rem 0.5rem;
-  border-radius: 10px 10px 0 0;
-  background-color: var(--color-error);
-  color: white;
-  transform: translate(-20%, -100%);
+
+  transform: translate(-10%, -100%);
+  button {
+    cursor: pointer;
+    color: white;
+    background-image:var(--linear-primary);
+    border: none;
+    display: flex;
+    align-items: center;
+    font-size: var(--x-medium);
+    padding: 0.3rem 0.8rem 0.1rem 0.5rem;
+    border-radius: 10px 10px 0 0;
+    
   svg {
     margin-right: 0.5rem;
     height: 1.5rem;
     fill: white;
   }
+  &:first-of-type{
+    background-image:var(--linear-second);
+    margin-right: 1rem;
+  }
   &:hover {
-    transform: scale(1.05) translate(-20%, -100%);
+    transform: scale(1.05);
+  }
   }
 }
+
 .textarea {
   height: 10rem;
   border-radius: 10px;

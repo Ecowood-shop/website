@@ -40,6 +40,7 @@ function Product() {
 
   const onSubmit = (data) => {
     if (category) {
+      setMessage("");
       data.category = category.name;
       dispatch(createProduct(data));
     } else {
@@ -62,7 +63,9 @@ function Product() {
         უკან
       </button>{" "}
       <section>
-        <h1>რედაქტირება</h1>
+        <h1>პროდუქტი</h1>
+        {loading && <Loader/>}
+        {error && <Message>{error}</Message>}
         <p className={styles.error}>{message}</p>
         <form onSubmit={handleSubmit(onSubmit)}>
 
@@ -99,6 +102,8 @@ function Product() {
             placeholder="ფასი"
             type="number"
             {...register("price")}
+            min={0}
+            step={.01}
             className={styles.input}
             required
           />
@@ -107,7 +112,7 @@ function Product() {
             type="text"
             {...register("discount")}
             className={styles.input}
-            required
+      
           />
 
           {categories && (
@@ -121,6 +126,15 @@ function Product() {
               onChange={(option) => setCategory(option)}
             />
           )}
+           <input
+            type="number"
+            className={styles.input}
+            placeholder="დაფარვა"
+            min={0}
+            {...register("coverageLength")}
+    
+          />
+
           <textarea
             type="text"
             className={styles.textarea}

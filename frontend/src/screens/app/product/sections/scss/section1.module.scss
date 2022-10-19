@@ -1,5 +1,22 @@
+.article {
+  display: flex;
+  flex-direction: column;
+  .name {
+    font-size: var(--xx-large);
+    font-weight: bold;
+    text-align: center;
+    margin: 1rem 0 5rem 0;
+    @media all and (max-width: 60rem) {
+      font-size: var(--x-large);
+    }
+    @media all and (max-width: 40rem) {
+      font-size: var(--large);
+    }
+  }
+}
 .section1 {
   display: flex;
+
   .imgContainer,
   .table {
     height: max-content;
@@ -23,7 +40,6 @@
     display: flex;
     flex-direction: column;
     h2 {
-     
       text-align: center;
       font-size: var(--large);
       font-weight: bold;
@@ -103,6 +119,7 @@ b {
 }
 .error {
   font-size: var(--medium);
+  font-weight: bold !important;
   color: var(--color-error);
 }
 
@@ -136,7 +153,6 @@ b {
 }
 
 @media all and (max-width: 75em) {
-  
   .video {
     height: 30rem;
   }
@@ -179,12 +195,10 @@ b {
 
 @media all and (max-width: 40em) {
   .section1 {
-  .table{
-    h2{
-      font-size: var(--x-medium);
-     
+    .table {
+      h2 {
+        font-size: var(--x-medium);
+      }
     }
-  }}
-
-
+  }
 }
