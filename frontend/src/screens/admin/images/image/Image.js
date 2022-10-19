@@ -1,23 +1,15 @@
-// REACT
-import Select from "react-select";
-
-// REDUX
-import { useDispatch } from "react-redux";
-
-import {
-  deleteVariant,
-} from "../../../../store/actions/adminActions";
-
 // OTHERS
 import styles from "./image.module.scss";
 
-function Image(props) {
+function Image({image,order,Delete}) {
+
   return (
     <section className={styles.container}>
-        <img src={props.src}/>
+        <img src={image.picture}/>
+        <h3 className={styles.type}>{order}</h3>
         <button
               className={styles.iconContainer}
-            //   onClick={() => dispatch(deleteVariant(props.variant.id))}
+              onClick={() => Delete()}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

@@ -44,7 +44,7 @@ function Cart() {
           <h1>ჯამი</h1>
           <div className={styles.table}>
             <h2>
-              <b>რაოდენობა:</b> {cart.carts.qty}
+              <b>რაოდენობა:</b> {cart.qty}
             </h2>
             <h2>
               <b>ჯამი: </b>{cart.sum_price} ლ

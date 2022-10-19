@@ -167,6 +167,7 @@ def createProduct(request):
         brand=data['brand'],
         category=category,
         size=data['size'],
+        coverageLength=data['coverageLength'],
         technicalRequirements=data['technicalRequirements'],
         instructionForUse=data['instructionForUse'],
         safetyStandard=data['safetyStandard'],
@@ -267,7 +268,7 @@ def addToCart(request, pk):
     variants = Variants.objects.get(id=data['variantID'])
 
     if AddToCart.objects.filter(user=user, product_id=product._id, variants=variants.id).exists():
-        return Response("This product is already in Cart")
+        raise ValidationError("This product is already in Cart")
 
     cart = AddToCart.objects.create(user=user, product=product, variants=variants, qty=data['qty'])
 
@@ -309,7 +310,7 @@ def updateCart(request, pk):
 @api_view(['GET'])
 def getUserCart(request):
     token = request.COOKIES.get('jwt')
-
+    
     if not token:
         raise AuthenticationFailed('Unauthenticated!')
 
@@ -337,6 +338,9 @@ def getUserCart(request):
         sum_price += i.qty * (float(i.product.price))
         discounted_sum_price += i.qty * (
                 float(i.product.price) - float(i.product.price) * float(i.product.discount.discount_percent) / 100)
+
+    sum_price = '%.2f' % sum_price
+    discounted_sum_price = '%.2f' % discounted_sum_price
 
     serializer = AddToCartSerializer(carts, many=True)
     productSerializer = SpecificProductSerializer(products, many=True)
@@ -463,6 +467,7 @@ def updateProduct(request, pk):
     product.instructionForUse = data['instructionForUse']
     product.safetyStandard = data['safetyStandard']
     product.youtubeUrl = data['youtubeUrl']
+    product.coverageLength=data['coverageLength']
 
     product.save()
 
@@ -511,6 +516,7 @@ def uploadImage(request):
 
     picture = Picture()
     picture.product = product
+    picture.ord=ord
     picture.picture = request.FILES.get('picture')
     picture.save()
 

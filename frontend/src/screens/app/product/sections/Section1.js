@@ -45,7 +45,7 @@ function Section1({ product, iframe, youtube, variants ,navigate}) {
   const { error, loading, successCartAdd } = User;
 
   const submit = () => {
-    if (quantity == 0) setMessage("აირჩიეთ რაოდენობა");
+    if (quantity <1 || !quantity) setMessage("მიუთითეთ რაოდენობა");
 
     if (quantity && quantity > 0 && !message)
       dispatch(addToCart(product._id, color.id, quantity));
@@ -55,7 +55,11 @@ function Section1({ product, iframe, youtube, variants ,navigate}) {
   }, [successCartAdd]);
 
   return (
+    <article className={styles.article}>
+      
+      <h2 className={styles.name}>{product.name_geo}</h2>
     <section className={styles.section1}>
+    
       <div className={styles.imgContainer}>
         {youtube & iframe ? (
           <div className={styles.video}>
@@ -73,7 +77,7 @@ function Section1({ product, iframe, youtube, variants ,navigate}) {
           </div>
         ) : (
           <ImageGallery
-            items={product?.picture_set.map((element) => Object.assign({},{original: element.picture , thumbnail: element.picture }))}
+            items={product?.picture_set.sort((a,b) => a.ord - b.ord).map((element) => Object.assign({},{original: element.picture , thumbnail: element.picture }))}
             originalClass={styles.img}
             thumbnailPosition={(width > 800 & width<1200) || width>1600 ? "right" : "bottom"}
             autoPlay={true}
@@ -82,7 +86,6 @@ function Section1({ product, iframe, youtube, variants ,navigate}) {
         )}
       </div>
       <div className={styles.table}>
-        <h2>{product.name_geo}</h2>
         <p>
           <b>ბრენდი:</b>
           {product.brand}
@@ -91,6 +94,11 @@ function Section1({ product, iframe, youtube, variants ,navigate}) {
           <b>კატეგორია:</b>
           {product.category}
         </p>
+      {product.coverageLength &&  <p>
+          <b>დაფარვა (1ფენა):</b>
+          {product.coverageLength} მ<sup>2</sup>
+        </p>
+        }
         <p>
           <b>მოცულობა:</b>
           {product.size}
@@ -142,7 +150,7 @@ function Section1({ product, iframe, youtube, variants ,navigate}) {
             }}
           />
         )}
-
+         {error && <p className={styles.error}>{error}</p>}
         <p className={styles.price}>
           <b>ფასი:</b>
           {product.price} ლ
@@ -184,9 +192,9 @@ function Section1({ product, iframe, youtube, variants ,navigate}) {
             დამატება
           </button>
         </div>
-        <Calculator />
+        <Calculator coverageLength={product.coverageLength}/>
       </div>
-    </section>
+    </section></article>
   );
 }
 

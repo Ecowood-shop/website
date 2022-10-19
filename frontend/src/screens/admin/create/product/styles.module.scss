@@ -1,6 +1,14 @@
 .container {
   width: 60%;
   min-height: var(--height);
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
   & > button {
     background-image: var(--linear-primary);
     border: none;
@@ -46,13 +54,14 @@
       border: none;
       margin-bottom: 5rem;
 
-      input,.textarea,
+      input,
+      .textarea,
       .inputCategory {
         width: 80%;
         font-size: var(--medium);
       }
-      
-      .textarea{
+
+      .textarea {
         font-size: var(--small);
       }
       .input:first-of-type {
@@ -110,6 +119,7 @@
 }
 .input {
   padding: 0 2rem;
+ 
 }
 .checkbox[type="checkbox"] {
   margin-right: 0.5rem;

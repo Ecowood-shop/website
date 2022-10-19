@@ -126,6 +126,15 @@ function Product() {
               onChange={(option) => setCategory(option)}
             />
           )}
+           <input
+            type="number"
+            className={styles.input}
+            placeholder="დაფარვა"
+            min={0}
+            {...register("coverageLength")}
+    
+          />
+
           <textarea
             type="text"
             className={styles.textarea}

@@ -133,7 +133,7 @@ export const adminImageReducer = (state = {}, action) => {
     case ADMIN.DELETE_IMAGE_REQUEST:
       return { loading: true };
     case ADMIN.DELETE_IMAGE_SUCCESS:
-      return { loading: false, success: action.payload };
+      return { loading: false, successDelete: action.payload };
     case ADMIN.DELETE_IMAGE_FAIL:
       return { loading: false, error: action.payload };
 

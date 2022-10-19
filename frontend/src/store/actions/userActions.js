@@ -89,9 +89,10 @@ export const addToCart = (productId, variantID, qty) => async (dispatch) => {
       payload: data,
     });
   } catch (error) {
+    console.log(error)
     dispatch({
       type: USER.CART_ADD_FAIL,
-      payload: error?.message,
+      payload: error?.data[0],
     });
   }
 };

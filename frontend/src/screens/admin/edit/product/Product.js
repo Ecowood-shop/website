@@ -158,6 +158,17 @@ function Product() {
                 }
               />
             )}
+                  <input
+            type="number"
+            className={styles.input}
+            placeholder="დაფარვა"
+            min={0}
+            {...register("coverageLength")}
+            defaultValue={
+              product ? product.products.coverageLength : ""
+            }
+          />
+
             <textarea
               type="text"
               className={styles.textarea}

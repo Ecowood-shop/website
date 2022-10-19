@@ -6,7 +6,7 @@ import Select from "react-select";
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { createImage } from "../../../store/actions/adminActions";
+import { createImage,getImages,deleteImage } from "../../../store/actions/adminActions";
 
 // COMPONENTS
 import Loader from "../../../components/loader/Loader";
@@ -27,6 +27,10 @@ function Images() {
   const navigate = useNavigate();
   const { id } = useParams();
 
+  
+  const adminImages = useSelector((state) => state.adminImages);
+  const {error,loading,images,successDelete,successCreate } = adminImages;
+
   const {
     register,
     formState: { errors },
@@ -34,17 +38,16 @@ function Images() {
     control,
   } = useForm();
 
-  //  const adminVariants = useSelector((state) => state.adminVariants);
-  //  const { error, loading, variants, success, successUpdate,successCreate } = adminVariants;
-
   const onSubmit = (data) => {
-    dispatch(createImage(data.image[0], id));
+    console.log(data.type.id)
+    dispatch(createImage(id,data.image[0],data.type.id));
   };
 
   useEffect(() => {
-    //  dispatch(getVariants(id));
-  }, [dispatch]);
-
+      dispatch(getImages(id));
+     
+  }, [dispatch,successDelete,successCreate]);
+  console.log(images)
   return (
     <article className={styles.container}>
       <button
@@ -94,26 +97,9 @@ function Images() {
         </form>
       </section>
       <section className={styles.imageContainer}>
-        <Image
-          src={
-            "https://ecowood.ge/wp-content/uploads/2020/07/weco-5l-2-700x700.jpg"
-          }
-        />
-        <Image
-          src={
-            "https://ecowood.ge/wp-content/uploads/2019/07/fasadis-laqi-2-700x700.jpg"
-          }
-        />
-        <Image
-          src={
-            "https://ecowood.ge/wp-content/uploads/2020/07/weco-eco-700x700.jpg"
-          }
-        />
-        <Image
-          src={
-            "https://ecowood.ge/wp-content/uploads/2020/07/weco-5l-2-700x700.jpg"
-          }
-        />
+      {loading && <Loader/>}
+      {error && <Message>{error}</Message>}
+      {images && images.sort((a,b) => a.ord - b.ord).map((element)=><Image key={element.id} image={element} order={options.filter((option)=>option.id==element.ord)[0].name} Delete={()=>dispatch(deleteImage(element.id))}/>)}
       </section>
       {/* {loading && <Loader />}
      {error && <Message>{error}</Message>} */}
