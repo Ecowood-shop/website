@@ -1,30 +1,6 @@
 // CONSTANTS
 import SYSTEM from "../constants/systemConstants";
 
-export const systemUserReducer = (state = {}, action) => {
-  switch (action.type) {
-    case SYSTEM.LOGIN_REQUEST:
-      return { loading: true };
-    case SYSTEM.LOGIN_SUCCESS:
-      return { loading: false, user: action.payload };
-    case SYSTEM.LOGIN_FAIL:
-      return { loading: false, error: action.payload };
-
-    case SYSTEM.LOGOUT:
-      return {};
-
-    case SYSTEM.REGISTER_REQUEST:
-      return { loading: true };
-    case SYSTEM.REGISTER_SUCCESS:
-      return { loading: false };
-    case SYSTEM.REGISTER_FAIL:
-      return { loading: false, error: action.payload };
-
-    default:
-      return state;
-  }
-};
-
 export const systemCategoriesReducer = (state = {}, action) => {
   switch (action.type) {
     case SYSTEM.GET_CATEGORIES_REQUEST:
@@ -92,6 +68,32 @@ export const systemProductReducer = (state = {}, action) => {
 
     case SYSTEM.GET_PRODUCT_RESET:
       return { loading: false, product: {} };
+
+    default:
+      return state;
+  }
+};
+
+export const shippingReducer = (state = { shipping: {} }, action) => {
+  switch (action.type) {
+    case SYSTEM.GET_SHIPPING_REQUEST:
+      return { shipping: action.payload };
+
+    case SYSTEM.SAVE_SHIPPING_METHOD:
+      return {
+        shipping: { ...state.shipping, ...action.payload },
+      };
+    case SYSTEM.SAVE_SHIPPING_DETAILS:
+      return {
+        shipping: { ...state.shipping, ...action.payload },
+      };
+    case SYSTEM.SAVE_SHIPPING_PAYMENT_METHOD:
+      return { successMethod: action.payload };
+
+    case SYSTEM.CART_CLEAR_ITEMS:
+      return {
+        shipping: [],
+      };
 
     default:
       return state;

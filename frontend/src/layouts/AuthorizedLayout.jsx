@@ -1,30 +1,31 @@
 //  REACT
 import React, { useEffect } from "react";
-import { useNavigate, Outlet } from "react-router-dom";
+import {Outlet } from "react-router-dom";
 
 // REDUX
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
+import { getUser } from "../store/actions/userActions";
 
+// COMPONENTS
+import Error from "../screens/app/error/Error";
 
 function AuthorizedLayout() {
-  const navigate = useNavigate();
-  const systemUser = useSelector((state) => state.systemUser);
-  const { user} =systemUser 
+  const dispatch=useDispatch()
+  const User = useSelector((state) => state.User);
+  const { user } = User;
 
-    useEffect(() => {
-      if (!user) {
-        navigate("/authorization  ");
-      }
-    }, []);
-
+  useEffect(() => {
+      dispatch(getUser())
+  }, [dispatch]);
+console.log(user)
 
   return (
      <>
-      {user && (
+      {user ? (
         <>
           <Outlet />
         </>
-       )}
+       ):<Error/>}
      </>
   );
 }

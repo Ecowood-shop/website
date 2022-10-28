@@ -1,0 +1,166 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  min-height: var(--height);
+  padding: 15rem 5rem 15rem 5rem;
+  background: var(--linear-primary);
+  & > section:first-of-type {
+    width: 40%;
+    padding: 3rem 2rem;
+    border-radius: 10%;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
+      rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
+    background: var(--linear-primary);
+    form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      h1 {
+        color: white;
+        font-weight: bold;
+        font-size: var(--x-large);
+        text-transform: uppercase;
+        text-align: center;
+      }
+      section {
+        display: flex;
+        flex-direction: column;
+        width: 80%;
+        align-items: center;
+      }
+    }
+  }
+}
+
+.btnBlock{
+  top: 50%;
+
+}
+.input {
+  width: 100%;
+  color: var(--color-black);
+  padding: 0.8rem 0 0.8rem 2rem;
+
+  font-size: var(--small);
+  border: none;
+  background-color: white;
+  border-radius: 10px;
+  &:not(:first-of-type) {
+    margin-top: 2rem;
+  }
+  &:focus {
+    outline: 2px solid var(--color-error);
+  }
+}
+.auth-input:first-of-type {
+  margin-top: 0;
+}
+.carousel {
+  height: 20rem;
+  width: 50%;
+}
+
+.btnContainer {
+  width: 80%;
+  margin-top: 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  h2 {
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: var(--medium);
+    text-decoration: underline;
+    color: white;
+  }
+}
+
+.btn {
+  border-radius: 10px;
+  border: none;
+  background-color: darkmagenta;
+  color: white;
+  font-size: var(--medium);
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.6rem 4rem;
+  transition: 0.5s all;
+  &:hover {
+    color: rgba(255, 255, 255, 0.7);
+  }
+  margin-left: 1rem;
+}
+
+@media all and (max-width: 100rem) {
+  .container {
+    flex-direction: column;
+    padding-top: 1rem;
+    & > section:first-of-type {
+      width: 60rem;
+      margin-left: 0;
+      justify-self: center;
+      margin-top: 10rem;
+    }
+  }
+
+  .carousel {
+    height: 20rem;
+    width: 60rem;
+    margin-top: 15rem;
+  }
+}
+
+@media all and (max-width: 70rem) {
+  .container {
+    & > section:first-of-type {
+      width: 45rem;
+    }
+  }
+  .carousel {
+    display: none;
+  }
+}
+@media all and (max-width: 46rem) and (orientation: portrait) {
+  .container {
+    padding-bottom: 10rem;
+  
+    & > section:first-of-type {
+      width: 100vw;
+      display: flex;
+      border-radius: 0;
+      padding: 3rem 0rem;
+      box-shadow: none;
+      background-image: none;
+      margin-top: 5rem;
+      align-items: center;
+      justify-content: center;
+      form {
+        width: 100%;
+        section {
+          margin-top: 0rem;
+        }
+      }
+    }
+  }
+  .btnBlock{
+
+  }
+  .input {
+    width: 100%;
+  }
+  .btnContainer {
+    margin-top: 2rem;
+    flex-direction: column;
+    h2 {
+      order: 2;
+      margin-top: 2rem;
+    }
+  }
+  .btn {
+    margin: 0;
+    width: 100%;
+  }
+}

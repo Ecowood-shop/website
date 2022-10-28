@@ -105,19 +105,19 @@
 
 @media all and (max-width: 44em) and (orientation:portrait) {
   .blockCarousel-btn     {
-    height: 2rem;
-    width: 2rem;
+    height: 2.2rem;
+    width: 2.2rem;
     stroke: white;
   }
 
   .btn--left {
     transform: none;
-    left: 0.1rem;
+    left:0.5rem;
 
   }
   .btn--right{
     transform: none;
-    right: 0.1rem;
+    right: 0.5rem;
   }
   
 }

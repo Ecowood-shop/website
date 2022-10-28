@@ -1,10 +1,11 @@
 // REACT
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../../store/actions/systemActions";
+import { logout } from "../../store/actions/userActions";
+import { getUser } from "../../store/actions/userActions";
 
 // COMPONENTS
 import Search from "./search/Search";
@@ -24,11 +25,15 @@ function Header() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const systemUser = useSelector((state) => state.systemUser);
-  const { user } = systemUser;
+  const User = useSelector((state) => state.User);
+  const { user } = User;
+
+  useEffect(() => {
+      dispatch(getUser())
+  }, [dispatch]);
 
   // FUNCTIONS
-
+console.log(user)
   const AdminProductsNavigator = () => {
     navigate("/admin/products");
   };
@@ -45,7 +50,7 @@ function Header() {
     );
   };
   const CloseDropdown = () => {
-    user?.isAdmin
+    user?.is_staff
       ? isPanelOpen
         ? Opener(
             ["admin-back", "admin-users", "admin-products"],
@@ -96,7 +101,7 @@ function Header() {
             />
           </svg>
         </button>
-        <Search navigate={navigate}/>
+        <Search navigate={navigate} />
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="header-cart-icon"
@@ -104,7 +109,7 @@ function Header() {
           viewBox="0 0 24 24"
           strokeWidth="1.5"
           stroke="currentColor"
-          onClick={()=>navigate("/cart")}
+          onClick={() => navigate("/cart")}
         >
           <path
             strokeLinecap="round"
@@ -136,7 +141,7 @@ function Header() {
 
             {isOpen && (
               <div className="header-dropdown">
-                {user.isAdmin && (
+                {user.is_staff && (
                   <button
                     id="admin-panel"
                     className="header-dropdown-element w3-animate-right animate__animated"
@@ -193,6 +198,7 @@ function Header() {
                   className="header-dropdown-element w3-animate-right animate__animated"
                   onClick={() => {
                     dispatch(logout());
+                    navigate("/")
                   }}
                 >
                   გამოსვლა{" "}

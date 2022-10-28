@@ -53,10 +53,11 @@
   letter-spacing: 0.2rem;
   border-radius: 10px;
   font-size: var(--small);
+  transition: 0.5s all;
 }
 
 .header-logIn:hover {
-  transform: scale(1.05);
+  color: rgba(255, 255, 255, 0.7);
 }
 .header-user,
 .header-dropdown-element {

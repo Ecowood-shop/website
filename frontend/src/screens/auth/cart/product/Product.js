@@ -1,16 +1,23 @@
 // REACT
 import { useNavigate } from "react-router-dom";
-import { useState,useEffect } from "react";
+import { useState, useEffect,useRef } from "react";
 
 // REDUX
-import { deleteCart,updateCart } from "../../../../store/actions/userActions";
+import { deleteCart, updateCart } from "../../../../store/actions/userActions";
 
 // COMPONENTS
 import Color from "../../../../components/colorPicker/color/Color";
 // OTHERS
 import styles from "./product.module.scss";
 
-function Product({ product, variant, cart, dispatch }) {
+function Product({
+  product,
+  variant,
+  cart,
+  dispatch,
+  handlerPlus,
+  handlerMinus,
+}) {
   const navigate = useNavigate();
   const [quantity, setQuantity] = useState(cart?.qty);
   const [message, setMessage] = useState("");
@@ -18,7 +25,7 @@ function Product({ product, variant, cart, dispatch }) {
   const changer = (number) => {
     switch (number) {
       case "-":
-        if (quantity - 1 < 1) {
+        if (quantity - 1 < 1 || !quantity) {
           setMessage(`მარაგშია ${variant.quantity}`);
         } else {
           setMessage("");
@@ -38,23 +45,40 @@ function Product({ product, variant, cart, dispatch }) {
           setMessage("");
           setQuantity(Number(number));
         } else {
+          setQuantity();
           setMessage(`მარაგშია ${variant.quantity}`);
         }
         break;
     }
   };
 
- 
-  
   useEffect(() => {
     const timer = setTimeout(() => {
-      if(quantity>0 && quantity<=variant.quantity && quantity != cart.qty){
-       
-        dispatch(updateCart(cart.id,quantity))}
-    }, 800)
+      if (
+        quantity > 0 &&
+        quantity <= variant.quantity &&
+        quantity != cart.qty
+      ) {
+        dispatch(updateCart(cart.id, quantity));
+      }
+    }, 800);
 
-    return () => clearTimeout(timer)
-  }, [quantity])
+    return () => clearTimeout(timer);
+  }, [quantity]);
+
+  const isFirstRun = useRef(true);
+
+  useEffect(() => {
+    if (isFirstRun.current) {
+      isFirstRun.current = false;
+      return;
+    }
+    message ? handlerPlus() : handlerMinus()
+    return ()=>{
+      handlerMinus()
+    }
+  }, [message]);
+
   return (
     <section className={styles.container}>
       <img

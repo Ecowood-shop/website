@@ -10,10 +10,10 @@ import Message from "../../../components/Message/Message";
 
 // REDUX
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../../store/actions/systemActions";
+import { login } from "../../../store/actions/userActions";
 
 // OTHERS
-import "./authorization.css";
+import styles from "./styles.module.scss";
 
 function AuthorizationScreen() {
   const [isLogin, setIsLogin] = useState(true);
@@ -25,17 +25,17 @@ function AuthorizationScreen() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const systemUser = useSelector((state) => state.systemUser);
-  const { error, loading, user } = systemUser;
+  const User = useSelector((state) => state.User);
+  const { errorLogin,errorRegister, loading, user } = User;
 
   useEffect(() => {
-    if (error) {
-      setMessage(error);
+    if (errorLogin) {
+      setMessage(errorLogin);
     }
     if (user) {
       navigate("/", { replace: true });
     }
-  }, [systemUser, navigate]);
+  }, [errorLogin,user, navigate]);
 
   const SubmitHandler = (e) => {
     e.preventDefault();
@@ -53,8 +53,8 @@ function AuthorizationScreen() {
   };
 
   return (
-    <article className="auth-article">
-      <section className="auth-container  w3-animate-left">
+    <article className={styles.container}>
+      <section className="w3-animate-left">
         {isLogin ? (
           <form className="w3-animate-left" onSubmit={SubmitHandler}>
             <h1 style={{ marginBottom: message ? "0" : "3rem" }}>
@@ -66,7 +66,7 @@ function AuthorizationScreen() {
             <section>
               <input
                 type="email"
-                className="auth-input"
+                className={styles.input}
                 placeholder="მეილი"
                 value={email ? email : ""}
                 onChange={(e) => setEmail(e.target.value)}
@@ -74,29 +74,30 @@ function AuthorizationScreen() {
               />
               <input
                 type="password"
-                className="auth-input"
+                className={styles.input}
                 placeholder="პაროლი"
                 value={password ? password : ""}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </section>
-            <div className="auth-btn-container">
+            <div className={styles.btnContainer}>
               <h2 onClick={() => setIsLogin(!isLogin)}>რეგისტრაცია</h2>
-              <button type="submit" onClick={() => Validation()}>
+              <button type="submit" onClick={() => Validation()} className={styles.btn}>
                 შესვლა
               </button>
             </div>
           </form>
         ) : (
           <Register
-            systemUser={systemUser}
+            user={user}
+            error={errorRegister}
             ChangeLogin={() => {
               setIsLogin(!isLogin);
             }}
           />
         )}
       </section>
-      <section className="auth-carousel">
+      <section className={styles.carousel}>
         {" "}
         <BlockCarousel />
       </section>

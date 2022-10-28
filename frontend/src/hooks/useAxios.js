@@ -1,10 +1,9 @@
 // REACT
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 // REDUX
 
-import { logout } from "../store/actions/systemActions";
+import { logout } from "../store/actions/userActions";
 import store from "../store/store";
 
 export const useAxios = axios.create({
@@ -21,10 +20,13 @@ export const useCustomAxios = axios.create({
 useCustomAxios.interceptors.response.use(
   (response) => response,
   (error) => {
+    console.log(error.response.status == 401)
     if (error.response.status == 401) {
       store.dispatch(logout());
     }
-    return Promise.reject(error.response);
+    else{
+      return Promise.reject(error.response);
+    }
   }
 );
 
