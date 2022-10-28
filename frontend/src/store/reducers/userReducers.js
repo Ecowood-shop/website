@@ -3,48 +3,68 @@ import USER from "../constants/userConstants";
 
 export const userReducer = (state = {}, action) => {
   switch (action.type) {
+    case USER.LOGIN_REQUEST:
+      return { ...state, loading: true  ,errorLogin:false};
+    case USER.LOGIN_SUCCESS:
+      return { ...state, loading: false, user: action.payload };
+    case USER.LOGIN_FAIL:
+      return { ...state, loading: false, errorLogin: action.payload };
+
+    case USER.LOGOUT:
+      return {};
+
+    case USER.REGISTER_REQUEST:
+      return { ...state, loading: true };
+    case USER.REGISTER_SUCCESS:
+      return { ...state, loading: false };
+    case USER.REGISTER_FAIL:
+      return { ...state, loading: false, errorRegister: action.payload };
+
     case USER.GET_PROFILE_REQUEST:
-      return { loading: true };
+      return { ...state, loading: true };
     case USER.GET_PROFILE_SUCCESS:
-      return { loading: false, user: action.payload };
+      return { ...state, loading: false, user: action.payload };
     case USER.GET_PROFILE_FAIL:
-      return { loading: false, error: action.payload };
+      return { ...state, loading: false, errorProfile: action.payload };
 
     case USER.PROFILE_UPDATE_REQUEST:
-      return { loading: true };
+      return { ...state, loading: true };
     case USER.PROFILE_UPDATE_SUCCESS:
-      return { loading: false, success: true };
+      return { ...state, loading: false, success: true };
     case USER.PROFILE_UPDATE_FAIL:
-      return { loading: false, error: action.payload };
+      return { ...state, loading: false, error: action.payload };
 
-      case USER.GET_CART_REQUEST:
-        return { loading: true };
-      case USER.GET_CART_SUCCESS:
-        return { loading: false, cart: action.payload  };
-      case USER.GET_CART_FAIL:
-        return { loading: false, error: action.payload };
+    case USER.GET_CART_REQUEST:
+      return { ...state, loadingCart: true };
+    case USER.GET_CART_SUCCESS:
+      return { ...state, loadingCart: false, cart: action.payload,success:false,successCartAdd: false  };
+    case USER.GET_CART_FAIL:
+      return { ...state, loadingCart: false, error: action.payload };
 
-        case USER.CART_UPDATE_REQUEST:
-          return { loading: true };
-        case USER.CART_UPDATE_SUCCESS:
-          return { loading: false, successCartUpdate: true };
-        case USER.CART_UPDATE_FAIL:
-          return { loading: false, error: action.payload };
+    case USER.CART_UPDATE_REQUEST:
+      return { ...state, loadingCart: true };
+    case USER.CART_UPDATE_SUCCESS:
+      return { ...state, loadingCart: false, success: true  };
+    case USER.CART_UPDATE_FAIL:
+      return { ...state, loadingCart: false, error: action.payload };
 
-          case USER.CART_ADD_REQUEST:
-            return { loading: true };
-          case USER.CART_ADD_SUCCESS:
-            return { loading: false, successCartAdd: true };
-          case USER.CART_ADD_FAIL:
-            return { loading: false, error: action.payload };
+    case USER.CART_ADD_REQUEST:
+      return { ...state, loadingCart: true };
+    case USER.CART_ADD_SUCCESS:
+      return { ...state, loadingCart: false, successCartAdd:true };
+    case USER.CART_ADD_FAIL:
+      return { ...state, loadingCart: false, error: action.payload };
 
-          case USER.CART_DELETE_REQUEST:
-            return { loading: true };
-          case USER.CART_DELETE_SUCCESS:
-            return { loading: false, successCartDelete: true };
-          case USER.CART_DELETE_FAIL:
-            return { loading: false, error: action.payload };
+      case USER.CART_ERROR_RESET:
+      return { ...state, error:false };
   
+
+    case USER.CART_DELETE_REQUEST:
+      return { ...state, loadingCart: true };
+    case USER.CART_DELETE_SUCCESS:
+      return { ...state, loadingCart: false, success:true };
+    case USER.CART_DELETE_FAIL:
+      return { ...state, loadingCart: false, error: action.payload };
 
     default:
       return state;

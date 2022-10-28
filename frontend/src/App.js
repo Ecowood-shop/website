@@ -10,6 +10,7 @@ import HomeScreen from "./screens/app/home/HomeScreen";
 import About from "./screens/app/about/About";
 import Products from "./screens/app/products/Products";
 import Product from "./screens/app/product/Product";
+import Error from "./screens/app/error/Error"
 
 // ADMIN
 import ProductsScreen from "./screens/admin/products/ProductsScreen";
@@ -24,6 +25,9 @@ import Images from "./screens/admin/images/Images";
 import Cart from "./screens/auth/cart/Cart";
 import Profile from "./screens/auth/profile/Profile";
 import ProfileUpdate from "./screens/auth/edit/Profile";
+import ShippingMethod from "./screens/auth/checkout/shippingMethod/ShippingMethod";
+import ShippingDetails from "./screens/auth/checkout/shippingDetails/ShippingDetails";
+import PaymentMethod from "./screens/auth/checkout/paymentMethod/PaymentMethod";
 
 // COMPONENTS
 import Header from "./components/header/Header";
@@ -47,13 +51,27 @@ function App() {
             <Route path="/" element={<HomeScreen />} />
             <Route path="/products/search" element={<Products />} />
             <Route path="/product/:id" element={<Product />} />
+            <Route path="/cart" element={<Cart />} />
           </Route>
 
           <Route element={<AuthorizedLayout />}>
             <Route path="/profile" element={<Profile />} />
-            <Route path="/cart" element={<Cart />} />
+           
+            <Route
+              path="/checkout/shippingmethod"
+              element={<ShippingMethod />}
+            />
+            <Route
+              path="/checkout/shippingdetails"
+              element={<ShippingDetails />}
+            />
+            <Route
+              path="/checkout/paymentmethod"
+              element={<PaymentMethod />}
+            />
             <Route path="/profile/update" element={<ProfileUpdate />} />
           </Route>
+
           <Route element={<AdminLayout />}>
             <Route path="/admin/products" element={<ProductsScreen />} />
             <Route
@@ -64,18 +82,15 @@ function App() {
               path="/admin/products/:id/edit"
               element={<ProductScreen />}
             />
-             <Route
+            <Route
               path="/admin/products/:id/variants/"
               element={<Variants />}
             />
-               <Route
-              path="/admin/products/:id/images/"
-              element={<Images />}
-            />
+            <Route path="/admin/products/:id/images/" element={<Images />} />
             <Route path="/admin/users" element={<UsersScreen />} />
             <Route path="/admin/users/:id/edit" element={<UserScreen />} />
- 
           </Route>
+          <Route path="*" element={<Error />} />
         </Routes>
         <Footer />
       </ScrollToTop>

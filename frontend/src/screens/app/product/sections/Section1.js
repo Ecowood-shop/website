@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
 import { addToCart } from "../../../../store/actions/userActions";
+import USER from "../../../../store/constants/userConstants"; 
 
 // COMPONENTS
 import ImageGallery from "react-image-gallery";
@@ -17,7 +18,7 @@ import useWindowDimensions from "../../../../functions/Window";
 import "react-image-gallery/styles/css/image-gallery.css";
 import styles from "./scss/section1.module.scss";
 
-function Section1({ product, iframe, youtube, variants ,navigate}) {
+function Section1({ product, iframe, youtube, variants ,navigate,id}) {
   // HOOKS
 
   const dispatch = useDispatch();
@@ -42,18 +43,31 @@ function Section1({ product, iframe, youtube, variants ,navigate}) {
   }
 
   const User = useSelector((state) => state.User);
-  const { error, loading, successCartAdd } = User;
+  const { error, loading, successCartAdd,user } = User;
 
-  const submit = () => {
+  const submit = (method) => {
     if (quantity <1 || !quantity) setMessage("მიუთითეთ რაოდენობა");
 
-    if (quantity && quantity > 0 && !message)
-      dispatch(addToCart(product._id, color.id, quantity));
+    if (quantity && quantity > 0 && !message){
+      if(!user){
+        setMessage("გთხოვთ გაიაროთ ავტორიზაცია")
+      }else{
+        dispatch(addToCart(product._id, color.id, quantity));
+        if(method=="buy") navigate("/checkout/shippingmethod")
+      }
+      }
+     
   };
+  // console.log(User)
   useEffect(() => {
-    if (successCartAdd) navigate("/cart");
-  }, [successCartAdd]);
+    if (successCartAdd) navigate("/cart");  
+ 
+  }, [successCartAdd,error]);
 
+  useEffect(() => { 
+  dispatch({type:USER.CART_ERROR_RESET})
+  }, []);
+  
   return (
     <article className={styles.article}>
       
@@ -158,7 +172,7 @@ function Section1({ product, iframe, youtube, variants ,navigate}) {
 
         <div className={styles.btnContainer}>
    
-          <button>
+          <button onClick={() => submit("buy")}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -175,7 +189,7 @@ function Section1({ product, iframe, youtube, variants ,navigate}) {
             </svg>
             ყიდვა
           </button>
-          <button onClick={() => submit()}>
+          <button onClick={() => submit("cart")}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

@@ -2,7 +2,73 @@
 import USER from "../constants/userConstants";
 
 //AXIOS
-import { useCustomAxios } from "../../hooks/useAxios";
+import { useCustomAxios, useAxios } from "../../hooks/useAxios";
+
+export const login = (email, password) => async (dispatch) => {
+  try {
+    dispatch({
+      type: USER.LOGIN_REQUEST,
+    });
+
+    const { data } = await useAxios.post("/api/users/login/", {
+      email: email,
+      password: password,
+    });
+    dispatch(getUser());
+    dispatch({
+      type: USER.LOGIN_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: USER.LOGIN_FAIL,
+      payload: error.response?.data
+        ? Object.values(error.response?.data)[0]
+        : error.response,
+    });
+  }
+};
+
+export const logout = () => async (dispatch) => {
+  try {
+    dispatch({ type: USER.LOGOUT });
+    const {} = await useCustomAxios.post("/api/users/logout/", {
+      nothing: "nothing",
+    });
+  } catch (error) {
+    //    THERE SHOULD NOT BE ANY ERRORS
+  }
+};
+
+export const register =
+  (firstName, lastName, email, phone, password) => async (dispatch) => {
+    try {
+      dispatch({
+        type: USER.REGISTER_REQUEST,
+      });
+
+      const { data } = await useAxios.post("/api/users/register/", {
+        first_name: firstName,
+        last_name: lastName,
+        email: email,
+        phone: phone,
+        password: password,
+      });
+
+      dispatch({
+        type: USER.REGISTER_SUCCESS,
+        payload: data,
+      });
+      dispatch(login(email, password));
+    } catch (error) {
+      dispatch({
+        type: USER.REGISTER_FAIL,
+        payload: error.response?.data
+          ? Object.values(error.response?.data)[0][0]
+          : error.response,
+      });
+    }
+  };
 
 export const getUser = () => async (dispatch) => {
   try {
@@ -92,7 +158,7 @@ export const addToCart = (productId, variantID, qty) => async (dispatch) => {
     console.log(error)
     dispatch({
       type: USER.CART_ADD_FAIL,
-      payload: error?.data[0],
+      payload: error?.data ? error.data[0] : error?.message
     });
   }
 };
@@ -106,7 +172,7 @@ export const deleteCart = (cartId) => async (dispatch) => {
     const { data } = await useCustomAxios.delete(
       `/api/products/removecart/${cartId}`
     );
-
+console.log(data)
     dispatch({
       type: USER.CART_DELETE_SUCCESS,
       payload: data,
@@ -124,7 +190,7 @@ export const updateCart = (cartId, qty) => async (dispatch) => {
     dispatch({
       type: USER.CART_UPDATE_REQUEST,
     });
-    console.log("id",cartId);
+    console.log("id", cartId);
     const { data } = await useCustomAxios.put(
       `/api/products/updatecart/${cartId}/`,
       { qty: qty }

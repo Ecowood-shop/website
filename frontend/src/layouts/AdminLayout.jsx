@@ -3,25 +3,28 @@ import React, { useEffect } from "react";
 import { useNavigate, Outlet } from "react-router-dom";
 
 // REDUX
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { getUser } from "../store/actions/userActions";
+
+// COMPONENTS
+import Error from "../screens/app/error/Error";
 
 function AdminLayout() {
-  const navigate = useNavigate();
-  const systemUser = useSelector((state) => state.systemUser);
-  const { user } = systemUser;
+  const dispatch = useDispatch();
+  const User = useSelector((state) => state.User);
+  const { user } = User;
 
   useEffect(() => {
-    if (!user?.isAdmin || !user) {
-      navigate("/");
-    }
-  }, []);
-
+    dispatch(getUser());
+  }, [dispatch]);
   return (
     <>
-      {user?.isAdmin && (
+      {user?.is_staff ? (
         <>
           <Outlet />
         </>
+      ) : (
+        <Error />
       )}
     </>
   );

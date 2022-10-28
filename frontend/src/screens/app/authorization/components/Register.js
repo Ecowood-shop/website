@@ -4,11 +4,13 @@ import { useNavigate } from "react-router-dom";
 
 // COMPONENTS
 import Message from "../../../../components/Message/Message";
-import Loader from "../../../../components/loader/Loader";
 
 // REDUX
 import { useDispatch } from "react-redux";
-import { register } from "../../../../store/actions/systemActions";
+import { register } from "../../../../store/actions/userActions";
+
+// OTHER
+import styles from "../styles.module.scss"
 
 function Register(props) {
   const [nextPage, setNextPage] = useState(false);
@@ -25,16 +27,16 @@ function Register(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { error, loading, user } = props.systemUser;
+
 
   useEffect(() => {
-    if (error) {
-      setMessage(error);
+    if (props.error) {
+      setMessage(props.error);
     }
-    if (user) {
+    if (props.user) {
       navigate("/", { replace: true });
     }
-  }, [props.systemUser, navigate]);
+  }, [props.user,props.error, navigate]);
 
   const SubmitHandler = (e) => {
     e.preventDefault();
@@ -67,7 +69,7 @@ function Register(props) {
       <Message>{message}</Message>
       {nextPage ? (
         <button
-          className="blockCarousel-btn btn--left register-back"
+          className={styles.btnBlock + " blockCarousel-btn btn--left"}
           onClick={() => setNextPage(!nextPage)}
           type="button"
         >
@@ -88,7 +90,7 @@ function Register(props) {
         </button>
       ) : (
         <button
-          className="blockCarousel-btn btn--right register-back"
+        className={styles.btnBlock + " blockCarousel-btn btn--right"}  
           type="button"
           onClick={() => {
             setNextPage(!nextPage);
@@ -115,21 +117,21 @@ function Register(props) {
           <>
             <input
               type="tel"
-              className="auth-input  w3-animate-right"
+              className={styles.input+" w3-animate-right"}   
               placeholder="ტელეფონი"
               onChange={(e) => setPhone(e.target.value)}
               value={phone ? phone : ""}
             />
             <input
               type="password"
-              className="auth-input  w3-animate-right"
+              className={styles.input+" w3-animate-right"}   
               placeholder="პაროლი"
               onChange={(e) => setPassword(e.target.value)}
               value={password ? password : ""}
             />
             <input
               type="password"
-              className="auth-input  w3-animate-right"
+              className={styles.input+" w3-animate-right"}             
               placeholder="გაიმეორეთ პაროლი"
               onChange={(e) => setConfirmPassword(e.target.value)}
               value={confirmPassword ? confirmPassword : ""}
@@ -139,21 +141,21 @@ function Register(props) {
           <>
             <input
               type="text"
-              className="auth-input  w3-animate-left"
+              className={styles.input+" w3-animate-left"}   
               placeholder="სახელი"
               onChange={(e) => setFirstName(e.target.value)}
               value={firstName ? firstName : ""}
             />
             <input
               type="text"
-              className="auth-input  w3-animate-left"
+              className={styles.input+" w3-animate-left"}   
               placeholder="გვარი"
               onChange={(e) => setLastName(e.target.value)}
               value={lastName ? lastName : ""}
             />
             <input
               type="email"
-              className="auth-input  w3-animate-left"
+              className={styles.input+" w3-animate-left"}   
               placeholder="მეილი"
               onChange={(e) => setEmail(e.target.value)}
               value={email ? email : ""}
@@ -164,21 +166,22 @@ function Register(props) {
       </section>
 
       {nextPage ? (
-        <div className="auth-btn-container w3-animate-right">
+        <div className={styles.btnContainer + " w3-animate-right"}>
           <h2 onClick={() => props.ChangeLogin()}>ავტორიზაცია</h2>
-          <button type="submit" onClick={() => Validation()}>
+          <button type="submit" onClick={() => Validation()} className={styles.btn}>
             რეგისტრაცია
           </button>
         </div>
       ) : (
-        <div className="auth-btn-container w3-animate-left">
-          <h2 onClick={() => props.ChangeLogin()}>ავტორიზაცია</h2>
+        <div className={styles.btnContainer + " w3-animate-right"}>
+          <h2 onClick={() => props.ChangeLogin()} >ავტორიზაცია</h2>
           <button
             type="button"
             onClick={(e) => {
               e.preventDefault();
               setNextPage(!nextPage);
             }}
+            className={styles.btn}
           >
             შემდეგ
           </button>

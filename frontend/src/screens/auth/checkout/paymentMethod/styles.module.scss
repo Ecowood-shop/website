@@ -1,0 +1,103 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+  min-height: var(--height);
+  margin-bottom: 10rem;
+  @media all and (max-width: 100rem) {
+    width: 100%;
+  }
+
+  section {
+    background-color: white;
+    width: 60%;
+    padding: 3rem 5rem;
+    border-radius: 10px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
+      rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
+    @media all and (max-width: 80rem) {
+      width: 80%;
+    }
+    h1 {
+      text-align: center;
+      font-weight: bold;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+}
+
+.radioContainer {
+  display: flex;
+
+  margin-top: 4rem;
+  font-size: var(--medium);
+  label {
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: var(--small);
+    color: var(--color-black);
+    padding: 0.6rem 1rem;
+    display: flex;
+
+    background-color: whitesmoke;
+    align-items: center;
+    svg {
+      height: 4rem;
+    }
+    &:last-of-type {
+      margin-left: 4rem;
+    }
+  }
+  input[type="radio"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    -o-appearance: none;
+    appearance: none;
+  }
+}
+
+.radioContainer input[type="radio"]:checked + label {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.btn {
+  cursor: pointer;
+  color: white;
+  margin-top: 5rem;
+  border: none;
+  font-size: var(--medium);
+  border-radius: 10px;
+  padding: 0.5rem 1rem;
+  background-image: var(--linear-primary);
+}
+
+@media all and (max-width: 45rem) {
+  .container {
+    margin-bottom: 0;
+    width: 100%;
+    section {
+      width: 100%;
+      box-shadow: none;
+      padding: 1rem 1rem 10rem 1rem;
+    }
+  }
+  
+  .radioContainer {
+    flex-direction: column;
+    label {
+      display: flex;
+      align-items: center;
+      &:last-of-type {
+        margin-left: 0;
+        margin-top: 2rem;
+      }
+    }
+  }
+}

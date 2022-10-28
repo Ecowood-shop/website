@@ -5,44 +5,47 @@ import thunk from "redux-thunk";
 
 // REDUCERS
 import {
-  systemUserReducer,
   systemCategoriesReducer,
   systemProductsReducer,
   systemProductReducer,
   systemLatestProductsReducer,
-  systemSimilarProductsReducer
+  systemSimilarProductsReducer,
+  shippingReducer
 } from "./reducers/systemReducers";
 import {
   adminProductReducer,
   adminUserReducer,
   adminVariantReducer,
   adminColorReducer,
-  adminImageReducer
+  adminImageReducer,
 } from "./reducers/adminReducers";
 import { userReducer } from "./reducers/userReducers";
 
 const reducer = combineReducers({
-  systemUser: systemUserReducer,
   systemCategories: systemCategoriesReducer,
   systemProducts: systemProductsReducer,
   systemProduct: systemProductReducer,
-  systemSimilarProducts:systemSimilarProductsReducer,
+  systemSimilarProducts: systemSimilarProductsReducer,
   systemLatestProducts: systemLatestProductsReducer,
   adminProduct: adminProductReducer,
   adminUsers: adminUserReducer,
-  adminVariants:adminVariantReducer,
-  adminColors:adminColorReducer,
-  adminImages:adminImageReducer,
-  User:userReducer
+  adminVariants: adminVariantReducer,
+  adminColors: adminColorReducer,
+  adminImages: adminImageReducer,
+  User: userReducer,
+  shipping:shippingReducer
 });
 
-const userInfoFromStorage = localStorage.getItem("userInfo")
-  ? JSON.parse(localStorage.getItem("userInfo"))
-  : null;
-  
-const initialState = { systemUser: { user: userInfoFromStorage } };
+const shippingFromStorage = localStorage.getItem("shipping")
+  ? JSON.parse(localStorage.getItem("shipping"))
+  : {};
+
+const initialState = {
+  shipping: { shipping: shippingFromStorage },
+};
 
 const middleware = [thunk];
+
 
 const store = createStore(
   reducer,
