@@ -30,7 +30,13 @@
   align-items: center;
   justify-content: center;
   font-size: var(--medium);
-  color: var(--color-error);
+
+  p{
+cursor: pointer;
+color: var(--color-primary);
+    margin-left: 0.5rem;
+    text-decoration: underline;
+  }
 }
 .error {
   color: var(--color-error);
@@ -82,6 +88,12 @@
         background-image: var(--linear-second);
       }
     }
+  }
+}
+
+@media all and (max-width: 100em) {
+  .container {
+    width: 90%;
   }
 }
 @media all and (max-width: 92em) {

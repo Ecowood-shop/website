@@ -53,7 +53,6 @@ function Product({
   };
 
   useEffect(() => {
-    const timer = setTimeout(() => {
       if (
         quantity > 0 &&
         quantity <= variant.quantity &&
@@ -61,9 +60,6 @@ function Product({
       ) {
         dispatch(updateCart(cart.id, quantity));
       }
-    }, 800);
-
-    return () => clearTimeout(timer);
   }, [quantity]);
 
   const isFirstRun = useRef(true);
