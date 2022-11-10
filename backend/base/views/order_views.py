@@ -41,37 +41,36 @@ def addOrderItems(request):
             taxPrice=data['taxPrice'],
             shippingPrice=data['shippingPrice'],
             totalPrice=data['totalPrice'],
-            wants_delivery=data['wants_delivery']
+            wants_delivery=data['wants_delivery'],
+            physicPerson=data['physicPerson']
         )
 
         # (2) Create shipping address
         if order.wants_delivery == 'True':
             shipping = ShippingAddress.objects.create(
                 order=order,
-                address=data['address'],
-                city=data['city'],
-                postalCode=data['postalCode'],
+                name=data['first_name'],
+                surname=data['last_name'],
                 personId=data['personId'],
                 phone=data['phone'],
-                shippingPrice=data['shippingPrice']
+                address=data['address']
 
             )
         else:
-            warehouse = Warehouse.objects.get(_id=data['_id'])
+            # warehouse = Warehouse.objects.get(_id=data['_id'])
 
             shipping = WithoutShipping.objects.create(
                 order=order,
-                name=data['name'],
-                surname=data['surname'],
+                name=data['first_name'],
+                surname=data['last_name'],
                 personId=data['personId'],
-                phone=data['phone'],
-                warehouse=warehouse
+                phone=data['phone']
+                # warehouse=warehouse
             )
-        print('adanavar')
+
         # (3) Create order items and set order to orderItem relationship
         for i in orderItems:
             product = Product.objects.get(_id=i['product'])
-
             item = OrderItem.objects.create(
                 product=product,
                 order=order,
