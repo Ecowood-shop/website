@@ -15,18 +15,20 @@
   img {
     cursor: pointer;
     border-radius: 10px;
+    height: 100%;
   }
   main {
     position: relative;
     width: 100%;
     h1 {
       cursor: pointer;
-      text-align: center;
+      text-align: start;
       white-space: normal;
       display: -webkit-box;
       -webkit-line-clamp: 1;
       -webkit-box-orient: vertical;
       overflow: hidden;
+      word-break: break-all;
     }
     section {
       display: flex;
@@ -41,6 +43,11 @@
         right: 1rem;
       }
       p:first-of-type {
+        
+  clear: both;
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
         b {
           margin-right: 1rem;
         }
@@ -58,9 +65,14 @@
 }
 .message {
   color: var(--color-error);
-  display: inline;
+  clear: both;
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
   margin-left: 1rem;
+  margin-right: 1rem;
 }
+
 .deleteBtn {
   box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
     rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
@@ -154,6 +166,12 @@
     & button{
      padding: 0.2rem 0.6rem !important;
     }}
+    .message {
+      position: absolute;
+      bottom: 0;
+      margin-left: 0;
+    }
+    
 }
 
 @media all and (max-width: 40em) and (orientation: portrait) {
