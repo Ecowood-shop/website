@@ -1,8 +1,8 @@
 // CONSTANTS
 import SYSTEM from "../constants/systemConstants";
 //AXIOS
-import { useAxios} from "../../hooks/useAxios";
-
+import { useAxios } from "../../hooks/useAxios";
+import { createOrder } from "./orderActions";
 
 export const getCategories = () => async (dispatch) => {
   try {
@@ -26,52 +26,50 @@ export const getCategories = () => async (dispatch) => {
   }
 };
 
-export const getLatestProducts =
-  () => async (dispatch) => {
-    try {
-      dispatch({
-        type: SYSTEM.GET_LATEST_PRODUCTS_REQUEST,
-      });
+export const getLatestProducts = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: SYSTEM.GET_LATEST_PRODUCTS_REQUEST,
+    });
 
-      const { data } = await useAxios.get("/api/products/latest/");
+    const { data } = await useAxios.get("/api/products/latest/");
 
-      dispatch({
-        type: SYSTEM.GET_LATEST_PRODUCTS_SUCCESS,
-        payload: data,
-      });
-    } catch (error) {
-      dispatch({
-        type: SYSTEM.GET_LATEST_PRODUCTS_FAIL,
-        payload: error.response?.data
-          ? Object.values(error.response?.data)[0]
-          : error.response,
-      });
-    }
-  };
+    dispatch({
+      type: SYSTEM.GET_LATEST_PRODUCTS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: SYSTEM.GET_LATEST_PRODUCTS_FAIL,
+      payload: error.response?.data
+        ? Object.values(error.response?.data)[0]
+        : error.response,
+    });
+  }
+};
 
-  export const getSimilarProducts =
-  (category) => async (dispatch) => {
-    try {
-      dispatch({
-        type: SYSTEM.GET_SIMILAR_PRODUCTS_REQUEST,
-      });
+export const getSimilarProducts = (category) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SYSTEM.GET_SIMILAR_PRODUCTS_REQUEST,
+    });
 
-      const { data } = await useAxios.get(`/api/products/latest/${category}`);
+    const { data } = await useAxios.get(`/api/products/latest/${category}`);
 
-      dispatch({
-        type: SYSTEM.GET_SIMILAR_PRODUCTS_SUCCESS,
-        payload: data,
-      });
-    } catch (error) {
-      dispatch({
-        type: SYSTEM.GET_SIMILAR_PRODUCTS_FAIL,
-        payload: error.response?.data
-          ? Object.values(error.response?.data)[0]
-          : error.response,
-      });
-    }
-  };
-  
+    dispatch({
+      type: SYSTEM.GET_SIMILAR_PRODUCTS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: SYSTEM.GET_SIMILAR_PRODUCTS_FAIL,
+      payload: error.response?.data
+        ? Object.values(error.response?.data)[0]
+        : error.response,
+    });
+  }
+};
+
 export const getProducts =
   (word, category, orderby, page) => async (dispatch) => {
     try {
@@ -79,7 +77,8 @@ export const getProducts =
         type: SYSTEM.GET_PRODUCTS_REQUEST,
       });
 
-      const { data } = await useAxios.get(`/api/products/?keyword=${word}&page=${page}&order=${orderby}&category=${category}`
+      const { data } = await useAxios.get(
+        `/api/products/?keyword=${word}&page=${page}&order=${orderby}&category=${category}`
       );
 
       dispatch({
@@ -118,13 +117,11 @@ export const getProduct = (id) => async (dispatch) => {
   }
 };
 
-
-export const savePaymentMethod = (data) => (dispatch, getState) => {
+export const savePaymentMethod = (data) => (dispatch) => {
   dispatch({
     type: SYSTEM.SAVE_SHIPPING_PAYMENT_METHOD,
     payload: data,
   });
-  console.log(getState().shipping)
   localStorage.setItem("shipping", JSON.stringify(data));
 };
 

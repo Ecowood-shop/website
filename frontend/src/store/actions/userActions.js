@@ -32,6 +32,7 @@ export const login = (email, password) => async (dispatch) => {
 export const logout = () => async (dispatch) => {
   try {
     dispatch({ type: USER.LOGOUT });
+    localStorage.removeItem("shipping");
     const {} = await useCustomAxios.post("/api/users/logout/", {
       nothing: "nothing",
     });
@@ -155,10 +156,10 @@ export const addToCart = (productId, variantID, qty) => async (dispatch) => {
       payload: data,
     });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     dispatch({
       type: USER.CART_ADD_FAIL,
-      payload: error?.data ? error.data[0] : error?.message
+      payload: error?.data ? error.data[0] : error?.message,
     });
   }
 };
@@ -172,7 +173,7 @@ export const deleteCart = (cartId) => async (dispatch) => {
     const { data } = await useCustomAxios.delete(
       `/api/products/removecart/${cartId}`
     );
-console.log(data)
+    console.log(data);
     dispatch({
       type: USER.CART_DELETE_SUCCESS,
       payload: data,

@@ -81,14 +81,18 @@ export const shippingReducer = (state = { shipping: {} }, action) => {
 
     case SYSTEM.SAVE_SHIPPING_METHOD:
       return {
-        shipping: { ...state.shipping, ...action.payload },
+        shipping: { ...state, ...action.payload },
       };
     case SYSTEM.SAVE_SHIPPING_DETAILS:
       return {
-        shipping: { ...state.shipping, ...action.payload },
+        shipping: { ...state, ...action.payload },
       };
     case SYSTEM.SAVE_SHIPPING_PAYMENT_METHOD:
-      return { successMethod: action.payload };
+      return {
+        shipping:{
+        ...state,
+        ...action.payload}
+      };
 
     case SYSTEM.CART_CLEAR_ITEMS:
       return {

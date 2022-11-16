@@ -45,7 +45,6 @@ function Product({
           setMessage("");
           setQuantity(Number(number));
         } else {
-          setQuantity();
           setMessage(`მარაგშია ${variant.quantity}`);
         }
         break;

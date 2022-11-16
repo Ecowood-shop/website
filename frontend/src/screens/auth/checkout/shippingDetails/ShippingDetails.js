@@ -52,7 +52,7 @@ function ShippingDetails() {
         }
         break;
       case "delivery":
-        data.deliver = "delivery";
+        data.delivery = "delivery";
       default:
         navigate("/checkout/shippingmethod");
         break;
