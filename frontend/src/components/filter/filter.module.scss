@@ -2,9 +2,10 @@
   min-width: fit-content;
   margin-top: 2rem;
   height: 5rem;
-  background-image:var(--linear-primary);
+  background-image: var(--linear-primary);
   border-radius: 10px;
   display: flex;
+
   align-items: center;
   @media all and (max-width: 90em) {
     flex-direction: column;
@@ -12,6 +13,9 @@
     justify-content: center;
     height: max-content;
     border-radius: 999px;
+    .id {
+      margin-left: 0rem;
+    }
     .logo {
       display: none;
     }
@@ -45,7 +49,17 @@
   transform: translateX(-50%);
   cursor: pointer;
 }
-
+.id {
+  margin-left: 3rem;
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  &[type="number"] {
+    -moz-appearance: textfield;
+  }
+}
 .input {
   height: 3rem;
   width: 30rem;
@@ -73,7 +87,7 @@
     rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
   padding: 0.5rem;
   border: none;
-  background-color:var(--color-second);
+  background-color: var(--color-second);
   color: white;
   font-size: var(--small);
   cursor: pointer;

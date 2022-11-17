@@ -17,6 +17,7 @@ import ProductsScreen from "./screens/admin/products/ProductsScreen";
 import UsersScreen from "./screens/admin/users/UsersScreen";
 import ProductScreen from "./screens/admin/edit/product/Product";
 import UserScreen from "./screens/admin/edit/user/User";
+import OrderScreen from "./screens/admin/orders/OrderScreen";
 import CreateProductScreen from "./screens/admin/create/product/Product";
 import Variants from "./screens/admin/variants/Variants";
 import Images from "./screens/admin/images/Images";
@@ -56,8 +57,7 @@ function App() {
 
           <Route element={<AuthorizedLayout />}>
             <Route path="/profile" element={<Profile />} />
-           
-            <Route
+             <Route
               path="/checkout/shippingmethod"
               element={<ShippingMethod />}
             />
@@ -89,6 +89,7 @@ function App() {
             <Route path="/admin/products/:id/images/" element={<Images />} />
             <Route path="/admin/users" element={<UsersScreen />} />
             <Route path="/admin/users/:id/edit" element={<UserScreen />} />
+            <Route path="/admin/orders" element={<OrderScreen />} />
           </Route>
           <Route path="*" element={<Error />} />
         </Routes>

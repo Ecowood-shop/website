@@ -34,6 +34,9 @@ function Header() {
 
   // FUNCTIONS
 console.log(user)
+const AdminOrdersNavigator= ()=> {
+  navigate("/admin/orders");
+};
   const AdminProductsNavigator = () => {
     navigate("/admin/products");
   };
@@ -224,6 +227,7 @@ console.log(user)
                 Close={() => ClosePanel()}
                 ProductsNavigator={() => AdminProductsNavigator()}
                 UsersNavigator={() => AdminUsersNavigator()}
+                OrdersNavigator={() => AdminOrdersNavigator()}
               />
             )}
           </h2>

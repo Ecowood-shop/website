@@ -8,15 +8,15 @@ import { getProducts } from "../../../store/actions/systemActions";
 import ADMIN from "../../../store/constants/adminConstants";
 
 // COMPONENTS
-import Filter from "../../../components/filter/Filter";
+import OrderFilter from "../../../components/filter/OrderFilter";
 import Table from "../../../components/table/Table";
 import Loader from "../../../components/loader/Loader";
 import Message from "../../../components/Message/Message";
 import Pagination from "../../../components/pagination/Pagination";
-import Nav from "./Nav";
 
 // OTHERS
 import styles from "./style.module.scss";
+import ORDER from "../../../store/constants/orderConstants";
 
 const columns = [
   {
@@ -37,7 +37,7 @@ const columns = [
   },
 ];
 
-function ProductsScreen() {
+function OrderScreen() {
   // HOOKS
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -63,12 +63,11 @@ function ProductsScreen() {
 
   return (
     <section className={styles.container}>
-      <Filter />
-      <Nav styles={styles} navigate={navigate} />
+      <OrderFilter />
       {loading && <Loader />} {error && <Message>{error}</Message>}
       {products && (
         <>
-          <div className={styles.table}> 
+          <div className={styles.table}>
             <Table
               columns={columns}
               data={products.products}
@@ -82,4 +81,4 @@ function ProductsScreen() {
   );
 }
 
-export default ProductsScreen;
+export default OrderScreen;
