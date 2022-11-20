@@ -5,6 +5,7 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
 import { getProducts } from "../../../store/actions/systemActions";
+import { deleteProduct } from "../../../store/actions/adminActions";
 import ADMIN from "../../../store/constants/adminConstants";
 
 // COMPONENTS
@@ -16,7 +17,6 @@ import Pagination from "../../../components/pagination/Pagination";
 
 // OTHERS
 import styles from "./style.module.scss";
-import ORDER from "../../../store/constants/orderConstants";
 
 const columns = [
   {
@@ -24,16 +24,16 @@ const columns = [
     accessor: "_id",
   },
   {
-    Header: "დასახელება",
+    Header: "მომხმარებელი",
     accessor: "name_geo",
   },
   {
-    Header: "კატეგორია",
-    accessor: "category",
+    Header: "თანხა",
+    accessor: "price",
   },
   {
-    Header: "ფასი",
-    accessor: "price",
+    Header: "ჩაბარებულია",
+    accessor: "category",
   },
 ];
 
@@ -60,7 +60,7 @@ function OrderScreen() {
     dispatch({ type: "GET_PRODUCT_RESET" });
     dispatch(getProducts(word, category, orderby, page));
   }, [dispatch, category, word, orderby, page, success]);
-
+console.log(products)
   return (
     <section className={styles.container}>
       <OrderFilter />
@@ -71,9 +71,12 @@ function OrderScreen() {
             <Table
               columns={columns}
               data={products.products}
-              link="/admin/products/"
+              link="/order/"
+              linkEnd=""
+              Delete={(id)=>dispatch(deleteProduct(id))}
+              text="პროდუქტის"
             />
-          </div>{" "}
+          </div>
           <Pagination pages={products.pages} page={products.page} />
         </>
       )}

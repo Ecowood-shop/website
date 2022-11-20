@@ -5,6 +5,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
 import { getUsers } from "../../../store/actions/adminActions";
+import { deleteUser } from "../../../store/actions/adminActions";
 
 // COMPONENTS
 import UserFilter from "../../../components/filter/UserFilter";
@@ -85,7 +86,9 @@ function UsersScreen() {
               columns={columns}
               data={users.users}
               link="/admin/users/"
-              user
+              linkEnd="/edit"
+              Delete={(id)=>dispatch(deleteUser(id))}
+              text="მომხმარებლის"
             />
           </div>
 

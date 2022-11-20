@@ -47,7 +47,7 @@ const AdminOrdersNavigator= ()=> {
   const ClosePanel = () => {
     Opener(["profile-link", "logOut-link", "admin-panel"], isOpen, setIsOpen);
     Opener(
-      ["admin-back", "admin-users", "admin-products"],
+      ["admin-back", "admin-users", "admin-products","admin-orders"],
       isPanelOpen,
       setIsPanelOpen
     );
@@ -56,7 +56,7 @@ const AdminOrdersNavigator= ()=> {
     user?.is_staff
       ? isPanelOpen
         ? Opener(
-            ["admin-back", "admin-users", "admin-products"],
+            ["admin-back", "admin-users", "admin-products","admin-orders"],
             isPanelOpen,
             setIsPanelOpen
           )

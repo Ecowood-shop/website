@@ -4,8 +4,9 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
-import { getProducts } from "../../../store/actions/systemActions";
+import { getProducts, } from "../../../store/actions/systemActions";
 import ADMIN from "../../../store/constants/adminConstants";
+import { deleteProduct } from "../../../store/actions/adminActions";
 
 // COMPONENTS
 import Filter from "../../../components/filter/Filter";
@@ -73,6 +74,9 @@ function ProductsScreen() {
               columns={columns}
               data={products.products}
               link="/admin/products/"
+              linkEnd="/edit"
+              Delete={(id)=>dispatch(deleteProduct(id))}
+              text="პროდუქტის"
             />
           </div>{" "}
           <Pagination pages={products.pages} page={products.page} />

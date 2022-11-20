@@ -90,6 +90,25 @@ export const getUser = () => async (dispatch) => {
   }
 };
 
+export const getUserOrders = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: USER.GET_ORDERS_REQUEST,
+    });
+    const { data } = await useCustomAxios.get(`api/orders/myorders/`);
+
+    dispatch({
+      type: USER.GET_ORDERS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: USER.GET_ORDERS_FAIL,
+      payload: error?.message,
+    });
+  }
+};
+
 export const updateUser = (formData) => async (dispatch) => {
   try {
     dispatch({

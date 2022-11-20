@@ -10,6 +10,7 @@ import HomeScreen from "./screens/app/home/HomeScreen";
 import About from "./screens/app/about/About";
 import Products from "./screens/app/products/Products";
 import Product from "./screens/app/product/Product";
+import Order from "./screens/auth/order/Order";
 import Error from "./screens/app/error/Error"
 
 // ADMIN
@@ -70,6 +71,10 @@ function App() {
               element={<PaymentMethod />}
             />
             <Route path="/profile/update" element={<ProfileUpdate />} />
+            <Route
+              path="/order/:id/"
+              element={<Order />}
+            />
           </Route>
 
           <Route element={<AdminLayout />}>

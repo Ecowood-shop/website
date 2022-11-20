@@ -10,6 +10,14 @@ export const orderReducer = (state = {}, action) => {
     case ORDER.CREATE_FAIL:
       return { ...state, loading: false, error: action.payload };
 
+
+      case ORDER.DELIVERED_REQUEST:
+        return { ...state, loading: true };
+      case ORDER.DELIVERED_SUCCESS:
+        return { ...state, loading: false, success: true };
+      case ORDER.DELIVERED_FAIL:
+        return { ...state, loading: false, error: action.payload };
+
     default:
       return state;
   }
