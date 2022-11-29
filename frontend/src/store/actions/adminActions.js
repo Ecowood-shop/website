@@ -3,8 +3,6 @@ import ADMIN from "../constants/adminConstants";
 // AXIOS
 import { useCustomAxios, useCustomFileAxios } from "../../hooks/useAxios";
 
-// PRODUCTS
-
 export const deleteProduct = (id) => async (dispatch) => {
   try {
     dispatch({
@@ -29,7 +27,7 @@ export const createProduct = (formData) => async (dispatch) => {
     dispatch({
       type: ADMIN.CREATE_PRODUCT_REQUEST,
     });
-    const { data } = await useCustomAxios.post("/api/products/create/", {
+    const { data } = await useCustomAxios.post("/api/products/create", {
       ...formData,
     });
     dispatch({
@@ -39,6 +37,27 @@ export const createProduct = (formData) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: ADMIN.CREATE_PRODUCT_FAIL,
+      payload: error?.data[0],
+    });
+  }
+};
+
+export const createCategory = (formData) => async (dispatch) => {
+  try {
+    console.log(formData);
+    dispatch({
+      type: ADMIN.CREATE_CATEGORY_REQUEST,
+    });
+    const { data } = await useCustomAxios.post("/api/products/category/create", {
+      ...formData
+    });
+    dispatch({
+      type: ADMIN.CREATE_CATEGORY_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADMIN.CREATE_CATEGORY_FAIL,
       payload: error?.data[0],
     });
   }

@@ -1,6 +1,5 @@
 // REACT
-import { useEffect, useState } from "react";
-import Select from "react-select";
+import { useEffect } from "react";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";

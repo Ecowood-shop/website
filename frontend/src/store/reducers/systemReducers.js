@@ -89,9 +89,10 @@ export const shippingReducer = (state = { shipping: {} }, action) => {
       };
     case SYSTEM.SAVE_SHIPPING_PAYMENT_METHOD:
       return {
-        shipping:{
-        ...state,
-        ...action.payload}
+        shipping: {
+          ...state,
+          ...action.payload,
+        },
       };
 
     case SYSTEM.CART_CLEAR_ITEMS:

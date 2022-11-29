@@ -114,6 +114,26 @@ export const adminColorReducer = (state = {}, action) => {
   }
 };
 
+export const adminCategoryReducer = (state = {}, action) => {
+  switch (action.type) {
+    case ADMIN.CREATE_CATEGORY_REQUEST:
+      return { loading: true,success: false };
+    case ADMIN.CREATE_CATEGORY_SUCCESS:
+      return { loading: false, colors: action.payload, success: true };
+    case ADMIN.CREATE_CATEGORY_FAIL:
+      return { loading: false, error: action.payload };
+
+      case ADMIN.DELETE_CATEGORY_REQUEST:
+        return { loading: true };
+      case ADMIN.DELETE_CATEGORY_SUCCESS:
+        return { loading: false, colors: action.payload };
+      case ADMIN.DELETE_CATEGORY_FAIL:
+        return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
 export const adminImageReducer = (state = {}, action) => {
   switch (action.type) {
     case ADMIN.GET_IMAGES_REQUEST:

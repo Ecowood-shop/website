@@ -1,7 +1,7 @@
 // REACT
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
+import MessengerCustomerChat from 'react-messenger-customer-chat';
 // SCREENS
 
 //   APP
@@ -20,6 +20,7 @@ import ProductScreen from "./screens/admin/edit/product/Product";
 import UserScreen from "./screens/admin/edit/user/User";
 import OrderScreen from "./screens/admin/orders/OrderScreen";
 import CreateProductScreen from "./screens/admin/create/product/Product";
+import CategoryScreen from "./screens/admin/categories/CategoryScreen";
 import Variants from "./screens/admin/variants/Variants";
 import Images from "./screens/admin/images/Images";
 
@@ -92,6 +93,7 @@ function App() {
               element={<Variants />}
             />
             <Route path="/admin/products/:id/images/" element={<Images />} />
+            <Route path="/admin/categories" element={<CategoryScreen />} />
             <Route path="/admin/users" element={<UsersScreen />} />
             <Route path="/admin/users/:id/edit" element={<UserScreen />} />
             <Route path="/admin/orders" element={<OrderScreen />} />
@@ -100,6 +102,11 @@ function App() {
         </Routes>
         <Footer />
       </ScrollToTop>
+     
+      {/*  <MessengerCustomerChat
+    pageId="<PAGE_ID>"
+    appId="<APP_ID>"
+  />, */}
     </Router>
   );
 }
