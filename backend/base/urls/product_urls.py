@@ -25,6 +25,7 @@ urlpatterns = [
     path('variants/delete/<str:pk>/', views.deleteVariant, name="variant-delete"),
 
     path('category/create', views.createCategory, name='create-category'),
+    path('category/delete/<str:pk>/', views.deleteCategory, name='delete-category'),
 
     path('latest/', views.getLatestProducts, name='latest-products'),
     path('latest/<str:pk>/', views.getLatestProduct, name="latest-product-by-category"),
