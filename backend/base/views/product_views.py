@@ -364,6 +364,13 @@ def deleteCart(request, pk):
     return Response("Product Deleted")
 
 
+@api_view(['DELETE'])
+def deleteCategory(request, pk):
+    Category.objects.get(_id=pk).delete()
+
+    return Response("Category Deleted")
+
+
 @api_view(['PUT'])
 def updateVariant(request, pk):
     token = request.COOKIES.get('jwt')

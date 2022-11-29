@@ -4,7 +4,8 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 
-from base.models import Product, Order, OrderItem, ShippingAddress, WithoutShipping, User, Warehouse
+from base.models import Product, Order, OrderItem, ShippingAddress, WithoutShipping, User, Warehouse, AddToCart, \
+    Picture, Variants
 from base.serializers import ProductSerializer, OrderSerializer
 
 from rest_framework import status
@@ -28,19 +29,38 @@ def addOrderItems(request):
     user = User.objects.filter(id=payload['id']).first()
     data = request.data
 
-    orderItems = data['orderItems']
+    orderItems = AddToCart.objects.filter(user=user)
 
-    if orderItems and len(orderItems) == 0:
+    if len(orderItems) == 0:
         return Response({'detail': 'No Order Items'}, status=status.HTTP_400_BAD_REQUEST)
     else:
+
+        products = []
+        variants = []
+        totalQuantity = 0
+        sum_price = 0
+        discounted_sum_price = 0
+
+        for i in orderItems:
+            products.append(i.product)
+            variants.append(i.variants)
+
+            totalQuantity += i.qty
+
+            sum_price += i.qty * (float(i.product.price))
+            discounted_sum_price += i.qty * (
+                    float(i.product.price) - float(i.product.price) * float(i.product.discount.discount_percent) / 100)
+
+        sum_price = '%.2f' % sum_price
+        discounted_sum_price = '%.2f' % discounted_sum_price
+
         # (1) Create Order
 
         order = Order.objects.create(
             user=user,
             paymentMethod=data['paymentMethod'],
-            taxPrice=data['taxPrice'],
             shippingPrice=data['shippingPrice'],
-            totalPrice=data['totalPrice'],
+            totalPrice=discounted_sum_price,
             wants_delivery=data['wants_delivery'],
             physicPerson=data['physicPerson']
         )
@@ -49,40 +69,42 @@ def addOrderItems(request):
         if order.wants_delivery == 'True':
             shipping = ShippingAddress.objects.create(
                 order=order,
-                name=data['first_name'],
-                surname=data['last_name'],
+                first_name=data['first_name'],
+                last_name=data['last_name'],
                 personId=data['personId'],
                 phone=data['phone'],
                 address=data['address']
-
             )
         else:
-            # warehouse = Warehouse.objects.get(_id=data['_id'])
+            warehouse = Warehouse.objects.get(_id=data['_id'])
 
             shipping = WithoutShipping.objects.create(
                 order=order,
                 name=data['first_name'],
                 surname=data['last_name'],
                 personId=data['personId'],
-                phone=data['phone']
-                # warehouse=warehouse
+                phone=data['phone'],
+                warehouse=warehouse
             )
 
         # (3) Create order items and set order to orderItem relationship
+
         for i in orderItems:
-            product = Product.objects.get(_id=i['product'])
+            product = Variants.objects.get(product_id=i.product._id)
+            image = Picture.objects.get(product_id=i.product._id, ord=0)
+
             item = OrderItem.objects.create(
-                product=product,
+                product=i.product,
                 order=order,
-                name=product.name,
-                qty=i['qty'],
-                price=i['price'],
-                image=product.image.url,
+                name=i.product.name_geo,
+                qty=i.qty,
+                price=i.product.price,
+                image=image,
             )
 
             # (4) Update Stock
 
-            product.countInStock -= item.qty
+            product.quantity -= item.qty
             product.save()
 
         serializer = OrderSerializer(order, many=False)
@@ -168,7 +190,10 @@ def updateOrderToPaid(request, pk):
     except jwt.ExpiredSignatureError:
         raise AuthenticationFailed('Unauthenticated!')
 
-    order = Order.objects.get(_id=pk)
+    try:
+        order = Order.objects.get(_id=pk)
+    except:
+        return Response({'detail': 'Order does not exist'}, status=status.HTTP_400_BAD_REQUEST)
 
     order.isPaid = True
     order.paidAt = datetime.now()
@@ -194,7 +219,10 @@ def updateOrderToDelivered(request, pk):
     if not user.is_staff:
         raise AuthenticationFailed('You do not have permission to perform this action.')
 
-    order = Order.objects.get(_id=pk)
+    try:
+        order = Order.objects.get(_id=pk)
+    except:
+        return Response({'detail': 'Order does not exist'}, status=status.HTTP_400_BAD_REQUEST)
 
     order.isDelivered = True
     order.deliveredAt = datetime.now()
