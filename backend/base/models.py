@@ -84,14 +84,11 @@ class Discount(models.Model):
 
 
 class Product(models.Model):
-    VARIANTS = (
-        ('Color', 'Color'),
-    )
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     name_geo = models.CharField(max_length=200, null=True, blank=True)
     brand = models.CharField(max_length=200, null=True, blank=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    variant = models.CharField(max_length=10, choices=VARIANTS, default="None")
+    variant = models.CharField(max_length=10, default="None")
     size = models.CharField(max_length=10, null=True, blank=True)
     technicalRequirements = models.TextField(null=True, blank=True)
     instructionForUse = models.TextField(null=True, blank=True)
