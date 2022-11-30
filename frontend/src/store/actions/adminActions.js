@@ -63,6 +63,24 @@ export const createCategory = (formData) => async (dispatch) => {
   }
 };
 
+export const deleteCategory = (id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: ADMIN.DELETE_CATEGORY_REQUEST,
+    });
+    const { data } = await useCustomAxios.delete(`/api/products/category/delete/${id}`);
+    dispatch({
+      type: ADMIN.DELETE_CATEGORY_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADMIN.DELETE_CATEGORY_FAIL,
+      payload: error?.data[0],
+    });
+  }
+};
+
 export const updateProduct = (id, formData) => async (dispatch) => {
   try {
     dispatch({

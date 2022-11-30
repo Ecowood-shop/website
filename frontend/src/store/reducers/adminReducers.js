@@ -119,16 +119,16 @@ export const adminCategoryReducer = (state = {}, action) => {
     case ADMIN.CREATE_CATEGORY_REQUEST:
       return { loading: true,success: false };
     case ADMIN.CREATE_CATEGORY_SUCCESS:
-      return { loading: false, colors: action.payload, success: true };
+      return { loading: false, success: true };
     case ADMIN.CREATE_CATEGORY_FAIL:
       return { loading: false, error: action.payload };
 
       case ADMIN.DELETE_CATEGORY_REQUEST:
-        return { loading: true };
+        return {loading: true,success:false};
       case ADMIN.DELETE_CATEGORY_SUCCESS:
-        return { loading: false, colors: action.payload };
+        return {loading: false, success:true};
       case ADMIN.DELETE_CATEGORY_FAIL:
-        return { loading: false, error: action.payload };
+        return {loading: false, error: action.payload };
     default:
       return state;
   }

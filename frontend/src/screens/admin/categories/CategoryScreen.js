@@ -6,7 +6,10 @@ import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getCategories } from "../../../store/actions/systemActions";
-import { createCategory } from "../../../store/actions/adminActions";
+import {
+  createCategory,
+  deleteCategory,
+} from "../../../store/actions/adminActions";
 
 // COMPONENTS
 import Loader from "../../../components/loader/Loader";
@@ -19,7 +22,11 @@ function Category(props) {
   return (
     <div className={styles.category}>
       <p>{props.category.name}</p>
-      <button>წაშლა</button>
+      <button
+        onClick={() => props.dispatch(deleteCategory(props.category._id))}
+      >
+        წაშლა
+      </button>
     </div>
   );
 }
@@ -44,10 +51,10 @@ function CategoryScreen() {
 
   useEffect(() => {
     if (success != false) {
-      dispatch(getCategories());    
+      dispatch(getCategories());
     }
   }, [dispatch, success]);
-
+  console.log(categories);
   return (
     <article className={styles.container}>
       <button
@@ -75,7 +82,11 @@ function CategoryScreen() {
       </div>
       {categories &&
         categories.map((category) => (
-          <Category category={category} key={category._id} />
+          <Category
+            category={category}
+            key={category._id}
+            dispatch={dispatch}
+          />
         ))}
     </article>
   );

@@ -20,7 +20,6 @@ export const useCustomAxios = axios.create({
 useCustomAxios.interceptors.response.use(
   (response) => response,
   (error) => {
-    console.log(error.response.status == 401)
     if (error.response.status == 401) {
       store.dispatch(logout());
     }

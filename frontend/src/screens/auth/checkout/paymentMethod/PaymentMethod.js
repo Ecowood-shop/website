@@ -31,10 +31,10 @@ function PaymentMethod() {
   function onSubmitButton(data) {
     data.delivery = shippingFromStorage?.delivery;
     if (data.delivery == "delivery") {
-      data.wants_delivery=true
+      data.wants_delivery = true;
       data.address = shippingFromStorage?.address;
     } else {
-      data.wants_delivery=false
+      data.wants_delivery = false;
       data.office = shippingFromStorage?.office;
     }
     if (shippingFromStorage?.customer == "individual") {
@@ -46,9 +46,10 @@ function PaymentMethod() {
       data.company_type = shippingFromStorage?.company_type;
       data.company_id = shippingFromStorage?.company_id;
     }
-    data.phone=shippingFromStorage?.phone;
-    data.physicPerson=shippingFromStorage?.customer
-    console.log(data)
+    data.phone = shippingFromStorage?.phone;
+    data.physicPerson =
+      shippingFromStorage?.customer == "individual" ? true : false;
+    console.log(data);
     if (
       Object.values(data).some((x) => x == null || x == "" || x == undefined)
     ) {

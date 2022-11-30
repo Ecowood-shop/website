@@ -1,7 +1,7 @@
 // REACT
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import MessengerCustomerChat from 'react-messenger-customer-chat';
+import MessengerCustomerChat from "react-messenger-customer-chat";
 // SCREENS
 
 //   APP
@@ -11,7 +11,7 @@ import About from "./screens/app/about/About";
 import Products from "./screens/app/products/Products";
 import Product from "./screens/app/product/Product";
 import Order from "./screens/auth/order/Order";
-import Error from "./screens/app/error/Error"
+import Error from "./screens/app/error/Error";
 
 // ADMIN
 import ProductsScreen from "./screens/admin/products/ProductsScreen";
@@ -59,7 +59,7 @@ function App() {
 
           <Route element={<AuthorizedLayout />}>
             <Route path="/profile" element={<Profile />} />
-             <Route
+            <Route
               path="/checkout/shippingmethod"
               element={<ShippingMethod />}
             />
@@ -67,15 +67,9 @@ function App() {
               path="/checkout/shippingdetails"
               element={<ShippingDetails />}
             />
-            <Route
-              path="/checkout/paymentmethod"
-              element={<PaymentMethod />}
-            />
+            <Route path="/checkout/paymentmethod" element={<PaymentMethod />} />
             <Route path="/profile/update" element={<ProfileUpdate />} />
-            <Route
-              path="/order/:id/"
-              element={<Order />}
-            />
+            <Route path="/order/:id/" element={<Order />} />
           </Route>
 
           <Route element={<AdminLayout />}>
@@ -102,7 +96,7 @@ function App() {
         </Routes>
         <Footer />
       </ScrollToTop>
-     
+
       {/*  <MessengerCustomerChat
     pageId="<PAGE_ID>"
     appId="<APP_ID>"
