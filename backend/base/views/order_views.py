@@ -1,19 +1,14 @@
+from datetime import datetime
+
 import jwt
-
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
-from rest_framework.response import Response
-
-from base.models import Product, Order, OrderItem, ShippingAddress, WithoutShipping, User, Warehouse, AddToCart, \
+from base.models import Order, OrderItem, ShippingAddress, WithoutShipping, User, Warehouse, AddToCart, \
     Picture, Variants
 from base.serializers import ProductSerializer, OrderSerializer, VariantSerializer, WarehouseSerializer
-
-from rest_framework import status
-from datetime import date, datetime
-
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
-from rest_framework.exceptions import AuthenticationFailed, NotFound, ValidationError
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.exceptions import AuthenticationFailed
+from rest_framework.response import Response
 
 
 @api_view(['POST'])
@@ -123,7 +118,6 @@ def addOrderItems(request):
             return Response({'Cart': serializer.data})
 
 
-
 @api_view(['GET'])
 def getMyOrders(request):
     token = request.COOKIES.get('jwt')
@@ -137,7 +131,7 @@ def getMyOrders(request):
         raise AuthenticationFailed('Unauthenticated!')
 
     user = User.objects.filter(id=payload['id']).first()
-+   orders = user.order_set.all().order_by('-createdAt')
+    orders = user.order_set.all().order_by('-createdAt')
 
     page = request.query_params.get('page')
 
@@ -189,7 +183,8 @@ def getOrders(request):
     if query is None or query == "null":
         query = ''
 
-    orders = Order.objects.filter(user__first_name__icontains=query) | Order.objects.filter(user__last_name__icontains=query).order_by('-createdAt')
+    orders = Order.objects.filter(user__first_name__icontains=query) | Order.objects.filter(
+        user__last_name__icontains=query).order_by('-createdAt')
 
     if delivered is None or query == "null":
         pass
@@ -330,5 +325,3 @@ def deleteOrder(request, pk):
     Order.objects.get(_id=pk).delete()
 
     return Response("Order Deleted")
-
-
