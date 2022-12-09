@@ -2,7 +2,7 @@ from rest_framework import serializers
 import django.contrib.auth.password_validation as validators
 
 from .models import Product, User, Category, Variants, \
-    ShippingAddress, Order, OrderItem, Color, AddToCart, Picture
+    ShippingAddress, Order, OrderItem, Color, AddToCart, Picture, WithoutShipping, Warehouse
 
 from .generator import generate_random_code
 from .sendEmail import sendMail
@@ -47,22 +47,49 @@ class TokenSerializer(serializers.Serializer):
     token = serializers.CharField(max_length=255)
 
 
+class DynamicFieldsModelSerializer(serializers.ModelSerializer):
+    """
+    A ModelSerializer that takes an additional `fields` argument that
+    controls which fields should be displayed.
+    """
+
+    def __init__(self, *args, **kwargs):
+        # Don't pass the 'fields' arg up to the superclass
+        fields = kwargs.pop('fields', None)
+
+        # Instantiate the superclass normally
+        super().__init__(*args, **kwargs)
+
+        if fields is not None:
+            # Drop any fields that are not specified in the `fields` argument.
+            allowed = set(fields)
+            existing = set(self.fields)
+            for field_name in existing - allowed:
+                self.fields.pop(field_name)
+
+
 class ProductImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Picture
         fields = ['id', 'picture', 'ord']
 
 
-class ProductSerializer(serializers.ModelSerializer):
+class ProductSerializer(DynamicFieldsModelSerializer):
     category = serializers.ReadOnlyField(source='category.name')
     discount = serializers.ReadOnlyField(source='discount.name')
     picture_set = ProductImageSerializer(many=True)
+    # variants = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Product
         fields = ['_id', 'category', 'discount', 'name_geo', 'picture_set', 'brand', 'size',
                   'technicalRequirements', 'instructionForUse', 'safetyStandard',
                   'youtubeUrl', 'coverageLength', 'price', 'createdAt', 'user']
+
+    # def get_variants(self, obj):
+    #     items = obj.variants_set.all()
+    #     serializer = VariantSerializer(items, many=True)
+    #     return serializer.data
 
 
 class VariantSerializer(serializers.ModelSerializer):
@@ -99,6 +126,7 @@ class OrderSerializer(serializers.ModelSerializer):
     orderItems = serializers.SerializerMethodField(read_only=True)
     shippingAddress = serializers.SerializerMethodField(read_only=True)
     user = serializers.SerializerMethodField(read_only=True)
+    withoutShipping = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Order
@@ -117,6 +145,14 @@ class OrderSerializer(serializers.ModelSerializer):
             address = False
         return address
 
+    def get_withoutShipping(self, obj):
+        try:
+            address = WithoutShippingSerializer(
+                obj.withoutshipping, many=False).data
+        except:
+            address = False
+        return address
+
     def get_user(self, obj):
         user = obj.user
         serializer = UserSerializer(user, many=False)
@@ -126,6 +162,18 @@ class OrderSerializer(serializers.ModelSerializer):
 class ShippingAddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = ShippingAddress
+        fields = '__all__'
+
+
+class WithoutShippingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WithoutShipping
+        fields = ['order', 'name', 'surname', 'personId', 'phone', '_id']
+
+
+class WarehouseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Warehouse
         fields = '__all__'
 
 
