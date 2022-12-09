@@ -6,7 +6,7 @@ from rest_framework.response import Response
 
 from base.models import Product, Order, OrderItem, ShippingAddress, WithoutShipping, User, Warehouse, AddToCart, \
     Picture, Variants
-from base.serializers import ProductSerializer, OrderSerializer
+from base.serializers import ProductSerializer, OrderSerializer, VariantSerializer
 
 from rest_framework import status
 from datetime import date, datetime
@@ -88,9 +88,10 @@ def addOrderItems(request):
             )
 
         # (3) Create order items and set order to orderItem relationship
+        data = []
 
         for i in orderItems:
-            product = Variants.objects.get(product_id=i.product._id)
+            product = Variants.objects.get(product_id=i.product._id, color=i.variants.color)
             image = Picture.objects.get(product_id=i.product._id, ord=0)
 
             item = OrderItem.objects.create(
@@ -102,14 +103,19 @@ def addOrderItems(request):
                 image=image,
             )
 
+            variants = Variants.objects.filter(product_id=i.product._id, color=i.variants.color)
+            data.append(VariantSerializer(variants, many=True).data)
             # (4) Update Stock
 
-            product.quantity -= item.qty
-            product.save()
+            if product.quantity - item.qty < 0:
+                return Response({'detail ': product.product.name_geo + ' Product Out of stock'}, status=status.HTTP_400_BAD_REQUEST)
+            else:
+                product.quantity -= item.qty
+                product.save()
 
         serializer = OrderSerializer(order, many=False)
 
-        return Response(serializer.data)
+        return Response({'Order': serializer.data, 'variants': data})
 
 
 @api_view(['GET'])
