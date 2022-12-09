@@ -118,6 +118,7 @@ def addOrderItems(request):
         return Response({'Order': serializer.data, 'variants': data})
 
 
+
 @api_view(['GET'])
 def getMyOrders(request):
     token = request.COOKIES.get('jwt')
