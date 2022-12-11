@@ -374,3 +374,49 @@ export const deleteImage = (id) => async (dispatch) => {
     });
   }
 };
+
+
+//   ORDERS
+
+export const getOrders = (page, user, status,id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: ADMIN.GET_ORDER_LIST_REQUEST,
+    });
+     // `/api/users/?keyword=${word}&page=${page}&is_staff=${status}`
+    const { data } = await useCustomAxios.get(
+      `/api/orders/`
+    );
+
+    dispatch({
+      type: ADMIN.GET_ORDER_LIST_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADMIN.GET_ORDER_LIST_FAIL,
+      payload: error?.message,
+    });
+  }
+};
+
+
+export const orderDelivered = (id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: ADMIN.ORDER_DELIVERED_REQUEST,
+    });
+
+    const { data } = await useCustomAxios.put(`/api/orders/${id}/deliver/`,{});
+
+    dispatch({
+      type: ADMIN.ORDER_DELIVERED_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADMIN.ORDER_DELIVERED_FAIL,
+      payload: error?.message,
+    });
+  }
+};

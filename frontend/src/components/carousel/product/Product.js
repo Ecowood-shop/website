@@ -6,7 +6,7 @@ import styles from "./product.module.scss";
 function Product(props) {
   // HOOKS
   const navigate = useNavigate();
-
+ 
   return (
     <div
       className={styles.container}

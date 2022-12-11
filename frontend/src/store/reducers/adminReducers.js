@@ -117,18 +117,18 @@ export const adminColorReducer = (state = {}, action) => {
 export const adminCategoryReducer = (state = {}, action) => {
   switch (action.type) {
     case ADMIN.CREATE_CATEGORY_REQUEST:
-      return { loading: true,success: false };
+      return { loading: true, success: false };
     case ADMIN.CREATE_CATEGORY_SUCCESS:
       return { loading: false, success: true };
     case ADMIN.CREATE_CATEGORY_FAIL:
       return { loading: false, error: action.payload };
 
-      case ADMIN.DELETE_CATEGORY_REQUEST:
-        return {loading: true,success:false};
-      case ADMIN.DELETE_CATEGORY_SUCCESS:
-        return {loading: false, success:true};
-      case ADMIN.DELETE_CATEGORY_FAIL:
-        return {loading: false, error: action.payload };
+    case ADMIN.DELETE_CATEGORY_REQUEST:
+      return { loading: true, success: false };
+    case ADMIN.DELETE_CATEGORY_SUCCESS:
+      return { loading: false, success: true };
+    case ADMIN.DELETE_CATEGORY_FAIL:
+      return { loading: false, error: action.payload };
     default:
       return state;
   }
@@ -155,6 +155,27 @@ export const adminImageReducer = (state = {}, action) => {
     case ADMIN.DELETE_IMAGE_SUCCESS:
       return { loading: false, successDelete: action.payload };
     case ADMIN.DELETE_IMAGE_FAIL:
+      return { loading: false, error: action.payload };
+
+    default:
+      return state;
+  }
+};
+
+export const adminOrderReducer = (state = {}, action) => {
+  switch (action.type) {
+    case ADMIN.GET_ORDER_LIST_REQUEST:
+      return { loading: true };
+    case ADMIN.GET_ORDER_LIST_SUCCESS:
+      return { loading: false, orders: action.payload };
+    case ADMIN.GET_ORDER_LIST_FAIL:
+      return { loading: false, error: action.payload };
+
+    case ADMIN.ORDER_DELIVERED_REQUEST:
+      return { loading: true };
+    case ADMIN.ORDER_DELIVERED_SUCCESS:
+      return { loading: false, success:true};
+    case ADMIN.ORDER_DELIVERED_FAIL:
       return { loading: false, error: action.payload };
 
     default:

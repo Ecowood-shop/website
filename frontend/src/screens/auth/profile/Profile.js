@@ -1,11 +1,10 @@
 // REACT
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
-import { getUser,getUserOrders } from "../../../store/actions/userActions";
+import { getUser, getUserOrders } from "../../../store/actions/userActions";
 
 // COMPONENTS
 import Section1 from "./sections/Section1";
@@ -23,11 +22,32 @@ const columns = [
   },
   {
     Header: "თანხა",
-    accessor: "price",
+    accessor: (d) => d.totalPrice + " ლ",
   },
   {
     Header: "ჩაბარებულია",
-    accessor: "category",
+    accessor: (d) =>
+      d.isDelivered ? (
+        <p
+          style={{
+            color: "green",
+            textDecoration: "underline",
+            fontWeight: "bold",
+          }}
+        >
+          ჩაბარებულია
+        </p>
+      ) : (
+        <p
+          style={{
+            color: "red",
+            textDecoration: "underline",
+            fontWeight: "bold",
+          }}
+        >
+          მუშავდება
+        </p>
+      ),
   },
 ];
 
@@ -35,39 +55,41 @@ function Profile() {
   // HOOKS
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { id } = useParams();
 
   const User = useSelector((state) => state.User);
-  const { error, loading, user,orders } = User;
+  const { error, loading, user, orders } = User;
 
   useEffect(() => {
     dispatch(getUser());
-    dispatch(getUserOrders())
+    dispatch(getUserOrders());
   }, [dispatch]);
+
   console.log(user);
-  console.log(orders)
+  console.log(orders);
+
   return (
     <article className={styles.container}>
       {loading && <Loader />}
-      {error && <Message>{error}</Message>}
       {user && (
         <>
           <Section1 user={user} navigate={navigate} />
-          <section>
-            <h1>შეკვეთები</h1>{" "}
-            <div className={styles.table}>
-              <Table
-                columns={columns}
-                data={[]}
-                link="/order/"
-                linkEnd=""
-                Delete={(id) => console.log(id)}
-                text="პროდუქტის"
-                user
-              />
-            </div>
-            {/* <Pagination pages={products.pages} page={products.page} /> */}
-          </section>
+          {orders && (
+            <section>
+              <h1>შეკვეთები</h1>{" "}
+              <div className={styles.table}>
+                <Table
+                  columns={columns}
+                  data={orders}
+                  link="/order/"
+                  linkEnd=""
+                  Delete={(id) => console.log(id)}
+                  text="პროდუქტის"
+                  user
+                />
+              </div>
+              {/* <Pagination pages={products.pages} page={products.page} /> */}
+            </section>
+          )}
         </>
       )}
     </article>

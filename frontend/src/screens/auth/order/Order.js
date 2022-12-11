@@ -5,73 +5,96 @@ import { useParams } from "react-router-dom";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
-import { getProducts } from "../../../store/actions/systemActions";
-import { deleteProduct } from "../../../store/actions/adminActions";
+import { getOrder } from "../../../store/actions/orderActions";
+import { orderDelivered } from "../../../store/actions/adminActions";
 
 // OTHERS
 import styles from "./styles.module.scss";
 
 function Order() {
   const User = useSelector((state) => state.User);
-  const {user } = User;
+  const { user } = User;
 
   // HOOKS
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const params = useParams();
 
-  const systemProducts = useSelector((state) => state.systemProducts);
-  const { error, loading, products } = systemProducts;
+  const Order = useSelector((state) => state.Order);
+  const { error, loading, order } = Order;
+
+  const adminOrders = useSelector((state) => state.adminOrders);
+  const { success} = adminOrders;
 
   useEffect(() => {
-    dispatch(getProducts(null,null,null,null));
-  }, [dispatch]);
+    dispatch(getOrder(params.id));
+  }, [dispatch,success]);
 
-  console.log(products);
+  console.log(order);
   return (
     <article className={styles.container}>
+      {order && <>
       <h1>შეკვეთა N{params.id}</h1>
       <h2>დეტალები</h2>
       <section className={styles.sectionDetails}>
         <div>
           <p>
-            <b>მომხმარებელი:</b>შსს ქუთაისი
+            <b>მომხმარებელი:</b>არაა
           </p>
-         
+
           <p>
-            <b>ტელეფონი:</b>577 69 23 44
-          </p>
-          <p>
-            <b>მისამართი:</b>გამსახურდია
+            <b>ტელეფონი:</b>araa
           </p>
           <p>
-            <b>ID:</b>ასდსად
+            <b>მისამართი:</b>araa
+          </p>
+          <p>
+            <b>თარიღი:</b>
+            {order.createdAt.substring(0, 10)}
           </p>
         </div>
         <div>
           <p className={styles.sum}>
-            <b>ჯამი:</b>289.00 ლ
+            <b>ჯამი:</b>{order.totalPrice} ლ
           </p>
-          <p className={styles.status} style={{ color: "red" }}>
-            <b>სტატუსი:</b>მუშავდება
+          {order.wants_delivery && <p className={styles.sum}>
+            <b>მიტანის სერვისი:</b>{order.shippingPrice} ლ
+          </p>}
+          <p className={styles.status} style={{ color: order.isDelivered ? "green" : "red" }}>
+            <b>სტატუსი:</b>{order.isDelivered ? "ჩაბარებულია" : "მუშავდება"}
           </p>
-          {user.is_staff && 
-          <button className={styles.delivered}>ჩაბარებულია</button>}
+          {(user.is_staff && !order.isDelivered) && (
+            <button className={styles.delivered} onClick={()=>dispatch(orderDelivered(params.id))}>ჩაბარებულია</button>
+          )}
         </div>
       </section>
+      </> }
       <h2>პროდუქტები</h2>
       <section className={styles.products}>
-        {products && products.products.map(product=> <div className={styles.product}>
-          <img src={product.picture_set[0].picture} onClick={()=>navigate(`/product/${params.id}`)}/>
-          <div>
-          <p className={styles.name}  onClick={()=>navigate(`/product/${params.id}`)}>{product.name_geo}</p>
-          <div className={styles.productDetails}>
-          <p>{product.size}</p>
-          <p><b>ფასი:</b> {product.price} ლ</p>
-          </div>
-          </div>
-          <p className={styles.emount}>3 ცალი</p>
-        </div>)}
+        {order?.orderItems &&
+          order?.orderItems.map((product) => (
+            <div className={styles.product} key={product._id}>
+              <img
+                src={"/images/"+product.image}
+                onClick={() => navigate(`/product/${product.product}`)}
+              />
+              <div>
+                <p
+                  className={styles.name}
+                  onClick={() => navigate(`/product/${product.product}`)}
+                >
+                  {product.name}
+                </p>
+                <div className={styles.productDetails}>
+                  <p>{product.size}</p>
+                  <p>
+                    <b>ფასი:</b> {product.price} ლ
+                  </p>
+                </div>
+              </div>
+              <p className={styles.emount}>{product.qty} ცალი</p>
+            </div>
+          ))}
       </section>
     </article>
   );

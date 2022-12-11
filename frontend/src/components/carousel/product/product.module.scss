@@ -69,12 +69,13 @@
 
 @media all and (max-width: 80em) {
   .table {
+
    &> h2{
       font-size: var(--medium) !important;
     }
     div {
       h2:first-of-type {
-         
+          text-align: start;
           font-size: var(--small) !important; 
         }
       

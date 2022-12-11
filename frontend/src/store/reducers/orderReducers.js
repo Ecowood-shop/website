@@ -11,12 +11,22 @@ export const orderReducer = (state = {}, action) => {
       return { ...state, loading: false, error: action.payload };
 
 
-      case ORDER.DELIVERED_REQUEST:
-        return { ...state, loading: true };
-      case ORDER.DELIVERED_SUCCESS:
-        return { ...state, loading: false, success: true };
-      case ORDER.DELIVERED_FAIL:
-        return { ...state, loading: false, error: action.payload };
+    case ORDER.GET_REQUEST:
+      return { ...state, loading: true };
+    case ORDER.GET_SUCCESS:
+      return { ...state, loading: false, order: action.payload };
+    case ORDER.GET_FAIL:
+      return { ...state, loading: false, error: action.payload };
+
+    case ORDER.ADMIN_REQUEST:
+      return { loading: true };
+    case ORDER.ADMIN_SUCCESS:
+      return { loading: false, orders: action.payload };
+    case ORDER.ADMIN_FAIL:
+      return {loading: false, error: action.payload };
+
+    case ORDER.CLEAR_ORDER:
+      return { };
 
     default:
       return state;

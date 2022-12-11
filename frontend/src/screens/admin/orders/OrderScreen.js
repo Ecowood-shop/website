@@ -4,9 +4,7 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
-import { getProducts } from "../../../store/actions/systemActions";
-import { deleteProduct } from "../../../store/actions/adminActions";
-import ADMIN from "../../../store/constants/adminConstants";
+import { getOrders } from "../../../store/actions/adminActions";
 
 // COMPONENTS
 import OrderFilter from "../../../components/filter/OrderFilter";
@@ -25,15 +23,36 @@ const columns = [
   },
   {
     Header: "მომხმარებელი",
-    accessor: "name_geo",
-  },
-  {
-    Header: "თანხა",
-    accessor: "price",
+    accessor: d=>d.user.first_name + " " + d.user.last_name,
   },
   {
     Header: "ჩაბარებულია",
-    accessor: "category",
+    accessor: (d) =>
+      d.isDelivered ? (
+        <p
+          style={{
+            color: "green",
+            textDecoration: "underline",
+            fontWeight: "bold",
+          }}
+        >
+          ჩაბარებულია
+        </p>
+      ) : (
+        <p
+          style={{
+            color: "red",
+            textDecoration: "underline",
+            fontWeight: "bold",
+          }}
+        >
+          მუშავდება
+        </p>
+      ),
+  },
+  {
+    Header: "თანხა",
+    accessor: "totalPrice",
   },
 ];
 
@@ -49,35 +68,30 @@ function OrderScreen() {
   const orderby = searchParams.get("orderby");
   const page = searchParams.get("page");
 
-  const systemProducts = useSelector((state) => state.systemProducts);
-  const { error, loading, products } = systemProducts;
-
-  const adminProduct = useSelector((state) => state.adminProduct);
-  const { success } = adminProduct;
+  const adminOrders = useSelector((state) => state.adminOrders);
+  const { error, loading, orders } = adminOrders;
 
   useEffect(() => {
-    dispatch({ type: ADMIN.UPDATE_PRODUCT_RESET });
-    dispatch({ type: "GET_PRODUCT_RESET" });
-    dispatch(getProducts(word, category, orderby, page));
-  }, [dispatch, category, word, orderby, page, success]);
-console.log(products)
+    dispatch(getOrders(word, category, orderby, page));
+  }, [dispatch]);
+  console.log(orders);
   return (
     <section className={styles.container}>
       <OrderFilter />
       {loading && <Loader />} {error && <Message>{error}</Message>}
-      {products && (
+      {orders && (
         <>
           <div className={styles.table}>
             <Table
               columns={columns}
-              data={products.products}
+              data={orders}
               link="/order/"
               linkEnd=""
-              Delete={(id)=>dispatch(deleteProduct(id))}
+              // Delete={(id)=>dispatch(deleteProduct(id))}
               text="პროდუქტის"
             />
           </div>
-          <Pagination pages={products.pages} page={products.page} />
+          {/* <Pagination pages={products.pages} page={products.page} /> */}
         </>
       )}
     </section>

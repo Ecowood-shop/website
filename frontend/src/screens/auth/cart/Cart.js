@@ -98,7 +98,7 @@ console.log(message)
             <button
               className={styles.btn}
               onClick={() => {
-                if (message === 0 ) navigate("/checkout/shippingmethod");
+                navigate("/checkout/shippingmethod");
               }}
             >
               <svg
