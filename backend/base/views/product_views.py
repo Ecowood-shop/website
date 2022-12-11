@@ -1,16 +1,12 @@
 import jwt
-from django.http import JsonResponse
-
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.exceptions import AuthenticationFailed, NotFound, ValidationError
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
-from rest_framework.response import Response
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
-from base.models import Product, Category, User, Color, Discount, Variants, AddToCart, Picture
+from base.models import Product, Category, User, Color, Discount, Variants, AddToCart, Picture, Warehouse
 from base.serializers import ProductSerializer, CategorySerializer, TopProductSerializer, \
-    VariantSerializer, ColorSerializer, AddToCartSerializer, UserSerializer, SpecificProductSerializer, \
-    ProductImageSerializer
+    VariantSerializer, ColorSerializer, AddToCartSerializer, SpecificProductSerializer, \
+    ProductImageSerializer, WarehouseSerializer
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from rest_framework.decorators import api_view
+from rest_framework.exceptions import AuthenticationFailed, NotFound, ValidationError
+from rest_framework.response import Response
 
 
 @api_view(['GET'])
@@ -554,6 +550,14 @@ def deleteImage(request, pk):
         raise NotFound()
 
     return Response('Image Deleted')
+
+
+@api_view(['GET'])
+def getWarehouses(request):
+    warehouses = Warehouse.objects.all()
+    serializer = WarehouseSerializer(warehouses, many=True)
+
+    return Response(serializer.data)
 
 
 @api_view(['GET'])

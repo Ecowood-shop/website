@@ -78,6 +78,7 @@ class ProductSerializer(DynamicFieldsModelSerializer):
     category = serializers.ReadOnlyField(source='category.name')
     discount = serializers.ReadOnlyField(source='discount.name')
     picture_set = ProductImageSerializer(many=True)
+
     # variants = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
@@ -90,7 +91,6 @@ class ProductSerializer(DynamicFieldsModelSerializer):
     #     items = obj.variants_set.all()
     #     serializer = VariantSerializer(items, many=True)
     #     return serializer.data
-
 
 
 class VariantSerializer(serializers.ModelSerializer):
@@ -166,16 +166,18 @@ class ShippingAddressSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class WithoutShippingSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = WithoutShipping
-        fields = ['order', 'name', 'surname', 'personId', 'phone', '_id']
-
-
 class WarehouseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Warehouse
         fields = '__all__'
+
+
+class WithoutShippingSerializer(serializers.ModelSerializer):
+    warehouse = WarehouseSerializer(many=False)
+
+    class Meta:
+        model = WithoutShipping
+        fields = ['order', 'name', 'surname', 'personId', 'phone', 'warehouse']
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
