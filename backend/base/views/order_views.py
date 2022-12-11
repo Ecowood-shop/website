@@ -1,17 +1,14 @@
+from datetime import datetime
+
 import jwt
-
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
-from rest_framework.response import Response
-
-from base.models import Product, Order, OrderItem, ShippingAddress, WithoutShipping, User, Warehouse, AddToCart, \
+from base.models import Order, OrderItem, ShippingAddress, WithoutShipping, User, Warehouse, AddToCart, \
     Picture, Variants
-from base.serializers import ProductSerializer, OrderSerializer, VariantSerializer
-
+from base.serializers import ProductSerializer, OrderSerializer, VariantSerializer, WarehouseSerializer
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from rest_framework import status
-from datetime import date, datetime
-
-from rest_framework.exceptions import AuthenticationFailed, NotFound, ValidationError
+from rest_framework.decorators import api_view
+from rest_framework.exceptions import AuthenticationFailed
+from rest_framework.response import Response
 
 
 @api_view(['POST'])
@@ -91,7 +88,8 @@ def addOrderItems(request):
         data = []
 
         for i in orderItems:
-            product = Variants.objects.get(product_id=i.product._id, color=i.variants.color)
+            print(i.product)
+            variant = Variants.objects.get(id=i.variants_id)
             image = Picture.objects.get(product_id=i.product._id, ord=0)
 
             item = OrderItem.objects.create(
@@ -100,22 +98,24 @@ def addOrderItems(request):
                 name=i.product.name_geo,
                 qty=i.qty,
                 price=i.product.price,
+                variant=variant,
                 image=image,
             )
 
-            variants = Variants.objects.filter(product_id=i.product._id, color=i.variants.color)
-            data.append(VariantSerializer(variants, many=True).data)
             # (4) Update Stock
 
-            if product.quantity - item.qty < 0:
-                return Response({'detail ': product.product.name_geo + ' Product Out of stock'}, status=status.HTTP_400_BAD_REQUEST)
-            else:
-                product.quantity -= item.qty
-                product.save()
+            variant.quantity -= item.qty
+            variant.save()
+
+        AddToCart.objects.filter(user=user).delete()
 
         serializer = OrderSerializer(order, many=False)
 
-        return Response({'Order': serializer.data, 'variants': data})
+        if order.wants_delivery == 'False':
+            warehouseSerializer = WarehouseSerializer(warehouse, many=False)
+            return Response({'Cart': serializer.data, 'Warehouse': warehouseSerializer.data})
+        else:
+            return Response({'Cart': serializer.data})
 
 
 @api_view(['GET'])
@@ -131,9 +131,29 @@ def getMyOrders(request):
         raise AuthenticationFailed('Unauthenticated!')
 
     user = User.objects.filter(id=payload['id']).first()
-    orders = user.order_set.all()
+    orders = user.order_set.all().order_by('-createdAt')
+
+    page = request.query_params.get('page')
+
+    paginator = Paginator(orders, 10)
+
+    try:
+        orders = paginator.page(page)
+    except PageNotAnInteger:
+        orders = paginator.page(1)
+    except EmptyPage:
+        orders = paginator.page(paginator.num_pages)
+
+    if page is None or page == "null":
+        page = 1
+
+    page = int(page)
+    print('Page:', page)
+    print(orders)
+
     serializer = OrderSerializer(orders, many=True)
-    return Response(serializer.data)
+
+    return Response({'Orders': serializer.data, 'page': page, 'pages': paginator.num_pages})
 
 
 @api_view(['GET'])
@@ -153,9 +173,47 @@ def getOrders(request):
     if not user.is_staff:
         raise AuthenticationFailed('You do not have permission to perform this action.')
 
-    orders = Order.objects.all()
+    # orders = Order.objects.all().order_by('-createdAt')
+
+    query = request.query_params.get('keyword')
+    ordID = request.query_params.get('ordID')
+    page = request.query_params.get('page')
+    delivered = request.query_params.get('delivered')
+
+    if query is None or query == "null":
+        query = ''
+
+    orders = Order.objects.filter(user__first_name__icontains=query) | Order.objects.filter(
+        user__last_name__icontains=query).order_by('-createdAt')
+
+    if delivered is None or query == "null":
+        pass
+    else:
+        orders = Order.objects.filter(isDelivered__exact=delivered).order_by('-createdAt')
+
+    if ordID is None or query == "null":
+        pass
+    else:
+        orders = Order.objects.filter(_id__exact=ordID).order_by('-createdAt')
+
+    paginator = Paginator(orders, 10)
+
+    try:
+        orders = paginator.page(page)
+    except PageNotAnInteger:
+        orders = paginator.page(1)
+    except EmptyPage:
+        orders = paginator.page(paginator.num_pages)
+
+    if page is None or page == "null":
+        page = 1
+
+    page = int(page)
+    print('Page:', page)
+    print(orders)
+
     serializer = OrderSerializer(orders, many=True)
-    return Response(serializer.data)
+    return Response({'Orders': serializer.data, 'page': page, 'pages': paginator.num_pages})
 
 
 @api_view(['GET'])
@@ -172,16 +230,26 @@ def getOrderById(request, pk):
 
     user = User.objects.filter(id=payload['id']).first()
 
-    try:
-        order = Order.objects.get(_id=pk)
-        if user.is_staff or order.user == user:
-            serializer = OrderSerializer(order, many=False)
-            return Response(serializer.data)
-        else:
-            Response({'detail': 'Not authorized to view this order'},
-                     status=status.HTTP_400_BAD_REQUEST)
-    except:
-        return Response({'detail': 'Order does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+    order = Order.objects.get(_id=pk)
+    orderItems = order.orderitem_set.all()
+    variant = []
+    products = []
+
+    for e in orderItems:
+        variant.append(e.variant)
+        products.append(e.product)
+
+    if user.is_staff or order.user == user:
+        serializer = OrderSerializer(order, many=False)
+        variantSerializer = VariantSerializer(variant, many=True)
+        productSerializer = ProductSerializer(products, many=True, fields=('_id', 'size'))
+
+        return Response({'Order': serializer.data, 'variants': variantSerializer.data, 'size': productSerializer.data})
+    else:
+        Response({'detail': 'Not authorized to view this order'},
+                 status=status.HTTP_400_BAD_REQUEST)
+
+    return Response({'detail': 'Order does not exist'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['PUT'])
@@ -235,3 +303,25 @@ def updateOrderToDelivered(request, pk):
     order.save()
 
     return Response('Order was delivered')
+
+
+@api_view(['DELETE'])
+def deleteOrder(request, pk):
+    token = request.COOKIES.get('jwt')
+
+    if not token:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    try:
+        payload = jwt.decode(token, 'secret', algorithm=['HS256'])
+    except jwt.ExpiredSignatureError:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    user = User.objects.filter(id=payload['id']).first()
+
+    if not user.is_staff:
+        raise AuthenticationFailed('You do not have permission to perform this action.')
+
+    Order.objects.get(_id=pk).delete()
+
+    return Response("Order Deleted")

@@ -1,20 +1,18 @@
 import datetime
+
 import jwt
+from base.models import User
+from base.serializers import UserSerializer
+from base.templates import generate_verification_template
+from django.conf import settings
 from django.contrib.auth.hashers import make_password
+from django.core.mail import send_mail
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view
 from rest_framework.exceptions import AuthenticationFailed, NotFound, ValidationError
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from rest_framework_jwt.settings import api_settings
-
-from base.models import Product, User
-from base.serializers import ProductSerializer, UserSerializer
-
-from django.core.mail import send_mail
-from django.conf import settings
-from base.templates import generate_verification_template
 
 # Get the JWT settings
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
