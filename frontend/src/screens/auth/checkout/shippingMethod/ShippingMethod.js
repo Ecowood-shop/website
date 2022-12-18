@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 // REDUX
 import { useDispatch, useSelector } from "react-redux";
 import { saveShippingDetails } from "../../../../store/actions/systemActions";
+import ORDER from "../../../../store/constants/orderConstants";
 
 // COMPONENTS
 import CheckoutSteps from "../../../../components/checkoutSteps/CheckoutSteps";
@@ -33,6 +34,12 @@ function ShippingMethod() {
     dispatch(saveShippingDetails(data));
     navigate("/checkout/shippingdetails");
   }
+
+  useEffect(() => {
+    dispatch({type:ORDER.CLEAR_ORDER})
+  }, [])
+  
+
   console.log(shippingFromStorage);
 
   return (
@@ -121,10 +128,10 @@ function ShippingMethod() {
                   {...register("office", { required: true })}
                   type="radio"
                   name="office"
-                  value="ecowood"
+                  value="1"
                   id="ecowood"
                   defaultChecked={
-                    shippingFromStorage?.office == "ecowood" ? true : false
+                    shippingFromStorage?.office == "1" ? true : false
                   }
                 />
                 <label htmlFor="ecowood">
@@ -141,10 +148,10 @@ function ShippingMethod() {
                   {...register("office", { required: true })}
                   type="radio"
                   name="office"
-                  value="express"
+                  value="2"
                   id="express"
                   defaultChecked={
-                    shippingFromStorage?.office == "express" ? true : false
+                    shippingFromStorage?.office == "2" ? true : false
                   }
                 />
                 <label htmlFor="express">

@@ -1,6 +1,6 @@
 // REACT
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect,useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 
 // REDUX
 import { deleteCart, updateCart } from "../../../../store/actions/userActions";
@@ -25,7 +25,11 @@ function Product({
   const changer = (number) => {
     switch (number) {
       case "-":
-        if (quantity - 1 < 1 || !quantity) {
+        if (
+          quantity - 1 < 1 ||
+          !quantity ||
+          quantity> variant.quantity
+        ) {
           setMessage(`მარაგშია ${variant.quantity}`);
         } else {
           setMessage("");
@@ -52,13 +56,9 @@ function Product({
   };
 
   useEffect(() => {
-      if (
-        quantity > 0 &&
-        quantity <= variant.quantity &&
-        quantity != cart.qty
-      ) {
-        dispatch(updateCart(cart.id, quantity));
-      }
+    if (quantity > 0 && quantity <= variant.quantity && quantity != cart.qty) {
+      dispatch(updateCart(cart.id, quantity));
+    }
   }, [quantity]);
 
   const isFirstRun = useRef(true);
@@ -68,10 +68,10 @@ function Product({
       isFirstRun.current = false;
       return;
     }
-    message ? handlerPlus() : handlerMinus()
-    return ()=>{
-      handlerMinus()
-    }
+    message ? handlerPlus() : handlerMinus();
+    return () => {
+      handlerMinus();
+    };
   }, [message]);
 
   return (

@@ -13,6 +13,7 @@ import Message from "../../../components/Message/Message";
 
 // OTHERS
 import styles from "./styles.module.scss";
+import { data } from "../../app/authorization/components/data";
 
 function Profile() {
   // HOOKS
@@ -94,17 +95,16 @@ function Profile() {
               placeholder="პაროლი"
               type="password"
               {...register("password", {
-                required: true,
+                required: false,
                 pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
               })}
               className={styles.input}
-              required
             />
             <input
               placeholder="გაიმეორეთ პაროლი"
               type="password"
               {...register("confirmPassword", {
-                required: true,
+                required: watch("password"),
                 pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
                 validate: (password) => {
                   if (watch("password") != password) {

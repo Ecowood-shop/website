@@ -35,7 +35,7 @@ function Product() {
 
   useEffect(() => {
     dispatch(getProduct(params.id));
-  }, [dispatch]);
+  }, [dispatch,params.id]);
 
   console.log(product);
   return (

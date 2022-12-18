@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { savePaymentMethod } from "../../../../store/actions/systemActions";
 import { createOrder } from "../../../../store/actions/orderActions";
 
+
 // COMPONENTS
 import CheckoutSteps from "../../../../components/checkoutSteps/CheckoutSteps";
 // OTHERS
@@ -22,19 +23,30 @@ function PaymentMethod() {
   const shipping = useSelector((state) => state.shipping);
   const { shipping: shippingFromStorage } = shipping;
 
+  const Order = useSelector((state) => state.Order);
+  const {error,success} = Order;
+ 
+
   useEffect(() => {
+
     if (!shippingFromStorage.delivery) {
       navigate("/checkout/shippingmethod");
     }
-  }, [shippingFromStorage?.delivery]);
+    if(success){
+      if(error){
+        dispatch({type: "CLEAR_ORDER"})
+      }
+          navigate("/");
+    }
+  }, [shippingFromStorage?.delivery,success]);
 
   function onSubmitButton(data) {
     data.delivery = shippingFromStorage?.delivery;
     if (data.delivery == "delivery") {
-      data.wants_delivery=true
+      data.wants_delivery = "True";
       data.address = shippingFromStorage?.address;
     } else {
-      data.wants_delivery=false
+      data.wants_delivery = "False";
       data.office = shippingFromStorage?.office;
     }
     if (shippingFromStorage?.customer == "individual") {
@@ -46,9 +58,10 @@ function PaymentMethod() {
       data.company_type = shippingFromStorage?.company_type;
       data.company_id = shippingFromStorage?.company_id;
     }
-    data.phone=shippingFromStorage?.phone;
-    data.physicPerson=shippingFromStorage?.customer
-    console.log(data)
+    data.phone = shippingFromStorage?.phone;
+    data.physicPerson =
+      shippingFromStorage?.customer == "individual" ? "True" : "False";
+    data._id=data.office
     if (
       Object.values(data).some((x) => x == null || x == "" || x == undefined)
     ) {
@@ -56,15 +69,16 @@ function PaymentMethod() {
     } else {
       dispatch(savePaymentMethod(data));
       dispatch(createOrder(data));
-      // navigate("/");
+  
     }
   }
-
+console.log(error)
   return (
     <article className={styles.container}>
       <CheckoutSteps step1 step2 step3 />
       <section>
         <h1>გადახდის მეთოდები</h1>
+        {error && <p className={styles.error}>{error}</p>}
         <form onSubmit={handleSubmit(onSubmitButton)}>
           <div className={styles.radioContainer}>
             <input

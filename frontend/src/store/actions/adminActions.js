@@ -3,8 +3,6 @@ import ADMIN from "../constants/adminConstants";
 // AXIOS
 import { useCustomAxios, useCustomFileAxios } from "../../hooks/useAxios";
 
-// PRODUCTS
-
 export const deleteProduct = (id) => async (dispatch) => {
   try {
     dispatch({
@@ -29,7 +27,7 @@ export const createProduct = (formData) => async (dispatch) => {
     dispatch({
       type: ADMIN.CREATE_PRODUCT_REQUEST,
     });
-    const { data } = await useCustomAxios.post("/api/products/create/", {
+    const { data } = await useCustomAxios.post("/api/products/create", {
       ...formData,
     });
     dispatch({
@@ -39,6 +37,45 @@ export const createProduct = (formData) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: ADMIN.CREATE_PRODUCT_FAIL,
+      payload: error?.data[0],
+    });
+  }
+};
+
+export const createCategory = (formData) => async (dispatch) => {
+  try {
+    console.log(formData);
+    dispatch({
+      type: ADMIN.CREATE_CATEGORY_REQUEST,
+    });
+    const { data } = await useCustomAxios.post("/api/products/category/create", {
+      ...formData
+    });
+    dispatch({
+      type: ADMIN.CREATE_CATEGORY_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADMIN.CREATE_CATEGORY_FAIL,
+      payload: error?.data[0],
+    });
+  }
+};
+
+export const deleteCategory = (id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: ADMIN.DELETE_CATEGORY_REQUEST,
+    });
+    const { data } = await useCustomAxios.delete(`/api/products/category/delete/${id}`);
+    dispatch({
+      type: ADMIN.DELETE_CATEGORY_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADMIN.DELETE_CATEGORY_FAIL,
       payload: error?.data[0],
     });
   }
@@ -333,6 +370,73 @@ export const deleteImage = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: ADMIN.DELETE_IMAGE_FAIL,
+      payload: error?.message,
+    });
+  }
+};
+
+
+//   ORDERS
+
+export const getOrders = (page, word, status,id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: ADMIN.GET_ORDER_LIST_REQUEST,
+    });
+  
+    const { data } = await useCustomAxios.get(
+      `/api/orders/?keyword=${word}&page=${page}&delivered=${status}&ordID=${id}`
+    );
+
+    dispatch({
+      type: ADMIN.GET_ORDER_LIST_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADMIN.GET_ORDER_LIST_FAIL,
+      payload: error?.message,
+    });
+  }
+};
+
+export const deleteOrder = (id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: ADMIN.DELETE_ORDER_REQUEST,
+    });
+    const { data } = await useCustomAxios.delete(
+      `/api/orders/${id}/delete/`
+    );
+
+    dispatch({
+      type: ADMIN.DELETE_ORDER_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADMIN.DELETE_ORDER_FAIL,
+      payload: error?.message,
+    });
+  }
+};
+
+
+export const orderDelivered = (id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: ADMIN.ORDER_DELIVERED_REQUEST,
+    });
+
+    const { data } = await useCustomAxios.put(`/api/orders/${id}/deliver/`,{});
+
+    dispatch({
+      type: ADMIN.ORDER_DELIVERED_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADMIN.ORDER_DELIVERED_FAIL,
       payload: error?.message,
     });
   }

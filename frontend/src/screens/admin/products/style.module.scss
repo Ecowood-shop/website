@@ -24,7 +24,6 @@
   }
   .btn {
     margin: 3rem 0;
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -38,15 +37,22 @@
     backface-visibility: hidden;
     -webkit-font-smoothing: subpixel-antialiased;
     will-change: transform;
-    margin-left: auto;
     &:hover {
       transform: scale(1.05) translate3d(0, 0, 0) perspective(0.5px);
     }
+    &:first-of-type{
+      margin-left: auto;
+      margin-right: 1rem;
+    }
   }
-  .icon {
+  .icon,.icon1 {
     fill: white;
     height: 2rem;
     vertical-align: bottom;
     margin-right: 0.5rem;
+    
+  }
+  .icon1{
+    height: 1.4rem;
   }
 }

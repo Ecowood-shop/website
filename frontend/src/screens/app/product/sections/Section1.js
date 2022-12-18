@@ -118,6 +118,7 @@ function Section1({ product, iframe, youtube, variants ,navigate,id}) {
           {product.size}
         </p>
         {color && (
+      
           <>
             {color.quantity > 0 ? (
               <>
@@ -148,7 +149,7 @@ function Section1({ product, iframe, youtube, variants ,navigate,id}) {
               <p className={styles.error}>არ არის მარაგში</p>
             )}
           </>
-        )}
+ )}
         {variants.length == 0 && (
           <p className={styles.error}>არ არის მარაგში</p>
         )}
@@ -206,7 +207,8 @@ function Section1({ product, iframe, youtube, variants ,navigate,id}) {
             დამატება
           </button>
         </div>
-        <Calculator coverageLength={product.coverageLength}/>
+        {product?.coverageLength &&
+        <Calculator coverageLength={product.coverageLength}/>}
       </div>
     </section></article>
   );

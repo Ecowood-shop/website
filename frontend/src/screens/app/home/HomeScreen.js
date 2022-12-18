@@ -42,6 +42,7 @@ function HomeScreen() {
             navigate={navigate}
           />
         ))}
+        
     </article>
   );
 }

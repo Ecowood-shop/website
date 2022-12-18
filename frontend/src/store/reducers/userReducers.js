@@ -23,9 +23,16 @@ export const userReducer = (state = {}, action) => {
     case USER.GET_PROFILE_REQUEST:
       return { ...state, loading: true };
     case USER.GET_PROFILE_SUCCESS:
-      return { ...state, loading: false, user: action.payload };
+      return { ...state, loading: false, user: action.payload,success:false };
     case USER.GET_PROFILE_FAIL:
       return { ...state, loading: false, errorProfile: action.payload };
+
+      case USER.GET_ORDERS_REQUEST:
+        return { ...state, loading: true };
+      case USER.GET_ORDERS_SUCCESS:
+        return { ...state, loading: false, orders: action.payload };
+      case USER.GET_ORDERS_FAIL:
+        return { ...state, loading: false, errorOrders: action.payload };
 
     case USER.PROFILE_UPDATE_REQUEST:
       return { ...state, loading: true };

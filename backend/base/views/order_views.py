@@ -186,15 +186,15 @@ def getOrders(request):
     orders = Order.objects.filter(user__first_name__icontains=query) | Order.objects.filter(
         user__last_name__icontains=query).order_by('-createdAt')
 
-    if delivered is None or query == "null":
+    if delivered is None or delivered == "null":
         pass
     else:
-        orders = Order.objects.filter(isDelivered__exact=delivered).order_by('-createdAt')
+        orders = orders.filter(isDelivered__exact=delivered).order_by('-createdAt')
 
-    if ordID is None or query == "null":
+    if ordID is None or ordID == "null":
         pass
     else:
-        orders = Order.objects.filter(_id__exact=ordID).order_by('-createdAt')
+        orders = orders.filter(_id__exact=ordID).order_by('-createdAt')
 
     paginator = Paginator(orders, 10)
 
