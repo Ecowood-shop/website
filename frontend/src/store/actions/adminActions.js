@@ -378,14 +378,14 @@ export const deleteImage = (id) => async (dispatch) => {
 
 //   ORDERS
 
-export const getOrders = (page, user, status,id) => async (dispatch) => {
+export const getOrders = (page, word, status,id) => async (dispatch) => {
   try {
     dispatch({
       type: ADMIN.GET_ORDER_LIST_REQUEST,
     });
-     // `/api/users/?keyword=${word}&page=${page}&is_staff=${status}`
+  
     const { data } = await useCustomAxios.get(
-      `/api/orders/`
+      `/api/orders/?keyword=${word}&page=${page}&delivered=${status}&ordID=${id}`
     );
 
     dispatch({
@@ -395,6 +395,27 @@ export const getOrders = (page, user, status,id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: ADMIN.GET_ORDER_LIST_FAIL,
+      payload: error?.message,
+    });
+  }
+};
+
+export const deleteOrder = (id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: ADMIN.DELETE_ORDER_REQUEST,
+    });
+    const { data } = await useCustomAxios.delete(
+      `/api/orders/${id}/delete/`
+    );
+
+    dispatch({
+      type: ADMIN.DELETE_ORDER_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADMIN.DELETE_ORDER_FAIL,
       payload: error?.message,
     });
   }

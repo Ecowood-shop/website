@@ -4,7 +4,7 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
-import { getOrders } from "../../../store/actions/adminActions";
+import { getOrders,deleteOrder } from "../../../store/actions/adminActions";
 
 // COMPONENTS
 import OrderFilter from "../../../components/filter/OrderFilter";
@@ -23,7 +23,7 @@ const columns = [
   },
   {
     Header: "მომხმარებელი",
-    accessor: d=>d.user.first_name + " " + d.user.last_name,
+    accessor: d=>d.user.first_name+" "+d.user.last_name,
   },
   {
     Header: "ჩაბარებულია",
@@ -36,7 +36,7 @@ const columns = [
             fontWeight: "bold",
           }}
         >
-          ჩაბარებულია
+          {d?.deliveredAt.substring(0,10)}
         </p>
       ) : (
         <p
@@ -63,35 +63,35 @@ function OrderScreen() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   // QUERY PARAMS
-  const category = searchParams.get("category");
   const word = searchParams.get("word");
-  const orderby = searchParams.get("orderby");
+  const status = searchParams.get("status");
   const page = searchParams.get("page");
+  const id =searchParams.get("id")
 
   const adminOrders = useSelector((state) => state.adminOrders);
-  const { error, loading, orders } = adminOrders;
+  const { error, loading, orders,success } = adminOrders;
 
   useEffect(() => {
-    dispatch(getOrders(word, category, orderby, page));
-  }, [dispatch]);
-  console.log(orders);
+    dispatch(getOrders(page, word, status,id));
+  }, [dispatch,page, word, status,id,success]);
+  console.log(orders?.Orders);
   return (
     <section className={styles.container}>
       <OrderFilter />
       {loading && <Loader />} {error && <Message>{error}</Message>}
-      {orders && (
+      {orders?.Orders && (
         <>
           <div className={styles.table}>
             <Table
               columns={columns}
-              data={orders}
+              data={orders.Orders}
               link="/order/"
               linkEnd=""
-              // Delete={(id)=>dispatch(deleteProduct(id))}
+              Delete={(id)=>dispatch(deleteOrder(id))}
               text="პროდუქტის"
             />
           </div>
-          {/* <Pagination pages={products.pages} page={products.page} /> */}
+          <Pagination pages={orders.pages} page={orders.page} />
         </>
       )}
     </section>

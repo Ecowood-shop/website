@@ -171,10 +171,17 @@ export const adminOrderReducer = (state = {}, action) => {
     case ADMIN.GET_ORDER_LIST_FAIL:
       return { loading: false, error: action.payload };
 
+    case ADMIN.DELETE_ORDER_REQUEST:
+      return { loading: true };
+    case ADMIN.DELETE_ORDER_SUCCESS:
+      return { loading: false, success:true };
+    case ADMIN.DELETE_ORDER_FAIL:
+      return { loading: false, error: action.payload };
+
     case ADMIN.ORDER_DELIVERED_REQUEST:
       return { loading: true };
     case ADMIN.ORDER_DELIVERED_SUCCESS:
-      return { loading: false, success:true};
+      return { loading: false, success: true };
     case ADMIN.ORDER_DELIVERED_FAIL:
       return { loading: false, error: action.payload };
 

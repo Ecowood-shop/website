@@ -98,7 +98,7 @@ console.log(message)
             <button
               className={styles.btn}
               onClick={() => {
-                navigate("/checkout/shippingmethod");
+                if(cart.sum_price>0) navigate("/checkout/shippingmethod");
               }}
             >
               <svg

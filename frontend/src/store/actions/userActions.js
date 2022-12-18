@@ -90,12 +90,14 @@ export const getUser = () => async (dispatch) => {
   }
 };
 
-export const getUserOrders = () => async (dispatch) => {
+export const getUserOrders = (page) => async (dispatch) => {
   try {
     dispatch({
       type: USER.GET_ORDERS_REQUEST,
     });
-    const { data } = await useCustomAxios.get(`api/orders/myorders/`);
+    const { data } = await useCustomAxios.get(
+      `api/orders/myorders/?page=${page}`
+    );
 
     dispatch({
       type: USER.GET_ORDERS_SUCCESS,

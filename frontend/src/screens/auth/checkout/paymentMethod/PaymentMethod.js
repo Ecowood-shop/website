@@ -61,7 +61,7 @@ function PaymentMethod() {
     data.phone = shippingFromStorage?.phone;
     data.physicPerson =
       shippingFromStorage?.customer == "individual" ? "True" : "False";
-    console.log(data);
+    data._id=data.office
     if (
       Object.values(data).some((x) => x == null || x == "" || x == undefined)
     ) {

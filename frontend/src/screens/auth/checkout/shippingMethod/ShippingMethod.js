@@ -128,10 +128,10 @@ function ShippingMethod() {
                   {...register("office", { required: true })}
                   type="radio"
                   name="office"
-                  value="ecowood"
+                  value="1"
                   id="ecowood"
                   defaultChecked={
-                    shippingFromStorage?.office == "ecowood" ? true : false
+                    shippingFromStorage?.office == "1" ? true : false
                   }
                 />
                 <label htmlFor="ecowood">
@@ -148,10 +148,10 @@ function ShippingMethod() {
                   {...register("office", { required: true })}
                   type="radio"
                   name="office"
-                  value="express"
+                  value="2"
                   id="express"
                   defaultChecked={
-                    shippingFromStorage?.office == "express" ? true : false
+                    shippingFromStorage?.office == "2" ? true : false
                   }
                 />
                 <label htmlFor="express">

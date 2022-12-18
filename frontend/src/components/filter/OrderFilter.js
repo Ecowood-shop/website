@@ -19,8 +19,8 @@ function OrderFilter() {
   const navigate = useNavigate();
 
   const adminOptions = [
-    { value: "0", label: "მომხმარებელი" },
-    { value: "1", label: "ადმინი" },
+    { value: "True", label: "ჩაბარებულია" },
+    { value: "False", label: "მუშავდება" },
   ];
 
   const toggle = (container, containerResponsive) => {
