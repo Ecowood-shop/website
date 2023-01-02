@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
-import { getUser, updateUser } from "../../../store/actions/userActions";
+import { updateUser } from "../../../store/actions/userActions";
 import { useForm } from "react-hook-form";
 
 // COMPONENTS
@@ -38,7 +38,7 @@ function Profile() {
   };
 
   useEffect(() => {
-    success ? navigate("/profile") : dispatch(getUser());
+    if (success) navigate("/profile");
   }, [dispatch, success]);
 
   return (

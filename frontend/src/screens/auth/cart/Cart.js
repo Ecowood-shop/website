@@ -18,7 +18,7 @@ function Cart() {
   const [coupon, setCoupon] = useState();
 
   const User = useSelector((state) => state.User);
-  const {cart, success, user } = User;
+  const { cart, success, user, loadingUser: loading } = User;
 
   useEffect(() => {
     dispatch(getCart());
@@ -29,7 +29,9 @@ console.log(message)
     <article className={styles.container}>
       <section className={styles.section1}>
         <h1>პროდუქტები</h1>
-        {user ? (
+        {loading != false ? (
+        <Loader />
+      ):user ? (
           <>
             {cart &&
               cart.products.map((product, index) => (

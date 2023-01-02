@@ -1,32 +1,41 @@
 //  REACT
 import React, { useEffect } from "react";
-import {Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
 // REDUX
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { getUser } from "../store/actions/userActions";
 
 // COMPONENTS
 import Error from "../screens/app/error/Error";
+import Loader from "../components/loader/Loader";
 
 function AuthorizedLayout() {
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
   const User = useSelector((state) => state.User);
-  const { user } = User;
+  const { user, loadingUser:loading,success } = User;
+
 
   useEffect(() => {
-      dispatch(getUser())
-  }, [dispatch]);
-console.log(user)
+    if(success!=false && !loading ) {
+      console.log("auth run")
+      dispatch(getUser());}
+  }, [dispatch,success]);
+  console.log(user);
+
 
   return (
-     <>
-      {user ? (
+    <>
+      {loading != false ? (
+        <Loader color="blueviolet" />
+      ) : user ? (
         <>
           <Outlet />
         </>
-       ):<Error/>}
-     </>
+      ) : (
+        <Error />
+      )}
+    </>
   );
 }
 

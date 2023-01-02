@@ -8,18 +8,21 @@ import { getUser } from "../store/actions/userActions";
 
 // COMPONENTS
 import Error from "../screens/app/error/Error";
+import Loader from "../components/loader/Loader";
 
 function AdminLayout() {
   const dispatch = useDispatch();
   const User = useSelector((state) => state.User);
-  const { user } = User;
+  const { user, loadingUser: loading } = User;
 
   useEffect(() => {
-    dispatch(getUser());
+    if( !loading) dispatch(getUser());
   }, [dispatch]);
   return (
     <>
-      {user?.is_staff ? (
+      {loading != false ? (
+        <Loader color="blueviolet" />
+      ) : user?.is_staff ? (
         <>
           <Outlet />
         </>

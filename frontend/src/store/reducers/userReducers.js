@@ -4,31 +4,36 @@ import USER from "../constants/userConstants";
 export const userReducer = (state = {}, action) => {
   switch (action.type) {
     case USER.LOGIN_REQUEST:
-      return { ...state, loading: true  ,errorLogin:false};
+      return { ...state, loadingUser: true  ,errorLogin:false};
     case USER.LOGIN_SUCCESS:
-      return { ...state, loading: false, user: action.payload };
+      return { ...state, loadingUser: false, user: action.payload };
     case USER.LOGIN_FAIL:
-      return { ...state, loading: false, errorLogin: action.payload };
+      return { ...state, loadingUser: false, errorLogin: action.payload };
 
     case USER.LOGOUT:
       return {};
 
     case USER.REGISTER_REQUEST:
-      return { ...state, loading: true };
+      return { ...state, loadingUser: true };
     case USER.REGISTER_SUCCESS:
-      return { ...state, loading: false };
+      return { ...state, loadingUser: false };
     case USER.REGISTER_FAIL:
-      return { ...state, loading: false, errorRegister: action.payload };
+      return { ...state, loadingUser: false, errorRegister: action.payload };
 
     case USER.GET_PROFILE_REQUEST:
-      return { ...state, loading: true };
+      return { ...state, loadingUser: true};
     case USER.GET_PROFILE_SUCCESS:
-      return { ...state, loading: false, user: action.payload,success:false };
+      return {
+        ...state,
+        loadingUser: false,
+        user: action.payload,
+        success: false,
+      };
     case USER.GET_PROFILE_FAIL:
-      return { ...state, loading: false, errorProfile: action.payload };
+      return { ...state, loadingUser: false, errorProfile: action.payload };
 
       case USER.GET_ORDERS_REQUEST:
-        return { ...state, loading: true };
+        return { ...state, loading: true, success: false };
       case USER.GET_ORDERS_SUCCESS:
         return { ...state, loading: false, orders: action.payload };
       case USER.GET_ORDERS_FAIL:
