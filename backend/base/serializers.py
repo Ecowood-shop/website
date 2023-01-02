@@ -2,7 +2,7 @@ from rest_framework import serializers
 import django.contrib.auth.password_validation as validators
 
 from .models import Product, User, Category, Variants, \
-    ShippingAddress, Order, OrderItem, Color, AddToCart, Picture, WithoutShipping, Warehouse
+    ShippingAddress, Order, OrderItem, Color, AddToCart, Picture, WithoutShipping, Warehouse, ShippingPrices
 
 from .generator import generate_random_code
 from .sendEmail import sendMail
@@ -108,6 +108,12 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = ['_id', 'name']
 
 
+class ShippingPricesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ShippingPrices
+        fields = '__all__'
+
+
 class TopProductSerializer(serializers.ModelSerializer):
     category = serializers.ReadOnlyField(source='category.name')
     picture_set = ProductImageSerializer(many=True)
@@ -163,7 +169,7 @@ class OrderSerializer(serializers.ModelSerializer):
 class ShippingAddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = ShippingAddress
-        fields = '__all__'
+        fields = ['_id', 'first_name', 'last_name', 'address', 'postalCode', 'personId', 'phone', 'order', 'city']
 
 
 class WarehouseSerializer(serializers.ModelSerializer):

@@ -95,9 +95,12 @@ def updateUserProfile(request):
     data = request.data
 
     try:
-        user.first_name = data['first_name']
-        user.last_name = data['last_name']
-        user.phone = data['phone']
+        if data['first_name']:
+            user.first_name = data['first_name']
+        if data['last_name']:
+            user.last_name = data['last_name']
+        if data['phone']:
+            user.phone = data['phone']
 
         if data['password'] != '':
             user.password = make_password(data['password'])
@@ -226,11 +229,15 @@ def updateUserById(request, pk):
 
     data = request.data
 
-    userById.first_name = data['first_name']
-    userById.last_name = data['last_name']
+    if data['first_name']:
+        userById.first_name = data['first_name']
+    if data['last_name']:
+        userById.last_name = data['last_name']
     # userById.phone = data['phone']
-    userById.email = data['email']
-    userById.is_staff = data['is_staff']
+    if data['email']:
+        userById.email = data['email']
+    if data['is_staff']:
+        userById.is_staff = data['is_staff']
 
     userById.save()
 
