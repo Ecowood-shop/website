@@ -42,25 +42,24 @@
         right: 1rem;
       }
       p:first-of-type {
-        
-  clear: both;
-  display: inline-block;
-  overflow: hidden;
-  white-space: nowrap;
+        clear: both;
+        display: inline-block;
+        overflow: hidden;
+        white-space: nowrap;
         b {
-          margin-right: 1rem;
+     margin-right: 1rem;
         }
       }
     }
   }
 }
-.color{
+.color {
   display: inline;
-  &> div{
-  div{
-    top:-12rem !important
+  & > div {
+    div {
+      top: -12rem !important;
+    }
   }
-        }
 }
 .message {
   color: var(--color-error);
@@ -113,24 +112,23 @@
   display: flex;
   align-items: center;
   margin-left: 2rem;
- & button{
-  cursor: pointer;
-  padding: 0.3rem 0.8rem;
-  display: flex;
-  background-color: rgb(34, 193, 34);
- 
-  border: none;
-  border-radius: 10px;
+  & button {
+    cursor: pointer;
+    padding: 0.3rem 0.8rem;
+    display: flex;
+    background-color: rgb(34, 193, 34);
 
-  &:first-of-type{
-    margin-left: 2rem;
-    background-color: red;
-  
-  }
-  & svg{
-    fill:white;
-    height: 1.2rem; 
-  }
+    border: none;
+    border-radius: 10px;
+
+    &:first-of-type {
+      margin-left: 2rem;
+      background-color: red;
+    }
+    & svg {
+      fill: white;
+      height: 1.2rem;
+    }
   }
 }
 
@@ -161,15 +159,15 @@
     }
   }
   .selectContainer {
-    & button{
-     padding: 0.2rem 0.6rem !important;
-    }}
-    .message {
-      position: absolute;
-      bottom: 0;
-      margin-left: 0;
+    & button {
+      padding: 0.2rem 0.6rem !important;
     }
-    
+  }
+  .message {
+    position: absolute;
+    bottom: 0;
+    margin-left: 0;
+  }
 }
 
 @media all and (max-width: 40em) and (orientation: portrait) {
@@ -201,7 +199,6 @@
   .deleteBtn {
     top: 0;
     transform: none;
-    border-radius: 0 10px 0   10px ;
+    border-radius: 0 10px 0 10px;
   }
-
 }

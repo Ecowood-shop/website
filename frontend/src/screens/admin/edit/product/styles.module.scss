@@ -40,11 +40,12 @@
     }
   }
   @media all and (max-width: 85rem) {
-    width: 80%;
+    width: 90%;
     input,
     .textarea,
     .inputCategory {
       font-size: var(--medium);
+      width: 80%;
     }
   }
   @media all and (max-width: 40rem) {
@@ -55,14 +56,19 @@
       box-shadow: none;
       border: none;
       margin-bottom: 5rem;
-
       input,
       .textarea,
       .inputCategory {
         width: 80%;
-        font-size: var(--medium);
+        font-size: var(--small);
+        background-color: white;
       }
-
+      .inputCategory {
+        & > div {
+          background-color: white;
+          border-radius: 10px;
+        }
+      }
       .textarea {
         font-size: var(--small);
       }
@@ -70,11 +76,17 @@
         margin-top: 0;
       }
       .textarea {
-        height: 8rem;
+        height: 20rem;
       }
       .color {
         transform: none;
+        display: flex;
+        width: 100%;
+        left: 1rem !important;
         border-radius: 10px 0 0 10px;
+        button {
+          border-radius: 10px;
+        }
       }
     }
   }
@@ -85,14 +97,18 @@
   width: 60%;
   margin-top: 2rem;
   height: 3rem;
-  border: 2px solid black;
-  border-radius: 999px;
+  border: none;
+  background-color: whitesmoke;
+  color: #212529;
+  border-radius: 10px;
   text-align: center;
-  font-size: var(--x-medium);
+  font-size: var(--medium);
   font-weight: normal;
 }
 .textarea {
   font-size: var(--small);
+  text-align: start;
+  padding: 1rem !important;
 }
 .color {
   display: flex;
@@ -105,26 +121,26 @@
   button {
     cursor: pointer;
     color: white;
-    background-image:var(--linear-primary);
+    background-image: var(--linear-primary);
     border: none;
     display: flex;
     align-items: center;
     font-size: var(--x-medium);
     padding: 0.3rem 0.8rem 0.1rem 0.5rem;
     border-radius: 10px 10px 0 0;
-    
-  svg {
-    margin-right: 0.5rem;
-    height: 1.5rem;
-    fill: white;
-  }
-  &:first-of-type{
-    background-image:var(--linear-second);
-    margin-right: 1rem;
-  }
-  &:hover {
-    transform: scale(1.05);
-  }
+
+    svg {
+      margin-right: 0.5rem;
+      height: 1.5rem;
+      fill: white;
+    }
+    &:first-of-type {
+      background-image: var(--linear-second);
+      margin-right: 1rem;
+    }
+    &:hover {
+      transform: scale(1.05);
+    }
   }
 }
 
@@ -132,7 +148,7 @@
   height: 10rem;
   border-radius: 10px;
   padding: 0.5rem;
-  font-size: var(--medium);
+  font-size: var(--small);
 }
 .inputCategory {
   width: 60%;
@@ -140,10 +156,11 @@
   margin-top: 3rem;
 
   text-align: center;
-  font-size: var(--x-medium);
+  font-size: var(--medium);
   font-weight: normal;
   & > div {
-    border: 2px solid black;
+    border: none;
+    background-color: whitesmoke;
     border-radius: 10px;
   }
 }

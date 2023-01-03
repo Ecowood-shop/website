@@ -41,9 +41,10 @@
       border: none;
       margin-bottom: 5rem;
       h1 {
+
         font-size: var(--x-large);
       }
-      input {
+      input {        background-color: white;
         width: 80%;
       }
     }
@@ -54,11 +55,11 @@
   height: 3rem;
   width: 50%;
   margin-top: 1rem;
-  border: 2px solid black;
-  border-radius: 999px;
+  border: none;
+  background-color: whitesmoke;
+  border-radius: 10px;
   text-align: center;
-  font-size: var(--x-medium);
-  font-weight: normal;
+  font-size: var(--medium); 
 }
 .admin {
   font-size: var(--x-medium);

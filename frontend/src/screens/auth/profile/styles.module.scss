@@ -1,16 +1,17 @@
 .container {
   width: 80%;
   min-height: var(--height);
-
   display: flex;
   flex-direction: column;
-  &>section:last-of-type{
- margin-bottom: 3rem;
-    h1{
-        font-size: var(--xx-large);
-        text-align: center;
-        font-weight: bold;
-
+  & > section:last-of-type {
+    margin-bottom: 3rem;
+    h1 {
+      font-size: var(--xx-large);
+      text-align: center;
+      font-weight: bold;
     }
   }
+}
+.table {
+  overflow-x: auto;
 }
