@@ -1,13 +1,13 @@
 // REACT
-import { useForm, Controller } from "react-hook-form";
-import Select from "react-select";
+import { useForm } from "react-hook-form";
 
 // REDUX
 import { useDispatch } from "react-redux";
-// import {
-//   deleteVariant,
-//   updateVariant,createVariant
-// } from "../../../../store/actions/adminActions";
+import {
+  createCity,
+  updateCity,
+  deleteCity,
+} from "../../../../store/actions/shippingActions";
 
 // OTHERS
 import { useState } from "react";
@@ -31,20 +31,13 @@ function City(props) {
   };
 
   const onSubmit = (data) => {
-    //     if (props.create) {
-    //       data.color = data.color.name;
-    //       data.variantTitle = "productID=" + props.id + " color=" + data.color;
-    //       data.productID = props.id;
-    //       console.log(data)
-    //      dispatch(createVariant(data))
-    //     } else {
-    //       data.id = props.variant.id;
-    //       data.color = props.variant.color;
-    //       data.title = props.variant.title;
-    //       dispatch(updateVariant(data));
-    //     }
+    if (props.create) {
+      dispatch(createCity(data));
+    } else {
+      data.location = props.city.location;
+      dispatch(updateCity(data, props.city._id));
+    }
   };
-  //   console.log(props.colors);
 
   return (
     <section className={styles.section}>
@@ -69,33 +62,50 @@ function City(props) {
             <input
               placeholder="ფასი 1"
               type="number"
-              {...register("upperLimit", { min: 0 })}
-              defaultValue={props.create ? 0 : props.city.upperLimit}
+              {...register("upperLimit", { min: 0, required: props.create })}
+              defaultValue={props.create ? "" : props.city.upperLimit}
               className={styles.input}
+              step=".01"
             />
             <input
               placeholder="ზღვარი"
               type="number"
-              {...register("limit", { min: 0 })}
-              defaultValue={props.create ? 0 : props.city.limit}
+              {...register("limit", { min: 0, required: props.create })}
+              defaultValue={props.create ? "" : props.city.limit}
               className={styles.input}
+              step=".01"
             />{" "}
             <input
               placeholder="ფასი 2"
               type="number"
-              {...register("lowerLimit", { min: 0 })}
-              defaultValue={props.create ? 0 : props.city.lowerLimit}
+              {...register("lowerLimit", {
+                min: 0,
+                required: props.create,
+              })}
+              defaultValue={props.create ? "" : props.city.lowerLimit}
               className={styles.input}
+              step=".01"
             />
           </div>
           <div className={styles.btnContainer}>
+            {props.create && (
+              <input
+                placeholder="ქალაქი"
+                type="text"
+                {...register("location", { required: true })}
+                className={styles.input + " " + styles.inputCity}
+                step=".01"
+              /> 
+            )}
+
             <button type="submit" className={styles.button}>
               {props.create ? "შექმნა" : "რედაქტირება"}
             </button>
             {!props.create && (
               <button
+                type="button"
                 className={styles.iconContainer}
-                //   onClick={() => dispatch(deleteVariant(props.variant.id))}
+                onClick={() => dispatch(deleteCity(props.city._id))}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

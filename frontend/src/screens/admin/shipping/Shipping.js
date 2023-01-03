@@ -3,7 +3,7 @@ import { useEffect } from "react";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { getShippingPrices } from "../../../store/actions/shippingActions";
 
 // COMPONENTS
@@ -23,14 +23,13 @@ function Shipping() {
   // const { error, loading, variants, success, successUpdate,successCreate } = adminVariants;
 
   const shipping = useSelector((state) => state.shipping);
-  const { prices,loading,error } = shipping;
+  const { prices, loading, error, success } = shipping;
 
   useEffect(() => {
-    dispatch(getShippingPrices());
+    if (success != false) dispatch(getShippingPrices());
+  }, [dispatch, success]);
 
-    // , success, successUpdate,successCreate
-  }, [dispatch]);
-console.log(prices)
+  console.log(prices);
   return (
     <article className={styles.container}>
       <button
@@ -39,11 +38,10 @@ console.log(prices)
       >
         უკან
       </button>
-       <City create/>
+      <City create />
       {loading && <Loader color={"blueviolet"} />}
       {error && <Message>{error}</Message>}
-      {prices &&
-        prices.map((city) => <City city={city} key={city._id} />)}
+      {prices && prices.map((city) => <City city={city} key={city._id} />)}
     </article>
   );
 }

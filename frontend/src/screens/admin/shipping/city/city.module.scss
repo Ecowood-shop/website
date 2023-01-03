@@ -20,7 +20,9 @@
     cursor: pointer;
   }
 }
-
+.inputCity{
+  min-width: 10rem;
+}
 .select {
   & > div {
     margin-left: 1rem;
