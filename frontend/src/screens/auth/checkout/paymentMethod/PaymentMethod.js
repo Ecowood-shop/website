@@ -4,12 +4,13 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 // REDUX
 import { useDispatch, useSelector } from "react-redux";
-import { savePaymentMethod } from "../../../../store/actions/systemActions";
+import { savePaymentMethod } from "../../../../store/actions/shippingActions";
 import { createOrder } from "../../../../store/actions/orderActions";
-
 
 // COMPONENTS
 import CheckoutSteps from "../../../../components/checkoutSteps/CheckoutSteps";
+import Loader from "../../../../components/loader/Loader";
+
 // OTHERS
 import styles from "./styles.module.scss";
 
@@ -24,61 +25,67 @@ function PaymentMethod() {
   const { shipping: shippingFromStorage } = shipping;
 
   const Order = useSelector((state) => state.Order);
-  const {error,success} = Order;
- 
+  const { error, success,loading } = Order;
 
   useEffect(() => {
 
-    if (!shippingFromStorage.delivery) {
-      navigate("/checkout/shippingmethod");
-    }
     if(success){
-      if(error){
-        dispatch({type: "CLEAR_ORDER"})
-      }
+        dispatch({ type: "CLEAR_SHIPPING_ITEMS" });
           navigate("/");
     }
-  }, [shippingFromStorage?.delivery,success]);
+  }, [success]);
 
   function onSubmitButton(data) {
-    data.delivery = shippingFromStorage?.delivery;
-    if (data.delivery == "delivery") {
+
+Object.keys(shippingFromStorage).forEach((key) => {
+  if (shippingFromStorage[key] === "") {
+    delete shippingFromStorage[key];
+  }
+});
+
+    if (shippingFromStorage?.delivery == "delivery") {
       data.wants_delivery = "True";
       data.address = shippingFromStorage?.address;
+      data.cityId = shippingFromStorage?.shippingPrice;
     } else {
       data.wants_delivery = "False";
-      data.office = shippingFromStorage?.office;
+      data._id = shippingFromStorage?.office;
     }
+    // PhysicPerson
     if (shippingFromStorage?.customer == "individual") {
       data.first_name = shippingFromStorage?.first_name;
       data.last_name = shippingFromStorage?.last_name;
       data.personId = shippingFromStorage?.id;
     } else {
-      data.company_name = shippingFromStorage?.company_name;
-      data.company_type = shippingFromStorage?.company_type;
-      data.company_id = shippingFromStorage?.company_id;
+      data.first_name = shippingFromStorage?.company_name;
+      data.last_name = shippingFromStorage?.company_type;
+      data.personId = shippingFromStorage?.company_id;
     }
-    data.phone = shippingFromStorage?.phone;
     data.physicPerson =
       shippingFromStorage?.customer == "individual" ? "True" : "False";
-    data._id=data.office
+    data.phone = shippingFromStorage?.phone;
+
     if (
       Object.values(data).some((x) => x == null || x == "" || x == undefined)
     ) {
       navigate("/checkout/shippingmethod");
     } else {
-      dispatch(savePaymentMethod(data));
+
+      dispatch(savePaymentMethod(data));  
       dispatch(createOrder(data));
-  
+
     }
   }
-console.log(error)
+
+  console.log(shippingFromStorage);
+
   return (
     <article className={styles.container}>
       <CheckoutSteps step1 step2 step3 />
       <section>
         <h1>გადახდის მეთოდები</h1>
         {error && <p className={styles.error}>{error}</p>}
+        {loading ? <Loader color="blueviolet"/> :
         <form onSubmit={handleSubmit(onSubmitButton)}>
           <div className={styles.radioContainer}>
             <input
@@ -186,7 +193,7 @@ console.log(error)
           <button type="submit" className={styles.btn}>
             გადახდა
           </button>
-        </form>
+        </form>}
       </section>
     </article>
   );

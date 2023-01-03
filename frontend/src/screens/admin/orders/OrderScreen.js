@@ -12,6 +12,7 @@ import Table from "../../../components/table/Table";
 import Loader from "../../../components/loader/Loader";
 import Message from "../../../components/Message/Message";
 import Pagination from "../../../components/pagination/Pagination";
+import Nav from "./Nav";
 
 // OTHERS
 import styles from "./style.module.scss";
@@ -78,7 +79,9 @@ function OrderScreen() {
   return (
     <section className={styles.container}>
       <OrderFilter />
-      {loading && <Loader />} {error && <Message>{error}</Message>}
+      <Nav styles={styles} navigate={navigate} />
+      {loading && <Loader color="blueviolet" />}{" "}
+      {error && <Message>{error}</Message>}
       {orders?.Orders && (
         <>
           <div className={styles.table}>
@@ -87,7 +90,7 @@ function OrderScreen() {
               data={orders.Orders}
               link="/order/"
               linkEnd=""
-              Delete={(id)=>dispatch(deleteOrder(id))}
+              Delete={(id) => dispatch(deleteOrder(id))}
               text="პროდუქტის"
             />
           </div>

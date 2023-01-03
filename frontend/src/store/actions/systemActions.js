@@ -2,7 +2,6 @@
 import SYSTEM from "../constants/systemConstants";
 //AXIOS
 import { useAxios } from "../../hooks/useAxios";
-import { createOrder } from "./orderActions";
 
 export const getCategories = () => async (dispatch) => {
   try {
@@ -115,28 +114,4 @@ export const getProduct = (id) => async (dispatch) => {
         : error.response,
     });
   }
-};
-
-export const savePaymentMethod = (data) => (dispatch) => {
-  dispatch({
-    type: SYSTEM.SAVE_SHIPPING_PAYMENT_METHOD,
-    payload: data,
-  });
-  localStorage.setItem("shipping", JSON.stringify(data));
-};
-
-export const saveShippingMethod = (data) => (dispatch) => {
-  dispatch({
-    type: SYSTEM.SAVE_SHIPPING_METHOD,
-    payload: data,
-  });
-  localStorage.setItem("shipping", JSON.stringify(data));
-};
-
-export const saveShippingDetails = (data) => (dispatch) => {
-  dispatch({
-    type: SYSTEM.SAVE_SHIPPING_DETAILS,
-    payload: data,
-  });
-  localStorage.setItem("shipping", JSON.stringify(data));
 };

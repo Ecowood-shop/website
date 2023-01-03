@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 // REDUX
 import { useDispatch, useSelector } from "react-redux";
-import { saveShippingDetails } from "../../../../store/actions/systemActions";
+import { saveShippingDetails } from "../../../../store/actions/shippingActions";
 
 // COMPONENTS
 import CheckoutSteps from "../../../../components/checkoutSteps/CheckoutSteps";
@@ -32,6 +32,12 @@ function ShippingDetails() {
   }, [shippingFromStorage?.delivery]);
 
   function onSubmitButton(data) {
+        for (const property in shippingFromStorage) {
+          if (!data[property]) {
+            data[property] = shippingFromStorage[property];
+          }
+        }
+    console.log(data)
     if (data.customer !== "individual") {
       data.first_name = "";
       data.last_name = "";
@@ -41,22 +47,7 @@ function ShippingDetails() {
       data.company_type = "";
       data.company_id = "";
     }
-    switch (shippingFromStorage?.delivery) {
-      case "office":
-        data.delivery = "office";
-        if (!shippingFromStorage.office) {
-          navigate("/checkout/shippingmethod");
-        } else {
-          data.address = ""
-          data.office = shippingFromStorage.office;
-        }
-        break;
-      case "delivery":
-        data.delivery = "delivery";
-      default:
-        navigate("/checkout/shippingmethod");
-        break;
-    }
+
     dispatch(saveShippingDetails(data));
     navigate("/checkout/paymentmethod");
   }
