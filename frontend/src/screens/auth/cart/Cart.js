@@ -30,7 +30,7 @@ console.log(message)
       <section className={styles.section1}>
         <h1>პროდუქტები</h1>
         {loading != false ? (
-        <Loader />
+        <Loader color="blueviolet" />
       ):user ? (
           <>
             {cart &&

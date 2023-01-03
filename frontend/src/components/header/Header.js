@@ -35,7 +35,6 @@ function Header() {
       console.log("header run")
       dispatch(getUser());
     }
-    console.log(document.cookie.indexOf("csrftoken"));
   }, [dispatch]);
 
   // FUNCTIONS
