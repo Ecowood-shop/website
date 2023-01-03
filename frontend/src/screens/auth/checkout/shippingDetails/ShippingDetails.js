@@ -27,7 +27,7 @@ function ShippingDetails() {
 
   useEffect(() => {
     if (!shippingFromStorage.delivery) {
-      navigate("/checkout/shippingmethod");
+      navigate("/checkout/shippingmethod", { replace: true });
     }
   }, [shippingFromStorage?.delivery]);
 

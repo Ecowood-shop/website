@@ -24,7 +24,7 @@ const columns = [
   },
   {
     Header: "მომხმარებელი",
-    accessor: d=>d.user.first_name+" "+d.user.last_name,
+    accessor: (d) => d.user.first_name + " " + d.user.last_name,
   },
   {
     Header: "ჩაბარებულია",
@@ -37,7 +37,7 @@ const columns = [
             fontWeight: "bold",
           }}
         >
-          {d?.deliveredAt.substring(0,10)}
+          {d?.deliveredAt.substring(0, 10)}
         </p>
       ) : (
         <p
@@ -53,7 +53,7 @@ const columns = [
   },
   {
     Header: "თანხა",
-    accessor: "totalPrice",
+    accessor: (d) => Number(d.totalPrice) + Number(d.shippingPrice)+" ლ",
   },
 ];
 

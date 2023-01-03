@@ -25,16 +25,16 @@ function PaymentMethod() {
   const { shipping: shippingFromStorage } = shipping;
 
   const Order = useSelector((state) => state.Order);
-  const { error, success,loading } = Order;
+  const { error, success,loading ,order} = Order;
 
   useEffect(() => {
 
     if(success){
         dispatch({ type: "CLEAR_SHIPPING_ITEMS" });
-          navigate("/");
+          navigate(`/order/${order.Cart._id}`, { replace: true });
     }
   }, [success]);
-
+console.log(order)
   function onSubmitButton(data) {
 
 Object.keys(shippingFromStorage).forEach((key) => {

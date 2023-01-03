@@ -22,7 +22,7 @@ const columns = [
   },
   {
     Header: "თანხა",
-    accessor: (d) => d.totalPrice + " ლ",
+    accessor: (d) => Number(d.totalPrice) +Number(d.shippingPrice)+ " ლ",
   },
   {
     Header: "ჩაბარებულია",

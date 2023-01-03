@@ -41,7 +41,7 @@ function ShippingMethod() {
       : (data.shippingPrice = "");
 
     dispatch(saveShippingDetails(data));
-    navigate("/checkout/shippingdetails");
+    navigate("/checkout/shippingdetails", { replace: true });
   }
 
   useEffect(() => {
