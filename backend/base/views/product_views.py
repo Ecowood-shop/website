@@ -306,7 +306,7 @@ def updateCart(request, pk):
 @api_view(['GET'])
 def getUserCart(request):
     token = request.COOKIES.get('jwt')
-    
+
     if not token:
         raise AuthenticationFailed('Unauthenticated!')
 
@@ -393,9 +393,14 @@ def updateVariant(request, pk):
 
     color = Color.objects.get(name=data['color'])
 
-    variant.title = data['title']
-    variant.color = color
-    variant.quantity = data['quantity']
+    if data['title']:
+        variant.title = data['title']
+
+    if color:
+        variant.color = color
+
+    if data['quantity']:
+        variant.quantity = data['quantity']
 
     variant.save()
 
@@ -460,17 +465,28 @@ def updateProduct(request, pk):
     except:
         raise ValidationError('Such kind of discount does not exist')
 
-    product.name_geo = data['name_geo']
-    product.price = data['price']
-    product.brand = data['brand']
-    product.category = category
-    product.discount = discount
-    product.size = data['size']
-    product.technicalRequirements = data['technicalRequirements']
-    product.instructionForUse = data['instructionForUse']
-    product.safetyStandard = data['safetyStandard']
-    product.youtubeUrl = data['youtubeUrl']
-    product.coverageLength=data['coverageLength']
+    if data['name_geo']:
+        product.name_geo = data['name_geo']
+    if data['price']:
+        product.price = data['price']
+    if data['brand']:
+        product.brand = data['brand']
+    if category:
+        product.category = category
+    if discount:
+        product.discount = discount
+    if data['size']:
+        product.size = data['size']
+    if data['technicalRequirements']:
+        product.technicalRequirements = data['technicalRequirements']
+    if data['instructionForUse']:
+        product.instructionForUse = data['instructionForUse']
+    if data['safetyStandard']:
+        product.safetyStandard = data['safetyStandard']
+    if data['youtubeUrl']:
+        product.youtubeUrl = data['youtubeUrl']
+    if data['coverageLength']:
+        product.coverageLength = data['coverageLength']
 
     product.save()
 
@@ -519,7 +535,7 @@ def uploadImage(request):
 
     picture = Picture()
     picture.product = product
-    picture.ord=ord
+    picture.ord = ord
     picture.picture = request.FILES.get('picture')
     picture.save()
 
