@@ -31,8 +31,8 @@ function Header() {
   const { user, loadingUser } = User;
 
   useEffect(() => {
-    if (!user && !loadingUser) {
-      console.log("header run")
+    if (document.cookie.indexOf("csrftoken") !== -1 && !loadingUser) {
+      console.log("header run");
       dispatch(getUser());
     }
   }, [dispatch]);
