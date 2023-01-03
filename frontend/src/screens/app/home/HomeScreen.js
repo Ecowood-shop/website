@@ -32,7 +32,7 @@ function HomeScreen() {
 
   return (
     <article className="home-container">
-      {loading && <Loader />} {error && <Message>{error}</Message>}
+      {loading && <Loader color={"blueviolet"}/>} {error && <Message>{error}</Message>}
       {products &&
         Products(products).map((element) => (
           <Carousel

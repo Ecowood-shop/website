@@ -30,6 +30,35 @@ function Order() {
     dispatch(getOrder(params.id));
   }, [dispatch, success]);
 
+  let ID, username;
+  if (order?.Order) {
+    if (order.Order.physicPerson) {
+      ID = order.Order.shippingAddress
+        ? order.Order.shippingAddress.personId
+        : order.Order.withoutShipping.personId;
+
+      username = order.Order.shippingAddress
+        ? order.Order.shippingAddress.first_name +
+          " " +
+          order.Order.shippingAddress.last_name
+        : order.Order.withoutShipping.name +  
+          " " +
+          order.Order.withoutShipping.surname;
+    } else {
+      ID = order.Order.shippingAddress
+        ? order.Order.shippingAddress.personId
+        : order.Order.withoutShipping.personId;
+
+      username = order.Order.shippingAddress
+        ? order.Order.shippingAddress.last_name +
+          " " +
+          order.Order.shippingAddress.first_name
+        : order.Order.withoutShipping.surname +
+          " " +
+          order.Order.withoutShipping.name;
+    }
+  }
+
   console.log(order);
   return (
     <article className={styles.container}>
@@ -40,14 +69,14 @@ function Order() {
           <section className={styles.sectionDetails}>
             <div>
               <p>
-                <b>მომხმარებელი:</b>
-                {order.Order.shippingAddress
-                  ? order.Order.shippingAddress.first_name +
-                    " " +
-                    order.Order.shippingAddress.last_name
-                  : order.Order.withoutShipping.name +
-                    " " +
-                    order.Order.withoutShipping.surname}
+                <b>ID: </b>
+                {ID}
+              </p>
+              <p>
+                <b>
+                  {order.Order.physicPerson ? "მომხმარებელი: " : "კომპანია: "}
+                </b>
+                {username}
               </p>
 
               <p>
@@ -57,10 +86,16 @@ function Order() {
                   : order.Order.withoutShipping.phone}
               </p>
               {order.Order.wants_delivery ? (
-                <p>
-                  <b>მისამართი:</b>
-                  {order.Order.shippingAddress.address}
-                </p>
+                <>
+                  <p>
+                    <b>მიტანის სერვისი:</b>
+                    {order.Order.shippingAddress.location}
+                  </p>
+                  <p>
+                    <b>მისამართი:</b>
+                    {order.Order.shippingAddress.address}
+                  </p>
+                </>
               ) : (
                 <p>
                   <b>ოფისი:</b>
@@ -76,7 +111,7 @@ function Order() {
             <div>
               <p className={styles.sum}>
                 <b>ჯამი:</b>
-                {order.Order.totalPrice} ლ
+                {Number(order.Order.totalPrice) + Number(order.Order.shippingPrice)} ლ
               </p>
               {order.Order.wants_delivery && (
                 <p className={styles.sum}>
@@ -88,8 +123,10 @@ function Order() {
                 className={styles.status}
                 style={{ color: order.Order.isDelivered ? "green" : "red" }}
               >
-                <b>{order.Order.isDelivered ? "ჩაბარებულია:" :"სტატუსი:"}</b>
-                {order.Order.isDelivered ?order.Order.deliveredAt.substring(0, 10) : "მუშავდება"}
+                <b>{order.Order.isDelivered ? "ჩაბარებულია:" : "სტატუსი:"}</b>
+                {order.Order.isDelivered
+                  ? order.Order.deliveredAt.substring(0, 10)
+                  : "მუშავდება"}
               </p>
               {user.is_staff && !order.Order.isDelivered && (
                 <button
@@ -106,10 +143,10 @@ function Order() {
       <h2>პროდუქტები</h2>
       <section className={styles.products}>
         {order?.Order &&
-          order?.Order.orderItems.map((product,index) => (
+          order?.Order.orderItems.map((product, index) => (
             <div className={styles.product} key={product._id}>
               <img
-                src={"/images/"+product.image}
+                src={"/images/" + product.image}
                 onClick={() => navigate(`/product/${product.product}`)}
               />
               <div>
@@ -124,7 +161,10 @@ function Order() {
                   <p>
                     <b>ფასი: </b> {product.price} ლ
                   </p>
-                  <p><b>ფერი: </b>{order.variants[index].color}</p>
+                  <p>
+                    <b>ფერი: </b>
+                    {order.variants[index].color}
+                  </p>
                 </div>
               </div>
               <p className={styles.emount}>{product.qty} ცალი</p>

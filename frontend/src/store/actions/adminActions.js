@@ -27,7 +27,7 @@ export const createProduct = (formData) => async (dispatch) => {
     dispatch({
       type: ADMIN.CREATE_PRODUCT_REQUEST,
     });
-    const { data } = await useCustomAxios.post("/api/products/create", {
+    const { data } = await useCustomAxios.post("/api/products/create/", {
       ...formData,
     });
     dispatch({

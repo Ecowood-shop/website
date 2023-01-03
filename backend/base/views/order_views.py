@@ -76,19 +76,18 @@ def addOrderItems(request):
                 address=data['address'],
                 city=city
             )
-            print('aqa')
-            print(float(discounted_sum_price))
-            print(city.limit)
-            print(city.upperLimit)
+
 
             if city.limit <= float(discounted_sum_price):
                 order.shippingPrice = city.upperLimit
             else:
                 order.shippingPrice = city.lowerLimit
-
+            order.save()
+            
         else:
             warehouse = Warehouse.objects.get(_id=data['_id'])
 
+        
             shipping = WithoutShipping.objects.create(
                 order=order,
                 name=data['first_name'],

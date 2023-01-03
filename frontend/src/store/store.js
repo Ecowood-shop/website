@@ -10,7 +10,6 @@ import {
   systemProductReducer,
   systemLatestProductsReducer,
   systemSimilarProductsReducer,
-  shippingReducer
 } from "./reducers/systemReducers";
 import {
   adminProductReducer,
@@ -23,6 +22,7 @@ import {
 } from "./reducers/adminReducers";
 import { userReducer } from "./reducers/userReducers";
 import { orderReducer } from "./reducers/orderReducers";
+import { shippingReducer } from "./reducers/shippingReducer";
 
 const reducer = combineReducers({
   systemCategories: systemCategoriesReducer,

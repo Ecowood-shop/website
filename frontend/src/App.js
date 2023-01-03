@@ -23,6 +23,7 @@ import CreateProductScreen from "./screens/admin/create/product/Product";
 import CategoryScreen from "./screens/admin/categories/CategoryScreen";
 import Variants from "./screens/admin/variants/Variants";
 import Images from "./screens/admin/images/Images";
+import Shipping from "./screens/admin/shipping/Shipping";
 
 // AUTHORIZED
 import Cart from "./screens/auth/cart/Cart";
@@ -91,6 +92,7 @@ function App() {
             <Route path="/admin/users" element={<UsersScreen />} />
             <Route path="/admin/users/:id/edit" element={<UserScreen />} />
             <Route path="/admin/orders" element={<OrderScreen />} />
+            <Route path="/admin/shipping" element={<Shipping />} />
           </Route>
           <Route path="*" element={<Error />} />
         </Routes>

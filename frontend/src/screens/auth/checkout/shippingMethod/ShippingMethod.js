@@ -4,11 +4,15 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 // REDUX
 import { useDispatch, useSelector } from "react-redux";
-import { saveShippingDetails } from "../../../../store/actions/systemActions";
+import {
+  saveShippingDetails,
+  getShippingPrices,
+} from "../../../../store/actions/shippingActions";
 import ORDER from "../../../../store/constants/orderConstants";
 
 // COMPONENTS
 import CheckoutSteps from "../../../../components/checkoutSteps/CheckoutSteps";
+
 // OTHERS
 import styles from "./styles.module.scss";
 
@@ -16,7 +20,7 @@ function ShippingMethod() {
   const { register, handleSubmit, watch } = useForm();
 
   const shipping = useSelector((state) => state.shipping);
-  const { shipping: shippingFromStorage } = shipping;
+  const { shipping: shippingFromStorage, prices } = shipping;
 
   // HOOKS
   const dispatch = useDispatch();
@@ -27,31 +31,37 @@ function ShippingMethod() {
   );
 
   function onSubmitButton(data) {
-    if (data.delivery == "delivery" && data.office) {
-      data.office = "";
+    for (const property in shippingFromStorage) {
+      if (!data[property]) {
+        data[property] = shippingFromStorage[property];
+      }
     }
-    console.log(data);
+    data.delivery == "delivery"
+      ? (data.office = "")
+      : (data.shippingPrice = "");
+
     dispatch(saveShippingDetails(data));
-    navigate("/checkout/shippingdetails");
+    navigate("/checkout/shippingdetails", { replace: true });
   }
 
   useEffect(() => {
-    dispatch({type:ORDER.CLEAR_ORDER})
-  }, [])
-  
+    dispatch({ type: ORDER.CLEAR_ORDER });
+    dispatch(getShippingPrices());
+  }, []);
 
   console.log(shippingFromStorage);
+  console.log(prices);
 
   return (
     <article className={styles.container}>
-      <CheckoutSteps step1/>
+      <CheckoutSteps step1 />
       <section>
         <div className={styles.text}>
           <h1>მიწოდების მეთოდები</h1>
 
           <hr />
-          <p>* მიწოდება მხოლოდ თბილისის მასშტაბით</p>
           <p>* თბილისის მასშტაბით მიწოდება მოხდება 2-4 სამუშაო დღეში</p>
+          <p>* რეგიონებში მიწოდება მოხდება 4-5 სამუშაო დღეში</p>
         </div>
 
         <form onSubmit={handleSubmit(onSubmitButton)}>
@@ -111,6 +121,7 @@ function ShippingMethod() {
               ოფისიდან გატანა
             </label>
           </div>
+
           {watchDelivery == "office" && (
             <div className={styles.officeContainer}>
               <div className={styles.text}>
@@ -176,6 +187,57 @@ function ShippingMethod() {
               </div>
             </div>
           )}
+
+          {watchDelivery == "delivery" && (
+            <div className={styles.officeContainer}>
+              <div className={styles.text}>
+                <h2>აირჩიეთ ქალაქი</h2>
+                <hr />
+                <p>
+                  * თუ კი კალათის ჯამური ფასი ცდება ზღვარს თქვენ ისარგებლებთ
+                  ფასი 1-ით
+                </p>
+                <p> * სხვა შემთხვევაში ფასი 2-ით</p>
+              </div>
+              <div className={styles.radioContainer}>
+                {prices &&
+                  prices.map((price) => (
+                    <div className={styles.priceContainer} key={price._id}>
+                      <input
+                        {...register("shippingPrice", { required: true })}
+                        type="radio"
+                        name="shippingPrice"
+                        value={price._id}
+                        id={"price" + price._id}
+                        defaultChecked={
+                          shippingFromStorage?.shippingPrice == price._id
+                            ? true
+                            : false
+                        }
+                      />
+                      <label htmlFor={"price" + price._id}>
+                        <p>{price.location}</p>
+                        <div>
+                          <p>
+                            <b>ფასი 1: </b>
+                            {price.upperLimit} ლ
+                          </p>
+                          <p>
+                            <b>ზღვარი: </b>
+                            {price.limit} ლ
+                          </p>
+                          <p>
+                            <b>ფასი 2: </b>
+                            {price.lowerLimit} ლ
+                          </p>
+                        </div>
+                      </label>
+                    </div>
+                  ))}
+              </div>
+            </div>
+          )}
+
           <button type="submit" className={styles.btn}>
             მიწოდების დეტალები
           </button>

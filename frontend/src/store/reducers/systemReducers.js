@@ -74,32 +74,3 @@ export const systemProductReducer = (state = {}, action) => {
   }
 };
 
-export const shippingReducer = (state = { shipping: {} }, action) => {
-  switch (action.type) {
-    case SYSTEM.GET_SHIPPING_REQUEST:
-      return { shipping: action.payload };
-
-    case SYSTEM.SAVE_SHIPPING_METHOD:
-      return {
-        shipping: { ...state, ...action.payload },
-      };
-
-    case SYSTEM.SAVE_SHIPPING_DETAILS:
-      return {
-        shipping: { ...state, ...action.payload },
-      };
-      
-    case SYSTEM.SAVE_SHIPPING_PAYMENT_METHOD:
-      return {
-        shipping: { ...state, ...action.payload },
-      };
-
-    case SYSTEM.CART_CLEAR_ITEMS:
-      return {
-        shipping: [],
-      };
-
-    default:
-      return state;
-  }
-};

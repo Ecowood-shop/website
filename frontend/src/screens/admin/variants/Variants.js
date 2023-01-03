@@ -44,7 +44,7 @@ function Variants() {
         უკან
       </button>
       {colors && <Variant create colors={colors} id={id}/>}
-      {loading && <Loader />}
+      {loading && <Loader  color={"blueviolet"}/>}
       {error && <Message>{error}</Message>}
       {variants &&
         variants.map((variant) => (

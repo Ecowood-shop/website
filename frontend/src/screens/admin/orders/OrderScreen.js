@@ -12,6 +12,7 @@ import Table from "../../../components/table/Table";
 import Loader from "../../../components/loader/Loader";
 import Message from "../../../components/Message/Message";
 import Pagination from "../../../components/pagination/Pagination";
+import Nav from "./Nav";
 
 // OTHERS
 import styles from "./style.module.scss";
@@ -23,7 +24,7 @@ const columns = [
   },
   {
     Header: "მომხმარებელი",
-    accessor: d=>d.user.first_name+" "+d.user.last_name,
+    accessor: (d) => d.user.first_name + " " + d.user.last_name,
   },
   {
     Header: "ჩაბარებულია",
@@ -36,7 +37,7 @@ const columns = [
             fontWeight: "bold",
           }}
         >
-          {d?.deliveredAt.substring(0,10)}
+          {d?.deliveredAt.substring(0, 10)}
         </p>
       ) : (
         <p
@@ -52,7 +53,7 @@ const columns = [
   },
   {
     Header: "თანხა",
-    accessor: "totalPrice",
+    accessor: (d) => Number(d.totalPrice) + Number(d.shippingPrice)+" ლ",
   },
 ];
 
@@ -78,7 +79,9 @@ function OrderScreen() {
   return (
     <section className={styles.container}>
       <OrderFilter />
-      {loading && <Loader />} {error && <Message>{error}</Message>}
+      <Nav styles={styles} navigate={navigate} />
+      {loading && <Loader color="blueviolet" />}{" "}
+      {error && <Message>{error}</Message>}
       {orders?.Orders && (
         <>
           <div className={styles.table}>
@@ -87,7 +90,7 @@ function OrderScreen() {
               data={orders.Orders}
               link="/order/"
               linkEnd=""
-              Delete={(id)=>dispatch(deleteOrder(id))}
+              Delete={(id) => dispatch(deleteOrder(id))}
               text="პროდუქტის"
             />
           </div>

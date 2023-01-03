@@ -10,6 +10,8 @@ import { getUser } from "../../store/actions/userActions";
 // COMPONENTS
 import Search from "./search/Search";
 import AdminPanel from "./AdminPanel";
+import Loader from "../loader/Loader";
+import Error from "../../screens/app/error/Error";
 
 // OTHERS
 import { Opener } from "../../functions/Animation";
@@ -26,14 +28,13 @@ function Header() {
   const dispatch = useDispatch();
 
   const User = useSelector((state) => state.User);
-  const { user } = User;
+  const { user, loadingUser } = User;
 
   useEffect(() => {
-
-    if (document.cookie.indexOf('csrftoken') !== -1 ) {
- dispatch(getUser())
+    if (document.cookie.indexOf("csrftoken") !== -1 && !loadingUser) {
+      console.log("header run");
+      dispatch(getUser());
     }
-    console.log(document.cookie.indexOf('csrftoken'))
   }, [dispatch]);
 
   // FUNCTIONS
@@ -56,6 +57,7 @@ function Header() {
       setIsPanelOpen
     );
   };
+
   const CloseDropdown = () => {
     user?.is_staff
       ? isPanelOpen
@@ -119,7 +121,9 @@ function Header() {
           />
         </svg>
 
-        {user ? (
+        {loadingUser != false ? (
+          <Loader header={true} />
+        ) : user ? (
           <h2 className="header-user" onClick={() => CloseDropdown()}>
             <p>
               {" "}

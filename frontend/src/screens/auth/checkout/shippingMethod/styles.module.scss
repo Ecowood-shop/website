@@ -42,6 +42,37 @@
   }
 }
 
+//      PRICE CONTAINER
+.priceContainer {
+  cursor: pointer;
+  label {
+    width: 100% !important;
+      & > p {
+
+    margin-left: 10%;
+    align-self: center;
+    font-size: var(--medium);
+
+    @media all and (max-width: 40rem) {
+      margin-left: 0rem;
+    }
+  }
+  div{
+    margin-left: auto !important;
+    margin-right: 1rem !important;
+    p{
+      margin: 0;
+      font-size: var(--small);
+          @media all and (max-width: 40rem) {
+            font-size: var(--x-small);
+          }
+    }
+  }
+
+  }
+}
+
+//      OFFICE CONTAINER
 .officeContainer {
   width: 100%;
   display: flex;
@@ -66,7 +97,7 @@
       flex-direction: row;
       align-items: center;
       font-size: var(--medium);
-
+      
       &:last-of-type {
         margin-left: 0;
       }
@@ -138,7 +169,6 @@
       width: 100%;
       box-shadow: none;
       padding: 1rem 1rem 10rem 1rem;
-      
     }
   }
 }

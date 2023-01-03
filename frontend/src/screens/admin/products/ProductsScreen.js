@@ -66,7 +66,7 @@ function ProductsScreen() {
     <section className={styles.container}>
       <Filter />
       <Nav styles={styles} navigate={navigate} />
-      {loading && <Loader />} {error && <Message>{error}</Message>}
+      {loading && <Loader color={"blueviolet"}/>} {error && <Message>{error}</Message>}
       {products && (
         <>
           <div className={styles.table}> 

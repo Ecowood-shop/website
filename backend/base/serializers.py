@@ -167,10 +167,14 @@ class OrderSerializer(serializers.ModelSerializer):
 
 
 class ShippingAddressSerializer(serializers.ModelSerializer):
+    location = serializers.SerializerMethodField()
+
     class Meta:
         model = ShippingAddress
-        fields = ['_id', 'first_name', 'last_name', 'address', 'postalCode', 'personId', 'phone', 'order', 'city']
+        fields = ['_id', 'first_name', 'last_name', 'address', 'postalCode', 'personId', 'phone', 'order', 'location']
 
+    def get_location(self,obj):
+        return obj.city.location
 
 class WarehouseSerializer(serializers.ModelSerializer):
     class Meta:
