@@ -147,12 +147,24 @@ class OrderItem(models.Model):
         return str(self.name)
 
 
+class ShippingPrices(models.Model):
+    _id = models.AutoField(primary_key=True, editable=False)
+    location = models.CharField(max_length=200, null=True, blank=True)
+    limit = models.DecimalField(max_digits=7, decimal_places=2, null=False, blank=True)
+    upperLimit = models.DecimalField(max_digits=7, decimal_places=2, null=False, blank=True)
+    lowerLimit = models.DecimalField(max_digits=7, decimal_places=2, null=False, blank=True)
+    createdAt = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.location)
+
+
 class ShippingAddress(models.Model):
     order = models.OneToOneField(Order, on_delete=models.CASCADE, null=True, blank=True)
     first_name = models.CharField(max_length=240, null=True, blank=False)
     last_name = models.CharField(max_length=255, null=True, blank=False)
     address = models.CharField(max_length=200, null=True, blank=True)
-    city = models.CharField(max_length=200, null=True, blank=True)
+    city = models.ForeignKey(ShippingPrices, on_delete=models.CASCADE, related_name='shipping_prices')
     postalCode = models.CharField(max_length=200, null=True, blank=True)
     personId = models.CharField(max_length=11, null=True, blank=True)
     phone = models.CharField(max_length=50)
@@ -167,6 +179,9 @@ class Warehouse(models.Model):
     _id = models.AutoField(primary_key=True, editable=False)
     location = models.CharField(max_length=200, null=True, blank=True)
     createdAt = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.location)
 
 
 class WithoutShipping(models.Model):

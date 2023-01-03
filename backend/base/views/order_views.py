@@ -2,12 +2,13 @@ from datetime import datetime
 
 import jwt
 from base.models import Order, OrderItem, ShippingAddress, WithoutShipping, User, Warehouse, AddToCart, \
-    Picture, Variants
-from base.serializers import ProductSerializer, OrderSerializer, VariantSerializer, WarehouseSerializer
+    Picture, Variants, ShippingPrices
+from base.serializers import ProductSerializer, OrderSerializer, VariantSerializer, WarehouseSerializer, \
+    ShippingPricesSerializer
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from rest_framework import status
 from rest_framework.decorators import api_view
-from rest_framework.exceptions import AuthenticationFailed
+from rest_framework.exceptions import AuthenticationFailed, ValidationError
 from rest_framework.response import Response
 
 
@@ -64,14 +65,27 @@ def addOrderItems(request):
 
         # (2) Create shipping address
         if order.wants_delivery == 'True':
+            city = ShippingPrices.objects.get(_id=data['cityId'])
+
             shipping = ShippingAddress.objects.create(
                 order=order,
                 first_name=data['first_name'],
                 last_name=data['last_name'],
                 personId=data['personId'],
                 phone=data['phone'],
-                address=data['address']
+                address=data['address'],
+                city=city
             )
+            print('aqa')
+            print(float(discounted_sum_price))
+            print(city.limit)
+            print(city.upperLimit)
+
+            if city.limit <= float(discounted_sum_price):
+                order.shippingPrice = city.upperLimit
+            else:
+                order.shippingPrice = city.lowerLimit
+
         else:
             warehouse = Warehouse.objects.get(_id=data['_id'])
 
@@ -264,6 +278,11 @@ def updateOrderToPaid(request, pk):
     except jwt.ExpiredSignatureError:
         raise AuthenticationFailed('Unauthenticated!')
 
+    user = User.objects.filter(id=payload['id']).first()
+
+    if not user.is_staff:
+        raise AuthenticationFailed('You do not have permission to perform this action.')
+
     try:
         order = Order.objects.get(_id=pk)
     except:
@@ -325,3 +344,98 @@ def deleteOrder(request, pk):
     Order.objects.get(_id=pk).delete()
 
     return Response("Order Deleted")
+
+
+@api_view(['GET'])
+def getShippingPrices(request):
+    token = request.COOKIES.get('jwt')
+
+    if not token:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    try:
+        payload = jwt.decode(token, 'secret', algorithm=['HS256'])
+    except jwt.ExpiredSignatureError:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    prices = ShippingPrices.objects.all()
+    serializer = ShippingPricesSerializer(prices, many=True)
+
+    return Response(serializer.data)
+
+
+@api_view(['POST'])
+def createShippingPrice(request):
+    token = request.COOKIES.get('jwt')
+
+    if not token:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    try:
+        payload = jwt.decode(token, 'secret', algorithm=['HS256'])
+    except jwt.ExpiredSignatureError:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    user = User.objects.filter(id=payload['id']).first()
+
+    if not user.is_staff:
+        raise AuthenticationFailed('You do not have permission to perform this action.')
+
+    data = request.data
+
+    if ShippingPrices.objects.filter(location=data['location']).exists():
+        raise ValidationError("This location already exist.")
+    else:
+        location = ShippingPrices.objects.create(
+            location=data['location'],
+            limit=data['limit'],
+            upperLimit=data['upperLimit'],
+            lowerLimit=data['lowerLimit']
+        )
+
+    return Response("Location " + data['location'] + " Created Successfully")
+
+
+@api_view(['DELETE'])
+def deleteShippingPrice(request, pk):
+    ShippingPrices.objects.get(_id=pk).delete()
+
+    return Response("Location Successfully Deleted")
+
+
+@api_view(['PUT'])
+def updateShippingPrice(request, pk):
+    token = request.COOKIES.get('jwt')
+
+    if not token:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    try:
+        payload = jwt.decode(token, 'secret', algorithm=['HS256'])
+    except jwt.ExpiredSignatureError:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    user = User.objects.filter(id=payload['id']).first()
+
+    if not user.is_staff:
+        raise AuthenticationFailed('You do not have permission to perform this action.')
+
+    data = request.data
+
+    shippingPrice = ShippingPrices.objects.get(_id=pk)
+
+    if data['location']:
+        shippingPrice.location = data['location']
+
+    if data['limit']:
+        shippingPrice.limit = data['limit']
+    if data['upperLimit']:
+        shippingPrice.upperLimit = data['upperLimit']
+    if data['lowerLimit']:
+        shippingPrice.lowerLimit = data['lowerLimit']
+
+    shippingPrice.save()
+
+    serializer = ShippingPricesSerializer(shippingPrice, many=False)
+
+    return Response({'Location With Prices': serializer.data})
