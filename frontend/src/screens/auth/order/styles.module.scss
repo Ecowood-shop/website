@@ -18,7 +18,7 @@
     margin-right: 3rem;
     text-align: center;
     margin-top: 1rem;
-    &:last-of-type{
+    &:last-of-type {
       margin-top: 3rem;
     }
   }
@@ -36,6 +36,7 @@
   display: flex;
   justify-content: space-evenly;
   p {
+    font-size: var(--small);
     margin: 0;
     b {
       margin-right: 0.5rem;
@@ -95,7 +96,22 @@
   .container {
     width: 90%;
     padding: 2rem;
+    h1 {
+      font-size: var(--x-large);
+    }
+    h2 {
+      font-size: var(--large);
+      &:last-of-type {
+        margin-top: 2rem;
+      }
+    }
   }
+  .sectionDetails {
+    .sum ,  .status {
+      font-size: var(--medium);
+    }
+  }
+
   .products {
     .product {
       .name {
@@ -118,20 +134,14 @@
   .container {
     margin: 0;
     width: 100%;
-    h1 {
-      font-size: var(--x-large);
-    }
-    h2 {
-      font-size: var(--x-medium);
-      &:last-of-type {
-        margin-top: 2rem;
-      }
-    }
   }
   .sectionDetails {
     flex-direction: column;
     .sum {
-      font-size: var(--medium);
+      &:first-of-type {
+        padding-top: 0.5rem;
+        border-top: 2px solid black;
+      }
     }
   }
   .products {

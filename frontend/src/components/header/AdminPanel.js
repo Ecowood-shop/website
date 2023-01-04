@@ -25,7 +25,10 @@ function AdminPanel(props) {
       <button
         id="admin-users"
         className="header-dropdown-element w3-animate-right animate__animated"
-        onClick={props.UsersNavigator}
+        onClick={() => {
+          props.CloseDropdown();
+          props.UsersNavigator();
+        }}
       >
         მომხმარებლები
         <svg
@@ -46,7 +49,10 @@ function AdminPanel(props) {
       <button
         id="admin-products"
         className="header-dropdown-element w3-animate-right animate__animated"
-        onClick={props.ProductsNavigator}
+        onClick={() => {
+          props.CloseDropdown();
+          props.ProductsNavigator();
+        }}
       >
         პროდუქტები
         <svg
@@ -67,7 +73,10 @@ function AdminPanel(props) {
       <button
         id="admin-orders"
         className="header-dropdown-element w3-animate-right animate__animated"
-        onClick={props.OrdersNavigator}
+        onClick={() => {
+          props.CloseDropdown();
+          props.OrdersNavigator();
+        }}
       >
         შეკვეთები
         <svg

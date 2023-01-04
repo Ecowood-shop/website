@@ -11,35 +11,41 @@
   width: 65%;
   & > h1 {
     width: 100%;
-    font-size: var(--xx-large);
+    font-size: var(--x-large);
     margin: 3rem 0;
     text-align: center;
   }
 }
 .coupon {
+  margin: 1rem 0;
+  padding: 0.5rem;
+  padding-left: 1rem;
   width: 100%;
   border: none;
-  font-size: var(--medium);
+  font-size: var(--small);
+  background-color: whitesmoke;
   border-radius: 10px;
-  padding-left: 0.5rem;
 }
 
-.authError{
+.authError {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: var(--medium);
 
-  p{
-cursor: pointer;
-color: var(--color-primary);
+  p {
+    cursor: pointer;
+    color: var(--color-primary);
     margin-left: 0.5rem;
     text-decoration: underline;
   }
 }
 .error {
   color: var(--color-error);
+  margin: 0;
+  margin-top: 0.5rem;
+  margin-left: 0.5rem;
 }
 .section2 {
   width: 30%;
@@ -57,14 +63,16 @@ color: var(--color-primary);
   h1 {
     margin: 1rem;
     font-weight: 600;
+    font-size: var(--x-large);
   }
   .table {
     width: 80%;
     h2 {
       font-size: var(--x-medium);
+      margin: 0;
     }
     .btn {
-      margin: 1rem 0;
+      margin: 0.5rem   0  1rem 0 ;
       height: 3rem;
       font-size: var(--medium);
       display: flex;
@@ -81,7 +89,7 @@ color: var(--color-primary);
         margin-right: 1rem;
       }
       &:hover {
-        transform: scale(1.05);
+        transform: scale(1.01);
       }
       &:last-of-type {
         margin-bottom: 2rem;
@@ -111,6 +119,18 @@ color: var(--color-primary);
     width: 40rem;
     margin: 0;
     margin-top: 5rem;
+
+    .table {
+      h2 {
+        font-size: var(--medium);
+        margin-left: 0.1rem;
+      }
+      .btn {
+        height: auto;
+        font-size: var(--small);
+        padding: 0.5rem;
+      }
+    }
   }
 }
 
@@ -118,7 +138,8 @@ color: var(--color-primary);
   .container {
     width: 100%;
     .section2 {
-      width: 90%;
+      width: 100%;
+       box-shadow: none;
       h2 {
         font-size: var(--medium);
       }

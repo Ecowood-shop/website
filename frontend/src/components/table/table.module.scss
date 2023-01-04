@@ -3,26 +3,26 @@
   height: max-content;
 }
 .column {
-  background-image:var(--linear-primary);
-  color: white;
-  font-size: var(--medium);
-  padding: 0.5rem !important;
 }
 .row {
+}
+th {
+  background-image: var(--linear-primary);
+  color: white;
+  border-radius: 10px;
   font-size: var(--medium);
-}
-th,
-td {
   padding: 0.5rem;
-  border: 3px solid var(--color-magenta);
 }
 
 td {
+  line-height: 0;
   white-space: nowrap;
-
+  border-radius: 10px;
+  text-align: center;
+  border: 3px solid var(--color-magenta);
   transition: transform 0.1s ease-out;
+  font-size: var(--small);
   &:hover:not(:last-of-type) {
-    transform: scale(1.05);
     z-index: 99;
     background-color: var(--color-magenta);
     color: white;
@@ -38,49 +38,54 @@ td {
     background-color: var(--color-magenta);
     width: 10rem;
   }
-  @media all and (max-width: 60em) {
-    &:hover {
-      transform: none !important;
-    }
-  }
-}
-
-th:last-of-type {
 }
 
 .buttonContainer {
   display: flex;
-  width: max-content;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
 }
 .button {
   display: flex;
   align-items: center;
-
-  height: 3rem;
+  height: 2.5rem;
   cursor: pointer;
-  padding: 1rem;
-  margin-left: 1rem;
+  padding: 0.7rem;
+
   border: none;
   border-radius: 50%;
   color: white;
 
+  &:hover {
+    transform: scale(1.05);
+    z-index: 10;
+  }
   &:first-of-type {
     background-color: green;
     border-color: green;
   }
 
   &:last-of-type {
-    margin-right: 1rem;
     background-image: var(--linear-second);
     border-color: var(--color-magenta);
-  }
-
-  &:hover {
-    transform: scale(1.05);
   }
 }
 
 .icon {
   height: 1.5rem;
   fill: white;
+}
+
+@media all and (max-width: 60em) {
+  th {
+    font-size: var(--small);
+    border-radius: 0;
+  }
+  td {
+    border-radius: 0;
+    border: 1px solid var(--color-magenta);
+  }
+
+
 }

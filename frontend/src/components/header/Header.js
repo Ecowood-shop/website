@@ -227,6 +227,7 @@ function Header() {
             {isPanelOpen && (
               <AdminPanel
                 Close={() => ClosePanel()}
+                CloseDropdown={() => {setIsOpen(false);setIsPanelOpen(false)}}
                 ProductsNavigator={() => AdminProductsNavigator()}
                 UsersNavigator={() => AdminUsersNavigator()}
                 OrdersNavigator={() => AdminOrdersNavigator()}
