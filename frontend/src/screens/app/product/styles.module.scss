@@ -23,15 +23,14 @@
       padding: 0.5rem 1rem;
       border-radius: 999px;
       &:hover {
-        text-shadow: 0 0 1px black;
         cursor: pointer;
+        transform: scale(1.01);
       }
     }
   }
   p {
     font-size: var(--medium);
     margin: 1rem;
-
   }
 }
 
@@ -72,12 +71,12 @@
         margin: 0rem;
         margin-bottom: 0.5rem;
         grid-column: span 1 !important;
-
-
+        font-size: var(--x-small) !important;
       }
     }
     p {
       display: block;
+      font-size: var(--x-small);
     }
   }
 }

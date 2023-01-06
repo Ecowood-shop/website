@@ -121,7 +121,7 @@ function Header() {
           />
         </svg>
 
-        {loadingUser != false ? (
+        {loadingUser != false && document.cookie.indexOf("csrftoken") !== -1 ? (
           <Loader header={true} />
         ) : user ? (
           <h2 className="header-user" onClick={() => CloseDropdown()}>
@@ -227,7 +227,10 @@ function Header() {
             {isPanelOpen && (
               <AdminPanel
                 Close={() => ClosePanel()}
-                CloseDropdown={() => {setIsOpen(false);setIsPanelOpen(false)}}
+                CloseDropdown={() => {
+                  setIsOpen(false);
+                  setIsPanelOpen(false);
+                }}
                 ProductsNavigator={() => AdminProductsNavigator()}
                 UsersNavigator={() => AdminUsersNavigator()}
                 OrdersNavigator={() => AdminOrdersNavigator()}

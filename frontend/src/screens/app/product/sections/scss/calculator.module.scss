@@ -63,8 +63,10 @@
   }
   input {
     font-size: var(--small) !important;
-    color: white;
+    background-color: whitesmoke;
     border: none;
+    padding: 0 0.5rem;
+    margin-left: 0.1rem;
     text-align: end;
     width: 3rem;
     background-color: var(--error);
@@ -89,20 +91,24 @@
   align-items: flex-start;
 }
 @media all and (max-width: 40rem) {
-  .inner {
-    flex-direction: column;
-  text-align: center;
-    padding: 0 0.5rem;
-   
-  }
-  .table{
-    p{
-        text-align: center;
+  .container {
+    h1 {
+      font-size: var(--x-small) !important;
     }
   }
-  .hell{
-   justify-content: center;
-   align-items: center;
- 
+  .inner {
+    flex-direction: column;
+    text-align: center;
+    padding: 0 0.5rem;
+  }
+  .table {
+    p {
+      text-align: center;
+      font-size: var(--x-small) !important;
+    }
+  }
+  .hell {
+    justify-content: center;
+    align-items: center;
   }
 }

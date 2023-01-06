@@ -47,6 +47,9 @@
       font-size: var(--medium);
       width: 80%;
     }
+    .textarea{
+      font-size: var(--small);
+    }
   }
   @media all and (max-width: 40rem) {
     width: 100%;
@@ -56,6 +59,11 @@
       box-shadow: none;
       border: none;
       margin-bottom: 5rem;
+      h1 {
+        font-size: var(--x-large);
+        padding-top: 4rem;
+        padding-bottom: 1rem;
+      }
       input,
       .textarea,
       .inputCategory {
@@ -82,10 +90,11 @@
         transform: none;
         display: flex;
         width: 100%;
-        left: 1rem !important;
+        justify-content: center;
         border-radius: 10px 0 0 10px;
         button {
           border-radius: 10px;
+          font-size: var(--small);
         }
       }
     }
@@ -125,7 +134,7 @@
     border: none;
     display: flex;
     align-items: center;
-    font-size: var(--x-medium);
+    font-size: var(--medium);
     padding: 0.3rem 0.8rem 0.1rem 0.5rem;
     border-radius: 10px 10px 0 0;
 
@@ -139,7 +148,7 @@
       margin-right: 1rem;
     }
     &:hover {
-      transform: scale(1.05);
+      transform: scale(1.01);
     }
   }
 }
