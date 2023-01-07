@@ -8,30 +8,44 @@ import { getCart } from "../../../store/actions/userActions";
 // COMPONENTS
 import Product from "./product/Product";
 import Loader from "../../../components/loader/Loader";
+import Message from "../../../components/Message/Message"
 // OTHERS
 import styles from "./styles.module.scss";
 
 function Cart() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [message, setMessage] = useState();
   const [coupon, setCoupon] = useState();
 
   const User = useSelector((state) => state.User);
   const { cart, success, user, loadingUser: loading } = User;
-
   useEffect(() => {
     dispatch(getCart());
-    setMessage(0);
   }, [dispatch, success]);
-console.log(message)
+  console.log(cart);
+  const secure = () => {
+    let process = true;
+    for (const index in cart.carts) {
+      for (const index2 in cart.variants) {
+        if (
+          cart.carts[index].qty > cart.variants[index].quantity ||
+          cart.carts[index].qty < 1
+        ) {
+          process = false;
+          return;
+        }
+      }
+    }
+    if (cart.sum_price > 0 && process) navigate("/checkout/shippingmethod");
+  };
   return (
     <article className={styles.container}>
       <section className={styles.section1}>
         <h1>პროდუქტები</h1>
-        {loading != false ? (
-        <Loader color="blueviolet" />
-      ):user ? (
+        {cart?.carts.length == 0 && <Message>კალათა ცარიელია</Message>}
+        {loading != false && document.cookie.indexOf("altax") !== -1 ? (
+          <Loader color="blueviolet" />
+        ) : user ? (
           <>
             {cart &&
               cart.products.map((product, index) => (
@@ -41,8 +55,6 @@ console.log(message)
                   variant={cart.variants[index]}
                   cart={cart.carts[index]}
                   dispatch={dispatch}
-                  handlerPlus={() => setMessage(message + 1)}
-                  handlerMinus={() => setMessage(message - 1)}
                 />
               ))}
           </>
@@ -72,15 +84,15 @@ console.log(message)
               <b>ჯამი: </b>
               {cart.sum_price} ლ
             </h2>
-            {coupon == "dd" && (
-              <p className={styles.error}>კუპონი ვერ მოიძებნა</p>
-            )}
+
             <input
               className={styles.coupon}
               placeholder="კუპონი..."
               onChange={(e) => setCoupon(e.target.value)}
             />
-
+            {coupon == "dd" && (
+              <p className={styles.error}>კუპონი ვერ მოიძებნა</p>
+            )}
             <button
               className={styles.btn}
               onClick={() => {
@@ -100,7 +112,7 @@ console.log(message)
             <button
               className={styles.btn}
               onClick={() => {
-                if(cart.sum_price>0) navigate("/checkout/shippingmethod");
+                secure();
               }}
             >
               <svg

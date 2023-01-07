@@ -151,6 +151,8 @@ function Section1({ product, iframe, youtube, variants, navigate, id }) {
             <b>ფასი:</b>
             {product.price} ლ
           </p>{" "}
+          <p className={styles.error}>{message}</p>
+          {error && <p className={styles.error}>{error}</p>}
           <label className={styles.selectContainer}>
             <input
               type="number"
@@ -163,8 +165,6 @@ function Section1({ product, iframe, youtube, variants, navigate, id }) {
               }}
             />
           </label>
-          <p className={styles.error}>{message}</p>
-          {error && <p className={styles.error}>{error}</p>}
           <div className={styles.btnContainer}>
             <button onClick={() => submit("buy")}>
               <svg

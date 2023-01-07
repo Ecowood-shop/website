@@ -1,5 +1,5 @@
 .container {
-  height: 25rem;
+  height: 20rem;
   position: relative;
   border-radius: 10px;
   display: flex;
@@ -21,7 +21,7 @@
     transform: scale(1.05);
   }
   img {
-    max-width: 12rem;
+    max-width: 10rem;
     max-height: 100%;
     transition: max-width 0.5s ease-in;
     &:hover {
@@ -40,12 +40,13 @@
     display: flex;
     flex-direction: column;
    &> h2{
-      font-size: var(--x-medium);
+      font-size: var(--medium);
       white-space: normal;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
+      text-align: center;
     }
     div {
       display: flex;
@@ -57,10 +58,10 @@
         &:last-of-type {
           margin-left: auto;
           margin-bottom: 1rem;
+          font-size: var(--medium); 
         }
         &:first-of-type {
-        
-          font-size: var(--medium); 
+          font-size: var(--small); 
         }
       }
     }

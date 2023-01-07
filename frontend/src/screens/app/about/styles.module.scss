@@ -1,11 +1,10 @@
 .container {
   width: 80%;
-min-height: var(--height);
+  min-height: var(--height);
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 5rem 0;
-  margin-bottom: 10rem;
+  padding-bottom: 10rem;
   border-radius: 10px;
   background-color: white;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
@@ -14,6 +13,9 @@ min-height: var(--height);
   header {
     width: 100%;
     text-align: center;
+    h1 {
+      margin: 5rem 0;
+    }
   }
   img {
     width: 80%;
@@ -23,14 +25,12 @@ min-height: var(--height);
   p {
     width: 80%;
     display: block;
-
     text-align: justify;
     word-break: keep-all;
-    font-size: var(--medium);
+    font-size: var(--small);
   }
   h1 {
-    margin: 5rem 0;
-
+    margin: 2rem 0;
     font-weight: 600;
     font-size: var(--xx-large);
     color: var(--color-primary-lg);
@@ -39,16 +39,19 @@ min-height: var(--height);
   section {
     width: 80%;
     display: flex;
-    margin-bottom: 10rem;
+    margin-bottom: 5rem;
   }
-  @media all and (max-width: 70em) {
-    width: 90%;
+  @media all and (max-width: 80rem) {
+    width: 100%;
     section {
       flex-direction: column;
       .text {
         width: 100%;
       }
-
+      h2 {
+        text-align: center;
+        border: none !important;
+      }
       .iframe {
         width: 100%;
       }
@@ -68,8 +71,8 @@ min-height: var(--height);
 .text {
   width: 40%;
   h2 {
-    margin: 2rem 0;
-    text-align: center;
+    margin: 0.5rem 0;
+    text-align: start;
     color: var(--color-primary-lg);
     font-size: var(--x-large);
     font-weight: 500;
@@ -78,6 +81,7 @@ min-height: var(--height);
       margin-top: 0;
     }
   }
+  margin-bottom: 1rem;
 }
 .iframe {
   border: none;
@@ -87,7 +91,6 @@ min-height: var(--height);
 }
 .element {
   color: black;
-  margin-bottom: 20px;
   font-size: 18px;
   text-decoration: none;
   display: flex;
@@ -95,20 +98,24 @@ min-height: var(--height);
   gap: 0.5rem;
 }
 
-.work { 
+.work {
   p {
     margin: 0;
-    font-size: 18px;
-    
+    font-size: var(--small);
   }
   h2 {
-    color: black;text-align: start;
+    border-top: 3px solid black !important;
+    margin-right: 1rem;
+    color: black;
+    text-align: start;
+    margin-top: 1rem !important;
+    font-size: var(--medium);
   }
   @media all and (max-width: 70em) {
     p:last-of-type {
       margin-bottom: 3rem;
     }
-    h2{
+    h2 {
       text-align: center;
     }
   }
@@ -135,19 +142,18 @@ min-height: var(--height);
     }
     img {
       height: 20rem;
+      width: 90%;
       margin-bottom: 1rem;
     }
     p {
-      font-size: var(--small);
+      width: 90%;
+      font-size: var(--x-small);
     }
   }
   .text {
     h2 {
-      margin: 2rem 0;
-
-      font-size: var(--large);
+      font-size: var(--x-medium);
       font-weight: 600;
-
       &:first-of-type {
         margin-top: 0;
       }
@@ -163,6 +169,7 @@ min-height: var(--height);
   }
   .element {
     font-size: var(--small);
-    justify-content: flex-start  !important;;
+
+    justify-content: flex-start !important;
   }
 }

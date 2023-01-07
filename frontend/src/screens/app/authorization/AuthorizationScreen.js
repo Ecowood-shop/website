@@ -26,7 +26,7 @@ function AuthorizationScreen() {
   const dispatch = useDispatch();
 
   const User = useSelector((state) => state.User);
-  const { errorLogin,errorRegister, loading, user } = User;
+  const { errorLogin, errorRegister, loadingUser: loading, user } = User;
 
   useEffect(() => {
     if (errorLogin) {
@@ -35,7 +35,7 @@ function AuthorizationScreen() {
     if (user) {
       navigate("/", { replace: true });
     }
-  }, [errorLogin,user, navigate]);
+  }, [errorLogin, user, navigate]);
 
   const SubmitHandler = (e) => {
     e.preventDefault();
@@ -54,53 +54,61 @@ function AuthorizationScreen() {
 
   return (
     <article className={styles.container}>
-      <section className="w3-animate-left">
-        {isLogin ? (
-          <form className="w3-animate-left" onSubmit={SubmitHandler}>
-            <h1 style={{ marginBottom: message ? "0" : "3rem" }}>
-              {" "}
-              ავტორიზაცია
-            </h1>
-            <Message>{message}</Message>
-            {loading && <Loader />}
-            <section>
-              <input
-                type="email"
-                className={styles.input}
-                placeholder="მეილი"
-                value={email ? email : ""}
-                onChange={(e) => setEmail(e.target.value)}
-                required
+      {!loading && (
+        <>
+          <section className="w3-animate-left">
+            {isLogin ? (
+              <form className="w3-animate-left" onSubmit={SubmitHandler}>
+                <h1 style={{ marginBottom: message ? "0" : "3rem" }}>
+                  {" "}
+                  ავტორიზაცია
+                </h1>
+                <Message>{message}</Message>
+                {loading && <Loader />}
+                <section>
+                  <input
+                    type="email"
+                    className={styles.input}
+                    placeholder="მეილი"
+                    value={email ? email : ""}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                  <input
+                    type="password"
+                    className={styles.input}
+                    placeholder="პაროლი"
+                    value={password ? password : ""}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                </section>
+                <div className={styles.btnContainer}>
+                  <h2 onClick={() => setIsLogin(!isLogin)}>რეგისტრაცია</h2>
+                  <button
+                    type="submit"
+                    onClick={() => Validation()}
+                    className={styles.btn}
+                  >
+                    შესვლა
+                  </button>
+                </div>
+              </form>
+            ) : (
+              <Register
+                user={user}
+                error={errorRegister}
+                ChangeLogin={() => {
+                  setIsLogin(!isLogin);
+                }}
               />
-              <input
-                type="password"
-                className={styles.input}
-                placeholder="პაროლი"
-                value={password ? password : ""}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </section>
-            <div className={styles.btnContainer}>
-              <h2 onClick={() => setIsLogin(!isLogin)}>რეგისტრაცია</h2>
-              <button type="submit" onClick={() => Validation()} className={styles.btn}>
-                შესვლა
-              </button>
-            </div>
-          </form>
-        ) : (
-          <Register
-            user={user}
-            error={errorRegister}
-            ChangeLogin={() => {
-              setIsLogin(!isLogin);
-            }}
-          />
-        )}
-      </section>
-      <section className={styles.carousel}>
-        {" "}
-        <BlockCarousel />
-      </section>
+            )}
+          </section>
+          <section className={styles.carousel}>
+            {" "}
+            <BlockCarousel />
+          </section>
+        </>
+      )}
     </article>
   );
 }

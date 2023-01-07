@@ -41,19 +41,25 @@ function Section2({ product, styles, navigate, category, dispatch }) {
       <header>
         <h2
           onClick={() => setCurrent(0)}
-          style={current == 0 ? { fontWeight: "bold" } : {}}
+          style={
+            current == 0 ? { fontWeight: "bold", backgroundColor: "white" } : {}
+          }
         >
           ტექნიკური მონაცემები
         </h2>
         <h2
           onClick={() => setCurrent(1)}
-          style={current == 1 ? { fontWeight: "bold" } : {}}
+          style={
+            current == 1 ? { fontWeight: "bold", backgroundColor: "white" } : {}
+          }
         >
           გამოყენების წესები
         </h2>
         <h2
           onClick={() => setCurrent(2)}
-          style={current == 2 ? { fontWeight: "bold" } : {}}
+          style={
+            current == 2 ? { fontWeight: "bold", backgroundColor: "white" } : {}
+          }
         >
           უსაფრთხოების სტანდარტი
         </h2>

@@ -30,8 +30,9 @@ function Header() {
   const User = useSelector((state) => state.User);
   const { user, loadingUser } = User;
 
+
   useEffect(() => {
-    if (document.cookie.indexOf("csrftoken") !== -1 && !loadingUser) {
+    if (document.cookie.indexOf("altax") !== -1 && !loadingUser && !user) {
       console.log("header run");
       dispatch(getUser());
     }
@@ -121,7 +122,7 @@ function Header() {
           />
         </svg>
 
-        {loadingUser != false && document.cookie.indexOf("csrftoken") !== -1 ? (
+        {loadingUser != false && document.cookie.indexOf("altax") !== -1 ? (
           <Loader header={true} />
         ) : user ? (
           <h2 className="header-user" onClick={() => CloseDropdown()}>

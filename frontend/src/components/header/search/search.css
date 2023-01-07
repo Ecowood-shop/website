@@ -10,13 +10,13 @@
 }
 
 .search-container > input {
-  height: 3.5rem;
+  padding: 0.6rem;
   width: 100%;
   border: none;
-  border-radius: 10px;
-  padding-left: 1rem;
+  border-radius: 999px;
+  padding-left: 1.5rem;
   padding-right: 16rem;
-  font-size: var(--medium);
+  font-size: var(--small);
 }
 
 .search-icon {
@@ -29,8 +29,7 @@
   position: relative;
   display: flex;
   right: 3rem;
-  height: 2.5rem;
-  width: 2.5rem;
+  padding: 0.6rem;
   align-items: center;
   justify-content: center;
   background-color: var(--color-primary);
@@ -47,12 +46,18 @@
   right: 6rem;
   min-width: 10rem;
   max-width: 11rem;
-  font-size: var(--small);
+  font-size: var(--x-small);
+
 }
-.search-category div {
+.search-category div{
+
+      color: var(--color-primary) !important;
+
+}
+.search-category > div:first-of-type {
   color: var(--color-primary);
   border-width: 2px;
-  border-radius: 10px;
+  border-radius: 999px;
   border-color: var(--color-primary);
 }
 @media all and (max-width: 60em) {
@@ -63,8 +68,6 @@
   }
   .search-container input {
     box-sizing: border-box;
-
-    padding: 0;
     left: 4%;
     right: 0;
     position: absolute;
@@ -75,12 +78,12 @@
   }
   .search-icon-container {
     right: 0 !important;
-    padding: 0 !important;
     margin: 0 !important;
     position: absolute;
     right: 3rem !important;
   }
 }
+
 @media all and (max-width: 40em) and (orientation: portrait) {
   .search-container input {
     padding-left: 1rem;

@@ -8,16 +8,36 @@
 .section1 {
   display: flex;
   flex-direction: column;
+  height: max-content;
   width: 65%;
+  border-radius: 10px;
+  margin-top: 5rem;
+  padding: 0;
+  padding-bottom: 2rem;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
+    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
+  background-color: whitesmoke;
   & > h1 {
+    margin: 0;
     width: 100%;
     font-size: var(--x-large);
-    margin: 3rem 0;
     text-align: center;
+    position: relative;
+    border-radius: 10px 10px 0 0;
+    background: var(--linear-primary);
+    min-height: 5rem;
+    font-weight: 900;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    margin-bottom: 3rem;
   }
 }
 .coupon {
-  margin: 1rem 0;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
   padding: 0.5rem;
   padding-left: 1rem;
   width: 100%;
@@ -61,20 +81,20 @@
     rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
 
   h1 {
-    margin: 1rem;
+    margin: 1.5rem;
     font-weight: 600;
     font-size: var(--x-large);
   }
   .table {
     width: 80%;
     h2 {
-      font-size: var(--x-medium);
+      font-size: var(--small);
       margin: 0;
     }
     .btn {
-      margin: 0.5rem   0  1rem 0 ;
-      height: 3rem;
-      font-size: var(--medium);
+      margin: 0.3rem 0 1rem 0;
+      font-size: var(--small);
+      padding: 0.4rem 0;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -122,13 +142,7 @@
 
     .table {
       h2 {
-        font-size: var(--medium);
         margin-left: 0.1rem;
-      }
-      .btn {
-        height: auto;
-        font-size: var(--small);
-        padding: 0.5rem;
       }
     }
   }
@@ -139,9 +153,29 @@
     width: 100%;
     .section2 {
       width: 100%;
-       box-shadow: none;
-      h2 {
-        font-size: var(--medium);
+      box-shadow: none;
+      .btn {
+        margin-bottom: 0.5rem;
+        font-size: var(--x-small);
+        svg {
+          height: 1.5rem;
+          margin-right: 1rem;
+        }
+      }
+    }
+    .section1 {
+      background-color: transparent;
+      box-shadow: none;
+      & > h1 {
+        margin: 0;
+        width: 100%;
+        font-size: var(--x-large);
+        text-align: center;
+        position: relative;
+        border-radius: 10px 10px 0 0;
+        background: transparent;
+        color: black;
+        margin-bottom: 3rem;
       }
     }
   }
