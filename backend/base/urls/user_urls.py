@@ -15,5 +15,5 @@ urlpatterns = [
     path('update/<str:pk>/', views.updateUserById, name='user-update-by-id'),
     path('delete/<str:pk>/', views.deleteUser, name='user-delete'),
 
-    # path('verify/<str:pk>/token')
+    path('verify/<str:pk>/<str:token>/', views.verify_email, name='verify-email'),
 ]

@@ -44,6 +44,8 @@ class User(AbstractUser):
     email = models.EmailField(_('email address'), blank=False, unique=True, max_length=254)
     phone = models.CharField(max_length=50)
     email_verification_token = models.CharField(max_length=200, null=True, blank=True)
+    is_email_verified = models.BooleanField(default=False)
+    expiration_date = models.DateTimeField(null=True)
 
     username = None
 

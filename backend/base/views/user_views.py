@@ -13,8 +13,10 @@ from rest_framework.decorators import api_view
 from rest_framework.exceptions import AuthenticationFailed, NotFound, ValidationError
 from rest_framework.response import Response
 from rest_framework_jwt.settings import api_settings
+from django.utils import timezone
 
 # Get the JWT settings
+
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
 
@@ -29,6 +31,44 @@ def RegisterUser(request):
 
 
 @api_view(['POST'])
+def verify_email(request, pk, token):
+    try:
+        user = User.objects.get(id=pk)
+    except User.DoesNotExist:
+        raise AuthenticationFailed('User not found!')
+
+    if user.expiration_date < timezone.now():
+        return AuthenticationFailed('expired_token')
+
+    if user.email_verification_token == token:
+        user.is_email_verified = True
+
+        user.save()
+
+        payload = {
+            'id': user.id,
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
+            'iat': datetime.datetime.utcnow()
+        }
+
+        token = jwt.encode(payload, 'secret', algorithm='HS256').decode('utf-8')
+
+        response = Response()
+
+        response.set_cookie(key='jwt', value=token, httponly=True)
+        response.set_cookie(key='altax', value="Copyright C 2022 Altax.ge. All rights reserved", httponly=False)
+
+        response.data = {
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'isAdmin': user.is_staff
+        }
+        return response
+
+    return Response('message: Verification Rejected')
+
+
+@api_view(['POST'])
 def LoginUser(request):
     email = request.data['email']
     password = request.data['password']
@@ -37,6 +77,9 @@ def LoginUser(request):
 
     if user is None:
         raise AuthenticationFailed('User not found!')
+
+    if not user.is_email_verified:
+        raise AuthenticationFailed('You need to verify your account')
 
     if not user.check_password(password):
         raise AuthenticationFailed('Incorrect password!')
@@ -119,6 +162,8 @@ def updateUserProfile(request):
 def LogoutUser(request):
     response = Response()
     response.delete_cookie('jwt')
+    response.delete_cookie('altax')
+
     response.data = {
         'message: success'
     }
