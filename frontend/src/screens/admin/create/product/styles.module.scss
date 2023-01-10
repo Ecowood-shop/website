@@ -40,7 +40,6 @@
   @media all and (max-width: 85rem) {
     width: 80%;
     input,
-    .textarea,
     .inputCategory {
       font-size: var(--medium);
     }
@@ -58,17 +57,22 @@
       .textarea,
       .inputCategory {
         width: 80%;
-        font-size: var(--medium);
+        font-size: var(--small);
+        background-color: white;
+        border-radius: 10px;
       }
 
       .textarea {
         font-size: var(--small);
+        height: 20rem;
+      }
+      .inputCategory {
+        & > div {
+          background-color: white;
+        }
       }
       .input:first-of-type {
         margin-top: 0;
-      }
-      .textarea {
-        height: 8rem;
       }
     }
   }
@@ -79,17 +83,17 @@
   width: 60%;
   margin-top: 2rem;
   height: 3rem;
-  border: 2px solid black;
-  border-radius: 999px;
+  border: none;
+  border-radius: 10px;
+  background-color: whitesmoke;
   text-align: center;
-  font-size: var(--x-medium);
-  font-weight: normal;
+  font-size: var(--medium);
 }
 .textarea {
   height: 10rem;
   border-radius: 10px;
-
-  padding: 0.5rem;
+  text-align: start;
+  padding: 1rem;
   font-size: var(--small);
 }
 .inputCategory {
@@ -101,7 +105,8 @@
   font-size: var(--x-medium);
   font-weight: normal;
   & > div {
-    border: 2px solid black;
+    border: none;
+    background-color: whitesmoke;
     border-radius: 10px;
   }
 }
@@ -119,7 +124,6 @@
 }
 .input {
   padding: 0 2rem;
- 
 }
 .checkbox[type="checkbox"] {
   margin-right: 0.5rem;

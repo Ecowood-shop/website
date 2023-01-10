@@ -1,9 +1,10 @@
 .container {
   position: relative;
-  margin: 1rem;
+  margin: 0.5rem 2rem;
   display: flex;
   padding: 1rem;
-  height: 15rem;
+  padding-bottom: 0;
+  height: 10rem;
   background-color: white;
   border-top-left-radius: 10px;
   border-radius: 10px;
@@ -19,7 +20,7 @@
     position: relative;
     width: 100%;
     h1 {
-      font-size: var(--large);
+      font-size: var(--x-medium);
       cursor: pointer;
       text-align: start;
       white-space: normal;
@@ -28,6 +29,7 @@
       -webkit-box-orient: vertical;
       overflow: hidden;
       word-break: break-all;
+      margin: 0;
     }
     section {
       display: flex;
@@ -38,15 +40,17 @@
       flex-direction: column;
       h2 {
         position: absolute;
-        bottom: 1rem;
+        bottom: 0rem;
         right: 1rem;
+        font-size: var(--medium);
       }
-      p:first-of-type {
-        
-  clear: both;
-  display: inline-block;
-  overflow: hidden;
-  white-space: nowrap;
+      p {
+        clear: both;
+        display: inline-block;
+        overflow: hidden;
+        white-space: nowrap;
+        margin: 0;
+        margin-top: 0.5rem;
         b {
           margin-right: 1rem;
         }
@@ -54,13 +58,12 @@
     }
   }
 }
-.color{
+.color {
   display: inline;
-  &> div{
-  div{
-    top:-12rem !important
+  & > div {
+    div {
+    }
   }
-        }
 }
 .message {
   color: var(--color-error);
@@ -68,7 +71,9 @@
   display: inline-block;
   overflow: hidden;
   white-space: nowrap;
-  margin-left: 1rem;
+  margin: 0;
+  font-size: var(--x-small) !important;
+  margin-left: 1.5rem !important;
 }
 
 .deleteBtn {
@@ -79,18 +84,18 @@
   right: 0rem;
   border: none;
   cursor: pointer;
-  padding: 0.8rem 0.6rem 0.2rem 0.3rem;
+  padding: 0.5rem 0.4rem 0.1rem 0.1rem;
   border-bottom-right-radius: 10px;
   border-top-right-radius: 10px;
   transform: translateX(100%);
   background-color: var(--color-primary);
 
   .icon {
-    height: 1.5rem;
-    width: 1.5rem;
+    height: 1.2rem;
+    width: 1.2rem;
     fill: white;
     &:hover {
-      transform: scale(1.1);
+      transform: scale(1.05);
     }
   }
 }
@@ -112,30 +117,32 @@
 .selectContainer {
   display: flex;
   align-items: center;
-  margin-left: 2rem;
- & button{
-  cursor: pointer;
-  padding: 0.3rem 0.8rem;
-  display: flex;
-  background-color: rgb(34, 193, 34);
- 
-  border: none;
-  border-radius: 10px;
 
-  &:first-of-type{
-    margin-left: 2rem;
-    background-color: red;
+  margin: 0;
+  margin-top: 0.5rem;
+  margin-left: 2rem;
+  & button {
   
-  }
-  & svg{
-    fill:white;
-    height: 1.2rem; 
-  }
+    cursor: pointer;
+    padding: 0.1rem 0.5rem;
+    display: flex;
+    border: none;
+    border-radius: 20%;
+background-color: transparent;
+    &:first-of-type {
+      margin-left: 2rem;
+    }
+
+    & svg {
+      fill: black;
+      height: 1rem;
+    }
   }
 }
 
 @media all and (max-width: 60em) {
-  .container {
+  .container {height: 12rem;
+    margin: 1rem;
     section {
       flex-direction: column;
       align-items: flex-start !important;
@@ -153,7 +160,7 @@
       padding-top: 1rem;
       h2 {
         bottom: 0 !important;
-        font-size: var(--x-medium);
+        font-size: var(--medium);
       }
       p:last-of-type {
         margin-top: auto;
@@ -161,15 +168,14 @@
     }
   }
   .selectContainer {
-    & button{
-     padding: 0.2rem 0.6rem !important;
-    }}
-    .message {
-      position: absolute;
-      bottom: 0;
-      margin-left: 0;
+    & button {
+      padding: 0.2rem 0.6rem !important;
     }
-    
+  }
+  .message {
+    position: absolute;
+right: 1rem;
+  }
 }
 
 @media all and (max-width: 40em) and (orientation: portrait) {
@@ -181,8 +187,8 @@
       transform: none;
     }
     & > img {
-      height: 15rem;
-      width: 15rem;
+      height: 12rem;
+      width: 12rem;
     }
 
     main {
@@ -201,7 +207,7 @@
   .deleteBtn {
     top: 0;
     transform: none;
-    border-radius: 0 10px 0   10px ;
+    padding-left: 0.4rem;
+    border-radius: 0 10px 0 10px;
   }
-
 }

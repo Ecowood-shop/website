@@ -30,8 +30,9 @@ function Header() {
   const User = useSelector((state) => state.User);
   const { user, loadingUser } = User;
 
+
   useEffect(() => {
-    if (document.cookie.indexOf("csrftoken") !== -1 && !loadingUser) {
+    if (document.cookie.indexOf("altax") !== -1 && !loadingUser && !user) {
       console.log("header run");
       dispatch(getUser());
     }
@@ -121,7 +122,7 @@ function Header() {
           />
         </svg>
 
-        {loadingUser != false ? (
+        {loadingUser != false && document.cookie.indexOf("altax") !== -1 ? (
           <Loader header={true} />
         ) : user ? (
           <h2 className="header-user" onClick={() => CloseDropdown()}>
@@ -227,6 +228,10 @@ function Header() {
             {isPanelOpen && (
               <AdminPanel
                 Close={() => ClosePanel()}
+                CloseDropdown={() => {
+                  setIsOpen(false);
+                  setIsPanelOpen(false);
+                }}
                 ProductsNavigator={() => AdminProductsNavigator()}
                 UsersNavigator={() => AdminUsersNavigator()}
                 OrdersNavigator={() => AdminOrdersNavigator()}

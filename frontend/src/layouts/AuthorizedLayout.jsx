@@ -26,7 +26,7 @@ function AuthorizedLayout() {
 
   return (
     <>
-      {loading != false ? (
+      {loading != false && document.cookie.indexOf("altax") !== -1 ? (
         <Loader color="blueviolet" />
       ) : user ? (
         <>

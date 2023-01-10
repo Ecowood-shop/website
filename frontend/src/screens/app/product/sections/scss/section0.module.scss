@@ -22,7 +22,7 @@
     -webkit-font-smoothing: subpixel-antialiased;
     will-change: transform;
     &:hover {
-      transform: scale(1.05) translate3d(0, 0, 0) perspective(0.5px);
+      transform: scale(1.01) translate3d(0, 0, 0) perspective(0.5px);
     }
     &:not(:first-of-type) {
       margin-left: 2rem;
@@ -50,9 +50,8 @@
     flex-direction: column;
     button {
       margin: 0.5rem 0 !important;
-      font-size: var(--medium);
+      font-size: var(--small);
     }
   }
-  svg {
-  }
+
 }

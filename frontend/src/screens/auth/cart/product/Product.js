@@ -1,6 +1,6 @@
 // REACT
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 
 // REDUX
 import { deleteCart, updateCart } from "../../../../store/actions/userActions";
@@ -15,22 +15,23 @@ function Product({
   variant,
   cart,
   dispatch,
-  handlerPlus,
-  handlerMinus,
 }) {
   const navigate = useNavigate();
   const [quantity, setQuantity] = useState(cart?.qty);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState(
+    variant.quantity < 1 || variant.quantity < quantity
+      ? `მარაგშია ${variant.quantity}`
+      : ""
+  );
 
   const changer = (number) => {
     switch (number) {
       case "-":
-        if (
-          quantity - 1 < 1 ||
-          !quantity ||
-          quantity> variant.quantity
-        ) {
+        if (quantity - 1 < 1 || !quantity) {
           setMessage(`მარაგშია ${variant.quantity}`);
+        } else if (variant.quantity < quantity - 1) {
+          setQuantity(Number(quantity - 1));
+          setMessage(`მარაგშია ${variant.quantity} `);
         } else {
           setMessage("");
           setQuantity(Number(quantity - 1));
@@ -60,19 +61,6 @@ function Product({
       dispatch(updateCart(cart.id, quantity));
     }
   }, [quantity]);
-
-  const isFirstRun = useRef(true);
-
-  useEffect(() => {
-    if (isFirstRun.current) {
-      isFirstRun.current = false;
-      return;
-    }
-    message ? handlerPlus() : handlerMinus();
-    return () => {
-      handlerMinus();
-    };
-  }, [message]);
 
   return (
     <section className={styles.container}>
@@ -123,8 +111,8 @@ function Product({
                   <path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" />
                 </svg>
               </button>
-              <p className={styles.message}>{message}</p>
             </div>
+            <p className={styles.message}>{message}</p>
           </section>
           {variant.color != "default" && (
             <span className={styles.color}>

@@ -4,6 +4,8 @@
   height: 5rem;
   background-image: var(--linear-primary);
   border-radius: 10px;
+  border-top-right-radius: 999px;
+  border-bottom-right-radius: 999px;
   display: flex;
 
   align-items: center;
@@ -61,10 +63,11 @@
   }
 }
 .input {
-  height: 3rem;
+  padding: 0.4rem;
   width: 30rem;
-  border-radius: 10px;
-  padding-left: 1rem;
+  border: none;
+  border-radius: 999px;
+  padding-left: 1.5rem;
   font-size: var(--small);
 }
 
@@ -73,16 +76,18 @@
   min-width: 10rem;
   max-width: 15rem;
   font-size: var(--small);
-  div {
-    border-color: white;
-    border-radius: 10px;
+  & > div:first-of-type {
+    margin-top: 0.1rem;
+    padding-left: 1rem;
+    border: none;
+    border-radius: 999px;
   }
 }
 
 .button {
   margin-left: auto;
-  margin-right: 1rem;
-  border-radius: 10px;
+  margin-right: 1.5rem;
+  border-radius: 999px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
     rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
   padding: 0.5rem;
@@ -95,7 +100,7 @@
   -webkit-font-smoothing: subpixel-antialiased;
   will-change: transform;
   &:hover {
-    transform: scale(1.05) translate3d(0, 0, 0) perspective(0.5px);
+    transform: scale(1.01) 
   }
 }
 
@@ -114,7 +119,7 @@
     display: flex;
     margin: 1rem;
     button {
-      font-size: var(--medium);
+      font-size: var(--small);
       height: max-content;
       padding: 0;
       border: none;
@@ -140,9 +145,7 @@
         max-width: 80%;
         width: 80%;
         transition: none;
-        &:hover {
-          transform: none;
-        }
+
       }
     }
     .input {

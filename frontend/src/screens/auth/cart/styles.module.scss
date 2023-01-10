@@ -8,38 +8,64 @@
 .section1 {
   display: flex;
   flex-direction: column;
+  height: max-content;
   width: 65%;
+  border-radius: 10px;
+  margin-top: 5rem;
+  padding: 0;
+  padding-bottom: 2rem;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
+    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
+  background-color: whitesmoke;
   & > h1 {
+    margin: 0;
     width: 100%;
-    font-size: var(--xx-large);
-    margin: 3rem 0;
+    font-size: var(--x-large);
     text-align: center;
+    position: relative;
+    border-radius: 10px 10px 0 0;
+    background: var(--linear-primary);
+    min-height: 5rem;
+    font-weight: 900;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    margin-bottom: 3rem;
   }
 }
 .coupon {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  padding-left: 1rem;
   width: 100%;
   border: none;
-  font-size: var(--medium);
+  font-size: var(--small);
+  background-color: whitesmoke;
   border-radius: 10px;
-  padding-left: 0.5rem;
 }
 
-.authError{
+.authError {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: var(--medium);
 
-  p{
-cursor: pointer;
-color: var(--color-primary);
+  p {
+    cursor: pointer;
+    color: var(--color-primary);
     margin-left: 0.5rem;
     text-decoration: underline;
   }
 }
 .error {
   color: var(--color-error);
+  margin: 0;
+  margin-top: 0.5rem;
+  margin-left: 0.5rem;
 }
 .section2 {
   width: 30%;
@@ -55,18 +81,20 @@ color: var(--color-primary);
     rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
 
   h1 {
-    margin: 1rem;
+    margin: 1.5rem;
     font-weight: 600;
+    font-size: var(--x-large);
   }
   .table {
     width: 80%;
     h2 {
-      font-size: var(--x-medium);
+      font-size: var(--small);
+      margin: 0;
     }
     .btn {
-      margin: 1rem 0;
-      height: 3rem;
-      font-size: var(--medium);
+      margin: 0.3rem 0 1rem 0;
+      font-size: var(--small);
+      padding: 0.4rem 0;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -81,7 +109,7 @@ color: var(--color-primary);
         margin-right: 1rem;
       }
       &:hover {
-        transform: scale(1.05);
+        transform: scale(1.01);
       }
       &:last-of-type {
         margin-bottom: 2rem;
@@ -111,6 +139,12 @@ color: var(--color-primary);
     width: 40rem;
     margin: 0;
     margin-top: 5rem;
+
+    .table {
+      h2 {
+        margin-left: 0.1rem;
+      }
+    }
   }
 }
 
@@ -118,9 +152,30 @@ color: var(--color-primary);
   .container {
     width: 100%;
     .section2 {
-      width: 80%;
-      h2 {
-        font-size: var(--medium);
+      width: 100%;
+      box-shadow: none;
+      .btn {
+        margin-bottom: 0.5rem;
+        font-size: var(--x-small);
+        svg {
+          height: 1.5rem;
+          margin-right: 1rem;
+        }
+      }
+    }
+    .section1 {
+      background-color: transparent;
+      box-shadow: none;
+      & > h1 {
+        margin: 0;
+        width: 100%;
+        font-size: var(--x-large);
+        text-align: center;
+        position: relative;
+        border-radius: 10px 10px 0 0;
+        background: transparent;
+        color: black;
+        margin-bottom: 3rem;
       }
     }
   }
