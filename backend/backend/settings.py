@@ -49,6 +49,8 @@ INSTALLED_APPS = [
 
     'django_advanced_password_validation',
 
+    "verify_email.apps.VerifyEmailConfig",
+
 ]
 
 REST_FRAMEWORK = {
@@ -216,5 +218,5 @@ DEFAULT_ALLOW_CREDENTIALS = True
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'tt4289063@gmail.com'
-EMAIL_HOST_PASSWORD = 'k i o m z i h l r j s g w p g f'
+EMAIL_HOST_USER = 'altax2023@gmail.com'
+EMAIL_HOST_PASSWORD = 'zwlcxnlpvptbgyia'

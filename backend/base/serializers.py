@@ -6,6 +6,7 @@ from .models import Product, User, Category, Variants, \
 
 from .generator import generate_random_code
 from .sendEmail import sendMail
+from django.utils import timezone
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -22,22 +23,17 @@ class UserSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
-
         user.email_verification_token = generate_random_code()
-
+        user.expiration_date = timezone.now() + timezone.timedelta(days=1)
         user.is_active = False
         user.save()
 
-        sendMail(user.email_verification_token, 'temopkhakadze2002@gmail.com')
+        try:
+            sendMail(user.id, user.first_name, user.email, user.email_verification_token, )
+        except:
+            raise Exception
 
         return user
-
-    # def create(self, validated_data):
-    #     user = User.objects.create_user(**validated_data)
-    #     # user.is_active = Falseprint
-    #     # user.is_staff = False
-    #     user.save()
-    #     return user
 
 
 class TokenSerializer(serializers.Serializer):
@@ -173,8 +169,9 @@ class ShippingAddressSerializer(serializers.ModelSerializer):
         model = ShippingAddress
         fields = ['_id', 'first_name', 'last_name', 'address', 'postalCode', 'personId', 'phone', 'order', 'location']
 
-    def get_location(self,obj):
+    def get_location(self, obj):
         return obj.city.location
+
 
 class WarehouseSerializer(serializers.ModelSerializer):
     class Meta:

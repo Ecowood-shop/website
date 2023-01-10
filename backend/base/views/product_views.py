@@ -226,7 +226,6 @@ def createVariants(request):
 
     color = Color.objects.get(name=data['color'])
     product = Product.objects.get(_id=data['productID'])
-
     possibleVariants = Variants.objects.filter(product_id=data['productID'])
 
     if possibleVariants.filter(title=data['variantTitle']).exists():
