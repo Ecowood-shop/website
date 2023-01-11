@@ -16,6 +16,7 @@
     form {
       width: 100%;
       display: flex;
+      max-height: 50rem;
       flex-direction: column;
       align-items: center;
       h1 {
@@ -34,7 +35,11 @@
     }
   }
 }
-
+.registerSuccess{
+  color:green;
+  font-weight: bold;
+  font-size: var(--large);
+}
 .btnBlock{
   top: 50%;
 

@@ -230,7 +230,7 @@ export const createVariant = (formData) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: ADMIN.CREATE_VARIANT_FAIL,
-      payload: error?.message,
+      payload: error?.message ? error?.message : error?.data[0]
     });
   }
 };

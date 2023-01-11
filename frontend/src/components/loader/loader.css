@@ -1,5 +1,13 @@
+.loader-Container{
+    height: var(--height);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position:relative;
+}
+
 .loader-container{
-    min-height: var(--height);
+  position: relative;
 }
 .loader {
     position: absolute;

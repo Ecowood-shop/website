@@ -76,25 +76,25 @@ export const adminVariantReducer = (state = {}, action) => {
       return { loading: false, error: action.payload };
 
     case ADMIN.DELETE_VARIANT_REQUEST:
-      return { loading: true };
+      return { ...state, loading: true };
     case ADMIN.DELETE_VARIANT_SUCCESS:
-      return { loading: false, success: action.payload };
+      return { ...state, loading: false, success: action.payload };
     case ADMIN.DELETE_VARIANT_FAIL:
-      return { loading: false, error: action.payload };
+      return { ...state, loading: false, error: action.payload };
 
     case ADMIN.UPDATE_VARIANT_REQUEST:
-      return { loading: true };
+      return { ...state, loading: true };
     case ADMIN.UPDATE_VARIANT_SUCCESS:
-      return { loading: false, successUpdate: action.payload };
+      return { ...state, loading: false, successUpdate: action.payload };
     case ADMIN.UPDATE_VARIANT_FAIL:
-      return { loading: false, error: action.payload };
+      return { ...state, loading: false, error: action.payload };
 
     case ADMIN.CREATE_VARIANT_REQUEST:
-      return { loading: true };
+      return { ...state, loading: true };
     case ADMIN.CREATE_VARIANT_SUCCESS:
-      return { loading: false, successCreate: action.payload };
+      return { ...state, loading: false, successCreate: action.payload };
     case ADMIN.CREATE_VARIANT_FAIL:
-      return { loading: false, error: action.payload };
+      return { ...state, loading: false, error: action.payload };
 
     default:
       return state;

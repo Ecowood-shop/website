@@ -41,10 +41,10 @@
       border: none;
       margin-bottom: 5rem;
       h1 {
-
         font-size: var(--x-large);
       }
-      input {        background-color: white;
+      input {
+        background-color: white;
         width: 80%;
       }
     }
@@ -59,7 +59,7 @@
   background-color: whitesmoke;
   border-radius: 10px;
   text-align: center;
-  font-size: var(--medium); 
+  font-size: var(--medium);
 }
 .admin {
   font-size: var(--x-medium);
@@ -86,6 +86,8 @@
   color: white;
   background-image: var(--linear-second);
   border: none;
+  border-radius: 999px;
+
   cursor: pointer;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
     rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;

@@ -30,7 +30,7 @@
     cursor: pointer;
     border: none;
     background-color: green;
-    border-radius: 10px;
+    border-radius: 999px;
     color: white;
     font-size: var(--small);
     padding: 0.5rem 1rem;
@@ -48,11 +48,11 @@
   .icon,
   .icon1 {
     fill: white;
-    height: 2rem;
+    height: 1.8rem;
     vertical-align: bottom;
     margin-right: 0.5rem;
   }
   .icon1 {
-    height: 1.4rem;
+    height: 1.1rem;
   }
 }
