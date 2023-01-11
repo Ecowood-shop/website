@@ -26,7 +26,14 @@ function AuthorizationScreen() {
   const dispatch = useDispatch();
 
   const User = useSelector((state) => state.User);
-  const { errorLogin, errorRegister, loadingUser: loading, user } = User;
+  const {
+    errorLogin,
+    errorRegister,
+    loadingRegister,
+    loadingUser: loading,
+    user,
+    registerSuccess,
+  } = User;
 
   useEffect(() => {
     if (errorLogin) {
@@ -63,7 +70,9 @@ function AuthorizationScreen() {
                   {" "}
                   ავტორიზაცია
                 </h1>
-                <Message>{message}</Message>
+
+                <Message styles>{message}</Message>
+
                 {loading && <Loader />}
                 <section>
                   <input
@@ -97,6 +106,9 @@ function AuthorizationScreen() {
               <Register
                 user={user}
                 error={errorRegister}
+                success={registerSuccess}
+                loading={loadingRegister}
+                Loader={<Loader />}
                 ChangeLogin={() => {
                   setIsLogin(!isLogin);
                 }}

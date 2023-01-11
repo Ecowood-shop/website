@@ -44,7 +44,7 @@ function Cart() {
         <h1>პროდუქტები</h1>
         {cart?.carts.length == 0 && <Message>კალათა ცარიელია</Message>}
         {loading != false && document.cookie.indexOf("altax") !== -1 ? (
-          <Loader color="blueviolet" />
+          <Loader color="blueviolet" height/>
         ) : user ? (
           <>
             {cart &&

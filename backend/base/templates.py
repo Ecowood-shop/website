@@ -5,7 +5,7 @@ def generate_verification_template(username, verification_link):
 
         <body>
             <div class="logo">
-                <img src="backend/static/images/altax.png" alt=""
+                <img src="/altax.png" alt=""
                     style="width:250px; display: block; margin-left: auto; margin-right: auto;">
             </div>
             <h1 style="text-align: center;">Hi {username},</h1>

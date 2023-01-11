@@ -29,6 +29,30 @@ export const login = (email, password) => async (dispatch) => {
   }
 };
 
+export const verification = (id, token) => async (dispatch) => {
+  try {
+    dispatch({
+      type: USER.VERIFICATION_REQUEST,
+    });
+
+    const { data } = await useAxios.post(`/api/users/verify/${id}/${token}/`, {
+      id: id,
+      token: token,
+    });
+    dispatch({
+      type: USER.VERIFICATION_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: USER.VERIFICATION_FAIL,
+      payload: error.response?.data
+        ? Object.values(error.response?.data)[0]
+        : error.response,
+    });
+  }
+};
+
 export const logout = () => async (dispatch) => {
   try {
     dispatch({ type: USER.LOGOUT });
@@ -60,7 +84,6 @@ export const register =
         type: USER.REGISTER_SUCCESS,
         payload: data,
       });
-      dispatch(login(email, password));
     } catch (error) {
       dispatch({
         type: USER.REGISTER_FAIL,

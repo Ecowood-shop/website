@@ -95,6 +95,7 @@ def LoginUser(request):
     response = Response()
 
     response.set_cookie(key='jwt', value=token, httponly=True)
+    response.set_cookie(key='altax', value="Copyright C 2022 Altax.ge. All rights reserved", httponly=False)
     response.data = {
         'first_name': user.first_name,
         'last_name': user.last_name,

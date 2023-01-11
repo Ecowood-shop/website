@@ -123,7 +123,7 @@ function Header() {
         </svg>
 
         {loadingUser != false && document.cookie.indexOf("altax") !== -1 ? (
-          <Loader header={true} />
+          <Loader header />
         ) : user ? (
           <h2 className="header-user" onClick={() => CloseDropdown()}>
             <p>

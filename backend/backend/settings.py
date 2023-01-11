@@ -48,9 +48,6 @@ INSTALLED_APPS = [
     'base.apps.BaseConfig',
 
     'django_advanced_password_validation',
-
-    "verify_email.apps.VerifyEmailConfig",
-
 ]
 
 REST_FRAMEWORK = {

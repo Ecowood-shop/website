@@ -12,6 +12,7 @@ import Products from "./screens/app/products/Products";
 import Product from "./screens/app/product/Product";
 import Order from "./screens/auth/order/Order";
 import Error from "./screens/app/error/Error";
+import Verification from "./screens/app/verification/Verification";
 
 // ADMIN
 import ProductsScreen from "./screens/admin/products/ProductsScreen";
@@ -56,6 +57,7 @@ function App() {
             <Route path="/products/search" element={<Products />} />
             <Route path="/product/:id" element={<Product />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/verification/:id/:token" element={<Verification />} />
           </Route>
 
           <Route element={<AuthorizedLayout />}>

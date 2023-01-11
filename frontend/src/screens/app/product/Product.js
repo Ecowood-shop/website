@@ -40,7 +40,11 @@ function Product() {
   console.log(product);
   return (
     <article className={styles.container}>
-      {loading && <Loader />}
+      {loading && (
+        <div className={styles.loaderContainer}>
+          <Loader color="blueviolet" />
+        </div>
+      )}
       {error && <Message>{error}</Message>}
       {product?.products && (
         <>
@@ -50,8 +54,14 @@ function Product() {
             iframe={iframe}
             youtube={product.products.youtubeUrl ? true : false}
           />
-          <Section1 product={product.products} variants={product.variants} iframe={iframe} youtube={product.products.youtubeUrl ? true : false} navigate={navigate}/>
-     
+          <Section1
+            product={product.products}
+            variants={product.variants}
+            iframe={iframe}
+            youtube={product.products.youtubeUrl ? true : false}
+            navigate={navigate}
+          />
+
           <Section2
             styles={styles}
             product={product.products}
