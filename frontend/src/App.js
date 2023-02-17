@@ -1,7 +1,7 @@
 // REACT
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import MessengerCustomerChat from "react-messenger-customer-chat";
+// import MessengerCustomerChat from "react-messenger-customer-chat";
 // SCREENS
 
 //   APP

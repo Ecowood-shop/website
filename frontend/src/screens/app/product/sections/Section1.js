@@ -116,7 +116,8 @@ function Section1({ product, iframe, youtube, variants, navigate, id }) {
             />
           )}
         </div>
-        <div className={styles.table}>
+        <div className={styles.table}>  
+        <div className={styles.discount}>-10%</div>
           <p>
             <b>ბრენდი:</b>
             {product.brand}
@@ -149,6 +150,7 @@ function Section1({ product, iframe, youtube, variants, navigate, id }) {
             )}
           <p className={styles.price}>
             <b>ფასი:</b>
+            <i>15.00</i>
             {product.price} ლ
           </p>{" "}
           <p className={styles.error}>{message}</p>
