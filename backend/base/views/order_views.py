@@ -6,6 +6,7 @@ from base.models import Order, OrderItem, ShippingAddress, WithoutShipping, User
 from base.serializers import ProductSerializer, OrderSerializer, VariantSerializer, WarehouseSerializer, \
     ShippingPricesSerializer
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db import transaction
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.exceptions import AuthenticationFailed, ValidationError
@@ -52,75 +53,79 @@ def addOrderItems(request):
         sum_price = '%.2f' % sum_price
         discounted_sum_price = '%.2f' % discounted_sum_price
 
-        # (1) Create Order
+        try:
+            with transaction.atomic():
+                # (1) Create Order
 
-        order = Order.objects.create(
-            user=user,
-            paymentMethod=data['paymentMethod'],
-            shippingPrice=data['shippingPrice'],
-            totalPrice=discounted_sum_price,
-            wants_delivery=data['wants_delivery'],
-            physicPerson=data['physicPerson']
-        )
+                order = Order.objects.create(
+                    user=user,
+                    paymentMethod=data['paymentMethod'],
+                    shippingPrice=data['shippingPrice'],
+                    totalPrice=discounted_sum_price,
+                    wants_delivery=data['wants_delivery'],
+                    physicPerson=data['physicPerson']
+                )
 
-        # (2) Create shipping address
-        if order.wants_delivery == 'True':
-            city = ShippingPrices.objects.get(_id=data['cityId'])
+                # (2) Create shipping address
+                if order.wants_delivery == 'True':
+                    city = ShippingPrices.objects.get(_id=data['cityId'])
 
-            shipping = ShippingAddress.objects.create(
-                order=order,
-                first_name=data['first_name'],
-                last_name=data['last_name'],
-                personId=data['personId'],
-                phone=data['phone'],
-                address=data['address'],
-                city=city
-            )
+                    shipping = ShippingAddress.objects.create(
+                        order=order,
+                        first_name=data['first_name'],
+                        last_name=data['last_name'],
+                        personId=data['personId'],
+                        phone=data['phone'],
+                        address=data['address'],
+                        city=city
+                    )
 
+                    if city.limit <= float(discounted_sum_price):
+                        order.shippingPrice = city.upperLimit
+                    else:
+                        order.shippingPrice = city.lowerLimit
+                    order.save()
 
-            if city.limit <= float(discounted_sum_price):
-                order.shippingPrice = city.upperLimit
-            else:
-                order.shippingPrice = city.lowerLimit
-            order.save()
-            
-        else:
-            warehouse = Warehouse.objects.get(_id=data['_id'])
+                else:
+                    warehouse = Warehouse.objects.get(_id=data['_id'])
 
-        
-            shipping = WithoutShipping.objects.create(
-                order=order,
-                name=data['first_name'],
-                surname=data['last_name'],
-                personId=data['personId'],
-                phone=data['phone'],
-                warehouse=warehouse
-            )
+                    shipping = WithoutShipping.objects.create(
+                        order=order,
+                        name=data['first_name'],
+                        surname=data['last_name'],
+                        personId=data['personId'],
+                        phone=data['phone'],
+                        warehouse=warehouse
+                    )
 
-        # (3) Create order items and set order to orderItem relationship
-        data = []
+                # (3) Create order items and set order to orderItem relationship
 
-        for i in orderItems:
-            print(i.product)
-            variant = Variants.objects.get(id=i.variants_id)
-            image = Picture.objects.get(product_id=i.product._id, ord=0)
+                for i in orderItems:
+                    if not i.product.active:
+                        raise Exception
+                    variant = Variants.objects.get(id=i.variants_id, active=True)
+                    image = Picture.objects.get(product_id=i.product._id, ord=0)
 
-            item = OrderItem.objects.create(
-                product=i.product,
-                order=order,
-                name=i.product.name_geo,
-                qty=i.qty,
-                price=i.product.price,
-                variant=variant,
-                image=image,
-            )
+                    item = OrderItem.objects.create(
+                        product=i.product,
+                        order=order,
+                        name=i.product.name_geo,
+                        qty=i.qty,
+                        price=i.product.price,
+                        variant=variant,
+                        image=image,
+                    )
 
-            # (4) Update Stock
+                    # (4) Update Stock
 
-            variant.quantity -= item.qty
-            variant.save()
+                    variant.quantity -= item.qty
+                    variant.save()
 
-        AddToCart.objects.filter(user=user).delete()
+                AddToCart.objects.filter(user=user).delete()
+
+        except Exception as e:
+            # log the error or handle it as appropriate
+            return Response({'detail': 'An error occurred'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         serializer = OrderSerializer(order, many=False)
 
