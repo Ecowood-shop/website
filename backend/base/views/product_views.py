@@ -17,7 +17,7 @@ def getProducts(request):
         query = ''
 
     products = Product.objects.filter(
-        name_geo__icontains=query).order_by('-createdAt')
+        name_geo__icontains=query, active=True).order_by('-createdAt')
 
     category = request.query_params.get('category')
 
@@ -70,7 +70,7 @@ def getLatestProducts(request):
     products = []
 
     for e in category:
-        products += Product.objects.filter(category=e).order_by('-createdAt')[0:8]
+        products += Product.objects.filter(category=e, active=True).order_by('-createdAt')[0:8]
 
     serializer = TopProductSerializer(products, many=True)
 
@@ -79,11 +79,13 @@ def getLatestProducts(request):
 
 @api_view(['GET'])
 def getLatestProduct(request, pk):
-    category = Category.objects.get(name=pk)
-
+    try:
+        category = Category.objects.get(name=pk)
+    except:
+        raise ValidationError('Category with this name does not exist')
     products = []
 
-    products += Product.objects.filter(category=category).order_by('-createdAt')[0:8]
+    products += Product.objects.filter(category=category, active=True).order_by('-createdAt')[0:8]
 
     serializer = TopProductSerializer(products, many=True)
 
@@ -93,11 +95,11 @@ def getLatestProduct(request, pk):
 @api_view(['GET'])
 def getProduct(request, pk):
     try:
-        product = Product.objects.get(_id=pk)
+        product = Product.objects.get(_id=pk, active=True)
     except:
         raise ValidationError('Product with this ID does now exist')
 
-    variants = Variants.objects.filter(product_id=pk)
+    variants = Variants.objects.filter(product_id=pk, active=True)
 
     serializer = ProductSerializer(product, many=False)
     variantSerializer = VariantSerializer(variants, many=True)
@@ -106,12 +108,10 @@ def getProduct(request, pk):
 
 @api_view(['GET'])
 def getProductVariants(request, pk):
-    try:
-        product = Product.objects.get(_id=pk)
-    except:
-        raise ValidationError('Product with this ID does now exist')
+    variants = Variants.objects.filter(product_id=pk, active=True)
 
-    variants = Variants.objects.filter(product_id=pk)
+    if len(variants) == 0:
+        raise ValidationError('Product with this ID does not have any variant')
 
     variantSerializer = VariantSerializer(variants, many=True)
     return Response(variantSerializer.data)
@@ -225,8 +225,8 @@ def createVariants(request):
     data = request.data
 
     color = Color.objects.get(name=data['color'])
-    product = Product.objects.get(_id=data['productID'])
-    possibleVariants = Variants.objects.filter(product_id=data['productID'])
+    product = Product.objects.get(_id=data['productID'], active=True)
+    possibleVariants = Variants.objects.filter(product_id=data['productID'], active=True)
 
     if possibleVariants.filter(title=data['variantTitle']).exists():
         raise ValidationError("Product's variant with this title already exist")
@@ -254,13 +254,13 @@ def addToCart(request, pk):
     except jwt.ExpiredSignatureError:
         raise AuthenticationFailed('Unauthenticated!')
 
-    product = Product.objects.get(_id=pk)
+    product = Product.objects.get(_id=pk, active=True)
 
     user = User.objects.filter(id=payload['id']).first()
 
     data = request.data
 
-    variants = Variants.objects.get(id=data['variantID'])
+    variants = Variants.objects.get(id=data['variantID'], active=True)
 
     if AddToCart.objects.filter(user=user, product_id=product._id, variants=variants.id).exists():
         raise ValidationError("This product is already in Cart")
@@ -386,7 +386,7 @@ def updateVariant(request, pk):
     data = request.data
 
     try:
-        variant = Variants.objects.get(id=pk)
+        variant = Variants.objects.get(id=pk, active=True)
     except:
         raise ValidationError('Variant with this id does not exist')
 
@@ -426,7 +426,7 @@ def deleteVariant(request, pk):
         raise AuthenticationFailed('You do not have permission to perform this action.')
 
     try:
-        variant = Variants.objects.get(id=pk)
+        variant = Variants.objects.get(id=pk, active=True)
         variant.delete()
     except:
         raise NotFound()
@@ -452,7 +452,7 @@ def updateProduct(request, pk):
         raise AuthenticationFailed('You do not have permission to perform this action.')
 
     data = request.data
-    product = Product.objects.get(_id=pk)
+    product = Product.objects.get(_id=pk, active=True)
 
     try:
         category = Category.objects.get(name=data['category'])
@@ -512,7 +512,7 @@ def deleteProduct(request, pk):
         raise AuthenticationFailed('You do not have permission to perform this action.')
 
     try:
-        product = Product.objects.get(_id=pk)
+        product = Product.objects.get(_id=pk, active=True)
         product.delete()
     except:
         raise NotFound()
@@ -528,7 +528,7 @@ def uploadImage(request):
     ord = data['ord']
 
     try:
-        product = Product.objects.get(_id=product_id)
+        product = Product.objects.get(_id=product_id, active=True)
     except:
         raise ValidationError('Products with this id does not exist')
 

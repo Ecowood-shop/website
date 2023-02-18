@@ -101,6 +101,17 @@ class Product(models.Model):
     discount = models.ForeignKey(Discount, null=True, default='0', on_delete=models.CASCADE)
     createdAt = models.DateTimeField(auto_now_add=True)
     _id = models.AutoField(primary_key=True, editable=False)
+    active = models.BooleanField(default=True)
+
+    def delete(self, *args, **kwargs):
+        self.active = False
+        self.save()
+
+        # Get the related variants and set their active field to False
+        variants = self.variants.all()
+        for variant in variants:
+            variant.active = False
+            variant.save()
 
     def __str__(self):
         return self.name_geo
@@ -108,9 +119,14 @@ class Product(models.Model):
 
 class Variants(models.Model):
     title = models.CharField(max_length=100, blank=True, null=True)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, )
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='variants')
     color = models.ForeignKey(Color, on_delete=models.CASCADE, blank=True, null=True)
     quantity = models.IntegerField(null=True, blank=True, default=0)
+    active = models.BooleanField(default=True)
+
+    def delete(self, *args, **kwargs):
+        self.active = False
+        self.save()
 
     def __str__(self):
         return self.title
