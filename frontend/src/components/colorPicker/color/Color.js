@@ -12,7 +12,6 @@ function Color(props) {
       className={styles.color}
       onClick={() => {
         if (props.picker) {
-          props.Nuller();
           props.Changer(props.element);
         }
       }}

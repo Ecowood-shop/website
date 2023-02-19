@@ -16,6 +16,7 @@ import Loader from "../../../components/loader/Loader";
 import Section0 from "./sections/Section0";
 import Section1 from "./sections/Section1";
 import Section2 from "./sections/Section2";
+import Main from "./main/Main";
 
 // OTHERS
 import styles from "./styles.module.scss";
@@ -54,7 +55,7 @@ function Product() {
             iframe={iframe}
             youtube={product.products.youtubeUrl ? true : false}
           />
-          <Section1
+          <Main
             product={product.products}
             variants={product.variants}
             iframe={iframe}
