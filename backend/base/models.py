@@ -79,6 +79,8 @@ class Discount(models.Model):
     name = models.CharField(max_length=200, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     discount_percent = models.DecimalField(max_digits=4, decimal_places=2, null=True, blank=True)
+    start_date = models.DateTimeField(null=True, blank=True)
+    end_date = models.DateTimeField(null=True, blank=True)
     createdAt = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -104,6 +106,13 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name_geo
+
+
+class SpecificDiscount(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    discount_percent = models.ForeignKey(Discount, default='0', on_delete=models.CASCADE)
+    createdAt = models.DateTimeField(auto_now_add=True)
 
 
 class Variants(models.Model):
@@ -213,3 +222,6 @@ class Picture(models.Model):
 
     def __str__(self):
         return str(self.picture)
+
+
+

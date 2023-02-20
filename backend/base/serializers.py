@@ -2,7 +2,7 @@ from rest_framework import serializers
 import django.contrib.auth.password_validation as validators
 
 from .models import Product, User, Category, Variants, \
-    ShippingAddress, Order, OrderItem, Color, AddToCart, Picture, WithoutShipping, Warehouse, ShippingPrices
+    ShippingAddress, Order, OrderItem, Color, AddToCart, Picture, WithoutShipping, Warehouse, ShippingPrices, SpecificDiscount, Discount
 
 from .generator import generate_random_code
 from .sendEmail import sendMail
@@ -70,9 +70,15 @@ class ProductImageSerializer(serializers.ModelSerializer):
         fields = ['id', 'picture', 'ord']
 
 
+class DiscountSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Discount
+        fields = '__all__'
+
+
 class ProductSerializer(DynamicFieldsModelSerializer):
     category = serializers.ReadOnlyField(source='category.name')
-    discount = serializers.ReadOnlyField(source='discount.name')
+    discount = DiscountSerializer(read_only=True)  # use DiscountSerializer as nested serializer
     picture_set = ProductImageSerializer(many=True)
 
     # variants = serializers.SerializerMethodField(read_only=True)
@@ -113,10 +119,11 @@ class ShippingPricesSerializer(serializers.ModelSerializer):
 class TopProductSerializer(serializers.ModelSerializer):
     category = serializers.ReadOnlyField(source='category.name')
     picture_set = ProductImageSerializer(many=True)
+    discount = DiscountSerializer(read_only=True)  # use DiscountSerializer as nested serializer
 
     class Meta:
         model = Product
-        fields = ['_id', 'name_geo', 'price', 'picture_set', "size", 'category']
+        fields = ['_id', 'name_geo', 'price', 'discount', 'picture_set', "size", 'category']
 
 
 class ColorSerializer(serializers.ModelSerializer):
@@ -201,9 +208,16 @@ class AddToCartSerializer(serializers.ModelSerializer):
 
 
 class SpecificProductSerializer(serializers.ModelSerializer):
-    discount = serializers.ReadOnlyField(source='discount.discount_percent')
+    discount = DiscountSerializer(read_only=True)  # use DiscountSerializer as nested serializer
     picture_set = ProductImageSerializer(many=True)
 
     class Meta:
         model = Product
         fields = ['_id', 'name_geo', 'picture_set', 'size', 'price', 'discount']
+
+
+class SpecificDiscountSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SpecificDiscount
+        fields = '__all__'
+
