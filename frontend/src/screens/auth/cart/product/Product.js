@@ -10,47 +10,50 @@ import Color from "../../../../components/colorPicker/color/Color";
 // OTHERS
 import styles from "./product.module.scss";
 
-function Product({
-  product,
-  variant,
-  cart,
-  dispatch,
-}) {
+function Product({ product, variant, cart, dispatch }) {
   const navigate = useNavigate();
   const [quantity, setQuantity] = useState(cart?.qty);
   const [message, setMessage] = useState(
-    variant.quantity < 1 || variant.quantity < quantity
-      ? `მარაგშია ${variant.quantity}`
-      : ""
+    variant.active
+      ? variant.quantity < 1 || variant.quantity < quantity
+        ? `in stock ${variant.quantity}`
+        : ""
+      : "product is deleted"
   );
 
   const changer = (number) => {
     switch (number) {
       case "-":
-        if (quantity - 1 < 1 || !quantity) {
-          setMessage(`მარაგშია ${variant.quantity}`);
+        if (!variant.active) {
+          setMessage("product is deleted");
+        } else if (quantity - 1 < 1 || !quantity) {
+          setMessage(`in stock ${variant.quantity}`);
         } else if (variant.quantity < quantity - 1) {
           setQuantity(Number(quantity - 1));
-          setMessage(`მარაგშია ${variant.quantity} `);
+          setMessage(`in stock ${variant.quantity} `);
         } else {
           setMessage("");
           setQuantity(Number(quantity - 1));
         }
         break;
       case "+":
-        if (quantity + 1 <= variant.quantity && quantity + 1 > 0) {
+        if (!variant.active) {
+          setMessage("product is deleted");
+        } else if (quantity + 1 <= variant.quantity && quantity + 1 > 0) {
           setMessage("");
           setQuantity(Number(quantity + 1));
         } else {
-          setMessage(`მარაგშია ${variant.quantity}`);
+          setMessage(`in stock ${variant.quantity}`);
         }
         break;
       default:
-        if (number <= variant.quantity && number > 0) {
+        if (!variant.active) {
+          setMessage("product is deleted");
+        } else if (number <= variant.quantity && number > 0) {
           setMessage("");
           setQuantity(Number(number));
         } else {
-          setMessage(`მარაგშია ${variant.quantity}`);
+          setMessage(`in stock ${variant.quantity}`);
         }
         break;
     }
@@ -67,7 +70,7 @@ function Product({
       <img
         src={product?.picture_set[0]?.picture}
         onClick={() => navigate(`/product/${product._id}`)}
-      />{" "}
+      />
       <button
         className={styles.deleteBtn}
         onClick={() => dispatch(deleteCart(cart.id))}
