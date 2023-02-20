@@ -32,9 +32,19 @@ urlpatterns = [
 
     path('warehouses/', views.getWarehouses, name="warehouses"),
 
-    path('<str:pk>/', views.getProduct, name="product"),
 
     path('update/<str:pk>/', views.updateProduct, name="product-update"),
     path('delete/<str:pk>/', views.deleteProduct, name="product-delete"),
+
+    path('discounts/', views.getDiscounts, name="discounts"),
+    path('discount/create/', views.createDiscount, name="create-discount"),
+    path('delete/discount/<str:pk>/', views.deleteDiscount, name="discount-delete"),
+
+    path('specific/discount/', views.createSpecificDiscount, name="create-specific-discount"),
+    path('specific/discounts/', views.getSpecificDiscounts, name="specific-discounts"),
+    path('delete/specific/discount/<str:pk>/', views.deleteSpecificDiscount, name="specific-discount-delete"),
+
+    path('<str:pk>/', views.getProduct, name="product"),
+
 ]
 
