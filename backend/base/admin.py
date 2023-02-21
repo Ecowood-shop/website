@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 from django.utils.translation import gettext_lazy as _
 
-from .models import User, Product, Category, Discount, Color, Variants, Warehouse, AddToCart, Picture, Order, OrderItem, ShippingAddress, ShippingPrices
+from .models import User, Product, Category, Discount, Color, Variants, Warehouse, AddToCart, Picture, Order, OrderItem, ShippingAddress, ShippingPrices, SpecificDiscount
 
 
 @admin.register(User)
@@ -33,6 +33,7 @@ admin.site.register(Product)
 admin.site.register(Category)
 admin.site.register(Color)
 admin.site.register(Discount)
+admin.site.register(SpecificDiscount)
 admin.site.register(Variants)
 admin.site.register(Warehouse)
 admin.site.register(AddToCart)
