@@ -70,7 +70,14 @@ function Product({ product, variant, cart, dispatch }) {
       <img
         src={product?.picture_set[0]?.picture}
         onClick={() => navigate(`/product/${product._id}`)}
+        alt={product.name_geo}
       />
+        {product?.discount &&
+            parseFloat(product?.discount.discount_percent) > 0 && (
+              <div className={styles.discount}>
+                -{parseFloat(product.discount.discount_percent)}%
+              </div>
+            )}
       <button
         className={styles.deleteBtn}
         onClick={() => dispatch(deleteCart(cart.id))}
@@ -125,7 +132,16 @@ function Product({ product, variant, cart, dispatch }) {
           )}
           <h2>
             <b>ფასი: </b>
-            {product.price} ლ
+            {product?.discount &&
+            parseFloat(product?.discount.discount_percent) > 0
+              ? (
+                  parseFloat(product.price) -
+                  (parseFloat(product.price) *
+                    parseFloat(product.discount.discount_percent)) /
+                    100
+                ).toFixed(2)
+              : product.price}{" "}
+            ლ
           </h2>
         </div>
       </main>

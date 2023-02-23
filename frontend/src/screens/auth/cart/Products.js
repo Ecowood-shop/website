@@ -11,7 +11,7 @@ function Products({ styles, loading, cart, dispatch, user }) {
     <>
       <section className={styles.section1}>
         <h1>პროდუქტები</h1>
-        {cart?.carts.length == 0 && <Message>კალათა ცარიელია</Message>}
+        {cart?.carts.length === 0 && <div className={styles.emptyCart}><Message>კალათა ცარიელია</Message></div>}
         {loading != false && document.cookie.indexOf("altax") !== -1 ? (
           <Loader color="blueviolet" height />
         ) : user ? (
@@ -30,8 +30,7 @@ function Products({ styles, loading, cart, dispatch, user }) {
         ) : (
           <>
             <div className={styles.authError}>
-              {" "}
-              გთხოვთ გაიარეთ{" "}
+              გთხოვთ გაიარეთ
               <p
                 className={styles.nav}
                 onClick={() => navigate("/authorization")}

@@ -1,5 +1,4 @@
 // components
-import Coupon from "./Coupon";
 import Button from "./Button";
 
 function Table({ styles, cart }) {
@@ -12,10 +11,17 @@ function Table({ styles, cart }) {
         </h2>
         <h2>
           <b>ჯამი: </b>
-          {cart.sum_price} ლ
+          {cart.sum_price > cart.discounted_sum_price ? (
+            <>
+              <i>{cart.sum_price}</i>
+              {cart.discounted_sum_price} ლ
+            </>
+          ) : (
+            <> {cart.sum_price}</>
+          )}{" "}
+          ლ
         </h2>
-        <Coupon styles={styles} />
-        <Button styles={styles}  cart={cart} />
+        <Button styles={styles} cart={cart} />
       </div>
     </section>
   );

@@ -215,7 +215,7 @@ def createProduct(request):
     data = request.data
 
     try:
-        category = Category.objects.get(name=data['category'])
+        category = Category.objects.get(_id=data['category'])
     except:
         raise ValidationError('Category does not exist')
 

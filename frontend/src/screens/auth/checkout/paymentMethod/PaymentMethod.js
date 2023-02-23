@@ -32,7 +32,7 @@ function PaymentMethod() {
       dispatch({ type: "CLEAR_SHIPPING_ITEMS" });
       navigate(`/order/${order.Cart._id}`, { replace: true });
     }
-  }, [success, dispatch, order.Cart._id, navigate]);
+  }, [success, dispatch, order?.Cart._id, navigate]);
 
   function onSubmit(values) {
     let data = { ...values };
@@ -55,13 +55,19 @@ function PaymentMethod() {
   }
 
   console.log(shippingFromStorage);
-  console.log(order);
+
   return (
     <article className={styles.container}>
       <CheckoutSteps step1 step2 step3 />
       <section>
         <h1>გადახდის მეთოდები</h1>
-        {error && <p className={styles.error}>{error}</p>}
+        {error && (
+          <p className={styles.error}>
+            {error?.data["detail"]
+              ? error?.data["detail"]
+              : "something want wrong :)"}
+          </p>
+        )}
         {loading ? (
           <Loader color="blueviolet" />
         ) : (

@@ -1,0 +1,11 @@
+.container {
+    width: 60%;
+    min-height: var(--height);
+    margin-bottom: 10rem;
+    @media all and (max-width: 80rem) {
+      width: 80%;
+    }
+    @media all and (max-width: 80rem) {
+      width: 95%;
+    }
+  }

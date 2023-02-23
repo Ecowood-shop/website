@@ -30,7 +30,6 @@ function Header() {
   const User = useSelector((state) => state.User);
   const { user, loadingUser } = User;
 
-
   useEffect(() => {
     if (document.cookie.indexOf("altax") !== -1 && !loadingUser && !user) {
       console.log("header run");
@@ -42,6 +41,9 @@ function Header() {
   console.log(user);
   const AdminOrdersNavigator = () => {
     navigate("/admin/orders");
+  };
+  const AdminDiscountsNavigator = () => {
+    navigate("/admin/discounts");
   };
   const AdminProductsNavigator = () => {
     navigate("/admin/products");
@@ -235,6 +237,7 @@ function Header() {
                 ProductsNavigator={() => AdminProductsNavigator()}
                 UsersNavigator={() => AdminUsersNavigator()}
                 OrdersNavigator={() => AdminOrdersNavigator()}
+                DiscountsNavigator={() => AdminDiscountsNavigator()}
               />
             )}
           </h2>

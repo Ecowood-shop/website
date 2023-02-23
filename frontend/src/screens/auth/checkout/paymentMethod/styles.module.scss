@@ -31,11 +31,13 @@
   }
 }
 
-.error{
+.error {
+  position: relative;
+  margin: 0 !important;
   text-align: center;
-  color:red
+  color: red;
+  font-size: var(--small)
 }
-
 
 .radioContainer {
   display: flex;
@@ -94,7 +96,7 @@
       padding: 1rem 1rem 10rem 1rem;
     }
   }
-  
+
   .radioContainer {
     flex-direction: column;
     label {

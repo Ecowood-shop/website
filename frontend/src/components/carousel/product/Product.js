@@ -12,7 +12,13 @@ function Product(props) {
       className={styles.container}
       onClick={() => navigate(`/product/${props.product._id}`)}
     >
-      <div className={styles.discount}> -10%</div>
+      {props.product?.discount &&
+        parseFloat(props.product?.discount.discount_percent) > 0 && (
+          <div className={styles.discount}>
+            -{parseFloat(props.product.discount.discount_percent)}%
+          </div>
+        )}
+
       <img
         alt={props.product.name_geo}
         src={
@@ -24,7 +30,23 @@ function Product(props) {
         <div>
           <h2>{props.product.size}</h2>
 
-          <h2><i>15.00</i>{props.product.price} ლ</h2>
+          <h2>
+            {props.product?.discount &&
+            parseFloat(props.product?.discount.discount_percent) > 0 ? (
+              <>
+                <i> {props.product.price}</i>
+                {(
+                  parseFloat(props.product.price) -
+                  (parseFloat(props.product.price) *
+                    parseFloat(props.product.discount.discount_percent)) /
+                    100
+                ).toFixed(2)}{" "}
+                ლ
+              </>
+            ) : (
+              <>{props.product.price}</>
+            )}
+          </h2>
         </div>
       </div>
     </div>

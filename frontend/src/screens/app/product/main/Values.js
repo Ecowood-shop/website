@@ -6,6 +6,8 @@ export const initialValues = (variants) => {
     color:
       variants.length > 0 && variants[0].color.toLowerCase() == "default"
         ? variants[0]
+        : variants.length == 0
+        ? {quantity : 0}
         : null,
     quantity: "",
   };

@@ -5,7 +5,7 @@ function Error() {
   return (
     <section className={styles.container}>
       <div>
-        <h1>404 ERROR </h1>
+        <h1>Oops, something went wrong. </h1>
         <h2>
           გვერდი ვერ მოიძებნა{" "}
           <svg x="0px" y="0px" viewBox="0 0 100 100">
