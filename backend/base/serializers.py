@@ -2,7 +2,8 @@ from rest_framework import serializers
 import django.contrib.auth.password_validation as validators
 
 from .models import Product, User, Category, Variants, \
-    ShippingAddress, Order, OrderItem, Color, AddToCart, Picture, WithoutShipping, Warehouse, ShippingPrices, SpecificDiscount, Discount
+    ShippingAddress, Order, OrderItem, Color, AddToCart, Picture, WithoutShipping, Warehouse, ShippingPrices, \
+    SpecificDiscount, Discount
 
 from .generator import generate_random_code
 from .sendEmail import sendMail
@@ -78,6 +79,7 @@ class DiscountSerializer(serializers.ModelSerializer):
 
 class ProductSerializer(DynamicFieldsModelSerializer):
     category = serializers.ReadOnlyField(source='category.name')
+    category_id = serializers.ReadOnlyField(source='category._id')
     discount = DiscountSerializer(read_only=True)  # use DiscountSerializer as nested serializer
     picture_set = ProductImageSerializer(many=True)
 
@@ -85,7 +87,7 @@ class ProductSerializer(DynamicFieldsModelSerializer):
 
     class Meta:
         model = Product
-        fields = ['_id', 'category', 'discount', 'name_geo', 'picture_set', 'brand', 'size',
+        fields = ['_id', 'category', 'category_id', 'discount', 'name_geo', 'picture_set', 'brand', 'size',
                   'technicalRequirements', 'instructionForUse', 'safetyStandard',
                   'youtubeUrl', 'coverageLength', 'price', 'createdAt', 'user']
 
@@ -93,6 +95,18 @@ class ProductSerializer(DynamicFieldsModelSerializer):
     #     items = obj.variants_set.all()
     #     serializer = VariantSerializer(items, many=True)
     #     return serializer.data
+
+
+class JustProductsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ['_id', 'name_geo']
+
+
+class JustUsersSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'first_name', 'last_name', 'email']
 
 
 class VariantSerializer(serializers.ModelSerializer):
@@ -200,13 +214,6 @@ class OrderItemSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class AddToCartSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = AddToCart
-        fields = ['id', 'user', 'product', 'variants', 'qty']
-        read_only_fields = ['user', 'product']
-
-
 class SpecificProductSerializer(serializers.ModelSerializer):
     discount = DiscountSerializer(read_only=True)  # use DiscountSerializer as nested serializer
     picture_set = ProductImageSerializer(many=True)
@@ -216,8 +223,20 @@ class SpecificProductSerializer(serializers.ModelSerializer):
         fields = ['_id', 'name_geo', 'picture_set', 'size', 'price', 'discount']
 
 
-class SpecificDiscountSerializer(serializers.ModelSerializer):
+class AddToCartSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AddToCart
+        fields = ['id', 'user', 'product', 'variants', 'qty']
+        read_only_fields = ['user', 'product']
+
+
+class SpecificDiscountSerializer(DynamicFieldsModelSerializer):
+    first_name = serializers.ReadOnlyField(source='user.first_name')
+    last_name = serializers.ReadOnlyField(source='user.last_name')
+    email = serializers.ReadOnlyField(source='user.email')
+    product_name = serializers.ReadOnlyField(source='product.name_geo')
+    percentage = DiscountSerializer()
+
     class Meta:
         model = SpecificDiscount
         fields = '__all__'
-

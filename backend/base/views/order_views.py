@@ -13,6 +13,14 @@ from rest_framework.exceptions import AuthenticationFailed, ValidationError
 from rest_framework.response import Response
 
 
+def apply_user_discounts(products, user):
+    serializer_data = []
+
+    for product in products:
+        product.discount = product.get_discount(user)
+        serializer_data.append(ProductSerializer(product).data)
+
+
 @api_view(['POST'])
 def addOrderItems(request):
     token = request.COOKIES.get('jwt')
@@ -33,25 +41,12 @@ def addOrderItems(request):
     if len(orderItems) == 0:
         return Response({'detail': 'No Order Items'}, status=status.HTTP_400_BAD_REQUEST)
     else:
-
-        products = []
-        variants = []
-        totalQuantity = 0
-        sum_price = 0
-        discounted_sum_price = 0
-
-        for i in orderItems:
-            products.append(i.product)
-            variants.append(i.variants)
-
-            totalQuantity += i.qty
-
-            sum_price += i.qty * (float(i.product.price))
-            discounted_sum_price += i.qty * (
-                    float(i.product.price) - float(i.product.price) * float(i.product.discount.discount_percent) / 100)
-
-        sum_price = '%.2f' % sum_price
-        discounted_sum_price = '%.2f' % discounted_sum_price
+        discounted_sum_price = 0.0
+        for item in orderItems:
+            product_discount = item.product.get_discount(user)
+            if product_discount:
+                discounted_price = float(item.product.price * (1 - (product_discount.percentage / 100)))
+                discounted_sum_price += float(item.qty * discounted_price)
 
         try:
             with transaction.atomic():
@@ -111,7 +106,7 @@ def addOrderItems(request):
                         order=order,
                         name=i.product.name_geo,
                         qty=i.qty,
-                        price=i.product.price,
+                        price=i.product.price * (1 - (i.product.get_discount(user).percentage / 100)),
                         variant=variant,
                         image=image,
                     )
@@ -191,8 +186,6 @@ def getOrders(request):
     if not user.is_staff:
         raise AuthenticationFailed('You do not have permission to perform this action.')
 
-    # orders = Order.objects.all().order_by('-createdAt')
-
     query = request.query_params.get('keyword')
     ordID = request.query_params.get('ordID')
     page = request.query_params.get('page')
@@ -248,7 +241,10 @@ def getOrderById(request, pk):
 
     user = User.objects.filter(id=payload['id']).first()
 
-    order = Order.objects.get(_id=pk)
+    try:
+        order = Order.objects.get(_id=pk)
+    except:
+        raise ValidationError('Order with this ID does not exist')
     orderItems = order.orderitem_set.all()
     variant = []
     products = []

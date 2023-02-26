@@ -2,7 +2,7 @@ import datetime
 
 import jwt
 from base.models import User
-from base.serializers import UserSerializer
+from base.serializers import UserSerializer, JustUsersSerializer
 from base.templates import generate_verification_template
 from django.conf import settings
 from django.contrib.auth.hashers import make_password
@@ -223,6 +223,32 @@ def getUsers(request):
 
     serializer = UserSerializer(users, many=True)
     return Response({'users': serializer.data, 'page': page, 'pages': paginator.num_pages})
+
+
+@api_view(['GET'])
+def getJustUsers(request):
+    token = request.COOKIES.get('jwt')
+
+    if not token:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    try:
+        payload = jwt.decode(token, 'secret', algorithm=['HS256'])
+    except jwt.ExpiredSignatureError:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    user = User.objects.filter(id=payload['id']).first()
+
+    if not user.is_staff:
+        raise AuthenticationFailed('You do not have permission to perform this action.')
+
+    try:
+        users = User.objects.all()
+    except:
+        raise ValidationError('There is no User yet')
+
+    userSerializer = JustUsersSerializer(users, many=True)
+    return Response(userSerializer.data)
 
 
 @api_view(['GET'])
