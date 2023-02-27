@@ -55,7 +55,13 @@ function Header() {
   const ClosePanel = () => {
     Opener(["profile-link", "logOut-link", "admin-panel"], isOpen, setIsOpen);
     Opener(
-      ["admin-back", "admin-users", "admin-products", "admin-orders"],
+      [
+        "admin-back",
+        "admin-users",
+        "admin-products",
+        "admin-orders",
+        "admin-discounts",
+      ],
       isPanelOpen,
       setIsPanelOpen
     );
@@ -65,7 +71,13 @@ function Header() {
     user?.is_staff
       ? isPanelOpen
         ? Opener(
-            ["admin-back", "admin-users", "admin-products", "admin-orders"],
+            [
+              "admin-back",
+              "admin-users",
+              "admin-products",
+              "admin-orders",
+              "admin-discounts",
+            ],
             isPanelOpen,
             setIsPanelOpen
           )

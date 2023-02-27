@@ -10,12 +10,8 @@ function Discount({ styles, discounts, formik }) {
       value: "0",
     },
     {
-      key: "List discounts",
+      key: "Discount",
       value: "1",
-    },
-    {
-      key: "Create discount",
-      value: "2",
     },
   ];
 
@@ -37,33 +33,20 @@ function Discount({ styles, discounts, formik }) {
         />
       </div>
 
-      {/* list Discounts */}
-      {String(formik.values.discountType) === "1" && (
-        <div className={styles.selectContainer}>
-          <FormikControl
-            control="select"
-            name="discountId"
-            className={styles.input}
-            options={dropdownOptions}
-          />
-        </div>
-      )}
-
       {/* create a Discount */}
-      {String(formik.values.discountType) === "2" && (
-        <FormikControl
-          control="input"
-          type="number"
-          step={0.01}
-          name="discountPercent"
-          className={styles.input}
-          placeholder="discount percent"
-        />
+      {String(formik.values.discountType) === "1" && (
+        <>
+          <FormikControl
+            control="input"
+            type="number"
+            step={0.01}
+            name="discountPercent"
+            className={styles.input}
+            placeholder="discount percent"
+          />
+          <Date styles={styles} />
+        </>
       )}
-
-      {/* list or create a Discount */}
-      {(String(formik.values.discountType) === "1" ||
-        String(formik.values.discountType) === "2") && <Date styles={styles} />}
     </>
   );
 }

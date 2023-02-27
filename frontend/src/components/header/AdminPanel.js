@@ -96,7 +96,7 @@ function AdminPanel(props) {
         </svg>
       </button>
       <button
-        id="admin-users"
+        id="admin-discounts"
         className="header-dropdown-element w3-animate-right animate__animated"
         onClick={() => {
           props.CloseDropdown();

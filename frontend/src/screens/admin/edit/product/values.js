@@ -20,8 +20,7 @@ export const initialValues = (product) => {
 
     // discounts
     discountType: String(product?.discount.description) === "0" ? 0 : 1,
-    discountId: product?.discount._id ? product?.discount._id : "",
-    discountPercent: "",
+    discountPercent: product?.discount.discount_percent,
     start_date: new Date(product?.discount.start_date),
     start_time:
       new Date(product?.discount.start_date).getHours() +
@@ -49,33 +48,30 @@ export const validationSchema = Yup.object({
 
   // discounts
   discountType: Yup.string().required("Required"),
-  discountId: Yup.string().when("discountType", (discountType, schema) =>
-    String(discountType) === "1" ? schema.required("Required") : schema
-  ),
   discountPercent: Yup.number()
     .min(0)
     .when("discountType", (discountType, schema) =>
-      String(discountType) === "2" ? schema.required("Required") : schema
+      String(discountType) === "1" ? schema.required("Required") : schema
     ),
   start_date: Yup.date().when("discountType", (discountType, schema) =>
-    String(discountType) === "1" || String(discountType) === "2"
+    String(discountType) === "1"
       ? schema.required("Required")
       : schema.notRequired()
   ),
   start_time: Yup.string().when("discountType", (discountType, schema) =>
-    String(discountType) === "1" || String(discountType) === "2"
+    String(discountType) === "1"
       ? schema.required("Required")
       : schema.notRequired()
   ),
   end_date: Yup.date()
     .min(Yup.ref("start_date"), "Invalid end date")
     .when("discountType", (discountType, schema) =>
-      String(discountType) === "1" || String(discountType) === "2"
+      String(discountType) === "1"
         ? schema.required("Required")
         : schema.notRequired()
     ),
   end_time: Yup.string().when("discountType", (discountType, schema) =>
-    String(discountType) === "1" || String(discountType) === "2"
+    String(discountType) === "1"
       ? schema.required("Required")
       : schema.notRequired()
   ),
@@ -97,7 +93,7 @@ export const onSubmit = (values) => {
     safetyStandard: values.safetyStandard,
     technicalRequirements: values.technicalRequirements,
   };
-  if (String(data.discountType) !== "0") {
+  if (String(data.discountType) === "1") {
     data.start_date =
       values.start_date.getFullYear() +
       "-" +
@@ -116,14 +112,9 @@ export const onSubmit = (values) => {
       " " +
       convertTime12to24(values.end_time) +
       ":00";
-  }
-
-  if (String(data.discountType) === "1") {
-    data.discountId = values.discountId;
-  }
-  if (String(data.discountType) === "2") {
     data.discountPercent = values.discountPercent;
   }
+
   //   dispatch(updateProduct(id, data));
 
   console.log(data);
@@ -131,9 +122,7 @@ export const onSubmit = (values) => {
 
 const convertTime12to24 = (time12h) => {
   const [time, modifier] = time12h.split(" ");
-
   let [hours, minutes] = time.split(":");
-
   if (hours === "12") {
     hours = "00";
   }

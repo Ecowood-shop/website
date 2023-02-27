@@ -15,13 +15,13 @@ export const initialValues = {
 
   // discounts
   discountType: "",
-  discountId: "",
   discountPercent: "",
   start_date: "",
   start_time: "23:59",
   end_date: "",
   end_time: "23:59",
 };
+
 export const validationSchema = Yup.object({
   name_geo: Yup.string().required("Required"),
   brand: Yup.string().required("Required"),
@@ -36,35 +36,32 @@ export const validationSchema = Yup.object({
 
   // discounts
   discountType: Yup.string().required("Required"),
-  discountId: Yup.string().when("discountType", (discountType, schema) =>
-    String(discountType) === "1" ? schema.required("Required") : schema
-  ),
   discountPercent: Yup.number()
     .min(0)
     .when("discountType", (discountType, schema) =>
-      String(discountType) === "2" ? schema.required("Required") : schema
+      String(discountType) === "1" ? schema.required("Required") : schema
     ),
   start_date: Yup.date()
     .min(new Date(Date.now() - 86400000), "Invalid starting date")
     .when("discountType", (discountType, schema) =>
-      String(discountType) === "1" || String(discountType) === "2"
+      String(discountType) === "1"
         ? schema.required("Required")
         : schema.notRequired()
     ),
   start_time: Yup.string().when("discountType", (discountType, schema) =>
-    String(discountType) === "1" || String(discountType) === "2"
+    String(discountType) === "1"
       ? schema.required("Required")
       : schema.notRequired()
   ),
   end_date: Yup.date()
     .min(Yup.ref("start_date"), "Invalid end date")
     .when("discountType", (discountType, schema) =>
-      String(discountType) === "1" || String(discountType) === "2"
+      String(discountType) === "1"
         ? schema.required("Required")
         : schema.notRequired()
     ),
   end_time: Yup.string().when("discountType", (discountType, schema) =>
-    String(discountType) === "1" || String(discountType) === "2"
+    String(discountType) === "1"
       ? schema.required("Required")
       : schema.notRequired()
   ),
@@ -105,14 +102,9 @@ export const onSubmit = (values) => {
       " " +
       convertTime12to24(values.end_time) +
       ":00";
-  }
-
-  if (String(data.discountType) === "1") {
-    data.discountId = values.discountId;
-  }
-  if (String(data.discountType) === "2") {
     data.discountPercent = values.discountPercent;
   }
+
   // dispatch(createProduct(values));
 
   console.log(data);

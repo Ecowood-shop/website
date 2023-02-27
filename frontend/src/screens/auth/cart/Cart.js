@@ -11,13 +11,10 @@ import styles from "./styles.module.scss";
 import Products from "./Products";
 import Table from "./table/Table";
 
-
 function Cartus() {
   const dispatch = useDispatch();
   const User = useSelector((state) => state.User);
   const { cart, success, user, loadingUser: loading } = User;
-
-
 
   useEffect(() => {
     dispatch(getCart());
