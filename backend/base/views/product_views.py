@@ -1,3 +1,6 @@
+from _decimal import Decimal
+
+from django.db import transaction
 from django.utils import timezone
 
 import jwt
@@ -5,23 +8,22 @@ from base.models import Product, Category, User, Color, Discount, Variants, AddT
     SpecificDiscount
 from base.serializers import ProductSerializer, CategorySerializer, TopProductSerializer, \
     VariantSerializer, ColorSerializer, AddToCartSerializer, SpecificProductSerializer, \
-    ProductImageSerializer, WarehouseSerializer, SpecificDiscountSerializer, DiscountSerializer
+    ProductImageSerializer, WarehouseSerializer, SpecificDiscountSerializer, DiscountSerializer, JustProductsSerializer
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Prefetch, Sum, Count, F, FloatField, IntegerField, When, Case
 from django.db.models.functions import Coalesce
 from rest_framework.decorators import api_view
 from rest_framework.exceptions import AuthenticationFailed, NotFound, ValidationError
 from rest_framework.response import Response
+from django.db.models import F, Func, DecimalField
+from django.db.models import Q
 
 
 def apply_user_discounts(products, user):
     serializer_data = []
 
     for product in products:
-        specific_discount = SpecificDiscount.objects.filter(user=user, product=product).first()
-        if specific_discount and specific_discount.discount_percent.discount_percent > product.discount.discount_percent \
-                and specific_discount.discount_percent.start_date <= timezone.now() <= specific_discount.discount_percent.end_date:
-            product.discount = specific_discount.discount_percent
+        product.discount = product.get_discount(user)
         serializer_data.append(ProductSerializer(product).data)
 
 
@@ -162,15 +164,38 @@ def getProduct(request, pk):
 
     serializer_data = []
 
-    specific_discount = SpecificDiscount.objects.filter(user=user, product=product).first()
-    if specific_discount and specific_discount.discount_percent.discount_percent > product.discount.discount_percent \
-            and specific_discount.discount_percent.start_date <= timezone.now() <= specific_discount.discount_percent.end_date:
-        product.discount = specific_discount.discount_percent
+    product.discount = product.get_discount(user)
     serializer_data.append(ProductSerializer(product).data)
 
     serializer = ProductSerializer(product, many=False)
     variantSerializer = VariantSerializer(variants, many=True)
     return Response({'products': serializer.data, 'variants': variantSerializer.data})
+
+
+@api_view(['GET'])
+def getJustProducts(request):
+    token = request.COOKIES.get('jwt')
+
+    if not token:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    try:
+        payload = jwt.decode(token, 'secret', algorithm=['HS256'])
+    except jwt.ExpiredSignatureError:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    user = User.objects.filter(id=payload['id']).first()
+
+    if not user.is_staff:
+        raise AuthenticationFailed('You do not have permission to perform this action.')
+
+    try:
+        products = Product.objects.all()
+    except:
+        raise ValidationError('There is no Product yet')
+
+    productSerializer = JustProductsSerializer(products, many=True)
+    return Response(productSerializer.data)
 
 
 @api_view(['GET'])
@@ -219,10 +244,23 @@ def createProduct(request):
     except:
         raise ValidationError('Category does not exist')
 
-    try:
-        discount = Discount.objects.get(discount_percent=data['discount'])
-    except:
-        raise ValidationError('Such kind of discount does not exist')
+    discount_type = int(data.get('discountType', 0))
+    discount_percent = float(data.get('discount', 0))
+    start_date = data.get('start_date')
+    end_date = data.get('end_date')
+
+    # Check discount type and set discount object accordingly
+    discount = 0
+    if discount_type == 0:
+        discount, _ = Discount.objects.get_or_create(percentage=0, defaults={'name': '0% discount'})
+    elif discount_type == 1:
+        try:
+            discount = Discount.objects.create(name=f"{discount_percent}% discount", percentage=discount_percent,
+                                               start_date=start_date, end_date=end_date)
+        except Discount.DoesNotExist:
+            ValidationError('There was error during creation process of discount')
+    else:
+        raise ValidationError('Invalid discount type')
 
     product = Product.objects.create(
         user=user,
@@ -327,38 +365,12 @@ def getDiscounts(request):
         raise AuthenticationFailed('You do not have permission to perform this action.')
 
     try:
-        discount = Discount.objects.all()
+        discount = Discount.objects.filter(active=True, start_date__lte=timezone.now(), end_date__gte=timezone.now())
     except:
         raise ValidationError('There is no discount yet')
 
     discountSerializer = DiscountSerializer(discount, many=True)
     return Response(discountSerializer.data)
-
-
-@api_view(['GET'])
-def getSpecificDiscounts(request):
-    token = request.COOKIES.get('jwt')
-
-    if not token:
-        raise AuthenticationFailed('Unauthenticated!')
-
-    try:
-        payload = jwt.decode(token, 'secret', algorithm=['HS256'])
-    except jwt.ExpiredSignatureError:
-        raise AuthenticationFailed('Unauthenticated!')
-
-    user = User.objects.filter(id=payload['id']).first()
-
-    if not user.is_staff:
-        raise AuthenticationFailed('You do not have permission to perform this action.')
-
-    try:
-        specificDiscount = SpecificDiscount.objects.all()
-    except:
-        raise ValidationError('There is no discount yet')
-
-    specificDiscountSerializer = SpecificDiscountSerializer(specificDiscount, many=True)
-    return Response(specificDiscountSerializer.data)
 
 
 @api_view(['POST'])
@@ -383,8 +395,7 @@ def createDiscount(request):
     try:
         discount = Discount.objects.create(
             name=data.get('name'),
-            description=data.get('description'),
-            discount_percent=data.get('discount_percent'),
+            percentage=data.get('discount_percent'),
             start_date=data.get('start_date'),
             end_date=data.get('end_date'),
         )
@@ -392,6 +403,54 @@ def createDiscount(request):
         return Response("Discount Created")
     except:
         raise ValidationError('Something failed during creation process')
+
+
+@api_view(['GET'])
+def getSpecificDiscounts(request):
+    token = request.COOKIES.get('jwt')
+
+    if not token:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    try:
+        payload = jwt.decode(token, 'secret', algorithm=['HS256'])
+    except jwt.ExpiredSignatureError:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    user = User.objects.filter(id=payload['id']).first()
+
+    if not user.is_staff:
+        raise AuthenticationFailed('You do not have permission to perform this action.')
+
+    query = request.query_params.get('keyword')
+
+    if query is None or query == "null":
+        query = ''
+
+    specificDiscounts = SpecificDiscount.objects.filter(
+        Q(user__first_name__icontains=query) | Q(user__last_name__icontains=query) | Q(user__email__icontains=query) | Q(product__name_geo__icontains=query),
+        active=True, percentage__start_date__lte=timezone.now(), percentage__end_date__gte=timezone.now()
+    )
+
+    page = request.query_params.get('page')
+    paginator = Paginator(specificDiscounts, 5)
+
+    try:
+        specificDiscounts = paginator.page(page)
+    except PageNotAnInteger:
+        specificDiscounts = paginator.page(1)
+    except EmptyPage:
+        specificDiscounts = paginator.page(paginator.num_pages)
+
+    if page is None or page == "null":
+        page = 1
+
+    page = int(page)
+    print('Page:', page)
+    print(specificDiscounts)
+
+    specificDiscounts = SpecificDiscountSerializer(specificDiscounts, many=True)
+    return Response({'Specific Discounts': specificDiscounts.data, 'page': page, 'pages': paginator.num_pages})
 
 
 @api_view(['POST'])
@@ -414,17 +473,76 @@ def createSpecificDiscount(request):
     data = request.data
 
     try:
-        user_id = data.get('user_id')
-        product_id = data.get('product_id')
-        discount_id = data.get('discount_id')
-        user = User.objects.get(id=user_id)
-        product = Product.objects.get(_id=product_id)
-        discount = Discount.objects.get(_id=discount_id)
-        SpecificDiscount.objects.create(user=user, product=product, discount_percent=discount)
+        with transaction.atomic():
+            user_id = data.get('user_id')
+            product_id = data.get('product_id')
+            discount_percent = float(data.get('discount_percent', 0))
+            start_date = data.get('start_date')
+            end_date = data.get('end_date')
+            user = User.objects.get(id=user_id)
+            product = Product.objects.get(_id=product_id)
 
-        return Response("Discount Created")
-    except Discount.DoesNotExist:
-        raise ValidationError('Something failed during creation process')
+            discount = Discount.objects.create(name=f"{discount_percent}% discount", percentage=discount_percent,
+                                               start_date=start_date, end_date=end_date)
+
+            SpecificDiscount.objects.create(user=user, product=product, percentage=discount)
+
+            return Response("Discount Created")
+    except Exception as e:
+        raise ValidationError(e)
+
+
+@api_view(['PUT'])
+def updateSpecificDiscount(request, pk):
+    token = request.COOKIES.get('jwt')
+
+    if not token:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    try:
+        payload = jwt.decode(token, 'secret', algorithm=['HS256'])
+    except jwt.ExpiredSignatureError:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    user = User.objects.filter(id=payload['id']).first()
+
+    if not user.is_staff:
+        raise AuthenticationFailed('You do not have permission to perform this action.')
+
+    data = request.data
+
+    try:
+        with transaction.atomic():
+            user_id = data.get('user_id')
+            product_id = data.get('product_id')
+            discount_percent = float(data.get('discount_percent', 0))
+            start_date = data.get('start_date')
+            end_date = data.get('end_date')
+            user = User.objects.get(id=user_id)
+            product = Product.objects.get(_id=product_id)
+
+            specificDiscount = SpecificDiscount.objects.get(id=pk)
+
+    except Exception as e:
+        raise ValidationError(e)
+
+    if user:
+        specificDiscount.user = user
+    if product:
+        specificDiscount.product = product
+    if discount_percent:
+        specificDiscount.percentage.name = f"{discount_percent}% discount"
+        specificDiscount.percentage.percentage = discount_percent
+    if start_date:
+        specificDiscount.percentage.start_date = start_date
+    if end_date:
+        specificDiscount.percentage.end_date = end_date
+
+    specificDiscount.save()
+
+    serializer = SpecificDiscountSerializer(specificDiscount, many=False)
+
+    return Response({'products': serializer.data})
 
 
 @api_view(['POST'])
@@ -509,11 +627,17 @@ def getUserCart(request):
     cart_aggregate = cart.aggregate(
         total_quantity=Coalesce(Sum('qty', output_field=IntegerField()), 0),
         sum_price=Coalesce(Sum(F('qty') * F('product__price'), output_field=FloatField()), 0.0),
-        discounted_sum_price=Coalesce(Sum(
-            F('qty') * (F('product__price') - F('product__price') * F('product__discount__discount_percent') / 100),
-            output_field=FloatField()
-        ), 0.0)
     )
+
+    # Calculate discounted_sum_price
+    discounted_sum_price = 0.0
+    for item in cart:
+        product_discount = item.product.get_discount(user)
+        if product_discount:
+            discounted_price = float(item.product.price * (1 - (product_discount.percentage / 100)))
+            discounted_sum_price += float(item.qty * discounted_price)
+
+    cart_aggregate['discounted_sum_price'] = discounted_sum_price
 
     cart_serializer = AddToCartSerializer(cart, many=True)
     product_ids = cart.values_list('product', flat=True)
@@ -589,7 +713,7 @@ def deleteDiscount(request, pk):
         raise AuthenticationFailed('You do not have permission to perform this action.')
 
     try:
-        Discount.objects.get(_id=pk).delete()
+        Discount.objects.get(id=pk).delete()
     except:
         raise ValidationError('Discount with this ID does not exist')
     return Response("Discount Deleted")
@@ -712,10 +836,22 @@ def updateProduct(request, pk):
     except:
         raise ValidationError('Category does not exist')
 
-    try:
-        discount = Discount.objects.get(discount_percent=data['discount'])
-    except:
-        raise ValidationError('Such kind of discount does not exist')
+    discount_type = int(data.get('discountType', 0))
+    discount_percent = float(data.get('discount', 0))
+    start_date = data.get('start_date')
+    end_date = data.get('end_date')
+
+    # Check discount type and set discount object accordingly
+    if discount_type == 0:
+        product.discount, _ = Discount.objects.get_or_create(percentage=0, defaults={'name': '0% discount'})
+        # discount
+    elif discount_type == 1:
+        product.discount.name = f"{discount_percent}% discount"
+        product.discount.percentage = discount_percent
+        product.discount.start_date = start_date
+        product.discount.end_date = end_date
+    else:
+        raise ValidationError('Invalid discount type')
 
     if data['name_geo']:
         product.name_geo = data['name_geo']
@@ -725,8 +861,6 @@ def updateProduct(request, pk):
         product.brand = data['brand']
     if category:
         product.category = category
-    if discount:
-        product.discount = discount
     if data['size']:
         product.size = data['size']
     if data['technicalRequirements']:
