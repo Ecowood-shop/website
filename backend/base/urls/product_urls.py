@@ -36,12 +36,15 @@ urlpatterns = [
     path('update/<str:pk>/', views.updateProduct, name="product-update"),
     path('delete/<str:pk>/', views.deleteProduct, name="product-delete"),
 
+    path('getJustProducts/', views.getJustProducts, name='just-products'),
+
     path('discounts/', views.getDiscounts, name="discounts"),
     path('discount/create/', views.createDiscount, name="create-discount"),
     path('delete/discount/<str:pk>/', views.deleteDiscount, name="discount-delete"),
 
-    path('specific/discount/', views.createSpecificDiscount, name="create-specific-discount"),
-    path('specific/discounts/', views.getSpecificDiscounts, name="specific-discounts"),
+    path('specific/discounts/', views.getSpecificDiscounts, name="get-specific-discounts"),
+    path('specific/discount/create/', views.createSpecificDiscount, name="create-specific-discount"),
+    path('specific/discount/update/<str:pk>/', views.updateSpecificDiscount, name="update-specific-discount"),
     path('delete/specific/discount/<str:pk>/', views.deleteSpecificDiscount, name="specific-discount-delete"),
 
     path('<str:pk>/', views.getProduct, name="product"),
