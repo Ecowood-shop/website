@@ -48,6 +48,17 @@
         margin-right: 0.5rem;
       }
     }
+    .discount {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background-color: var(--color-primary);
+      font-size: var(--x-medium);
+      color: white;
+      border-bottom-left-radius: 10px;
+      border-top-right-radius: 10px;
+      padding: 0.5rem 1rem;
+    }
   }
 }
 
@@ -99,6 +110,11 @@
   b {
     margin-right: 0.5rem;
   }
+  i {
+    text-decoration: line-through;
+    color: var(--color-error);
+    margin-right: 0.6rem;
+  }
 }
 
 b {
@@ -109,32 +125,35 @@ b {
   font-size: var(--large) !important;
   padding: 1rem;
 }
+
 .error {
   font-size: var(--small) !important;
+  text-decoration: none !important;
   font-weight: bold !important;
-  color: var(--color-error);
+  margin-top: 0.5rem !important;
 }
 
-.select {
-  width: 100%;
-  border: none;
-  text-align: center;
-  background-color: whitesmoke;
-  border-radius: 10px;
-  color: var(--color-black);
-  padding: 0.5rem;
-  font-size: var(--small);
-  margin:0.5rem 0;
-  &::-webkit-outer-spin-button,
-  &::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+.selectContainer {
+  input {
+    width: 100%;
+    border: none;
+    text-align: center;
+    background-color: whitesmoke;
+    border-radius: 10px;
+    color: var(--color-black);
+    padding: 0.5rem;
+    font-size: var(--small);
+    margin: 0.5rem 0;
   }
-  &[type="number"] {
-    -moz-appearance: textfield;
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0 !important;
+  }
+  input[type="number"] {
+    -moz-appearance: textfield !important;
   }
 }
-
 
 @media all and (max-width: 90em) {
   .section1 {
@@ -170,14 +189,14 @@ b {
     h2 {
       margin-top: 2rem;
     }
-  
   }
   .btnContainer {
     button {
       width: 100%;
     }
-  }  .error {
-    font-size: var(--x-small) !important;
+  }
+  .error {
+    font-size: var(--small) !important;
   }
 }
 

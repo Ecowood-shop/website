@@ -17,6 +17,66 @@
       margin-left: 1rem;
     }
   }
+
+  .datePicker {
+    display: flex;
+    background-color: red;
+  }
+  .date,
+  .selectContainer {
+    width: 60%;
+    & > div {
+      width: 100%;
+      .input {
+        width: 100%;
+      }
+    }
+  }
+
+  .dateContainer {
+    width: 60%;
+    h3 {
+      margin-top: 1rem;
+      margin-bottom: 0rem;
+    }
+  }
+  .date {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin: 2rem;
+    @media all and (max-width: 60rem) {
+      flex-direction: column;
+      & > div {
+        margin: 1rem;
+      }
+    }
+    & > div {
+      display: inline !important;
+      width: max-content !important;
+      height: 1.5rem !important;
+      & input {
+        height: 3rem;
+        border: none;
+        border-radius: 10px;
+        background-color: whitesmoke;
+        text-align: center;
+        font-size: var(--small);
+        margin: 0;
+      }
+    }
+  }
+  .textContainer {
+    width: 60%;
+    & > div {
+      width: 100%;
+      .textarea {
+        width: 100%;
+      }
+    }
+  }
+
   section {
     position: relative;
     margin-bottom: 10rem;
@@ -26,7 +86,15 @@
     border-radius: 10px;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
       rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
-
+    h2 {
+      margin: 3rem;
+    }
+    .form,
+    .form > div {
+      display: flex;
+      flex-direction: column !important;
+      align-items: center !important;
+    }
     h1 {
       font-size: var(--xx-large);
       font-weight: bold;
@@ -41,7 +109,7 @@
   }
   @media all and (max-width: 85rem) {
     width: 90%;
-    input,
+    .input,
     .textarea,
     .inputCategory {
       font-size: var(--medium);
@@ -64,11 +132,12 @@
         padding-top: 4rem;
         padding-bottom: 1rem;
       }
-      input,
+      .input,
       .textarea,
       .inputCategory {
+        margin-top: 2rem !important;
         width: 80%;
-        font-size: var(--small);
+        font-size: var(--x-small);
         background-color: white;
       }
       .inputCategory {
@@ -78,14 +147,13 @@
         }
       }
       .textarea {
-        font-size: var(--small);
+        height: 20rem;
+        width: 80%;
       }
       .input:first-of-type {
         margin-top: 0;
       }
-      .textarea {
-        height: 20rem;
-      }
+
       .color {
         transform: none;
         display: flex;
@@ -111,13 +179,18 @@
   color: #212529;
   border-radius: 10px;
   text-align: center;
-  font-size: var(--medium);
+  font-size: var(--small);
   font-weight: normal;
 }
+.textContainer {
+  width: 80% !important;
+}
 .textarea {
-  font-size: var(--small);
+  height: 15rem;
+  border-radius: 10px;
   text-align: start;
   padding: 1rem !important;
+  font-size: var(--x-small);
 }
 .color {
   display: flex;
@@ -153,12 +226,6 @@
   }
 }
 
-.textarea {
-  height: 10rem;
-  border-radius: 10px;
-  padding: 0.5rem;
-  font-size: var(--small);
-}
 .inputCategory {
   width: 60%;
   height: 3rem;

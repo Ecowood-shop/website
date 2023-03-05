@@ -43,6 +43,7 @@
     }
   }
 }
+
 .toggle {
   display: none;
 }
@@ -100,10 +101,9 @@
   -webkit-font-smoothing: subpixel-antialiased;
   will-change: transform;
   &:hover {
-    transform: scale(1.01) 
+    transform: scale(1.01);
   }
 }
-
 .inputContainer {
   display: flex;
   width: 100%;
@@ -145,12 +145,31 @@
         max-width: 80%;
         width: 80%;
         transition: none;
-
       }
     }
     .input {
       display: flex;
       margin-top: 3rem;
+    }
+  }
+}
+
+.discountFilter {
+  input{
+    width: 100%;
+  }
+  @media all and (max-width: 90em) {
+    input{
+      width: 60% !important;
+    }
+    div{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+     & *{
+      margin-left: 0;
+     }
+    
     }
   }
 }

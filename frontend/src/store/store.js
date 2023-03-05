@@ -18,11 +18,12 @@ import {
   adminColorReducer,
   adminImageReducer,
   adminCategoryReducer,
-  adminOrderReducer
+  adminOrderReducer,
 } from "./reducers/adminReducers";
 import { userReducer } from "./reducers/userReducers";
 import { orderReducer } from "./reducers/orderReducers";
 import { shippingReducer } from "./reducers/shippingReducer";
+import { discountReducer } from "./reducers/discountReducers";
 
 const reducer = combineReducers({
   systemCategories: systemCategoriesReducer,
@@ -35,11 +36,12 @@ const reducer = combineReducers({
   adminVariants: adminVariantReducer,
   adminColors: adminColorReducer,
   adminImages: adminImageReducer,
-  adminCategories:adminCategoryReducer,
-  adminOrders:adminOrderReducer,
+  adminCategories: adminCategoryReducer,
+  adminOrders: adminOrderReducer,
   User: userReducer,
-  Order:orderReducer,
-  shipping:shippingReducer
+  Order: orderReducer,
+  shipping: shippingReducer,
+  discounts: discountReducer,
 });
 
 const shippingFromStorage = localStorage.getItem("shipping")
@@ -51,7 +53,6 @@ const initialState = {
 };
 
 const middleware = [thunk];
-
 
 const store = createStore(
   reducer,

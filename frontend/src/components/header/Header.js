@@ -30,7 +30,6 @@ function Header() {
   const User = useSelector((state) => state.User);
   const { user, loadingUser } = User;
 
-
   useEffect(() => {
     if (document.cookie.indexOf("altax") !== -1 && !loadingUser && !user) {
       console.log("header run");
@@ -43,6 +42,9 @@ function Header() {
   const AdminOrdersNavigator = () => {
     navigate("/admin/orders");
   };
+  const AdminDiscountsNavigator = () => {
+    navigate("/admin/discounts");
+  };
   const AdminProductsNavigator = () => {
     navigate("/admin/products");
   };
@@ -53,7 +55,13 @@ function Header() {
   const ClosePanel = () => {
     Opener(["profile-link", "logOut-link", "admin-panel"], isOpen, setIsOpen);
     Opener(
-      ["admin-back", "admin-users", "admin-products", "admin-orders"],
+      [
+        "admin-back",
+        "admin-users",
+        "admin-products",
+        "admin-orders",
+        "admin-discounts",
+      ],
       isPanelOpen,
       setIsPanelOpen
     );
@@ -63,7 +71,13 @@ function Header() {
     user?.is_staff
       ? isPanelOpen
         ? Opener(
-            ["admin-back", "admin-users", "admin-products", "admin-orders"],
+            [
+              "admin-back",
+              "admin-users",
+              "admin-products",
+              "admin-orders",
+              "admin-discounts",
+            ],
             isPanelOpen,
             setIsPanelOpen
           )
@@ -235,6 +249,7 @@ function Header() {
                 ProductsNavigator={() => AdminProductsNavigator()}
                 UsersNavigator={() => AdminUsersNavigator()}
                 OrdersNavigator={() => AdminOrdersNavigator()}
+                DiscountsNavigator={() => AdminDiscountsNavigator()}
               />
             )}
           </h2>

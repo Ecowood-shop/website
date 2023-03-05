@@ -1,6 +1,5 @@
 // REACT
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 // REDUX
 import { useDispatch, useSelector } from "react-redux";
@@ -10,35 +9,32 @@ import {
 } from "../../../../store/actions/shippingActions";
 import ORDER from "../../../../store/constants/orderConstants";
 
-// COMPONENTS
+// components
 import CheckoutSteps from "../../../../components/checkoutSteps/CheckoutSteps";
+import Details from "./Details";
+import { Formik, Form } from "formik";
+import Delivery from "./Delivery";
+import Office from "./Office";
+import RadioContainer from "./RadioContainer";
 
-// OTHERS
+// values
+import { initialValues, validationSchema } from "./Values";
+// styles
 import styles from "./styles.module.scss";
 
 function ShippingMethod() {
-  const { register, handleSubmit, watch } = useForm();
-
   const shipping = useSelector((state) => state.shipping);
   const { shipping: shippingFromStorage, prices } = shipping;
 
   // HOOKS
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const watchDelivery = watch(
-    "delivery",
-    shippingFromStorage?.delivery == "office" ? "office" : ""
-  );
 
-  function onSubmitButton(data) {
-    for (const property in shippingFromStorage) {
-      if (!data[property]) {
-        data[property] = shippingFromStorage[property];
-      }
-    }
-    data.delivery == "delivery"
-      ? (data.office = "")
-      : (data.shippingPrice = "");
+  function onSubmit(values) {
+    let data = { ...values };
+    String(values.wants_delivery) === "True"
+      ? (data._id = "")
+      : (data.cityId = "");
 
     dispatch(saveShippingDetails(data));
     navigate("/checkout/shippingdetails", { replace: true });
@@ -49,199 +45,38 @@ function ShippingMethod() {
     dispatch(getShippingPrices());
   }, []);
 
-  console.log(shippingFromStorage);
-  console.log(prices);
 
   return (
     <article className={styles.container}>
       <CheckoutSteps step1 />
       <section>
-        <div className={styles.text}>
-          <h1>მიწოდების მეთოდები</h1>
+        <Details styles={styles} />
 
-          <hr />
-          <p>* თბილისის მასშტაბით მიწოდება მოხდება 2-4 სამუშაო დღეში</p>
-          <p>* რეგიონებში მიწოდება მოხდება 4-5 სამუშაო დღეში</p>
-        </div>
+        <Formik
+          initialValues={initialValues(shippingFromStorage)}
+          validationSchema={validationSchema}
+          onSubmit={onSubmit}
+        >
+          {(formik) => {
+            return (
+              <Form>
+                <RadioContainer styles={styles} />
 
-        <form onSubmit={handleSubmit(onSubmitButton)}>
-          <div className={styles.radioContainer}>
-            <input
-              {...register("delivery", { required: true })}
-              type="radio"
-              name="delivery"
-              value="delivery"
-              id="delivery"
-              defaultChecked={
-                shippingFromStorage?.delivery == "delivery" ? true : false
-              }
-            />
-            <label htmlFor="delivery">
-              <svg
-                id="Icons"
-                xmlns="http://www.w3.org/2000/svg"
-                x="0px"
-                y="0px"
-                viewBox="0 0 32 32"
-                xmlSpace="preserve"
-              >
-                <style>
-                  {
-                    ".st0{fill:none;stroke:#000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10}"
-                  }
-                </style>
-                <path className="st0" d="M2 9L19 9 19 24 10 24" />
-                <circle className="st0" cx={24} cy={24} r={2} />
-                <circle className="st0" cx={8} cy={24} r={2} />
-                <path
-                  className="st0"
-                  d="M19 24L19 13 25 13 29 18 29 24 26 24"
-                />
-                <path className="st0" d="M4 13L13 13" />
-                <path className="st0" d="M2 17L11 17" />
-                <path fill="none" d="M-288 -432H248V248H-288z" />
-              </svg>
-              ადგილზე მიტანა
-            </label>
-            <input
-              {...register("delivery", { required: true })}
-              type="radio"
-              name="delivery"
-              value="office"
-              id="office"
-              defaultChecked={
-                shippingFromStorage?.delivery == "office" ? true : false
-              }
-            />
-            <label htmlFor="office">
-              <svg viewBox="0 0 24 24">
-                <path fill="none" d="M0 0h24v24H0z" />
-                <path d="M21 19h2v2H1v-2h2V4a1 1 0 011-1h10a1 1 0 011 1v15h2V9h3a1 1 0 011 1v9zM7 11v2h4v-2H7zm0-4v2h4V7H7z" />
-              </svg>
-              ოფისიდან გატანა
-            </label>
-          </div>
+                {formik.values.wants_delivery === "False" && (
+                  <Office styles={styles} />
+                )}
 
-          {watchDelivery == "office" && (
-            <div className={styles.officeContainer}>
-              <div className={styles.text}>
-                <h2>აირჩიეთ ფილიალი</h2>
-                <hr />
-                <p>* სამუშაო საათები - ეკოვუდი 10:00-18:00 (ყოველდღე)</p>
-                <p>
-                  * სამუშაო საათები - ექსრპესს ფილიალი 10:00-18:00 (ყოველდღე)
-                </p>
-              </div>
+                {formik.values.wants_delivery === "True" && (
+                  <Delivery styles={styles} prices={prices} />
+                )}
 
-              <div className={styles.radioContainer}>
-                {" "}
-                <input
-                  {...register("office", { required: true })}
-                  type="radio"
-                  name="office"
-                  value="1"
-                  id="ecowood"
-                  defaultChecked={
-                    shippingFromStorage?.office == "1" ? true : false
-                  }
-                />
-                <label htmlFor="ecowood">
-                  <svg viewBox="0 0 64 64">
-                    <g data-name="HOUSE">
-                      <path d="M25.21 17v14H48L28.09 7.49 20.27 16h4a1 1 0 01.94 1z" />
-                      <path d="M12.61 24H19.4V42H12.61z" />
-                      <path d="M59.75 51v-1.19a3.6 3.6 0 002.86-3.52c0-.1-.84-10-3.61-10s-3.61 9.94-3.61 10a3.6 3.6 0 002.86 3.52V51h-9.77V33H34.91v18H33V33h-7.79v18h-1.94V18H5.82v33H0v2h64v-2zm-38.42 0h-1.94v-7h-6.78v7h-1.94V23a1 1 0 011-1h8.72a1 1 0 011 1z" />
-                    </g>
-                  </svg>
-                  ეკოვუდი
-                </label>
-                <input
-                  {...register("office", { required: true })}
-                  type="radio"
-                  name="office"
-                  value="2"
-                  id="express"
-                  defaultChecked={
-                    shippingFromStorage?.office == "2" ? true : false
-                  }
-                />
-                <label htmlFor="express">
-                  <svg
-                    width={64}
-                    height={64}
-                    viewBox="0 0 64 64"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M24.94 10h-6.45a2 2 0 00-2 2v7.35a2 2 0 002 2h6.45a2 2 0 002-2V12a2 2 0 00-2-2zM24.94 26.32h-6.45a2 2 0 00-2 2v7.35a2 2 0 002 2h6.45a2 2 0 002-2v-7.35a2 2 0 00-2-2zM24.94 42.65h-6.45a2 2 0 00-2 2V52a2 2 0 002 2h6.45a2 2 0 002-2v-7.35a2 2 0 00-2-2z"
-                      fill="#000"
-                    />
-                    <path
-                      d="M60 58h-4.94V26.1a2 2 0 00-2-2H48V4a2 2 0 00-2-2H10.94a2 2 0 00-2 2v54H4a2 2 0 100 4h56a2 2 0 000-4zM30.4 26.1V58H12.94V6H44v18.1H32.4a2 2 0 00-2 2z"
-                      fill="#000"
-                    />
-                  </svg>
-                  ექსრპესს ფილიალი
-                </label>
-              </div>
-            </div>
-          )}
-
-          {watchDelivery == "delivery" && (
-            <div className={styles.officeContainer}>
-              <div className={styles.text}>
-                <h2>აირჩიეთ ქალაქი</h2>
-                <hr />
-                <p>
-                  * თუ კი კალათის ჯამური ფასი ცდება ზღვარს თქვენ ისარგებლებთ
-                  ფასი 1-ით
-                </p>
-                <p> * სხვა შემთხვევაში ფასი 2-ით</p>
-              </div>
-              <div className={styles.radioContainer}>
-                {prices &&
-                  prices.map((price) => (
-                    <div className={styles.priceContainer} key={price._id}>
-                      <input
-                        {...register("shippingPrice", { required: true })}
-                        type="radio"
-                        name="shippingPrice"
-                        value={price._id}
-                        id={"price" + price._id}
-                        defaultChecked={
-                          shippingFromStorage?.shippingPrice == price._id
-                            ? true
-                            : false
-                        }
-                      />
-                      <label htmlFor={"price" + price._id}>
-                        <p>{price.location}</p>
-                        <div>
-                          <p>
-                            <b>ფასი 1: </b>
-                            {price.upperLimit} ლ
-                          </p>
-                          <p>
-                            <b>ზღვარი: </b>
-                            {price.limit} ლ
-                          </p>
-                          <p>
-                            <b>ფასი 2: </b>
-                            {price.lowerLimit} ლ
-                          </p>
-                        </div>
-                      </label>
-                    </div>
-                  ))}
-              </div>
-            </div>
-          )}
-
-          <button type="submit" className={styles.btn}>
-            მიწოდების დეტალები
-          </button>
-        </form>
+                <button type="submit" className={styles.btn}>
+                  მიწოდების დეტალები
+                </button>
+              </Form>
+            );
+          }}
+        </Formik>
       </section>
     </article>
   );

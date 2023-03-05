@@ -5,6 +5,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 4rem;
   div {
     margin: 10rem 0;
     display: flex;
@@ -21,9 +22,10 @@
   h1 {
     font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
       sans-serif !important;
-    font-size: 10vw;
+    font-size: 5rem;
     font-weight: bolder;
     border-bottom: 1rem solid white;
+    padding-bottom: 1rem;
   }
   h2 {
     margin-left: auto;
@@ -38,7 +40,11 @@
 @media all and (max-width: 80rem) {
   .container {
     h1 {
-      font-size: 13vw;
+      font-size:3rem;
+    }
+    h2 {
+
+      font-size: var(--x-medium);
     }
   }
 }
@@ -46,7 +52,7 @@
 @media all and (max-width: 40rem) {
   .container {
     h1 {
-      font-size: 15vw;
+      font-size: 2rem
     }
     h2 {
       svg {

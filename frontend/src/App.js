@@ -1,7 +1,7 @@
 // REACT
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import MessengerCustomerChat from "react-messenger-customer-chat";
+// import MessengerCustomerChat from "react-messenger-customer-chat";
 // SCREENS
 
 //   APP
@@ -25,6 +25,7 @@ import CategoryScreen from "./screens/admin/categories/CategoryScreen";
 import Variants from "./screens/admin/variants/Variants";
 import Images from "./screens/admin/images/Images";
 import Shipping from "./screens/admin/shipping/Shipping";
+import DiscountScreen from "./screens/admin/specificDiscounts/DiscountScreen";
 
 // AUTHORIZED
 import Cart from "./screens/auth/cart/Cart";
@@ -93,6 +94,7 @@ function App() {
             <Route path="/admin/categories" element={<CategoryScreen />} />
             <Route path="/admin/users" element={<UsersScreen />} />
             <Route path="/admin/users/:id/edit" element={<UserScreen />} />
+            <Route path="/admin/discounts" element={<DiscountScreen />} />
             <Route path="/admin/orders" element={<OrderScreen />} />
             <Route path="/admin/shipping" element={<Shipping />} />
           </Route>

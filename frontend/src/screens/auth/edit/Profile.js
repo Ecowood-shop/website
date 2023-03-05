@@ -13,7 +13,6 @@ import Message from "../../../components/Message/Message";
 
 // OTHERS
 import styles from "./styles.module.scss";
-import { data } from "../../app/authorization/components/data";
 
 function Profile() {
   // HOOKS

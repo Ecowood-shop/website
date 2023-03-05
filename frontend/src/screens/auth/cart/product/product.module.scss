@@ -10,7 +10,23 @@
   border-radius: 10px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
     rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
-
+  .discount {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: var(--color-primary);
+    font-size: var(--small);
+    color: white;
+    z-index: 100;
+    border-bottom-left-radius: 10px;
+    border-top-right-radius: 10px;
+    padding: 0.5rem 1rem;
+    @media all and (max-width: 40em) and (orientation: portrait) {
+      left: 0;
+      right: auto;
+      border-radius: 10px 0 10px 0;
+    }
+  }
   img {
     cursor: pointer;
     border-radius: 10px;
@@ -43,6 +59,11 @@
         bottom: 0rem;
         right: 1rem;
         font-size: var(--medium);
+        i {
+          text-decoration: line-through;
+          color: var(--color-error);
+          margin-right: 0.6rem;
+        }
       }
       p {
         clear: both;
@@ -122,13 +143,12 @@
   margin-top: 0.5rem;
   margin-left: 2rem;
   & button {
-  
     cursor: pointer;
     padding: 0.1rem 0.5rem;
     display: flex;
     border: none;
     border-radius: 20%;
-background-color: transparent;
+    background-color: transparent;
     &:first-of-type {
       margin-left: 2rem;
     }
@@ -141,7 +161,8 @@ background-color: transparent;
 }
 
 @media all and (max-width: 60em) {
-  .container {height: 12rem;
+  .container {
+    height: 12rem;
     margin: 1rem;
     section {
       flex-direction: column;
@@ -174,7 +195,7 @@ background-color: transparent;
   }
   .message {
     position: absolute;
-right: 1rem;
+    right: 1rem;
   }
 }
 
