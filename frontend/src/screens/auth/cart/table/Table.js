@@ -11,15 +11,14 @@ function Table({ styles, cart }) {
         </h2>
         <h2>
           <b>ჯამი: </b>
-          {cart.sum_price > cart.discounted_sum_price ? (
+          {Number(cart.sum_price) > Number(cart.discounted_sum_price) ? (
             <>
               <i>{cart.sum_price}</i>
               {cart.discounted_sum_price} ლ
             </>
           ) : (
-            <> {cart.sum_price}</>
+            <> {cart.sum_price} ლ</>
           )}{" "}
-          ლ
         </h2>
         <Button styles={styles} cart={cart} />
       </div>

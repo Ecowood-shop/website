@@ -41,7 +41,7 @@ const reducer = combineReducers({
   User: userReducer,
   Order: orderReducer,
   shipping: shippingReducer,
-  Discounts: discountReducer,
+  discounts: discountReducer,
 });
 
 const shippingFromStorage = localStorage.getItem("shipping")

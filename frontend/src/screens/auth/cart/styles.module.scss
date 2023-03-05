@@ -75,14 +75,21 @@
     rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
 
   h1 {
+    width: 100%;
+    margin-top: 0 !important;
+    padding-top: 0.5rem;
+    border-radius: 10px 10px 0 0;
+    text-align: center;
     margin: 1.5rem;
     font-weight: 600;
+    background-image: var(--linear-primary);
+    color: white;
     font-size: var(--x-large);
   }
   .table {
     width: 80%;
     h2 {
-      font-size: var(--small);
+      font-size: var(--medium);
       margin: 0;
       i {
         text-decoration: line-through;
@@ -138,6 +145,7 @@
 
     .table {
       h2 {
+        font-size: var(--small);
         margin-left: 0.1rem;
       }
     }
@@ -148,10 +156,9 @@
   .container {
     width: 100%;
     .section2 {
-      width: 100%;
+      width: 95%;
       box-shadow: none;
       .btn {
-        margin-bottom: 0.5rem;
         font-size: var(--x-small);
         svg {
           height: 1.5rem;

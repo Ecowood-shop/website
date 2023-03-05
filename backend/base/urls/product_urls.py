@@ -48,6 +48,7 @@ urlpatterns = [
     path('delete/specific/discount/<str:pk>/', views.deleteSpecificDiscount, name="specific-discount-delete"),
 
     path('<str:pk>/', views.getProduct, name="product"),
+    path('<str:pk>/admin', views.getProductAdmin, name="admin-product"),
 
 ]
 

@@ -2,7 +2,7 @@
 import FormikControl from "../../../../formik/FormikControl";
 import Date from "./Date";
 
-function Inputs({ styles, formik }) {
+function Inputs({ styles, formik, users, products }) {
   const radioOptions = [
     { key: "Pick a discount", value: "" },
     {
@@ -14,22 +14,27 @@ function Inputs({ styles, formik }) {
       value: "1",
     },
   ];
+
   return (
     <>
       <h3>DISCOUNT</h3>
       <div className={styles.selectContainer}>
         <FormikControl
-          control="select"
+          control="autocomplete"
           name="userId"
-          options={radioOptions}
+          options={users}
+          formik={formik}
+          placeholder={"user"}
           className={styles.input}
         />
       </div>
       <div className={styles.selectContainer}>
         <FormikControl
-          control="select"
+          control="autocomplete"
           name="productId"
-          options={radioOptions}
+          options={products}
+          formik={formik}
+          placeholder={"product"}
           className={styles.input}
         />
       </div>

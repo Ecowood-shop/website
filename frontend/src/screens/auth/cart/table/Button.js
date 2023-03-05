@@ -4,16 +4,17 @@ function Button({ styles, cart }) {
   const navigate = useNavigate();
   const secure = () => {
     let process = true;
-    for (const index in cart.carts) {
-      for (const index2 in cart.variants) {
-        if (
-          cart.carts[index].qty > cart.variants[index].quantity ||
-          cart.carts[index].qty < 1 ||
-          !cart.variants[index].active
-        ) {
-          process = false;
-          return;
-        }
+    for (const cartItem in cart.carts) {
+      let variant = cart.variants.find(
+        (item) => item.id === cart.carts[cartItem].variants
+      );
+      if (
+        cart.carts[cartItem].qty > variant.quantity ||
+        cart.carts[cartItem].qty < 1 ||
+        !variant.active
+      ) {
+        process = false;
+        return;
       }
     }
     if (cart.sum_price > 0 && process) navigate("/checkout/shippingmethod");

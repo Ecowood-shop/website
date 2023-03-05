@@ -1,5 +1,7 @@
 // yup
 import * as Yup from "yup";
+// redux
+import { createProduct } from "../../../../store/actions/adminActions";
 
 export const initialValues = {
   name_geo: "",
@@ -42,7 +44,7 @@ export const validationSchema = Yup.object({
       String(discountType) === "1" ? schema.required("Required") : schema
     ),
   start_date: Yup.date()
-    .min(new Date(Date.now() - 86400000), "Invalid starting date")
+    .min(new Date(Date.now() - 86400000), "Invalid start date")
     .when("discountType", (discountType, schema) =>
       String(discountType) === "1"
         ? schema.required("Required")
@@ -67,7 +69,7 @@ export const validationSchema = Yup.object({
   ),
 });
 
-export const onSubmit = (values) => {
+export const onSubmit = (values, dispatch) => {
   let data = {
     name_geo: values.name_geo,
     brand: values.brand,
@@ -104,10 +106,8 @@ export const onSubmit = (values) => {
       ":00";
     data.discountPercent = values.discountPercent;
   }
-
-  // dispatch(createProduct(values));
-
   console.log(data);
+  dispatch(createProduct(data));
 };
 
 const convertTime12to24 = (time12h) => {

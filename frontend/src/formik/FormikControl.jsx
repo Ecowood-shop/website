@@ -5,7 +5,7 @@ import Select from "./Select";
 import RadioButtons from "./RadioButtons";
 import CheckboxGroup from "./CheckboxGroup";
 import DatePicker from "./DatePicker";
-
+import AutoComplete from "./AutoComplete";
 // styles
 // styles
 import styles from "./styles/styles.module.scss";
@@ -16,6 +16,8 @@ function FormikControl(props) {
       return <Input {...rest} />;
     case "textarea":
       return <Textarea {...rest} />;
+    case "autocomplete":
+      return <AutoComplete {...rest} />;
     case "select":
       return <Select {...rest} />;
     case "radio":

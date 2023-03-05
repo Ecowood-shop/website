@@ -11,18 +11,26 @@ function Products({ styles, loading, cart, dispatch, user }) {
     <>
       <section className={styles.section1}>
         <h1>პროდუქტები</h1>
-        {cart?.carts.length === 0 && <div className={styles.emptyCart}><Message>კალათა ცარიელია</Message></div>}
+        {cart?.carts.length === 0 && (
+          <div className={styles.emptyCart}>
+            <Message>კალათა ცარიელია</Message>
+          </div>
+        )}
         {loading != false && document.cookie.indexOf("altax") !== -1 ? (
           <Loader color="blueviolet" height />
         ) : user ? (
           <>
             {cart &&
-              cart.products.map((product, index) => (
+              cart.carts.map((cartItem, index) => (
                 <Product
-                  product={product}
-                  key={cart.carts[index].id}
-                  variant={cart.variants[index]}
-                  cart={cart.carts[index]}
+                  product={cart.products.find(
+                    (item) => item._id === cartItem.product
+                  )}
+                  key={index}
+                  variant={cart.variants.find(
+                    (item) => item.id === cartItem.variants
+                  )}
+                  cart={cartItem}
                   dispatch={dispatch}
                 />
               ))}

@@ -4,9 +4,8 @@ import { useNavigate } from "react-router-dom";
 
 // redux
 import { useSelector, useDispatch } from "react-redux";
-import { createProduct } from "../../../../store/actions/adminActions";
+
 import { getCategories } from "../../../../store/actions/systemActions";
-import { getDiscounts } from "../../../../store/actions/discountActions";
 
 // components
 import { Formik, Form } from "formik";
@@ -34,16 +33,11 @@ function Product() {
   const systemCategories = useSelector((state) => state.systemCategories);
   const { categories } = systemCategories;
 
-  const Discounts = useSelector((state) => state.Discounts);
-  const { discounts } = Discounts;
-
   useEffect(() => {
     dispatch(getCategories());
-    dispatch(getDiscounts());
     if (success) navigate("/admin/products/");
   }, [dispatch, navigate, success]);
 
-  console.log(discounts);
   console.log(categories);
   return (
     <article className={styles.container}>
@@ -60,7 +54,7 @@ function Product() {
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
-          onSubmit={onSubmit}
+          onSubmit={(e) => onSubmit(e, dispatch)}
         >
           {(formik) => {
             return (
@@ -70,11 +64,7 @@ function Product() {
                 <Select styles={styles} categories={categories} />
 
                 <h2>DISCOUNT</h2>
-                <Discount
-                  styles={styles}
-                  discounts={discounts}
-                  formik={formik}
-                />
+                <Discount styles={styles} formik={formik} />
 
                 <h2>DETAILS</h2>
                 <Textarea styles={styles} />

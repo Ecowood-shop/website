@@ -4,7 +4,7 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
-import { getProducts, } from "../../../store/actions/systemActions";
+import { getProducts } from "../../../store/actions/systemActions";
 import ADMIN from "../../../store/constants/adminConstants";
 import { deleteProduct } from "../../../store/actions/adminActions";
 
@@ -61,23 +61,26 @@ function ProductsScreen() {
     dispatch({ type: "GET_PRODUCT_RESET" });
     dispatch(getProducts(word, category, orderby, page));
   }, [dispatch, category, word, orderby, page, success]);
-
+  console.log(products);
   return (
     <section className={styles.container}>
       <Filter />
       <Nav styles={styles} navigate={navigate} />
-      {loading && <Loader color={"blueviolet"}/>} {error && <Message>{error}</Message>}
-      {products && (
+      {loading && <Loader color={"blueviolet"} />}{" "}
+      {error && <Message>{error}</Message>}
+      {products?.products && (
         <>
-          <div className={styles.table}> 
-            <Table
-              columns={columns}
-              data={products.products}
-              link="/admin/products/"
-              linkEnd="/edit"
-              Delete={(id)=>dispatch(deleteProduct(id))}
-              text="პროდუქტის"
-            />
+          <div className={styles.table}>
+            {products && (
+              <Table
+                columns={columns}
+                data={products.products}
+                link="/admin/products/"
+                linkEnd="/edit"
+                Delete={(id) => dispatch(deleteProduct(id))}
+                text="პროდუქტის"
+              />
+            )}
           </div>{" "}
           <Pagination pages={products.pages} page={products.page} />
         </>

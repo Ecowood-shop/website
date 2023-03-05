@@ -1,5 +1,8 @@
 // yup
 import * as Yup from "yup";
+// redux
+
+import { updateProduct } from "../../../../store/actions/adminActions";
 
 export const initialValues = (product) => {
   return {
@@ -9,7 +12,7 @@ export const initialValues = (product) => {
     youtubeUrl: product?.youtubeUrl ? product?.youtubeUrl : "",
     price: product?.price ? product?.price : "",
     coverageLength: product?.coverageLength ? product?.coverageLength : "",
-    category: product?.category ? 1 : "",
+    category: product?.category_id ? product?.category_id : "",
     technicalRequirements: product?.technicalRequirements
       ? product?.technicalRequirements
       : "",
@@ -19,18 +22,29 @@ export const initialValues = (product) => {
     safetyStandard: product?.safetyStandard ? product?.safetyStandard : "",
 
     // discounts
-    discountType: String(product?.discount.description) === "0" ? 0 : 1,
-    discountPercent: product?.discount.discount_percent,
-    start_date: new Date(product?.discount.start_date),
-    start_time:
-      new Date(product?.discount.start_date).getHours() +
-      ":" +
-      new Date(product?.discount.end_date).getMinutes(),
-    end_date: new Date(product?.discount.end_date),
-    end_time:
-      new Date(product?.discount.end_date).getHours() +
-      ":" +
-      new Date(product?.discount.end_date).getMinutes(),
+    discountType: product?.discount?.percentage > 0 ? 1 : 0,
+
+    discountPercent: product?.discount?.percentage
+      ? product?.discount.percentage
+      : 0,
+    start_date: product?.discount
+      ? new Date(product?.discount?.start_date)
+      : "",
+    start_time: product?.discount
+      ? (new Date(product?.discount?.start_date).getHours() < 10 ? "0" : "") +
+        new Date(product?.discount?.start_date).getHours() +
+        ":" +
+        (new Date(product?.discount?.start_date).getMinutes() < 10 ? "0" : "") +
+        new Date(product?.discount?.start_date).getMinutes()
+      : "",
+    end_date: product?.discount ? new Date(product?.discount?.end_date) : "",
+    end_time: product?.discount
+      ? (new Date(product?.discount?.end_date).getHours() < 10 ? "0" : "") +
+        new Date(product?.discount?.end_date).getHours() +
+        ":" +
+        (new Date(product?.discount?.end_date).getMinutes() < 10 ? "0" : "") +
+        new Date(product?.discount?.end_date).getMinutes()
+      : "",
   };
 };
 
@@ -48,14 +62,11 @@ export const validationSchema = Yup.object({
 
   // discounts
   discountType: Yup.string().required("Required"),
-  discountPercent: Yup.number()
-    .min(0)
-    .when("discountType", (discountType, schema) =>
-      String(discountType) === "1" ? schema.required("Required") : schema
-    ),
+
+  // maxium value for start date is end_date
   start_date: Yup.date().when("discountType", (discountType, schema) =>
     String(discountType) === "1"
-      ? schema.required("Required")
+      ? schema.max(Yup.ref("end_date"), "Invalid start date").required("Required")
       : schema.notRequired()
   ),
   start_time: Yup.string().when("discountType", (discountType, schema) =>
@@ -63,13 +74,14 @@ export const validationSchema = Yup.object({
       ? schema.required("Required")
       : schema.notRequired()
   ),
-  end_date: Yup.date()
-    .min(Yup.ref("start_date"), "Invalid end date")
-    .when("discountType", (discountType, schema) =>
-      String(discountType) === "1"
-        ? schema.required("Required")
-        : schema.notRequired()
-    ),
+  // minimum value for end date is ToDay
+  end_date: Yup.date().when("discountType", (discountType, schema) =>
+    String(discountType) === "1"
+      ? schema
+          .min(new Date(Date.now() - 86400000), "Invalid end date")
+          .required("Required")
+      : schema.notRequired()
+  ),
   end_time: Yup.string().when("discountType", (discountType, schema) =>
     String(discountType) === "1"
       ? schema.required("Required")
@@ -77,7 +89,7 @@ export const validationSchema = Yup.object({
   ),
 });
 
-export const onSubmit = (values) => {
+export const onSubmit = (values, dispatch, id) => {
   let data = {
     name_geo: values.name_geo,
     brand: values.brand,
@@ -115,9 +127,8 @@ export const onSubmit = (values) => {
     data.discountPercent = values.discountPercent;
   }
 
-  //   dispatch(updateProduct(id, data));
-
   console.log(data);
+  dispatch(updateProduct(id, data));
 };
 
 const convertTime12to24 = (time12h) => {

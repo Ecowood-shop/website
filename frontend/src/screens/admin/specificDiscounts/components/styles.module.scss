@@ -18,6 +18,12 @@
     right: 50%;
     transform: translate(50%, -50%);
     cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* number of lines to show */
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
   }
 }
 .content {
@@ -90,7 +96,18 @@
     }
   }
 }
-
+.selectContainer {
+  margin: 0.5rem;
+  div {
+    & * {
+      font-size: var(--x-small) !important;
+    }
+    .input {
+      font-size: var(--small) !important;
+      margin-bottom: 0rem;
+    }
+  }
+}
 .dateContainer {
   width: 60%;
   display: flex;
@@ -143,7 +160,6 @@
 
 @media all and (max-width: 70rem) {
   .container {
-    background-color: red;
     .holder {
       height: 6rem;
       border-radius: 999px;

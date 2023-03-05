@@ -1,16 +1,16 @@
-import React from "react";
+import { deleteDiscount } from "../../../../store/actions/discountActions";
 
-function Buttons({styles,create}) {
+function Buttons({ styles, create, dispatch, id }) {
   return (
     <div className={styles.btnContainer}>
-
       <button type="submit" className={styles.button}>
-       submit
+        submit
       </button>
-      {create && (
+      {!create && (
         <button
+        type="button"
           className={styles.iconContainer}
-          // onClick={() => dispatch(deleteVariant(props.variant.id))}
+          onClick={() => dispatch(deleteDiscount(id))}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

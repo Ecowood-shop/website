@@ -1,7 +1,9 @@
 // REACT
 import { useNavigate } from "react-router-dom";
-// OTHERS
+// styles
 import styles from "./product.module.scss";
+// images
+import placeholder from "../../../static/images/placeholder.png";
 
 function Product(props) {
   // HOOKS
@@ -13,16 +15,19 @@ function Product(props) {
       onClick={() => navigate(`/product/${props.product._id}`)}
     >
       {props.product?.discount &&
-        parseFloat(props.product?.discount.discount_percent) > 0 && (
+        parseFloat(props.product?.discount.percentage) > 0 && (
           <div className={styles.discount}>
-            -{parseFloat(props.product.discount.discount_percent)}%
+            -{parseFloat(props.product.discount.percentage)}%
           </div>
         )}
 
       <img
         alt={props.product.name_geo}
         src={
-          props.product?.picture_set.sort((a, b) => a.ord - b.ord)[0]?.picture
+          props.product?.picture_set?.length > 0
+            ? props.product?.picture_set?.sort((a, b) => a.ord - b.ord)[0]
+                ?.picture
+            : placeholder
         }
       />
       <div className={styles.table}>
@@ -32,19 +37,19 @@ function Product(props) {
 
           <h2>
             {props.product?.discount &&
-            parseFloat(props.product?.discount.discount_percent) > 0 ? (
+            parseFloat(props.product?.discount.percentage) > 0 ? (
               <>
                 <i> {props.product.price}</i>
                 {(
                   parseFloat(props.product.price) -
                   (parseFloat(props.product.price) *
-                    parseFloat(props.product.discount.discount_percent)) /
+                    parseFloat(props.product.discount.percentage)) /
                     100
                 ).toFixed(2)}{" "}
                 ლ
               </>
             ) : (
-              <>{props.product.price}</>
+              <>{props.product.price} ლ</>
             )}
           </h2>
         </div>

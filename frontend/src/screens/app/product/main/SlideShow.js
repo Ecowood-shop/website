@@ -2,6 +2,8 @@
 import ImageGallery from "react-image-gallery";
 // hooks
 import useWindowDimensions from "../../../../functions/Window";
+// images
+import placeholder from "../../../../static/images/placeholder.png";
 
 function youtube_parser(url) {
   var regExp =
@@ -31,14 +33,18 @@ function SlideShow(props) {
         </div>
       ) : (
         <ImageGallery
-          items={props.product?.picture_set
-            .sort((a, b) => a.ord - b.ord)
-            .map((element) =>
-              Object.assign(
-                {},
-                { original: element.picture, thumbnail: element.picture }
-              )
-            )}
+          items={
+            props.product?.picture_set?.length > 0
+              ? props.product?.picture_set
+                  .sort((a, b) => a.ord - b.ord)
+                  .map((element) =>
+                    Object.assign(
+                      {},
+                      { original: element.picture, thumbnail: element.picture }
+                    )
+                  )
+              : [{ original: placeholder, thumbnail: placeholder }]
+          }
           originalClass={props.styles.img}
           thumbnailPosition={
             (width > 800) & (width < 1200) || width > 1600 ? "right" : "bottom"

@@ -5,10 +5,12 @@ import { useState, useEffect } from "react";
 // REDUX
 import { deleteCart, updateCart } from "../../../../store/actions/userActions";
 
-// COMPONENTS
+// components
 import Color from "../../../../components/colorPicker/color/Color";
-// OTHERS
+// styles
 import styles from "./product.module.scss";
+// images
+import placeholder from "../../../../static/images/placeholder.png";
 
 function Product({ product, variant, cart, dispatch }) {
   const navigate = useNavigate();
@@ -20,7 +22,7 @@ function Product({ product, variant, cart, dispatch }) {
         : ""
       : "product is deleted"
   );
-
+  console.log(product._id, cart.product, variant.product);
   const changer = (number) => {
     switch (number) {
       case "-":
@@ -68,16 +70,15 @@ function Product({ product, variant, cart, dispatch }) {
   return (
     <section className={styles.container}>
       <img
-        src={product?.picture_set[0]?.picture}
+        src={product?.picture_set?.length>0 ? product?.picture_set[0]?.picture : placeholder}
         onClick={() => navigate(`/product/${product._id}`)}
         alt={product.name_geo}
       />
-        {product?.discount &&
-            parseFloat(product?.discount.discount_percent) > 0 && (
-              <div className={styles.discount}>
-                -{parseFloat(product.discount.discount_percent)}%
-              </div>
-            )}
+      {product?.discount && parseFloat(product?.discount.percentage) > 0 && (
+        <div className={styles.discount}>
+          -{parseFloat(product.discount.percentage)}%
+        </div>
+      )}
       <button
         className={styles.deleteBtn}
         onClick={() => dispatch(deleteCart(cart.id))}
@@ -131,17 +132,23 @@ function Product({ product, variant, cart, dispatch }) {
             </span>
           )}
           <h2>
+            {" "}
             <b>ფასი: </b>
             {product?.discount &&
-            parseFloat(product?.discount.discount_percent) > 0
-              ? (
+            parseFloat(product?.discount.percentage) > 0 ? (
+              <>
+                <i> {product.price}</i>
+                {(
                   parseFloat(product.price) -
                   (parseFloat(product.price) *
-                    parseFloat(product.discount.discount_percent)) /
+                    parseFloat(product.discount.percentage)) /
                     100
-                ).toFixed(2)
-              : product.price}{" "}
-            ლ
+                ).toFixed(2)}{" "}
+                ლ
+              </>
+            ) : (
+              <>{product.price} ლ</>
+            )}
           </h2>
         </div>
       </main>

@@ -53,9 +53,9 @@ function Main({ product, iframe, youtube, variants, navigate, id }) {
         />
         <div className={styles.table}>
           {product?.discount &&
-            parseFloat(product?.discount.discount_percent) > 0 && (
+            parseFloat(product?.discount.percentage) > 0 && (
               <div className={styles.discount}>
-                -{parseFloat(product.discount.discount_percent)}%
+                -{parseFloat(product.discount.percentage)}%
               </div>
             )}
 
@@ -82,13 +82,13 @@ function Main({ product, iframe, youtube, variants, navigate, id }) {
                   <p className={styles.price}>
                     <b>ფასი:</b>
                     {product?.discount &&
-                    parseFloat(product?.discount.discount_percent) > 0 ? (
+                    parseFloat(product?.discount.percentage) > 0 ? (
                       <>
                         <i> {product.price}</i>
                         {(
                           parseFloat(product.price) -
                           (parseFloat(product.price) *
-                            parseFloat(product.discount.discount_percent)) /
+                            parseFloat(product.discount.percentage)) /
                             100
                         ).toFixed(2)}{" "}
                         ლ

@@ -10,6 +10,13 @@ export const adminProductReducer = (state = {}, action) => {
     case ADMIN.DELETE_PRODUCT_FAIL:
       return { loading: false, error: action.payload };
 
+    case ADMIN.GET_PRODUCT_REQUEST:
+      return { loading: true };
+    case ADMIN.GET_PRODUCT_SUCCESS:
+      return { loading: false, product: action.payload };
+    case ADMIN.GET_PRODUCT_FAIL:
+      return { loading: false, error: action.payload };
+
     case ADMIN.CREATE_PRODUCT_REQUEST:
       return { loading: true };
     case ADMIN.CREATE_PRODUCT_SUCCESS:
@@ -174,7 +181,7 @@ export const adminOrderReducer = (state = {}, action) => {
     case ADMIN.DELETE_ORDER_REQUEST:
       return { loading: true };
     case ADMIN.DELETE_ORDER_SUCCESS:
-      return { loading: false, success:true };
+      return { loading: false, success: true };
     case ADMIN.DELETE_ORDER_FAIL:
       return { loading: false, error: action.payload };
 

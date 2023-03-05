@@ -2,7 +2,7 @@
 import FormikControl from "../../../../../formik/FormikControl";
 import Date from "./Date";
 
-function Discount({ styles, discounts, formik }) {
+function Discount({ styles, formik }) {
   const radioOptions = [
     { key: "Pick a discount", value: "" },
     {
@@ -15,12 +15,6 @@ function Discount({ styles, discounts, formik }) {
     },
   ];
 
-  const dropdownOptions = [{ key: "Choose a discount", value: "" }];
-  if (discounts) {
-    discounts.forEach((discount) => {
-      dropdownOptions.push({ key: discount.name, value: discount._id });
-    });
-  }
 
   return (
     <>

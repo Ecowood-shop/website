@@ -5,12 +5,8 @@ import { useParams } from "react-router-dom";
 
 // redux
 import { useSelector, useDispatch } from "react-redux";
-import { updateProduct } from "../../../../store/actions/adminActions";
-import { getDiscounts } from "../../../../store/actions/discountActions";
-import {
-  getCategories,
-  getProduct,
-} from "../../../../store/actions/systemActions";
+import { getCategories } from "../../../../store/actions/systemActions";
+import { getProduct } from "../../../../store/actions/adminActions";
 
 // components
 import { Formik, Form } from "formik";
@@ -35,19 +31,15 @@ function Product() {
   const { id } = useParams();
 
   const systemProduct = useSelector((state) => state.systemProduct);
-  const { error, loading, product } = systemProduct;
+  const { error, loading } = systemProduct;
 
   const adminProduct = useSelector((state) => state.adminProduct);
-  const { success } = adminProduct;
+  const { success, product } = adminProduct;
 
   const systemCategories = useSelector((state) => state.systemCategories);
   const { categories } = systemCategories;
 
-  const Discounts = useSelector((state) => state.Discounts);
-  const { discounts } = Discounts;
-
   useEffect(() => {
-    dispatch(getDiscounts());
     dispatch(getCategories());
     dispatch(getProduct(id));
     if (success) {
@@ -56,7 +48,6 @@ function Product() {
   }, [dispatch, success, navigate, id]);
 
   console.log(product);
-  console.log(discounts);
   console.log(categories);
   return (
     <article className={styles.container}>
@@ -76,7 +67,7 @@ function Product() {
           <Formik
             initialValues={initialValues(product.products)}
             validationSchema={validationSchema}
-            onSubmit={onSubmit}
+            onSubmit={(e) => onSubmit(e, dispatch, id)}
           >
             {(formik) => {
               return (
@@ -86,11 +77,7 @@ function Product() {
                   <Inputs styles={styles} />
                   <Select styles={styles} categories={categories} />
                   <h2>DISCOUNT</h2>
-                  <Discount
-                    styles={styles}
-                    discounts={discounts}
-                    formik={formik}
-                  />
+                  <Discount styles={styles} formik={formik} />
                   <h2>DETAILS</h2>
                   <Textarea styles={styles} />
                   <button type="submit" className={styles.button}>
