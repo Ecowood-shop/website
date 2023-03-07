@@ -31,10 +31,24 @@ class UserSerializer(serializers.ModelSerializer):
 
         try:
             sendMail(user.id, user.first_name, user.email, user.email_verification_token, )
-        except:
-            raise Exception
+        except Exception as e:
+            raise serializers.ValidationError(str(e))
 
         return user
+
+
+class ForgotPasswordSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+
+    def validate_email(self, value):
+        """
+        Validate that the email belongs to an existing user.
+        """
+        try:
+            user = User.objects.get(email=value)
+        except User.DoesNotExist:
+            raise serializers.ValidationError('User not found.')
+        return user.email
 
 
 class TokenSerializer(serializers.Serializer):

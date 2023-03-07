@@ -1,7 +1,5 @@
 from django.urls import path
 from base.views import product_views as views
-
-
 urlpatterns = [
     path('', views.getProducts, name="products"),
 
@@ -43,6 +41,7 @@ urlpatterns = [
     path('delete/discount/<str:pk>/', views.deleteDiscount, name="discount-delete"),
 
     path('specific/discounts/', views.getSpecificDiscounts, name="get-specific-discounts"),
+    path('specific/discounts/<str:pk>/', views.getSpecificDiscount, name="get-specific-discount-by-id"),
     path('specific/discount/create/', views.createSpecificDiscount, name="create-specific-discount"),
     path('specific/discount/update/<str:pk>/', views.updateSpecificDiscount, name="update-specific-discount"),
     path('delete/specific/discount/<str:pk>/', views.deleteSpecificDiscount, name="specific-discount-delete"),
@@ -51,4 +50,6 @@ urlpatterns = [
     path('<str:pk>/admin', views.getProductAdmin, name="admin-product"),
 
 ]
+
+
 
