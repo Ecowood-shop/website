@@ -19,4 +19,7 @@ urlpatterns = [
     path('delete/<str:pk>/', views.deleteUser, name='user-delete'),
 
     path('verify/<str:pk>/<str:token>/', views.verify_email, name='verify-email'),
+
+    path('forgot/password/', views.forgotPassword, name='forgot-password'),
+    path('reset/password/<str:pk>/<str:token>/', views.resetPassword, name='reset_password'),
 ]
