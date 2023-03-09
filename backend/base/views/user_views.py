@@ -8,6 +8,7 @@ from base.sendEmail import sendPasswordResetEmail
 from base.serializers import UserSerializer, JustUsersSerializer
 from base.templates import generate_verification_template
 from django.conf import settings
+from django.contrib.auth.hashers import make_password
 from django.core.mail import send_mail
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q
@@ -91,7 +92,7 @@ def forgotPassword(request):
 
     # Send the password reset email to the user
     try:
-        sendPasswordResetEmail(user.id, user.first_name, user.email, user.password_reset_token, )
+        sendPasswordResetEmail.delay(user.id, user.first_name, user.email, user.password_reset_token, )
     except:
         raise Exception
 
@@ -203,11 +204,13 @@ def updateUserProfile(request):
             user.phone = data['phone']
 
         if data['password'] != '':
-            if data['password'] != data['confirm_password']:
+            if data['password'] != data['confirm_password'] or not user.check_password(data['old_password']):
                 raise ValidationError('Passwords do not match')
             else:
                 try:
                     validators.validate_password(password=data['password'], user=user)
+                    user.password = make_password(data['password'])
+                    user.save()
                 except:
                     raise ValidationError('Password missing uppercase, lowercase or digit.')
 
