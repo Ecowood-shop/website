@@ -28,10 +28,10 @@ class UserSerializer(serializers.ModelSerializer):
         user.expiration_date = timezone.now() + timezone.timedelta(days=1)
         user.is_active = False
         user.save()
-
         try:
-            sendMail(user.id, user.first_name, user.email, user.email_verification_token, )
+            sendMail.delay(user.id, user.first_name, user.email, user.email_verification_token, )
         except Exception as e:
+            user.delete()
             raise serializers.ValidationError(str(e))
 
         return user
