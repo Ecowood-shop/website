@@ -1,6 +1,42 @@
 // CONSTANTS
 import USER from "../constants/userConstants";
 
+export const forgotPasswordReducer = (state = {}, action) => {
+  switch (action.type) {
+    case USER.FORGOT_PASSWORD_REQUEST:
+      return {
+        loading: true,
+      };
+    case USER.FORGOT_PASSWORD_SUCCESS:
+      return { loading: false, success: action.payload };
+    case USER.FORGOT_PASSWORD_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+    default:
+      return state;
+  }
+};
+
+export const resetPasswordReducer = (state = {}, action) => {
+  switch (action.type) {
+    case USER.RESET_PASSWORD_REQUEST:
+      return {
+        loading: true,
+      };
+    case USER.RESET_PASSWORD_SUCCESS:
+      return { loading: false, success: action.payload };
+    case USER.RESET_PASSWORD_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+    default:
+      return state;
+  }
+};
+
 export const userReducer = (state = {}, action) => {
   switch (action.type) {
     case USER.LOGIN_REQUEST:
@@ -9,7 +45,6 @@ export const userReducer = (state = {}, action) => {
       return { ...state, loadingUser: false, user: action.payload };
     case USER.LOGIN_FAIL:
       return { ...state, loadingUser: false, errorLogin: action.payload };
-
     case USER.VERIFICATION_REQUEST:
       return { ...state, loadingUser: true, errorLogin: false };
     case USER.VERIFICATION_SUCCESS:
@@ -69,7 +104,7 @@ export const userReducer = (state = {}, action) => {
     case USER.PROFILE_UPDATE_SUCCESS:
       return { ...state, loading: false, success: true };
     case USER.PROFILE_UPDATE_FAIL:
-      return { ...state, loading: false, error: action.payload };
+      return { ...state, loading: false, errorUpdate: action.payload };
 
     case USER.GET_CART_REQUEST:
       return { ...state, loadingCart: true };

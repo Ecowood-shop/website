@@ -1,6 +1,6 @@
 // redux
 import { useDispatch } from "react-redux";
-import { login } from "../../../../store/actions/userActions";
+import { forgotPassword } from "../../../../store/actions/userActions";
 // components
 import Loader from "../../../../components/loader/Loader";
 import Message from "../../../../components/Message/Message";
@@ -9,15 +9,21 @@ import Inputs from "./Inputs";
 import Button from "./Button";
 // values
 import { initialValues, validationSchema } from "./Values";
+// redux
+import { useSelector } from "react-redux";
 
-function LoginForm(props) {
+function ForgotForm(props) {
   const dispatch = useDispatch();
   const onSubmit = (values, actions) => {
     setTimeout(() => {
-      dispatch(login(values.email, values.password));
+      dispatch(forgotPassword(values.email));
+      console.log(values);
       actions.setSubmitting(false);
     }, 1000);
   };
+
+  const store = useSelector((state) => state.forgotPassword);
+  const { loading, error, success } = store;
 
   return (
     <Formik
@@ -28,11 +34,12 @@ function LoginForm(props) {
       {(formik) => {
         return (
           <Form className="w3-animate-left">
-            <h1 style={{ marginBottom: props.message ? "0" : "3rem" }}>
-              ავტორიზაცია
+            <h1 style={{ marginBottom: error ? "0" : "3rem" }}>
+              Reset password
             </h1>
-            <Message styles>{props.message}</Message>
-            {props.loading && <Loader />}
+            <Message styles>{error}</Message>
+            {success && <p className={props.styles.success}>{success}</p>}
+            {loading && <Loader />}
             <Inputs styles={props.styles} />
             <Button
               styles={props.styles}
@@ -46,4 +53,4 @@ function LoginForm(props) {
   );
 }
 
-export default LoginForm;
+export default ForgotForm;

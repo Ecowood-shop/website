@@ -20,7 +20,11 @@ import {
   adminCategoryReducer,
   adminOrderReducer,
 } from "./reducers/adminReducers";
-import { userReducer } from "./reducers/userReducers";
+import {
+  userReducer,
+  forgotPasswordReducer,
+  resetPasswordReducer,
+} from "./reducers/userReducers";
 import { orderReducer } from "./reducers/orderReducers";
 import { shippingReducer } from "./reducers/shippingReducer";
 import { discountReducer } from "./reducers/discountReducers";
@@ -39,6 +43,8 @@ const reducer = combineReducers({
   adminCategories: adminCategoryReducer,
   adminOrders: adminOrderReducer,
   User: userReducer,
+  forgotPassword: forgotPasswordReducer,
+  resetPassword: resetPasswordReducer,
   Order: orderReducer,
   shipping: shippingReducer,
   discounts: discountReducer,

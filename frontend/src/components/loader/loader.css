@@ -5,7 +5,13 @@
     justify-content: center;
     position:relative;
 }
-
+.loader-mini-Container{
+  padding: 2rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position:relative;
+}
 .loader-container{
   position: relative;
 }

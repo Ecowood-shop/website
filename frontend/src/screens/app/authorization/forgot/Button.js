@@ -3,9 +3,10 @@ function Button(props) {
     <div className={props.styles.btnContainer}>
       <h2
         type="button"
-        onClick={() => props.changer("register")}
+        onClick={() => props.changer("login")}
+        className={props.styles.btnLeft}
       >
-        რეგისტრაცია
+        ავტორიზაცია
       </h2>
       <div>
         <button
@@ -13,9 +14,8 @@ function Button(props) {
           disabled={props.formik.isSubmitting}
           className={props.styles.btn}
         >
-          შესვლა
+          გაგზავნა
         </button>
-        <p onClick={() => props.changer("forgot")}>Forgot password?</p>
       </div>
     </div>
   );

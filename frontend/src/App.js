@@ -13,6 +13,7 @@ import Product from "./screens/app/product/Product";
 import Order from "./screens/auth/order/Order";
 import Error from "./screens/app/error/Error";
 import Verification from "./screens/app/verification/Verification";
+import ResetPassword from "./screens/app/reset-password/ResetPassword";
 
 // ADMIN
 import ProductsScreen from "./screens/admin/products/ProductsScreen";
@@ -59,6 +60,10 @@ function App() {
             <Route path="/product/:id" element={<Product />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/verification/:id/:token" element={<Verification />} />
+            <Route
+              path="password-reset/:id/:token"
+              element={<ResetPassword />}
+            />
           </Route>
 
           <Route element={<AuthorizedLayout />}>

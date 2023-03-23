@@ -1,123 +1,97 @@
-// REACT
-import { useEffect, useState } from "react";
+// react
 import { useNavigate } from "react-router-dom";
 
-// REDUX
+// redux
 import { useSelector, useDispatch } from "react-redux";
 import { updateUser } from "../../../store/actions/userActions";
-import { useForm } from "react-hook-form";
 
-// COMPONENTS
+// components
 import Loader from "../../../components/loader/Loader";
 import Message from "../../../components/Message/Message";
 
-// OTHERS
+import { Formik, Form } from "formik";
+import Buttons from "./Buttons";
+import Inputs from "./Inputs";
+import PasswordInputs from "./PasswordInputs";
+//values
+import { initialValues, validationSchema } from "./values";
+
+// styles
 import styles from "./styles.module.scss";
 
 function Profile() {
-  // HOOKS
+  // hooks
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [message, setMessage] = useState();
-
   const User = useSelector((state) => state.User);
-  const { error, loading, user, success } = User;
+  const { errorUpdate: error, loading, user, success } = User;
 
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-    watch,
-  } = useForm();
+  const onSubmit = (values, actions) => {
+    const data = {
+      first_name: values.firstName,
+      last_name: values.lastName,
+      phone: values.phone,
+      password: values.password,
+      new_password: "",
+      confirm_password: "",
+    };
+    if (values.updatePassword[0] === "true") {
+      data.first_name = user?.first_name;
+      data.last_name = user?.last_name;
+      data.phone = user?.phone;
+      data.new_password = values.newPassword;
+      data.confirm_password = values.confirmPassword;
+    }
 
-  const onSubmit = (data) => {
-    delete data.confirmPassword;
-    dispatch(updateUser(data));
+    setTimeout(() => {
+      console.log(data);
+      // dispatch(updateUser(data));
+      actions.setSubmitting(false);
+    }, 1000);
   };
-
-  useEffect(() => {
-    if (success) navigate("/profile");
-  }, [dispatch, success]);
-
+  console.log(error);
   return (
     <article className={styles.container}>
       <button onClick={() => navigate("/profile")} className={styles.button}>
         უკან
       </button>
-      {loading && <Loader />} {error && <Message>{error}</Message>}
+      {loading && <Loader />}
       {user && (
         <section>
-          <h1>რედაქტირება</h1>
-
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <p className={styles.error}>
-              {errors.firstName
-                ? "სახელი უნდა შეიცავდეს მხოლოდ სიმბილოებს და ციფრებს"
-                : errors.lastName
-                ? "გვარი უნდა შეიცავდეს მხოლოდ სიმბილოებს და ციფრებს"
-                : errors.password || errors?.confirmPassword?.type == "pattern"
-                ? "პაროლი უნდა შეიცავდეს მინიმუმ 8 სიმბოლოს, ერთ დიდ და ერთ პატარა სიმბოლოს და ციფრს"
-                : errors?.confirmPassword?.type == "validate"
-                ? "პაროლი არ ემთხვევა"
-                : ""}
-            </p>
-            <input
-              placeholder="სახელი"
-              {...register("firstName", {
-                required: true,
-                pattern: /^[A-Za-z0-9]*$/,
-              })}
-              className={styles.input}
-              defaultValue={user ? user.first_name : ""}
-            />
-
-            <input
-              placeholder="გვარი"
-              {...register("lastName", {
-                required: true,
-                pattern: /^[A-Za-z0-9]*$/,
-              })}
-              className={styles.input}
-              defaultValue={user ? user.last_name : ""}
-            />
-
-            <input
-              placeholder="ტელეფონი"
-              type="tel"
-              {...register("phone", { required: true })}
-              className={styles.input}
-              defaultValue={user ? user.phone : ""}
-              required
-            />
-            <input
-              placeholder="პაროლი"
-              type="password"
-              {...register("password", {
-                required: false,
-                pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
-              })}
-              className={styles.input}
-            />
-            <input
-              placeholder="გაიმეორეთ პაროლი"
-              type="password"
-              {...register("confirmPassword", {
-                required: watch("password"),
-                pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
-                validate: (password) => {
-                  if (watch("password") != password) {
-                    return "Your passwords do no match";
-                  }
-                },
-              })}
-              className={styles.input}
-            />
-
-            <button type="submit" className={styles.button}>
-              Submit
-            </button>
-          </form>
+          <Formik
+            initialValues={initialValues(user)}
+            validationSchema={validationSchema}
+            onSubmit={onSubmit}
+          >
+            {(formik) => {
+              return (
+                <Form className={styles.form}>
+                  {" "}
+                  <h1
+                    className={
+                      formik.values.updatePassword?.length > 0
+                        ? "w3-animate-right"
+                        : "w3-animate-left"
+                    }
+                  >
+                    {formik.values.updatePassword?.length > 0
+                      ? "პაროლის შეცვლა"
+                      : "პროფილის რედაქტირება"}
+                  </h1>
+                  {error && <Message></Message>}
+                  <div className={styles.inputContainer}>
+                    {formik.values.updatePassword?.length > 0 ? (
+                      <PasswordInputs styles={styles} formik={formik} />
+                    ) : (
+                      <Inputs styles={styles} />
+                    )}
+                  </div>
+                  <Buttons styles={styles} formik={formik} />
+                </Form>
+              );
+            }}
+          </Formik>
         </section>
       )}
     </article>
