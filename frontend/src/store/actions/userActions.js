@@ -200,10 +200,9 @@ export const updateUser = (formData) => async (dispatch) => {
       payload: data,
     });
   } catch (error) {
-    console.log(error);
     dispatch({
       type: USER.PROFILE_UPDATE_FAIL,
-      payload: error?.message,
+      payload: error?.data[0],
     });
   }
 };

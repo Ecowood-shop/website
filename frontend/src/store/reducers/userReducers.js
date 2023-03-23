@@ -80,7 +80,7 @@ export const userReducer = (state = {}, action) => {
       };
 
     case USER.GET_PROFILE_REQUEST:
-      return { ...state, loadingUser: true };
+      return { ...state, loadingUser: true, errorUpdate: undefined };
 
     case USER.GET_PROFILE_SUCCESS:
       return {

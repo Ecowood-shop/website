@@ -1,4 +1,5 @@
 // react
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 // redux
@@ -46,11 +47,14 @@ function Profile() {
 
     setTimeout(() => {
       console.log(data);
-      // dispatch(updateUser(data));
+      dispatch(updateUser(data));
       actions.setSubmitting(false);
     }, 1000);
   };
-  console.log(error);
+  useEffect(() => {
+    if (success) navigate("/profile");
+  }, [dispatch, success, navigate]);
+
   return (
     <article className={styles.container}>
       <button onClick={() => navigate("/profile")} className={styles.button}>
@@ -79,7 +83,7 @@ function Profile() {
                       ? "პაროლის შეცვლა"
                       : "პროფილის რედაქტირება"}
                   </h1>
-                  {error && <Message></Message>}
+                  {error && <Message>{error}</Message>}
                   <div className={styles.inputContainer}>
                     {formik.values.updatePassword?.length > 0 ? (
                       <PasswordInputs styles={styles} formik={formik} />
