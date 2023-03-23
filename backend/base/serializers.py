@@ -8,6 +8,7 @@ from .models import Product, User, Category, Variants, \
 from .generator import generate_random_code
 from .sendEmail import sendMail
 from django.utils import timezone
+import threading
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -28,8 +29,11 @@ class UserSerializer(serializers.ModelSerializer):
         user.expiration_date = timezone.now() + timezone.timedelta(days=1)
         user.is_active = False
         user.save()
+
         try:
-            sendMail.delay(user.id, user.first_name, user.email, user.email_verification_token, )
+            my_thread = threading.Thread(target=sendMail,
+                                     args=(user.id, user.first_name, user.email, user.email_verification_token), daemon=True)
+            my_thread.start()
         except Exception as e:
             user.delete()
             raise serializers.ValidationError(str(e))

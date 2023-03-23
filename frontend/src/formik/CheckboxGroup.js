@@ -3,9 +3,9 @@ import { Field, ErrorMessage } from 'formik'
 import TextError from './TextError'
 
 function CheckboxGroup (props) {
-  const { label, name, options, ...rest } = props
+  const { label, name, options,styles, ...rest } = props
   return (
-    <div className='form-control'>
+    <div className={'form-control '+ styles}>
       <label>{label}</label>
       <Field name={name}>
         {({ field }) => {

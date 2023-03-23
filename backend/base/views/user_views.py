@@ -19,6 +19,7 @@ from rest_framework.decorators import api_view
 from rest_framework.exceptions import AuthenticationFailed, NotFound, ValidationError
 from rest_framework.response import Response
 from rest_framework_jwt.settings import api_settings
+import threading
 
 # Get the JWT settings
 
@@ -91,10 +92,9 @@ def forgotPassword(request):
     user.save()
 
     # Send the password reset email to the user
-    try:
-        sendPasswordResetEmail.delay(user.id, user.first_name, user.email, user.password_reset_token, )
-    except:
-        raise Exception
+    my_thread = threading.Thread(target=sendPasswordResetEmail,
+                                 args=(user.id, user.first_name, user.email, user.password_reset_token), daemon=True)
+    my_thread.start()
 
     return Response('Password reset email sent.')
 
@@ -196,23 +196,33 @@ def updateUserProfile(request):
     data = request.data
 
     try:
-        if data['first_name']:
-            user.first_name = data['first_name']
-        if data['last_name']:
-            user.last_name = data['last_name']
-        if data['phone']:
-            user.phone = data['phone']
-
         if data['password'] != '':
-            if data['password'] != data['confirm_password'] or not user.check_password(data['old_password']):
-                raise ValidationError('Passwords do not match')
-            else:
+            if data['new_password'] != '' and data['confirm_password'] != '' and user.check_password(data['password']) and data['new_password'] == data['confirm_password']:
                 try:
-                    validators.validate_password(password=data['password'], user=user)
-                    user.password = make_password(data['password'])
-                    user.save()
+                    validators.validate_password(password=data['new_password'], user=user)
+                    user.password = make_password(data['new_password'])
+
+                    if data['first_name']:
+                        user.first_name = data['first_name']
+                    if data['last_name']:
+                        user.last_name = data['last_name']
+                    if data['phone']:
+                        user.phone = data['phone']
+
                 except:
                     raise ValidationError('Password missing uppercase, lowercase or digit.')
+
+            elif data['new_password'] == '' and data['confirm_password'] == '' and user.check_password(data['password']):
+                if data['first_name']:
+                    user.first_name = data['first_name']
+                if data['last_name']:
+                    user.last_name = data['last_name']
+                if data['phone']:
+                    user.phone = data['phone']
+            else:
+                raise ValidationError()
+        else:
+            raise ValidationError()
 
         user.save()
 

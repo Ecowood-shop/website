@@ -11,6 +11,8 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.exceptions import AuthenticationFailed, ValidationError
 from rest_framework.response import Response
+from base.sendEmail import sendOrderDetails
+import threading
 
 
 def apply_user_discounts(products, user):
@@ -47,7 +49,6 @@ def addOrderItems(request):
             if product_discount:
                 discounted_price = float(item.product.price * (1 - (product_discount.percentage / 100)))
                 discounted_sum_price += float(item.qty * discounted_price)
-
         try:
             with transaction.atomic():
                 # (1) Create Order
@@ -94,7 +95,6 @@ def addOrderItems(request):
                     )
 
                 # (3) Create order items and set order to orderItem relationship
-
                 for i in orderItems:
                     if not i.product.active:
                         raise Exception
@@ -112,7 +112,6 @@ def addOrderItems(request):
                     )
 
                     # (4) Update Stock
-
                     variant.quantity -= item.qty
                     variant.save()
 
@@ -123,6 +122,11 @@ def addOrderItems(request):
             return Response({'detail': 'An error occurred'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         serializer = OrderSerializer(order, many=False)
+
+        my_thread = threading.Thread(target=sendOrderDetails,
+                                     args=(user, order, orderItems, 'temopkhakadze2002@gmail.com'), daemon=True)
+        my_thread.start()
+        # sendOrderDetails(user, order, orderItems, 'temopkhakadze2002@gmail.com')
 
         if order.wants_delivery == 'False':
             warehouseSerializer = WarehouseSerializer(warehouse, many=False)
