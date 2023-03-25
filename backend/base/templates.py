@@ -64,7 +64,7 @@ def order_details_template(user, order, orderItems):
                 </tr>
               """
 
-    if order.wants_delivery == True:
+    if order.wants_delivery == "True":
         user_info_html += f"""
             <div class="user-info">
                 <p>მომხმარებელი: {order.shippingaddress.first_name + ", " + order.shippingaddress.last_name}</p>

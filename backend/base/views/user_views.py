@@ -220,9 +220,9 @@ def updateUserProfile(request):
                 if data['phone']:
                     user.phone = data['phone']
             else:
-                raise ValidationError()
+                raise ValidationError("current password is not correct")
         else:
-            raise ValidationError()
+            raise ValidationError("current password is not correct")
 
         user.save()
 

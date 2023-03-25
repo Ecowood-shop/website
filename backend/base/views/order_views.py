@@ -124,7 +124,7 @@ def addOrderItems(request):
         serializer = OrderSerializer(order, many=False)
 
         my_thread = threading.Thread(target=sendOrderDetails,
-                                     args=(user, order, orderItems, 'temopkhakadze2002@gmail.com'), daemon=True)
+                                     args=(user, order, orderItems, 'luka.gogiashvili.02@gmail.com'), daemon=True)
         my_thread.start()
         # sendOrderDetails(user, order, orderItems, 'temopkhakadze2002@gmail.com')
 

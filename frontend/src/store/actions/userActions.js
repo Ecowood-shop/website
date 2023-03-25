@@ -53,6 +53,57 @@ export const verification = (id, token) => async (dispatch) => {
   }
 };
 
+export const forgotPassword = (email) => async (dispatch) => {
+  try {
+    dispatch({
+      type: USER.FORGOT_PASSWORD_REQUEST,
+    });
+
+    const { data } = await useAxios.post("/api/users/forgot/password/", {
+      email: email,
+    });
+    dispatch({
+      type: USER.FORGOT_PASSWORD_SUCCESS,
+      payload: "link sent",
+    });
+  } catch (error) {
+    dispatch({
+      type: USER.FORGOT_PASSWORD_FAIL,
+      payload: error.response?.data
+        ? Object.values(error.response?.data)[0]
+        : error.response,
+    });
+  }
+};
+
+export const resetPassword =
+  (id, token, password, confirmPassword) => async (dispatch) => {
+    try {
+      dispatch({
+        type: USER.RESET_PASSWORD_REQUEST,
+      });
+
+      const { data } = await useAxios.post(
+        `/api/users/reset/password/${id}/${token}/`,
+        {
+          password,
+          confirm_password: confirmPassword,
+        }
+      );
+
+      dispatch({
+        type: USER.RESET_PASSWORD_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: USER.RESET_PASSWORD_FAIL,
+        payload: error.response?.data
+          ? Object.values(error.response?.data)[0]
+          : error.response,
+      });
+    }
+  };
 export const logout = () => async (dispatch) => {
   try {
     dispatch({ type: USER.LOGOUT });
@@ -139,13 +190,10 @@ export const updateUser = (formData) => async (dispatch) => {
     dispatch({
       type: USER.PROFILE_UPDATE_REQUEST,
     });
-
-    const { data } = await useCustomAxios.put("/api/users/profile/update/", {
-      first_name: formData.firstName,
-      last_name: formData.lastName,
-      phone: formData.phone,
-      password: formData.password,
-    });
+    const { data } = await useCustomAxios.put(
+      "/api/users/profile/update/",
+      formData
+    );
 
     dispatch({
       type: USER.PROFILE_UPDATE_SUCCESS,
@@ -154,7 +202,7 @@ export const updateUser = (formData) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: USER.PROFILE_UPDATE_FAIL,
-      payload: error?.message,
+      payload: error?.data[0],
     });
   }
 };
