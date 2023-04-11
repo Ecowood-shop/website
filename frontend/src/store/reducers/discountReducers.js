@@ -94,3 +94,26 @@ export const discountReducer = (state = {}, action) => {
       return state;
   }
 };
+
+export const specificDiscountReducer = (state = {}, action) => {
+  switch (action.type) {
+    case DISCOUNT.GET_SPECIFIC_DISCOUNT_REQUEST:
+      return { ...state, loading: true, success: false, error: "" };
+    case DISCOUNT.GET_SPECIFIC_DISCOUNT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        discount: action.payload,
+        success: false,
+      };
+    case DISCOUNT.GET_SPECIFIC_DISCOUNT_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+        success: false,
+      };
+    default:
+      return state;
+  }
+};

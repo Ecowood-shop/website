@@ -3,7 +3,7 @@ import { useCustomAxios } from "../../hooks/useAxios";
 // discount
 import DISCOUNT from "../constants/discountConstants";
 
-export const getDiscounts = (page,word) => async (dispatch) => {
+export const getDiscounts = (page, word) => async (dispatch) => {
   try {
     dispatch({
       type: DISCOUNT.GET_DISCOUNT_REQUEST,
@@ -19,6 +19,27 @@ export const getDiscounts = (page,word) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: DISCOUNT.GET_DISCOUNT_FAIL,
+      payload: error?.message,
+    });
+  }
+};
+
+export const getSpecificDiscount = (id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: DISCOUNT.GET_SPECIFIC_DISCOUNT_REQUEST,
+    });
+    const { data } = await useCustomAxios.get(
+      `/api/products/specific/discounts/${id}/`
+    );
+
+    dispatch({
+      type: DISCOUNT.GET_SPECIFIC_DISCOUNT_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: DISCOUNT.GET_SPECIFIC_DISCOUNT_FAIL,
       payload: error?.message,
     });
   }
@@ -62,7 +83,7 @@ export const getProducts = () => async (dispatch) => {
   }
 };
 
-export const createDiscount = (id, formData) => async (dispatch) => {
+export const createDiscount = (formData) => async (dispatch) => {
   try {
     dispatch({
       type: DISCOUNT.CREATE_DISCOUNT_REQUEST,
@@ -116,7 +137,7 @@ export const deleteDiscount = (id) => async (dispatch) => {
     dispatch({
       type: DISCOUNT.DELETE_DISCOUNT_REQUEST,
     });
-    console.log(id)
+    console.log(id);
     const { data } = await useCustomAxios.delete(
       `/api/products/delete/specific/discount/${id}/`
     );

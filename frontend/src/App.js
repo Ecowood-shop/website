@@ -1,5 +1,5 @@
 // REACT
-import React from "react";
+import { Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // import MessengerCustomerChat from "react-messenger-customer-chat";
 // SCREENS
@@ -26,8 +26,9 @@ import CategoryScreen from "./screens/admin/categories/CategoryScreen";
 import Variants from "./screens/admin/variants/Variants";
 import Images from "./screens/admin/images/Images";
 import Shipping from "./screens/admin/shipping/Shipping";
-import DiscountScreen from "./screens/admin/specificDiscounts/DiscountScreen";
-
+import DiscountsScreen from "./screens/admin/specificDiscounts/DiscountsScreen";
+import DiscountScreen from "./screens/admin/edit/specificDiscount/SpecificDiscount";
+import CreateDIscountScreen from "./screens/admin/create/specificDiscount/SpecificDiscount";
 // AUTHORIZED
 import Cart from "./screens/auth/cart/Cart";
 import Profile from "./screens/auth/profile/Profile";
@@ -39,6 +40,7 @@ import PaymentMethod from "./screens/auth/checkout/paymentMethod/PaymentMethod";
 // COMPONENTS
 import Header from "./components/header/Header";
 import Footer from "./components/footer/Footer";
+import Translate from "./components/translate/Translate";
 import ScrollToTop from "./components/scroll/ScrollToTop";
 
 // LAYOUTS
@@ -48,71 +50,88 @@ import AdminLayout from "./layouts/AdminLayout";
 
 function App() {
   return (
-    <Router>
-      <ScrollToTop>
-        <Header />
-        <Routes>
-          <Route element={<HomeLayout />}>
-            <Route path="/authorization" element={<Authorization />} />
-            <Route path="/about-us" element={<About />} />
-            <Route path="/" element={<HomeScreen />} />
-            <Route path="/products/search" element={<Products />} />
-            <Route path="/product/:id" element={<Product />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/verification/:id/:token" element={<Verification />} />
-            <Route
-              path="password-reset/:id/:token"
-              element={<ResetPassword />}
-            />
-          </Route>
+    <Suspense fallback={null}>
+      <Router>
+        <ScrollToTop>
+          <Header />
+          <Translate />
+          <Routes>
+            <Route element={<HomeLayout />}>
+              <Route path="/authorization" element={<Authorization />} />
+              <Route path="/about-us" element={<About />} />
+              <Route path="/" element={<HomeScreen />} />
+              <Route path="/products/search" element={<Products />} />
+              <Route path="/product/:id" element={<Product />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route
+                path="/verification/:id/:token"
+                element={<Verification />}
+              />
+              <Route
+                path="password-reset/:id/:token"
+                element={<ResetPassword />}
+              />
+            </Route>
 
-          <Route element={<AuthorizedLayout />}>
-            <Route path="/profile" element={<Profile />} />
-            <Route
-              path="/checkout/shippingmethod"
-              element={<ShippingMethod />}
-            />
-            <Route
-              path="/checkout/shippingdetails"
-              element={<ShippingDetails />}
-            />
-            <Route path="/checkout/paymentmethod" element={<PaymentMethod />} />
-            <Route path="/profile/update" element={<ProfileUpdate />} />
-            <Route path="/order/:id/" element={<Order />} />
-          </Route>
+            <Route element={<AuthorizedLayout />}>
+              <Route path="/profile" element={<Profile />} />
+              <Route
+                path="/checkout/shippingmethod"
+                element={<ShippingMethod />}
+              />
+              <Route
+                path="/checkout/shippingdetails"
+                element={<ShippingDetails />}
+              />
+              <Route
+                path="/checkout/paymentmethod"
+                element={<PaymentMethod />}
+              />
+              <Route path="/profile/update" element={<ProfileUpdate />} />
+              <Route path="/order/:id/" element={<Order />} />
+            </Route>
 
-          <Route element={<AdminLayout />}>
-            <Route path="/admin/products" element={<ProductsScreen />} />
-            <Route
-              path="/admin/products/create"
-              element={<CreateProductScreen />}
-            />
-            <Route
-              path="/admin/products/:id/edit"
-              element={<ProductScreen />}
-            />
-            <Route
-              path="/admin/products/:id/variants/"
-              element={<Variants />}
-            />
-            <Route path="/admin/products/:id/images/" element={<Images />} />
-            <Route path="/admin/categories" element={<CategoryScreen />} />
-            <Route path="/admin/users" element={<UsersScreen />} />
-            <Route path="/admin/users/:id/edit" element={<UserScreen />} />
-            <Route path="/admin/discounts" element={<DiscountScreen />} />
-            <Route path="/admin/orders" element={<OrderScreen />} />
-            <Route path="/admin/shipping" element={<Shipping />} />
-          </Route>
-          <Route path="*" element={<Error />} />
-        </Routes>
-        <Footer />
-      </ScrollToTop>
+            <Route element={<AdminLayout />}>
+              <Route path="/admin/products" element={<ProductsScreen />} />
+              <Route
+                path="/admin/products/create"
+                element={<CreateProductScreen />}
+              />
+              <Route
+                path="/admin/products/:id/edit"
+                element={<ProductScreen />}
+              />
+              <Route
+                path="/admin/products/:id/variants/"
+                element={<Variants />}
+              />
+              <Route path="/admin/products/:id/images/" element={<Images />} />
+              <Route path="/admin/categories" element={<CategoryScreen />} />
+              <Route path="/admin/users" element={<UsersScreen />} />
+              <Route path="/admin/users/:id/edit" element={<UserScreen />} />
+              <Route path="/admin/discounts" element={<DiscountsScreen />} />
+              <Route
+                path="/admin/discounts/:id/edit"
+                element={<DiscountScreen />}
+              />
+              <Route
+                path="/admin/discounts/create"
+                element={<CreateDIscountScreen />}
+              />
+              <Route path="/admin/orders" element={<OrderScreen />} />
+              <Route path="/admin/shipping" element={<Shipping />} />
+            </Route>
+            <Route path="*" element={<Error />} />
+          </Routes>
+          <Footer />
+        </ScrollToTop>
 
-      {/*  <MessengerCustomerChat
+        {/*  <MessengerCustomerChat
     pageId="<PAGE_ID>"
     appId="<APP_ID>"
   />, */}
-    </Router>
+      </Router>
+    </Suspense>
   );
 }
 
