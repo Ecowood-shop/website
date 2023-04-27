@@ -2,7 +2,7 @@
 import { useParams } from "react-router-dom";
 // redux
 import { useSelector, useDispatch } from "react-redux";
-import { resetPassword} from "../../../store/actions/userActions";
+import { resetPassword } from "../../../store/actions/userActions";
 // components
 import { Formik, Form } from "formik";
 import Inputs from "./Inputs";
@@ -16,10 +16,15 @@ import { initialValues, validationSchema } from "./values";
 // hooks
 import useWindowDimensions from "../../../functions/Window";
 
+// translate
+import { useTranslation } from "react-i18next";
+
 function ResetPassword() {
   const dispatch = useDispatch();
   const params = useParams();
   const { height, width } = useWindowDimensions();
+
+  const { t } = useTranslation(["app"]);
 
   const onSubmit = (values, actions) => {
     setTimeout(() => {
@@ -49,8 +54,8 @@ function ResetPassword() {
         {(formik) => {
           return (
             <Form className={styles.form}>
-              <h1>{success ? success : "პაროლის აღდგენა"}</h1>
-              
+              <h1>{success ? success : t("resetPassword.reset password")}</h1>
+
               {error && <Message>{error}</Message>}
               {!success &&
                 (loading ? (
@@ -67,8 +72,8 @@ function ResetPassword() {
                   />
                 ) : (
                   <>
-                    <Inputs styles={styles} />
-                    <Button styles={styles} formik={formik} />
+                    <Inputs styles={styles} t={t} />
+                    <Button styles={styles} formik={formik} t={t} />
                   </>
                 ))}
             </Form>

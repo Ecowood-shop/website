@@ -10,6 +10,9 @@ import logo from "../../static/images/altax.png";
 // COMPONENTS
 import FilterPanel from "./FilterPanel";
 
+// translate
+import { useTranslation } from "react-i18next";
+
 function OrderFilter() {
   const [word, setWord] = useState("");
   const [status, setStatus] = useState("");
@@ -18,9 +21,11 @@ function OrderFilter() {
   // HOOKS
   const navigate = useNavigate();
 
+  const { t } = useTranslation(["components"]);
+
   const adminOptions = [
-    { value: "True", label: "ჩაბარებულია" },
-    { value: "False", label: "მუშავდება" },
+    { value: "True", label: t("filter.delivered") },
+    { value: "False", label: t("filter.in progress") },
   ];
 
   const toggle = (container, containerResponsive) => {
@@ -37,7 +42,7 @@ function OrderFilter() {
           {},
           word && { word: word },
           status && { status: status.value },
-          id && { id:id }
+          id && { id: id }
         )
       )}`,
     });
@@ -45,6 +50,7 @@ function OrderFilter() {
   return (
     <header id="filter" className={styles.container + " w3-animate-right"}>
       <FilterPanel
+        t={t}
         styles={styles}
         toggle={(class1, class2) => toggle(class1, class2)}
       />
@@ -58,25 +64,26 @@ function OrderFilter() {
       <input
         type="text"
         className={styles.input}
-        placeholder="მომხმარებელი..."
+        placeholder={t("global.user")}
         onChange={(e) => setWord(e.target.value)}
-      /> 
-        <input
+      />
+
+      <input
         type="number"
-        className={styles.input +" "+styles.id}
-        placeholder="აიდი..."
+        className={styles.input + " " + styles.id}
+        placeholder="ID..."
         onChange={(e) => setId(e.target.value)}
       />
       <div className={styles.inputContainer}>
         <Select
           options={adminOptions}
           isClearable={true}
-          placeholder="სტატუსი"
+          placeholder={t("global.filter")}
           onChange={(option) => setStatus(option)}
           className={styles.select}
         />
         <button className={styles.button} onClick={() => Navigator()}>
-          გაფილტვრა
+          {t("global.filter")}
         </button>
       </div>
     </header>

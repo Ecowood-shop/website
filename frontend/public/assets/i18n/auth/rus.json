@@ -1,0 +1,18 @@
+{
+  "global": {
+    "price": "цена",
+    "volume": "объём",
+    "quantity": "количество"
+  },
+  "cart": {
+    "products": "продукты",
+    "cart is empty": "Корзина пуста",
+    "please": "Пожалуйста, ",
+    "log in": "авторизуйтесь",
+    "in stock": "в наличии",
+    "product is deleted": "продукт удален",
+    "total": "Сумма заказа",
+    "total price": "Сумма",
+    "checkout": "оформить заказ"
+  }
+}

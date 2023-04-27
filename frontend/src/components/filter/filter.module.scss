@@ -69,6 +69,7 @@
   border: none;
   border-radius: 999px;
   padding-left: 1.5rem;
+  display: inline;
   font-size: var(--small);
 }
 
@@ -91,7 +92,7 @@
   border-radius: 999px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
     rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
-  padding: 0.5rem;
+  padding: 0.5rem 1rem;
   border: none;
   background-color: var(--color-second);
   color: white;
@@ -155,21 +156,24 @@
 }
 
 .discountFilter {
-  input{
+  input {
     width: 100%;
   }
   @media all and (max-width: 90em) {
-    input{
+    input {
       width: 60% !important;
     }
-    div{
+    div {
       display: flex;
       justify-content: center;
       align-items: center;
-     & *{
-      margin-left: 0;
-     }
-    
+      & * {
+        margin-left: 0;
+      }
     }
   }
+}
+
+.min {
+  max-width: 30rem;
 }

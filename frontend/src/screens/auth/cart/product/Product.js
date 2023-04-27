@@ -12,27 +12,27 @@ import styles from "./product.module.scss";
 // images
 import placeholder from "../../../../static/images/placeholder.png";
 
-function Product({ product, variant, cart, dispatch }) {
+function Product({ product, variant, cart, dispatch, t }) {
   const navigate = useNavigate();
   const [quantity, setQuantity] = useState(cart?.qty);
   const [message, setMessage] = useState(
     variant.active
       ? variant.quantity < 1 || variant.quantity < quantity
-        ? `in stock ${variant.quantity}`
+        ? `${t("cart.in stock")} ${variant.quantity}`
         : ""
-      : "product is deleted"
+      : `${t("cart.product is deleted")}`
   );
   console.log(product._id, cart.product, variant.product);
   const changer = (number) => {
     switch (number) {
       case "-":
         if (!variant.active) {
-          setMessage("product is deleted");
+          setMessage(`${t("cart.product is deleted")}`);
         } else if (quantity - 1 < 1 || !quantity) {
-          setMessage(`in stock ${variant.quantity}`);
+          setMessage(`${t("cart.in stock")} ${variant.quantity}`);
         } else if (variant.quantity < quantity - 1) {
           setQuantity(Number(quantity - 1));
-          setMessage(`in stock ${variant.quantity} `);
+          setMessage(`${t("cart.in stock")} ${variant.quantity} `);
         } else {
           setMessage("");
           setQuantity(Number(quantity - 1));
@@ -40,22 +40,22 @@ function Product({ product, variant, cart, dispatch }) {
         break;
       case "+":
         if (!variant.active) {
-          setMessage("product is deleted");
+          setMessage(`${t("cart.product is deleted")}`);
         } else if (quantity + 1 <= variant.quantity && quantity + 1 > 0) {
           setMessage("");
           setQuantity(Number(quantity + 1));
         } else {
-          setMessage(`in stock ${variant.quantity}`);
+          setMessage(`${t("cart.in stock")} ${variant.quantity}`);
         }
         break;
       default:
         if (!variant.active) {
-          setMessage("product is deleted");
+          setMessage(`${t("cart.product is deleted")}`);
         } else if (number <= variant.quantity && number > 0) {
           setMessage("");
           setQuantity(Number(number));
         } else {
-          setMessage(`in stock ${variant.quantity}`);
+          setMessage(`${t("cart.in stock")} ${variant.quantity}`);
         }
         break;
     }
@@ -70,7 +70,11 @@ function Product({ product, variant, cart, dispatch }) {
   return (
     <section className={styles.container}>
       <img
-        src={product?.picture_set?.length>0 ? product?.picture_set[0]?.picture : placeholder}
+        src={
+          product?.picture_set?.length > 0
+            ? product?.picture_set[0]?.picture
+            : placeholder
+        }
         onClick={() => navigate(`/product/${product._id}`)}
         alt={product.name_geo}
       />
@@ -99,11 +103,11 @@ function Product({ product, variant, cart, dispatch }) {
         <div className={styles.content}>
           <section>
             <p>
-              <b>მოცულობა</b>
+              <b>{t("global.volume")}</b>
               {product.size}
             </p>
             <div className={styles.selectContainer}>
-              <b>რაოდენობა</b>
+              <b>{t("global.quantity")}</b>
               <button onClick={() => changer("-")}>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                   <path d="M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z" />
@@ -132,8 +136,7 @@ function Product({ product, variant, cart, dispatch }) {
             </span>
           )}
           <h2>
-            {" "}
-            <b>ფასი: </b>
+            <b>{t("global.price")}: </b>
             {product?.discount &&
             parseFloat(product?.discount.percentage) > 0 ? (
               <>
@@ -144,10 +147,10 @@ function Product({ product, variant, cart, dispatch }) {
                     parseFloat(product.discount.percentage)) /
                     100
                 ).toFixed(2)}{" "}
-                ლ
+                ₾
               </>
             ) : (
-              <>{product.price} ლ</>
+              <>{product.price} ₾ </>
             )}
           </h2>
         </div>

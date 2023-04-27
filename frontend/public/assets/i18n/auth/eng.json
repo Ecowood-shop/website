@@ -1,0 +1,18 @@
+{
+  "global": {
+    "price": "price",
+    "volume": "size",
+    "quantity": "Quantity"
+  },
+  "cart": {
+    "products": "products",
+    "cart is empty": "Cart is empty",
+    "please": "You need to",
+    "log in": "log in",
+    "in stock": "in stock",
+    "product is deleted": "product is deleted",
+    "total":"total",
+    "total price":"total",
+    "checkout":"checkout"
+  }
+}

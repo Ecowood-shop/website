@@ -1,6 +1,7 @@
 .article {
   display: flex;
   flex-direction: column;
+
   .name {
     font-size: var(--x-large);
     font-weight: bold;
@@ -26,6 +27,9 @@
       rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
     background-color: white;
     padding: 1rem;
+    b {
+      text-transform: uppercase;
+    }
   }
 
   .imgContainer {

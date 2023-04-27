@@ -62,7 +62,7 @@
 .header-user,
 .header-dropdown-element {
   color: white;
-  text-transform: uppercase;
+  text-transform: capitalize;
   font-size: var(--small);
   display: inline;
 }

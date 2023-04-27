@@ -6,7 +6,7 @@ function AdminPanel(props) {
         className="header-dropdown-element w3-animate-right animate__animated"
         onClick={() => props.Close()}
       >
-        უკან
+        {props.t("header.back")}
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -30,7 +30,7 @@ function AdminPanel(props) {
           props.UsersNavigator();
         }}
       >
-        მომხმარებლები
+        {props.t("header.users")} 
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -54,7 +54,7 @@ function AdminPanel(props) {
           props.ProductsNavigator();
         }}
       >
-        პროდუქტები
+       {props.t("header.products")} 
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -78,7 +78,7 @@ function AdminPanel(props) {
           props.OrdersNavigator();
         }}
       >
-        შეკვეთები
+        {props.t("header.orders")} 
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -103,7 +103,7 @@ function AdminPanel(props) {
           props.DiscountsNavigator();
         }}
       >
-        ფასდაკლებები
+       {props.t("header.discounts")} 
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="custom-icon"

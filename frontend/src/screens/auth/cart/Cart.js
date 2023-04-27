@@ -11,8 +11,13 @@ import styles from "./styles.module.scss";
 import Products from "./Products";
 import Table from "./table/Table";
 
+// translate
+import { useTranslation } from "react-i18next";
+
 function Cartus() {
   const dispatch = useDispatch();
+  const { t } = useTranslation(["auth"]);
+
   const User = useSelector((state) => state.User);
   const { cart, success, user, loadingUser: loading } = User;
 
@@ -29,8 +34,9 @@ function Cartus() {
         cart={cart}
         dispatch={dispatch}
         user={user}
+        t={t}
       />
-      {cart && <Table styles={styles} cart={cart} />}
+      {cart && <Table styles={styles} cart={cart} t={t} />}
     </article>
   );
 }

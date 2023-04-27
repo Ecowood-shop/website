@@ -1,26 +1,26 @@
 // components
 import Button from "./Button";
 
-function Table({ styles, cart }) {
+function Table({ styles, cart, t }) {
   return (
     <section className={styles.section2}>
-      <h1>ჯამი</h1>
+      <h1>{t("cart.total")}</h1>
       <div className={styles.table}>
         <h2>
-          <b>რაოდენობა:</b> {cart.qty}
+          <b>{t("global.quantity")}:</b> {cart.qty}
         </h2>
         <h2>
-          <b>ჯამი: </b>
+          <b>{t("cart.total price")}: </b>
           {Number(cart.sum_price) > Number(cart.discounted_sum_price) ? (
             <>
               <i>{cart.sum_price}</i>
-              {cart.discounted_sum_price} ლ
+              {cart.discounted_sum_price} ₾
             </>
           ) : (
-            <> {cart.sum_price} ლ</>
+            <> {cart.sum_price} ₾</>
           )}{" "}
         </h2>
-        <Button styles={styles} cart={cart} />
+        <Button styles={styles} cart={cart} t={t} />
       </div>
     </section>
   );

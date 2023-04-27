@@ -1,0 +1,18 @@
+{
+  "global": {
+    "price": "ფასი",
+    "volume": "მოცულობა",
+    "quantity": "რაოდენობა"
+  },
+  "cart": {
+    "products": "პროდუქტები",
+    "cart is empty": "კალათა ცარიელია",
+    "please": "გთხოვთ გაიაროთ",
+    "log in": "ავტორიზაცია",
+    "in stock":"მარაგშია",
+    "product is deleted":"პროდუქტი წაშლილია",
+    "total":"ჯამი",
+    "total price":"ჯამი",
+    "checkout":"გადახდა"
+  }
+}

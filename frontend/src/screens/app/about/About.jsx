@@ -4,6 +4,7 @@ import Section from "./section/Section";
 import { altax, express } from "./data/data";
 // styles
 import styles from "./styles/styles.module.scss";
+
 // translate
 import { useTranslation } from "react-i18next";
 

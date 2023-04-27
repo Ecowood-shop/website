@@ -14,13 +14,19 @@ import FilterPanel from "./FilterPanel";
 import styles from "./filter.module.scss";
 import logo from "../../static/images/altax.png";
 
+// translate
+import { useTranslation } from "react-i18next";
+
 function Filter() {
   const [word, setWord] = useState("");
   const [category, setCategory] = useState("");
   const [priceOrder, setPriceOrder] = useState("");
+
+  const { t } = useTranslation(["components"]);
+
   const priceOptions = [
-    { value: "1", label: "ზრდადობით" },
-    { value: "-1", label: "კლებადობით" },
+    { value: "1", label: t("filter.ascending") },
+    { value: "-1", label: t("filter.descending") },
   ];
   // HOOKS
   const dispatch = useDispatch();
@@ -58,6 +64,7 @@ function Filter() {
   return (
     <header id="filter" className={styles.container + " w3-animate-right"}>
       <FilterPanel
+        t={t}
         styles={styles}
         toggle={(class1, class2) => toggle(class1, class2)}
       />
@@ -71,14 +78,14 @@ function Filter() {
       <input
         type="text"
         className={styles.input}
-        placeholder="სახელწოდება..."
+        placeholder={t("global.search") + "..."}
         onChange={(e) => setWord(e.target.value)}
       />
       <div className={styles.inputContainer}>
         <Select
           options={categories}
           isClearable={true}
-          placeholder="კატეგორია"
+          placeholder={t("global.category")}
           getOptionLabel={(option) => option.name}
           getOptionValue={(option) => option._id}
           className={styles.select}
@@ -87,12 +94,12 @@ function Filter() {
         <Select
           options={priceOptions}
           isClearable={true}
-          placeholder="ფასი"
+          placeholder={t("filter.price")}
           onChange={(option) => setPriceOrder(option)}
           className={styles.select}
         />
         <button className={styles.button} onClick={() => Navigator()}>
-          გაფილტვრა
+          {t("global.filter")}
         </button>
       </div>
     </header>

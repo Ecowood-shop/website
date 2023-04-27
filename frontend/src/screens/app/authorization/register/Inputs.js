@@ -10,7 +10,9 @@ function Inputs(props) {
       {props.loading ? (
         props.Loader
       ) : props.success ? (
-        <p className={props.styles.registerSuccess}>Verify your E-mail</p>
+        <p className={props.styles.registerSuccess}>
+          {props.t("register.Verify your E-mail")}
+        </p>
       ) : (
         <>
           {props.nextPage ? (
@@ -20,12 +22,13 @@ function Inputs(props) {
           )}
           <section>
             {props.nextPage ? (
-              <Page1 styles={props.styles} />
+              <Page1 styles={props.styles} t={props.t} />
             ) : (
-              <Page2 styles={props.styles} />
+              <Page2 styles={props.styles} t={props.t} />
             )}
           </section>
           <Button
+            t={props.t}
             pageChanger={props.pageChanger}
             changer={props.changer}
             styles={props.styles}

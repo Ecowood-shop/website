@@ -40,7 +40,7 @@ function Search(props) {
     <div className="search-container">
       <input
         type="text"
-        placeholder="ძიება..."
+        placeholder={props.t("header.search") + "..."}
         value={props.word}
         onChange={(e) => setWord(e.target.value)}
       />
@@ -48,7 +48,7 @@ function Search(props) {
         <Select
           options={categories}
           isClearable={true}
-          placeholder="კატეგორია"
+          placeholder={props.t("global.category")}
           className="search-category"
           getOptionLabel={(option) => option.name}
           getOptionValue={(option) => option._id}

@@ -1,23 +1,26 @@
-
-function Description({product}) {
+function Description({ product, t }) {
   return (
     <>
       <p>
-        <b>ბრენდი:</b>
+        <b>{t("product.brand")}:</b>
         {product.brand}
       </p>
       <p>
-        <b>კატეგორია:</b>
+        <b>{t("product.category")}:</b>
         {product.category}
       </p>
       {product.coverageLength && (
         <p>
-          <b>დაფარვა (1ფენა):</b>
-          {product.coverageLength} მ<sup>2</sup>
+          <b>
+            {t("product.cover")}
+            (1 {t("product.layer")}):
+          </b>
+          {product.coverageLength} {t("product.meter")}
+          <sup>2</sup>
         </p>
       )}
       <p>
-        <b>მოცულობა:</b>
+        <b>{t("product.volume")}:</b>
         {product.size}
       </p>
     </>

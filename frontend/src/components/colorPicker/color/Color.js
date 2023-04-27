@@ -26,10 +26,15 @@ function Color(props) {
             ? { border: "3px solid  var(--color-second)" }
             : {}
         }
+        alt={props.element.color}
       />
       {hover && (
         <div className={styles.holder}>
-          <img src={props.element.image} className={styles.img} />{" "}
+          <img
+            src={props.element.image}
+            className={styles.img}
+            alt={props.element.color}
+          />
           <p className={styles.imgText}>{props.element.color}</p>
         </div>
       )}

@@ -1,4 +1,7 @@
 {
+  "global": {
+    "register": "register"
+  },
   "about": {
     "header": "ABOUT US",
     "text": "The company \"Altax\" was founded in 1988 in Poland, the direction of the company is the production of premium quality wood protection and treatment products, such as wood varnish, oil and paint. The range of products includes both outdoor and indoor work. In 2009, Altax became a member of the American world brand \"Sherwin-Williams\", which has more than 150 years of experience and history of lacquer paints. The famous Hollywood sign, the Statue of Liberty and the Golden Gate Bridge are provided with Sherwin-Williams paints, currently operating in more than 120 countries on 6 continents. \"Ecowood\" is the official representative of Altax in Georgia.",
@@ -9,5 +12,52 @@
     "Tbilisi, Rafael Agladze st. N15": "Tbilisi, Rafael Agladze St. N15",
     "working hours": "WORKING HOURS",
     "every day": "every day"
+  },
+  "register": {
+    "first name": "first name",
+    "last name": "last name",
+    "email": "email",
+    "phone": "phone",
+    "password": "password",
+    "confirm password": "confirm password",
+    "Verify your E-mail": "Verify your E-mail",
+    "next": "next",
+    "log in": "log in",
+    "forgot password": "Forgot password?",
+    "send": "send"
+  },
+  "error": {
+    "page not found": "page not found"
+  },
+  "verification": {
+    "account verified": "account verified",
+    "navigate to homepage": "navigate to Homepage"
+  },
+  "resetPassword": {
+    "reset password": "",
+    "password": "password",
+    "confirm password": "confirm password",
+    "submit": "submit"
+  },
+  "product": {
+    "gallery": "gallery",
+    "technical requirements": "technical data",
+    "terms of use": "terms of use",
+    "safety standard": "safety standard",
+    "price": "price",
+    "brand": "brand",
+    "category": "category",
+    "cover": "cover",
+    "layer": "layer",
+    "volume": "volume",
+    "meter": "m",
+    "quantity": "Quantity",
+    "add": "Add to Cart",
+    "find out easily how much you need": "Find out easily how much you need",
+    "enter the coverage area": "Enter the coverage area length",
+    "you will need": "You will need",
+    "liter": "liter",
+    "counted for two layers": "Counted for two layers",
+    "authorization is required": "Authorization is required"
   }
 }

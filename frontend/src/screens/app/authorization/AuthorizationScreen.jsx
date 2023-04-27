@@ -11,11 +11,14 @@ import ForgotForm from "./forgot/ForgotForm";
 import styles from "./styles/styles.module.scss";
 // redux
 import { useSelector } from "react-redux";
-
+// translate
+import { useTranslation } from "react-i18next";
 function AuthorizationScreen() {
   // hooks
   const [page, setPage] = useState("login");
   const [message, setMessage] = useState("");
+
+  const { t } = useTranslation(["app"]);
 
   const navigate = useNavigate();
   const User = useSelector((state) => state.User);
@@ -52,10 +55,12 @@ function AuthorizationScreen() {
                 styles={styles}
                 changer={changer}
                 message={message}
+                t={t}
               />
             )}
             {page === "register" && (
               <Register
+                t={t}
                 user={user}
                 error={errorRegister}
                 success={registerSuccess}
@@ -64,11 +69,7 @@ function AuthorizationScreen() {
               />
             )}
             {page === "forgot" && (
-              <ForgotForm
-                user={user}
-                changer={changer}
-                styles={styles}
-              />
+              <ForgotForm user={user} changer={changer} styles={styles} t={t}/>
             )}
           </section>
           <section className={styles.carousel}>

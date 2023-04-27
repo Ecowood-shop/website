@@ -9,7 +9,7 @@ import Inputs from "./Inputs";
 import Button from "./Button";
 // values
 import { initialValues, validationSchema } from "./Values";
-
+import logo from "../../../../static/images/altax.png";
 function LoginForm(props) {
   const dispatch = useDispatch();
   const onSubmit = (values, actions) => {
@@ -28,13 +28,17 @@ function LoginForm(props) {
       {(formik) => {
         return (
           <Form className="w3-animate-left">
-            <h1 style={{ marginBottom: props.message ? "0" : "3rem" }}>
-              ავტორიზაცია
-            </h1>
+              <img
+                src={logo}
+                alt="altax logo"
+                className="header-logo"
+                id="altax-logo"
+              />
             <Message styles>{props.message}</Message>
             {props.loading && <Loader />}
-            <Inputs styles={props.styles} />
+            <Inputs styles={props.styles} t={props.t} />
             <Button
+              t={props.t}
               styles={props.styles}
               changer={props.changer}
               formik={formik}

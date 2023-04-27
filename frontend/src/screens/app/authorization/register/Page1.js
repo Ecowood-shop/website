@@ -10,7 +10,7 @@ function Page1(props) {
       label="phone"
       name="phone"
       className={props.styles.input + " w3-animate-right"}
-      placeholder="ტელეფონი"
+      placeholder={props.t("register.phone")}
       required
     />
      <FormikControl
@@ -19,7 +19,7 @@ function Page1(props) {
       label="password"
       name="password"
       className={props.styles.input + " w3-animate-right"}
-      placeholder="პაროლი"
+      placeholder={props.t("register.password")}
       required
     />
      <FormikControl
@@ -28,7 +28,7 @@ function Page1(props) {
       label="confirmPassword"
       name="confirmPassword"
       className={props.styles.input + " w3-animate-right"}
-      placeholder="გაიმეორეთ პაროლი"
+      placeholder={props.t("register.confirm password")}
       required
     />
     </>

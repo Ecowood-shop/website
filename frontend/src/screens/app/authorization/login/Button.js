@@ -1,11 +1,8 @@
 function Button(props) {
   return (
     <div className={props.styles.btnContainer}>
-      <h2
-        type="button"
-        onClick={() => props.changer("register")}
-      >
-        რეგისტრაცია
+      <h2 type="button" onClick={() => props.changer("register")}>
+        {props.t("global.register")}
       </h2>
       <div>
         <button
@@ -13,9 +10,9 @@ function Button(props) {
           disabled={props.formik.isSubmitting}
           className={props.styles.btn}
         >
-          შესვლა
+          {props.t("register.log in")}
         </button>
-        <p onClick={() => props.changer("forgot")}>Forgot password?</p>
+        <p onClick={() => props.changer("forgot")}>{props.t("register.forgot password")}</p>
       </div>
     </div>
   );
