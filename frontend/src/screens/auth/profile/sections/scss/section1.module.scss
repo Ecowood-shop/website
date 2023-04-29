@@ -20,6 +20,7 @@
       margin: 1rem;
       font-size: var(--s-medium);
       b {
+        text-transform: uppercase;
         margin-right: 0.5rem;
       }
     }
@@ -33,7 +34,7 @@
     font-weight: bold;
     background-image: var(--linear-second);
     border-radius: 10px 10px 0 0;
-    padding: 0.3rem 0.5rem 0.3rem 0.5rem;
+    padding: 0.2rem 1.5rem;
     top: 0;
     transform: translateY(-100%);
   }

@@ -16,10 +16,15 @@ import { initialValues, validationSchema } from "./Values";
 // styles
 import styles from "./styles.module.scss";
 
+// translate
+import { useTranslation } from "react-i18next";
+
 function PaymentMethod() {
   // HOOKS
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const { t } = useTranslation(["auth"]);
 
   const shipping = useSelector((state) => state.shipping);
   const { shipping: shippingFromStorage } = shipping;
@@ -60,7 +65,7 @@ function PaymentMethod() {
     <article className={styles.container}>
       <CheckoutSteps step1 step2 step3 />
       <section>
-        <h1>გადახდის მეთოდები</h1>
+        <h1>{t("shipping details.payment methods")}</h1>
         {error && (
           <p className={styles.error}>
             {error?.data["detail"]
@@ -81,7 +86,7 @@ function PaymentMethod() {
                 <Form>
                   <Payments styles={styles} />
                   <button type="submit" className={styles.btn}>
-                    გადახდა
+                    {t("global.pay")}
                   </button>
                 </Form>
               );

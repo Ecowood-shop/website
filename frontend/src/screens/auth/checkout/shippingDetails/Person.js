@@ -1,7 +1,7 @@
 // components
 import FormikControl from "../../../../formik/FormikControl";
 
-function Person({ styles }) {
+function Person({ styles, t }) {
   return (
     <div key={1}>
       <FormikControl
@@ -10,7 +10,7 @@ function Person({ styles }) {
         label="first_name"
         name="first_name"
         className={styles.input}
-        placeholder="სახელი"
+        placeholder={t("shipping details.first name")}
       />
       <FormikControl
         control="input"
@@ -18,7 +18,7 @@ function Person({ styles }) {
         label="last_name"
         name="last_name"
         className={styles.input}
-        placeholder="გვარი"
+        placeholder={t("shipping details.last name")}
       />
       <FormikControl
         control="input"
@@ -26,7 +26,7 @@ function Person({ styles }) {
         label="id"
         name="id"
         className={styles.input}
-        placeholder="პირადი ნომერი"
+        placeholder={t("shipping details.personal No")}
       />
     </div>
   );

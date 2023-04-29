@@ -1,6 +1,6 @@
 import FormikControl from "../../../formik/FormikControl";
 
-function PasswordInputs({ styles }) {
+function PasswordInputs({ styles, t }) {
   return (
     <>
       <FormikControl
@@ -9,7 +9,7 @@ function PasswordInputs({ styles }) {
         label="newPassword"
         name="newPassword"
         className={styles.input + " w3-animate-right"}
-        placeholder="ახალი პაროლი"
+        placeholder={t("edit profile.new password")}
       />
       <FormikControl
         control="input"
@@ -17,7 +17,7 @@ function PasswordInputs({ styles }) {
         label="confirmPassword"
         name="confirmPassword"
         className={styles.input + " w3-animate-right"}
-        placeholder="გაიმეორეთ პაროლი"
+        placeholder={t("edit profile.confirm password")}
       />
     </>
   );

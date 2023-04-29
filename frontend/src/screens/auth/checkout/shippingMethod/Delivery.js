@@ -1,7 +1,7 @@
 // components
 import FormikControl from "../../../../formik/FormikControl";
 
-function Delivery({ styles, prices }) {
+function Delivery({ styles, prices, t }) {
   const radioOptions = prices
     ? prices.map((price) => {
         return {
@@ -35,7 +35,7 @@ function Delivery({ styles, prices }) {
   return (
     <div className={styles.officeContainer}>
       <div className={styles.text}>
-        <h2>აირჩიეთ ქალაქი</h2>
+        <h2>{t("shipping method.select city")}</h2>
         <hr />
         <p>
           * თუ კი კალათის ჯამური ფასი ცდება ზღვარს თქვენ ისარგებლებთ ფასი 1-ით

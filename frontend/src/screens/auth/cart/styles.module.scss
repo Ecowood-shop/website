@@ -93,6 +93,7 @@
     h2 {
       font-size: var(--medium);
       margin: 0;
+      text-transform: capitalize;
       i {
         text-decoration: line-through;
         color: var(--color-error);

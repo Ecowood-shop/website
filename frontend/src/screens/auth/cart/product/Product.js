@@ -131,7 +131,7 @@ function Product({ product, variant, cart, dispatch, t }) {
           </section>
           {variant.color != "default" && (
             <span className={styles.color}>
-              <b>ფერი </b>
+              <b>{t("global.color")} </b>
               <Color element={variant} />
             </span>
           )}

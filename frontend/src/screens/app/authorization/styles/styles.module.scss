@@ -61,7 +61,7 @@
 .input {
   width: 100%;
   color: var(--color-black);
-  text-transform: capitalize;
+
   padding: 0.8rem 0 0.8rem 2rem;
   font-size: var(--small);
   border: none;
@@ -71,6 +71,7 @@
   &:focus {
     outline: 2px solid var(--color-error);
   }
+  
 }
 .auth-input:first-of-type {
   margin-top: 0;

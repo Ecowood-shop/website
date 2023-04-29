@@ -35,7 +35,6 @@ body {
   font-size: 16px;
   background-image: url("./static/images/background.png");
   color: var(--color-black);
-  
 }
 
 html {
@@ -46,7 +45,24 @@ html {
 
   height: auto;
 }
+h2,h1 {
+  text-transform: capitalize;
+}
+input {
+  &::placeholder {
+    text-transform: capitalize;
+  }
 
+  &:-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    text-transform: capitalize;
+  }
+
+  &::-ms-input-placeholder {
+    /* Microsoft Edge */
+    text-transform: capitalize;
+  }
+}
 button {
   text-transform: capitalize;
 }
@@ -76,7 +92,7 @@ code {
   --xx-large: 3rem;
   --x-large: 2.5rem;
   --large: 2rem;
-      
+
   /* MIN HEIGHT */
-  --height:80vh;
+  --height: 80vh;
 }

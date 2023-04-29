@@ -1,7 +1,7 @@
 // components
 import FormikControl from "../../../../formik/FormikControl";
 
-function Office({ styles }) {
+function Office({ styles, t }) {
   const radioOptions = [
     {
       key: "ecowood",
@@ -17,7 +17,7 @@ function Office({ styles }) {
                 <path d="M59.75 51v-1.19a3.6 3.6 0 002.86-3.52c0-.1-.84-10-3.61-10s-3.61 9.94-3.61 10a3.6 3.6 0 002.86 3.52V51h-9.77V33H34.91v18H33V33h-7.79v18h-1.94V18H5.82v33H0v2h64v-2zm-38.42 0h-1.94v-7h-6.78v7h-1.94V23a1 1 0 011-1h8.72a1 1 0 011 1z" />
               </g>
             </svg>
-            ეკოვუდი
+            {t("shipping method.ecowood")}
           </label>
         </>
       ),
@@ -45,7 +45,7 @@ function Office({ styles }) {
                 fill="#000"
               />
             </svg>
-            ექსრპესს ფილიალი
+            {t("shipping method.express branch")}
           </label>
         </>
       ),
@@ -54,7 +54,7 @@ function Office({ styles }) {
   return (
     <div className={styles.officeContainer}>
       <div className={styles.text}>
-        <h2>აირჩიეთ ფილიალი</h2>
+        <h2>{t("shipping method.select branch")}</h2>
         <hr />
         <p>* სამუშაო საათები - ეკოვუდი 10:00-18:00 (ყოველდღე)</p>
         <p>* სამუშაო საათები - ექსრპესს ფილიალი 10:00-18:00 (ყოველდღე)</p>

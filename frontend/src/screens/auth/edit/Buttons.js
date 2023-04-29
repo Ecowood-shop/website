@@ -1,12 +1,12 @@
 import FormikControl from "../../../formik/FormikControl";
 
-function Buttons({ styles, formik }) {
+function Buttons({ styles, formik, t }) {
   const checkboxOptions = [
     {
       key:
         formik.values.updatePassword?.length > 0
-          ? "პროფილის რედაქტირება"
-          : "პაროლის შეცვლა",
+          ? t("edit profile.edit profile")
+          : t("edit profile.change password"),
       value: "true",
     },
   ];
@@ -14,14 +14,14 @@ function Buttons({ styles, formik }) {
   return (
     <>
       <div className={styles.passwordContainer}>
-        <p>მიმდინარე პაროლი</p>
+        <p>{t("edit profile.current password")}</p>
         <FormikControl
           control="input"
           type="password"
           label="password"
           name="password"
           className={styles.input + " w3-animate-left"}
-          placeholder="მიმდინარე პაროლი"
+          placeholder={t("edit profile.current password")}
         />
       </div>
       <div className={styles.btnContainer}>
@@ -36,7 +36,7 @@ function Buttons({ styles, formik }) {
           className={styles.button}
           disabled={formik.isSubmitting}
         >
-          Submit
+          {t("global.submit")}
         </button>
       </div>
     </>
