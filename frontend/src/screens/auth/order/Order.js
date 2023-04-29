@@ -11,7 +11,11 @@ import { orderDelivered } from "../../../store/actions/adminActions";
 // OTHERS
 import styles from "./styles.module.scss";
 
+// translate
+import { useTranslation } from "react-i18next";
+
 function Order() {
+  const { t } = useTranslation(["auth"]);
   const User = useSelector((state) => state.User);
   const { user } = User;
 
@@ -41,7 +45,7 @@ function Order() {
         ? order.Order.shippingAddress.first_name +
           " " +
           order.Order.shippingAddress.last_name
-        : order.Order.withoutShipping.name +  
+        : order.Order.withoutShipping.name +
           " " +
           order.Order.withoutShipping.surname;
     } else {
@@ -64,8 +68,10 @@ function Order() {
     <article className={styles.container}>
       {order?.Order && (
         <>
-          <h1>შეკვეთა N{params.id}</h1>
-          <h2>დეტალები</h2>
+          <h1>
+            {t("order.order")} N{params.id}
+          </h1>
+          <h2>{t("order.details")}</h2>
           <section className={styles.sectionDetails}>
             <div>
               <p>
@@ -73,14 +79,12 @@ function Order() {
                 {ID}
               </p>
               <p>
-                <b>
-                  {order.Order.physicPerson ? "მომხმარებელი: " : "კომპანია: "}
-                </b>
+                <b>{t("order.receiver")}</b>
                 {username}
               </p>
 
               <p>
-                <b>ტელეფონი:</b>{" "}
+                <b>{t("order.phone")}:</b>
                 {order.Order.shippingAddress
                   ? order.Order.shippingAddress.phone
                   : order.Order.withoutShipping.phone}
@@ -88,59 +92,64 @@ function Order() {
               {order.Order.wants_delivery ? (
                 <>
                   <p>
-                    <b>მიტანის სერვისი:</b>
-                    {order.Order.shippingAddress.location}
-                  </p>
-                  <p>
-                    <b>მისამართი:</b>
+                    <b>{t("order.address")}:</b>
+                    {order.Order.shippingAddress.location},
                     {order.Order.shippingAddress.address}
                   </p>
                 </>
               ) : (
                 <p>
-                  <b>ოფისი:</b>
+                  <b>{t("order.office")}:</b>
                   {order.Order.withoutShipping.warehouse.location}
                 </p>
               )}
 
               <p>
-                <b>თარიღი:</b>
+                <b>{t("order.date")}:</b>
                 {order.Order.createdAt.substring(0, 10)}
               </p>
             </div>
             <div>
-              <p className={styles.sum}>
-                <b>ჯამი:</b>
-                {Number(order.Order.totalPrice) + Number(order.Order.shippingPrice)} ლ
-              </p>
+              {" "}
               {order.Order.wants_delivery && (
                 <p className={styles.sum}>
-                  <b>მიტანის სერვისი:</b>
-                  {order.Order.shippingPrice} ლ
+                  <b>{t("order.shipping")}:</b>
+                  {order.Order.shippingPrice} ₾
                 </p>
               )}
+              <p className={styles.sum}>
+                <b>{t("order.total")}:</b>
+                {Number(order.Order.totalPrice) +
+                  Number(order.Order.shippingPrice)}{" "}
+                ₾
+              </p>
               <p
                 className={styles.status}
                 style={{ color: order.Order.isDelivered ? "green" : "red" }}
               >
-                <b>{order.Order.isDelivered ? "ჩაბარებულია:" : "სტატუსი:"}</b>
+                <b>
+                  {order.Order.isDelivered
+                    ? t("order.delivered")
+                    : t("order.status")}
+                  :
+                </b>
                 {order.Order.isDelivered
                   ? order.Order.deliveredAt.substring(0, 10)
-                  : "მუშავდება"}
+                  : t("order.in progress")}
               </p>
               {user.is_staff && !order.Order.isDelivered && (
                 <button
                   className={styles.delivered}
                   onClick={() => dispatch(orderDelivered(params.id))}
                 >
-                  ჩაბარებულია
+                  {t("order.delivered")}
                 </button>
               )}
             </div>
           </section>
         </>
       )}
-      <h2>პროდუქტები</h2>
+      <h2>{t("cart.products")}</h2>
       <section className={styles.products}>
         {order?.Order &&
           order?.Order.orderItems.map((product, index) => (
@@ -148,6 +157,7 @@ function Order() {
               <img
                 src={"/images/" + product.image}
                 onClick={() => navigate(`/product/${product.product}`)}
+                alt={product.name}
               />
               <div>
                 <p
@@ -159,15 +169,18 @@ function Order() {
                 <div className={styles.productDetails}>
                   <p>{order.size[index].size}</p>
                   <p>
-                    <b>ფასი: </b> {product.price} ლ
+                    <b>{t("global.price")}: </b> {product.price} ₾
                   </p>
                   <p>
-                    <b>ფერი: </b>
+                    <b>{t("global.color")}: </b>
                     {order.variants[index].color}
                   </p>
                 </div>
               </div>
-              <p className={styles.emount}>{product.qty} ცალი</p>
+              <p className={styles.emount}>
+                {product.qty}{" "}
+                {product.qty > 1 ? t("global.items") : t("global.item")}
+              </p>
             </div>
           ))}
       </section>

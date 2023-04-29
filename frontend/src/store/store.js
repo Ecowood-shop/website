@@ -27,7 +27,7 @@ import {
 } from "./reducers/userReducers";
 import { orderReducer } from "./reducers/orderReducers";
 import { shippingReducer } from "./reducers/shippingReducer";
-import { discountReducer } from "./reducers/discountReducers";
+import { discountReducer,specificDiscountReducer } from "./reducers/discountReducers";
 
 const reducer = combineReducers({
   systemCategories: systemCategoriesReducer,
@@ -48,6 +48,7 @@ const reducer = combineReducers({
   Order: orderReducer,
   shipping: shippingReducer,
   discounts: discountReducer,
+  specificDiscount:specificDiscountReducer
 });
 
 const shippingFromStorage = localStorage.getItem("shipping")

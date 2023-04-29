@@ -15,17 +15,20 @@ import Pagination from "../../../components/pagination/Pagination";
 // OTHERS
 import styles from "./styles.module.scss";
 
-const columns = [
+// translate
+import { useTranslation } from "react-i18next";
+
+const columns = (t) => [
   {
     Header: "ID",
     accessor: "_id",
   },
   {
-    Header: "თანხა",
-    accessor: (d) => Number(d.totalPrice) +Number(d.shippingPrice)+ " ლ",
+    Header: t("profile.total"),
+    accessor: (d) => Number(d.totalPrice) + Number(d.shippingPrice) + " ₾",
   },
   {
-    Header: "ჩაბარებულია",
+    Header: t("global.delivered"),
     accessor: (d) =>
       d.isDelivered ? (
         <p
@@ -45,7 +48,7 @@ const columns = [
             fontWeight: "bold",
           }}
         >
-          მუშავდება
+          {t("global.processing")}
         </p>
       ),
   },
@@ -55,13 +58,14 @@ function Profile() {
   // HOOKS
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { t } = useTranslation(["auth"]);
 
   const [searchParams, setSearchParams] = useSearchParams();
 
   const page = searchParams.get("page");
 
   const User = useSelector((state) => state.User);
-  const { error, loading,user, orders } = User;
+  const { error, loading, user, orders } = User;
 
   useEffect(() => {
     dispatch(getUserOrders(page));
@@ -75,13 +79,13 @@ function Profile() {
       {loading && <Loader />}
       {user && (
         <>
-          <Section1 user={user} navigate={navigate} />
+          <Section1 user={user} navigate={navigate} t={t} />
           {orders?.Orders && (
             <section>
-              <h1>შეკვეთები</h1>{" "}
+              <h1>{t("global.orders")}</h1>{" "}
               <div className={styles.table}>
                 <Table
-                  columns={columns}
+                  columns={columns(t)}
                   data={orders.Orders}
                   link="/order/"
                   linkEnd=""

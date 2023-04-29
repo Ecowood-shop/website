@@ -1,6 +1,6 @@
 import FormikControl from "../../../formik/FormikControl";
 
-function Inputs({ styles }) {
+function Inputs({ styles, t }) {
   return (
     <div className={styles.inputContainer}>
       <FormikControl
@@ -9,7 +9,7 @@ function Inputs({ styles }) {
         label="firstName"
         name="firstName"
         className={styles.input + " w3-animate-left"}
-        placeholder="სახელი"
+        placeholder={t("edit profile.first name")}
       />
       <FormikControl
         control="input"
@@ -17,7 +17,7 @@ function Inputs({ styles }) {
         label="lastName"
         name="lastName"
         className={styles.input + " w3-animate-left"}
-        placeholder="გვარი"
+        placeholder={t("edit profile.last name")}
       />
       <FormikControl
         control="input"
@@ -25,9 +25,8 @@ function Inputs({ styles }) {
         label="phone"
         name="phone"
         className={styles.input + " w3-animate-left"}
-        placeholder="ტელეფონი"
+        placeholder={t("edit profile.phone")}
       />
-  
     </div>
   );
 }

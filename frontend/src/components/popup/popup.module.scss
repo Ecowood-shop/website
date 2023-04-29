@@ -13,9 +13,11 @@
   z-index: 10;
 }
 .popup {
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
+    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
   position: relative;
   min-height: 20rem;
-  max-width:80rem;
+  max-width: 80rem;
   background-image: var(--linear-primary);
   border-radius: 10px;
   display: flex;
@@ -51,7 +53,7 @@
       &:last-of-type {
         margin-left: auto;
         margin-right: 2rem;
-        background-image:var(--linear-second);
+        background-image: var(--linear-second);
       }
       &:hover {
         transform: scale(1.05);

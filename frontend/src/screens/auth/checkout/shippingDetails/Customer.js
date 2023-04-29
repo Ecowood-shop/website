@@ -1,14 +1,14 @@
 // components
 import FormikControl from "../../../../formik/FormikControl";
 
-function Customer({ styles }) {
+function Customer({ styles, t }) {
   const radioOptions = [
     {
       key: "True",
       value: "True",
       label: (
         <>
-          <label htmlFor="True">ფიზიკური პირი</label>
+          <label htmlFor="True">{t("shipping details.individual")}</label>
         </>
       ),
     },
@@ -17,7 +17,7 @@ function Customer({ styles }) {
       value: "False",
       label: (
         <>
-          <label htmlFor="False">იურიდიული პირი</label>
+          <label htmlFor="False">{t("shipping details.legal entity")}</label>
         </>
       ),
     },

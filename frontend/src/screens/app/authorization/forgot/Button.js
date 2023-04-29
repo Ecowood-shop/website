@@ -6,7 +6,7 @@ function Button(props) {
         onClick={() => props.changer("login")}
         className={props.styles.btnLeft}
       >
-        ავტორიზაცია
+        {props.t("register.log in")}
       </h2>
       <div>
         <button
@@ -14,7 +14,7 @@ function Button(props) {
           disabled={props.formik.isSubmitting}
           className={props.styles.btn}
         >
-          გაგზავნა
+           {props.t("register.send")}
         </button>
       </div>
     </div>

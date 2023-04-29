@@ -1,7 +1,6 @@
 // REACT
 import { useState } from "react";
 import { useNavigate, createSearchParams } from "react-router-dom";
-import Select from "react-select";
 
 // OTHERS
 import styles from "./filter.module.scss";
@@ -10,9 +9,12 @@ import logo from "../../static/images/altax.png";
 // COMPONENTS
 import FilterPanel from "./FilterPanel";
 
+// translate
+import { useTranslation } from "react-i18next";
+
 function DiscountFilter() {
   const [word, setWord] = useState("");
-
+  const { t } = useTranslation(["components"]);
   // HOOKS
   const navigate = useNavigate();
 
@@ -38,6 +40,7 @@ function DiscountFilter() {
       }
     >
       <FilterPanel
+        t={t}
         styles={styles}
         toggle={(class1, class2) => toggle(class1, class2)}
       />
@@ -50,14 +53,14 @@ function DiscountFilter() {
       />
       <input
         type="text"
-        className={styles.input}
-        placeholder="keyword..."
+        className={styles.input + " " + styles.min}
+        placeholder={t("global.search") + "..."}
         onChange={(e) => setWord(e.target.value)}
       />
 
       <div className={styles.inputContainer}>
         <button className={styles.button} onClick={() => Navigator()}>
-          გაფილტვრა
+          {t("global.filter")}
         </button>
       </div>
     </header>

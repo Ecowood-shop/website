@@ -17,6 +17,7 @@
       rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
     h1 {
       font-weight: bold;
+      text-transform:capitalize;
     }
     form {
       width: 100%;
@@ -41,6 +42,7 @@
     background-color: whitesmoke;
     display: flex;
     align-items: center;
+    text-transform: capitalize;
   }
   input[type="radio"] {
     -webkit-appearance: none;

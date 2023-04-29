@@ -18,7 +18,7 @@ import { initialValues, validationSchema } from "./Values";
 // styles
 import styles from ".././sections/scss/section1.module.scss";
 
-function Main({ product, iframe, youtube, variants, navigate, id }) {
+function Main({ product, iframe, youtube, variants, navigate, id, t }) {
   const dispatch = useDispatch();
   const User = useSelector((state) => state.User);
   const { error, loading, successCartAdd, user } = User;
@@ -59,7 +59,7 @@ function Main({ product, iframe, youtube, variants, navigate, id }) {
               </div>
             )}
 
-          <Description product={product} />
+          <Description product={product} t={t} />
 
           <Formik
             initialValues={initialValues(variants)}
@@ -80,7 +80,7 @@ function Main({ product, iframe, youtube, variants, navigate, id }) {
                     }}
                   />
                   <p className={styles.price}>
-                    <b>ფასი:</b>
+                    <b>{t("product.price")}:</b>
                     {product?.discount &&
                     parseFloat(product?.discount.percentage) > 0 ? (
                       <>
@@ -91,17 +91,17 @@ function Main({ product, iframe, youtube, variants, navigate, id }) {
                             parseFloat(product.discount.percentage)) /
                             100
                         ).toFixed(2)}{" "}
-                        ლ
+                       ₾ 
                       </>
                     ) : (
-                      <>{product.price}</>
+                      <>{product.price} ₾ </> 
                     )}
                   </p>
-                  <Quantity styles={styles} />
+                  <Quantity styles={styles} t={t} />
                   {error && <p className={styles.error}>{error}</p>}
                   {!user && (
                     <Link className={styles.error} to="/authorization">
-                      Authorization is required
+                      {t("product.authorization is required")}
                     </Link>
                   )}
                   <Buttons
@@ -109,6 +109,7 @@ function Main({ product, iframe, youtube, variants, navigate, id }) {
                     product={product}
                     formik={formik}
                     user={user}
+                    t={t}
                   />
                 </Form>
               );

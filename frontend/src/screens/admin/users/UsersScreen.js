@@ -79,7 +79,7 @@ function UsersScreen() {
     <section className={styles.container}>
       <UserFilter />
       {loading && <Loader />} {error && <Message>{error}</Message>}
-      {users && (
+      {users?.users?.length>0 && (
         <>
           <div className={styles.table}>
             <Table

@@ -58,6 +58,13 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  &:hover {
+    color: rgba(255, 255, 255, 0.7);
+    & .icon,
+    .iconSm {
+      fill: rgba(255, 255, 255, 0.7);
+    }
+  }
 }
 
 .heading {

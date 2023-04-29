@@ -2,7 +2,7 @@
 import { useState } from "react";
 import styles from "./scss/calculator.module.scss";
 
-function Calculator({ coverageLength }) {
+function Calculator({ coverageLength, t }) {
   const [open, setOpen] = useState(false);
   const [answer, setAnswer] = useState(0);
   return (
@@ -15,13 +15,13 @@ function Calculator({ coverageLength }) {
         </button>
       ) : (
         <h1 onClick={() => setOpen(!open)}>
-          გაიგე მარტივად რა რაოდენობის გჭირდება
+          {t("product.find out easily how much you need")}
         </h1>
       )}
       {open && (
         <div className={styles.table}>
           <div className={styles.inner}>
-            <p>შეიყვანეთ დასაფარი ფართი:  </p>
+            <p> {t("product.enter the coverage area")}: </p>
             <div className={styles.hell}>
               <input
                 type="number"
@@ -33,14 +33,18 @@ function Calculator({ coverageLength }) {
                 }
               />
               <p className={styles.m2}>
-                მ<sup>2</sup>
+                {t("product.meter")}
+                <sup>2</sup>
               </p>
             </div>
           </div>
           <p>
-            თქვენ დაგჭირდებათ {((answer / coverageLength) * 2).toFixed(1)} ლიტრი
+            {t("product.you will need")}{" "}
+            {((answer / coverageLength) * 2).toFixed(1)} {t("product.liter")}
           </p>
-          <p className={styles.error}>(დათვლილია ორ ფენაზე)</p>
+          <p className={styles.error}>
+            ({t("product.counted for two layers")})
+          </p>
         </div>
       )}
     </section>

@@ -5,15 +5,15 @@ import Message from "../../../components/Message/Message";
 import Loader from "../../../components/loader/Loader";
 import Product from "./product/Product";
 
-function Products({ styles, loading, cart, dispatch, user }) {
+function Products({ styles, loading, cart, dispatch, user, t }) {
   const navigate = useNavigate();
   return (
     <>
       <section className={styles.section1}>
-        <h1>პროდუქტები</h1>
+        <h1>{t("cart.products")}</h1>
         {cart?.carts.length === 0 && (
           <div className={styles.emptyCart}>
-            <Message>კალათა ცარიელია</Message>
+            <Message>{t("cart.cart is empty")}</Message>
           </div>
         )}
         {loading != false && document.cookie.indexOf("altax") !== -1 ? (
@@ -26,6 +26,7 @@ function Products({ styles, loading, cart, dispatch, user }) {
                   product={cart.products.find(
                     (item) => item._id === cartItem.product
                   )}
+                  t={t}
                   key={index}
                   variant={cart.variants.find(
                     (item) => item.id === cartItem.variants
@@ -38,12 +39,12 @@ function Products({ styles, loading, cart, dispatch, user }) {
         ) : (
           <>
             <div className={styles.authError}>
-              გთხოვთ გაიარეთ
+              {t("cart.please")}
               <p
                 className={styles.nav}
                 onClick={() => navigate("/authorization")}
               >
-                ავტორიზაცია
+                {t("cart.log in")}
               </p>{" "}
             </div>
           </>

@@ -1,0 +1,79 @@
+{
+  "global": {
+    "price": "цена",
+    "volume": "объём",
+    "quantity": "количество",
+    "orders": "заказы",
+    "delivered": "Доставлено",
+    "processing": "в процессе",
+    "back": "назад",
+    "submit": "Отправить",
+    "color": "цвет",
+    "item": "товар",
+    "items": "товаров",
+    "pay": "Оплатить"
+  },
+  "cart": {
+    "products": "продукты",
+    "cart is empty": "Корзина пуста",
+    "please": "Пожалуйста, ",
+    "log in": "авторизуйтесь",
+    "in stock": "в наличии",
+    "product is deleted": "продукт удален",
+    "total": "Сумма заказа",
+    "total price": "Сумма",
+    "checkout": "оформить заказ"
+  },
+  "profile": {
+    "total": "Сумма",
+    "phone": "телефон",
+    "email": "эл почта",
+    "edit": "редактировать"
+  },
+  "edit profile": {
+    "edit profile": "Редактирование профиля",
+    "change password": "изменить пароль",
+    "first name": "имя",
+    "last name": "фамилия",
+    "phone": "телефон",
+    "password": "новый пароль",
+    "confirm password": "Повторите пароль",
+    "current password": "текущий пароль"
+  },
+  "order": {
+    "order": "заказ",
+    "details": "детали",
+    "phone": "телефон",
+    "address": "адрес",
+    "office": "офис",
+    "date": "дата",
+    "receiver": "получатель",
+    "shipping": "доставка",
+    "total": "cумма заказа",
+    "status": "статус",
+    "delivered": "доставлен",
+    "in progress": "в процессе"
+  },
+  "shipping details": {
+    "shipping": "доставка",
+    "shipping details": "детали доставки",
+    "payment methods": "способы оплаты",
+    "first name": "имя",
+    "last name": "фамилия",
+    "personal No": "личный No",
+    "company name": "название компании",
+    "form of organization LLC/JSC/IE": "форма организации: ООО/АО/ИП",
+    "identification code": "код идентификации",
+    "individual": "физическое лицо",
+    "legal entity": "юридическое лицо"
+  },
+  "shipping method": {
+    "shipping methods": "способы доставки",
+    "in-store pickup": "cамовывоз из магазина",
+    "delivery": "Доставка",
+    "ecowood": "эковуд",
+    "select branch": "Выберите филиал",
+    "express branch": "Экспресс-филиал",
+    "select city": "выберите город"
+  }
+}

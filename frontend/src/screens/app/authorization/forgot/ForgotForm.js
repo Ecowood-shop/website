@@ -40,8 +40,9 @@ function ForgotForm(props) {
             <Message styles>{error}</Message>
             {success && <p className={props.styles.success}>{success}</p>}
             {loading && <Loader />}
-            <Inputs styles={props.styles} />
+            <Inputs styles={props.styles} t={props.t} />
             <Button
+              t={props.t}
               styles={props.styles}
               changer={props.changer}
               formik={formik}

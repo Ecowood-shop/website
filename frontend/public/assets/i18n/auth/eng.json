@@ -1,0 +1,79 @@
+{
+  "global": {
+    "price": "price",
+    "volume": "size",
+    "quantity": "quantity",
+    "orders": "orders",
+    "delivered": "delivered",
+    "processing": "processing",
+    "back": "back",
+    "submit": "submit",
+    "color": "color",
+    "item": "item",
+    "items": "items",
+    "pay": "Proceed to Payment"
+  },
+  "cart": {
+    "products": "products",
+    "cart is empty": "Cart is empty",
+    "please": "You need to",
+    "log in": "log in",
+    "in stock": "in stock",
+    "product is deleted": "product is deleted",
+    "total": "total",
+    "total price": "total",
+    "checkout": "checkout"
+  },
+  "profile": {
+    "total": "total",
+    "phone": "phone",
+    "email": "email",
+    "edit": "edit"
+  },
+  "edit profile": {
+    "edit profile": "edit profile",
+    "change password": "change password",
+    "first name": "first name",
+    "last name": "last name",
+    "phone": "phone",
+    "new password": "new password",
+    "confirm password": "confirm password",
+    "current password": "current password"
+  },
+  "order": {
+    "order": "order",
+    "details": "details",
+    "phone": "phone",
+    "address": "address",
+    "office": "office",
+    "date": "date",
+    "receiver": "receiver",
+    "shipping": "shipping",
+    "total": "total",
+    "status": "status",
+    "delivered": "delivered",
+    "in progress": "in progress"
+  },
+  "shipping details": {
+    "shipping": "shipping",
+    "shipping details": "shipping details",
+    "payment methods": "payment methods",
+    "first name": "first name",
+    "last name": "last name",
+    "personal No": "personal No",
+    "company name": "company name",
+    "form of organization LLC/JSC/IE": "form of the Organization: LLC/JSC/IE",
+    "identification code": "identification code",
+    "individual": "individual",
+    "legal entity": "legal entity"
+  },
+  "shipping method": {
+    "shipping methods": "shipping methods",
+    "in-store pickup": "in-store pickup",
+    "delivery": "delivery",
+    "ecowood": "ecowood",
+    "select branch": "select branch",
+    "express branch": "express branch",
+    "select city": "select city"
+  }
+}

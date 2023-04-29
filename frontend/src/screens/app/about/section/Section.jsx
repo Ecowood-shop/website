@@ -4,7 +4,6 @@ import Gmail from "./components/Gmail";
 import Address from "./components/Address";
 import Schedule from "./components/Schedule";
 import Location from "./components/Location";
-
 export default function Section(props) {
   return (
     <section>
@@ -14,7 +13,7 @@ export default function Section(props) {
           <Phone {...props} />
           <Gmail {...props} />
           <Address {...props} />
-          <Schedule {...props} />
+          <Schedule {...props}  />
         </div>
       </div>
       <Location {...props} />

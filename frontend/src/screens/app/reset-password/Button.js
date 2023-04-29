@@ -6,7 +6,7 @@ function Button(props) {
           disabled={props.formik.isSubmitting}
           className={props.styles.btn}
         >
-          submit
+      {props.t("resetPassword.submit")}
         </button>
     </div>
   );

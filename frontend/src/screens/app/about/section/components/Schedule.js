@@ -1,6 +1,6 @@
 const Shedule = (props) => (
   <span className={props.styles.work}>
-    <h2>სამუშაო საათები</h2>
+    <h2>{props.company.workingHours}</h2>
     <p> {props.company.shedule}</p>
   </span>
 );

@@ -1,7 +1,6 @@
 // react
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 // redux
 import { useSelector, useDispatch } from "react-redux";

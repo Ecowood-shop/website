@@ -11,7 +11,6 @@ import { getProduct } from "../../../store/actions/systemActions";
 import Message from "../../../components/Message/Message";
 import Loader from "../../../components/loader/Loader";
 
-
 // SECTIONS
 import Section0 from "./sections/Section0";
 import Section2 from "./sections/Section2";
@@ -20,6 +19,9 @@ import Main from "./main/Main";
 // OTHERS
 import styles from "./styles.module.scss";
 import "react-image-gallery/styles/css/image-gallery.css";
+
+// translate
+import { useTranslation } from "react-i18next";
 
 function Product() {
   // HOOKS
@@ -33,9 +35,11 @@ function Product() {
   const systemProduct = useSelector((state) => state.systemProduct);
   const { error, loading, product } = systemProduct;
 
+  const { t } = useTranslation(["app"]);
+
   useEffect(() => {
     dispatch(getProduct(params.id));
-  }, [dispatch,params.id]);
+  }, [dispatch, params.id]);
 
   console.log(product);
   return (
@@ -53,8 +57,10 @@ function Product() {
             navigate={navigate}
             iframe={iframe}
             youtube={product.products.youtubeUrl ? true : false}
+            t={t}
           />
           <Main
+            t={t}
             product={product.products}
             variants={product.variants}
             iframe={iframe}
@@ -63,6 +69,7 @@ function Product() {
           />
 
           <Section2
+            t={t}
             styles={styles}
             product={product.products}
             navigate={navigate}

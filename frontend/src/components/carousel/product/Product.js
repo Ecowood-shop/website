@@ -46,10 +46,10 @@ function Product(props) {
                     parseFloat(props.product.discount.percentage)) /
                     100
                 ).toFixed(2)}{" "}
-                ლ
+                ₾
               </>
             ) : (
-              <>{props.product.price} ლ</>
+              <>{props.product.price} ₾</>
             )}
           </h2>
         </div>

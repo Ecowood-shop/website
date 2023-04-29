@@ -20,6 +20,9 @@ import { initialValues, validationSchema } from "./values";
 // styles
 import styles from "./styles.module.scss";
 
+// translate
+import { useTranslation } from "react-i18next";
+
 function Profile() {
   // hooks
   const navigate = useNavigate();
@@ -27,6 +30,8 @@ function Profile() {
 
   const User = useSelector((state) => state.User);
   const { errorUpdate: error, loading, user, success } = User;
+
+  const { t } = useTranslation(["auth"]);
 
   const onSubmit = (values, actions) => {
     const data = {
@@ -58,7 +63,7 @@ function Profile() {
   return (
     <article className={styles.container}>
       <button onClick={() => navigate("/profile")} className={styles.button}>
-        უკან
+        {t("global.back")}
       </button>
       {loading && <Loader />}
       {user && (
@@ -80,18 +85,18 @@ function Profile() {
                     }
                   >
                     {formik.values.updatePassword?.length > 0
-                      ? "პაროლის შეცვლა"
-                      : "პროფილის რედაქტირება"}
+                      ? t("edit profile.change password")
+                      : t("edit profile.edit profile")}
                   </h1>
                   {error && <Message>{error}</Message>}
                   <div className={styles.inputContainer}>
                     {formik.values.updatePassword?.length > 0 ? (
-                      <PasswordInputs styles={styles} formik={formik} />
+                      <PasswordInputs styles={styles} formik={formik} t={t} />
                     ) : (
-                      <Inputs styles={styles} />
+                      <Inputs styles={styles} t={t} />
                     )}
                   </div>
-                  <Buttons styles={styles} formik={formik} />
+                  <Buttons styles={styles} formik={formik} t={t}/>
                 </Form>
               );
             }}

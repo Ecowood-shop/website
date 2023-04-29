@@ -65,13 +65,13 @@ function Register(props) {
         return (
           <Form className="w3-animate-left" id="register-form">
             <h1 style={{ marginBottom: message ? "0" : "3rem" }}>
-              {" "}
-              რეგისტრაცია
+              {props.t("global.register")}
             </h1>
 
             <Message>{message}</Message>
             {props.loading && <Loader />}
             <Inputs
+            t={props.t}
               styles={styles}
               loading={props.loading}
               Loader={Loader}

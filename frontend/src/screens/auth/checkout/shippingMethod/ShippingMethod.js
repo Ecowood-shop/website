@@ -22,9 +22,13 @@ import { initialValues, validationSchema } from "./Values";
 // styles
 import styles from "./styles.module.scss";
 
+// translate
+import { useTranslation } from "react-i18next";
+
 function ShippingMethod() {
   const shipping = useSelector((state) => state.shipping);
   const { shipping: shippingFromStorage, prices } = shipping;
+  const { t } = useTranslation(["auth"]);
 
   // HOOKS
   const dispatch = useDispatch();
@@ -45,12 +49,11 @@ function ShippingMethod() {
     dispatch(getShippingPrices());
   }, []);
 
-
   return (
     <article className={styles.container}>
       <CheckoutSteps step1 />
       <section>
-        <Details styles={styles} />
+        <Details styles={styles} t={t} />
 
         <Formik
           initialValues={initialValues(shippingFromStorage)}
@@ -60,18 +63,18 @@ function ShippingMethod() {
           {(formik) => {
             return (
               <Form>
-                <RadioContainer styles={styles} />
+                <RadioContainer styles={styles} t={t} />
 
                 {formik.values.wants_delivery === "False" && (
-                  <Office styles={styles} />
+                  <Office styles={styles} t={t} />
                 )}
 
                 {formik.values.wants_delivery === "True" && (
-                  <Delivery styles={styles} prices={prices} />
+                  <Delivery styles={styles} prices={prices} t={t} />
                 )}
 
                 <button type="submit" className={styles.btn}>
-                  მიწოდების დეტალები
+                  {t("shipping details.shipping details")}
                 </button>
               </Form>
             );

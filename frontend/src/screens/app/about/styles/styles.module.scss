@@ -152,6 +152,7 @@
   }
   .text {
     h2 {
+      text-align: start !important;
       font-size: var(--x-medium);
       font-weight: 600;
       &:first-of-type {
@@ -162,14 +163,16 @@
   .work {
     p {
       font-size: var(--small);
-      word-spacing: 9999rem;
       width: 100%;
-      text-align: start;
+      text-align: start !important;
+    }
+    h2 {
+      text-align: start !important;
+      font-size: var(--small);
     }
   }
   .element {
     font-size: var(--small);
-
     justify-content: flex-start !important;
   }
 }

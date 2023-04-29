@@ -1,7 +1,7 @@
 // components
 import FormikControl from "../../../../formik/FormikControl";
 
-function RadioContainer({ styles }) {
+function RadioContainer({ styles, t }) {
   const radioOptions = [
     {
       key: "True",
@@ -30,7 +30,7 @@ function RadioContainer({ styles }) {
               <path className="st0" d="M2 17L11 17" />
               <path fill="none" d="M-288 -432H248V248H-288z" />
             </svg>
-            ადგილზე მიტანა
+            {t("shipping method.delivery")}
           </label>
         </>
       ),
@@ -45,7 +45,7 @@ function RadioContainer({ styles }) {
               <path fill="none" d="M0 0h24v24H0z" />
               <path d="M21 19h2v2H1v-2h2V4a1 1 0 011-1h10a1 1 0 011 1v15h2V9h3a1 1 0 011 1v9zM7 11v2h4v-2H7zm0-4v2h4V7H7z" />
             </svg>
-            ოფისიდან გატანა
+            {t("shipping method.in-store pickup")}
           </label>
         </>
       ),
@@ -53,8 +53,12 @@ function RadioContainer({ styles }) {
   ];
   console.log(radioOptions);
   return (
-    <div className={styles.radioContainer}>
-      <FormikControl control="radio" name="wants_delivery" options={radioOptions} />
+    <div className={styles.radioContainer + " "+styles.center}>
+      <FormikControl
+        control="radio"
+        name="wants_delivery"
+        options={radioOptions}
+      />
     </div>
   );
 }

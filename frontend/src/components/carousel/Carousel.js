@@ -8,7 +8,11 @@ import Product from "./product/Product";
 // OTHERS
 import "./carousel.css";
 
+// translate
+import { useTranslation } from "react-i18next";
+
 function Carousel(props) {
+  const { t } = useTranslation(["components"]);
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
@@ -32,12 +36,20 @@ function Carousel(props) {
       items: 1,
     },
   };
-  console.log(props.products)
+  console.log(props.products);
   return (
     <section className="carousel-container w3-animate-right">
       <header>
         <h1>{props.category.category}</h1>
-        <button onClick={()=>{props.navigate("/products/search?category=" + props.category.category)}}>სრულად</button>
+        <button
+          onClick={() => {
+            props.navigate(
+              "/products/search?category=" + props.category.category
+            );
+          }}
+        >
+          {t("carousel.more")}
+        </button>
       </header>
       <ReactCarousel responsive={responsive} className="carousel ">
         {props.products &&

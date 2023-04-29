@@ -10,7 +10,7 @@ function Quantity(props) {
         label="quantity"
         name="quantity"
         className={props.styles.input}
-        placeholder="quantity"
+        placeholder={props.t("product.quantity")}
         required
       />
     </label>

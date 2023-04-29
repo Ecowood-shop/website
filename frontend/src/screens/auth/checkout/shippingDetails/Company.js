@@ -1,7 +1,7 @@
 // components
 import FormikControl from "../../../../formik/FormikControl";
 
-function Company({ styles }) {
+function Company({ styles, t }) {
   return (
     <div key={2}>
       <FormikControl
@@ -10,7 +10,7 @@ function Company({ styles }) {
         label="company_name"
         name="company_name"
         className={styles.input}
-        placeholder="ორგანიზაციის დასახელება"
+        placeholder={t("shipping details.company name")}
       />
       <FormikControl
         control="input"
@@ -18,7 +18,7 @@ function Company({ styles }) {
         label="company_type"
         name="company_type"
         className={styles.input}
-        placeholder="ორგანიზაციის ფორმა შპს/სს/ინდ.მეწარმე"
+        placeholder={t("shipping details.form of organization LLC/JSC/IE")}
       />
       <FormikControl
         control="input"
@@ -26,7 +26,7 @@ function Company({ styles }) {
         label="company_id"
         name="company_id"
         className={styles.input}
-        placeholder="საიდენტიფიკაციო კოდი"
+        placeholder={t("shipping details.identification code")}
       />
     </div>
   );

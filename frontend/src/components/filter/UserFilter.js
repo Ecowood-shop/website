@@ -10,6 +10,9 @@ import logo from "../../static/images/altax.png";
 // COMPONENTS
 import FilterPanel from "./FilterPanel";
 
+// translate
+import { useTranslation } from "react-i18next";
+
 function UserFilter() {
   const [word, setWord] = useState("");
   const [status, setStatus] = useState("");
@@ -17,9 +20,11 @@ function UserFilter() {
   // HOOKS
   const navigate = useNavigate();
 
+  const { t } = useTranslation(["components"]);
+
   const adminOptions = [
-    { value: "0", label: "მომხმარებელი" },
-    { value: "1", label: "ადმინი" },
+    { value: "0", label: t("global.user") },
+    { value: "1", label: t("global.admin") },
   ];
 
   const toggle = (container, containerResponsive) => {
@@ -43,6 +48,7 @@ function UserFilter() {
   return (
     <header id="filter" className={styles.container + " w3-animate-right"}>
       <FilterPanel
+        t={t}
         styles={styles}
         toggle={(class1, class2) => toggle(class1, class2)}
       />
@@ -56,19 +62,19 @@ function UserFilter() {
       <input
         type="text"
         className={styles.input}
-        placeholder="სახელი..."
+        placeholder={t("global.search") + "..."}
         onChange={(e) => setWord(e.target.value)}
       />
       <div className={styles.inputContainer}>
         <Select
           options={adminOptions}
           isClearable={true}
-          placeholder="სტატუსი"
+          placeholder={t("global.status")}
           onChange={(option) => setStatus(option)}
           className={styles.select}
         />
         <button className={styles.button} onClick={() => Navigator()}>
-          გაფილტვრა
+          {t("global.filter")}
         </button>
       </div>
     </header>

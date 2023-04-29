@@ -8,7 +8,7 @@ import { getSimilarProducts } from "../../../../store/actions/systemActions";
 // COMPONENTS
 import Carousel from "../../../../components/carousel/Carousel";
 
-function Section2({ product, styles, navigate, category, dispatch }) {
+function Section2({ product, styles, navigate, category, dispatch, t }) {
   const [current, setCurrent] = useState(0);
 
   const systemSimilarProducts = useSelector(
@@ -45,7 +45,7 @@ function Section2({ product, styles, navigate, category, dispatch }) {
             current == 0 ? { fontWeight: "bold", backgroundColor: "white" } : {}
           }
         >
-          ტექნიკური მონაცემები
+         {t("product.technical requirements")}
         </h2>
         <h2
           onClick={() => setCurrent(1)}
@@ -53,7 +53,7 @@ function Section2({ product, styles, navigate, category, dispatch }) {
             current == 1 ? { fontWeight: "bold", backgroundColor: "white" } : {}
           }
         >
-          გამოყენების წესები
+     {t("product.terms of use")}
         </h2>
         <h2
           onClick={() => setCurrent(2)}
@@ -61,7 +61,7 @@ function Section2({ product, styles, navigate, category, dispatch }) {
             current == 2 ? { fontWeight: "bold", backgroundColor: "white" } : {}
           }
         >
-          უსაფრთხოების სტანდარტი
+        {t("product.safety standard")} 
         </h2>
       </header>
       <p> {renderSwitch(current)}</p>

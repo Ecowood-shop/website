@@ -1,0 +1,78 @@
+{
+  "global": {
+    "price": "ფასი",
+    "volume": "მოცულობა",
+    "quantity": "რაოდენობა",
+    "orders": "შეკვეთები",
+    "delivered": "ჩაბარებულია",
+    "processing": "მუშავდება",
+    "back": "უკან",
+    "submit": "გაგზავნა",
+    "color": "ფერი",
+    "item": "ცალი",
+    "items": "ცალი",
+    "pay": "გადახდა"
+  },
+  "cart": {
+    "products": "პროდუქტები",
+    "cart is empty": "კალათა ცარიელია",
+    "please": "გთხოვთ გაიაროთ",
+    "log in": "ავტორიზაცია",
+    "in stock": "მარაგშია",
+    "product is deleted": "პროდუქტი წაშლილია",
+    "total": "ჯამი",
+    "total price": "ჯამი",
+    "checkout": "გადახდა"
+  },
+  "profile": {
+    "total": "თანხა",
+    "phone": "ტელეფონი",
+    "email": "ელ ფოსტა",
+    "edit": "რედაქტირება"
+  },
+  "edit profile": {
+    "edit profile": "პროფილის რედაქტირება",
+    "change password": "პაროლის შეცვლა",
+    "first name": "სახელი",
+    "last name": "გვარი",
+    "new password": "ახალი პაროლი",
+    "confirm password": "გაიმეორეთ პაროლი",
+    "current password": "მიმდინარე პაროლი"
+  },
+  "order": {
+    "order": "შეკვეთა",
+    "details": "დეტალები",
+    "phone": "ტელეფონი",
+    "address": "მისამართი",
+    "office": "ოფისი",
+    "date": "თარიღი",
+    "receiver": "მიმღები",
+    "shipping": "მიტანის სერვისი",
+    "total": "ჯამი",
+    "status": "სტატუსი",
+    "delivered": "ჩაბარებულია",
+    "in progress": "მუშავდება"
+  },
+  "shipping details": {
+    "shipping": "მიწოდება",
+    "shipping details": "მიწოდების დეტალები",
+    "payment methods": "გადახდის მეთოდები",
+    "first name": "სახელი",
+    "last name": "გვარი",
+    "personal No": "პირადი ნომერი",
+    "company name": "კომპანიის სახელი",
+    "form of organization LLC/JSC/IE": "ორგანიზაციის ფორმა შპს/სს/ინდ.მეწარმე",
+    "identification code": "საიდენტიფიკაციო კოდი",
+    "individual": "ფიზიკური პირი",
+    "legal entity": "იურიდიული პირი"
+  },
+  "shipping method": {
+    "shipping methods": "მიწოდების მეთოდები",
+    "in-store pickup": "ოფისიდან გატანა",
+    "delivery": "ადგილზე მიტანა",
+    "ecowood": "ეკოვუდი",
+    "select branch": "აირჩიეთ ფილიალი",
+    "express branch": "ექსრპესს ფილიალი",
+    "select city": "აირჩიეთ ქალაქი"
+  }
+}

@@ -47,18 +47,16 @@
   min-width: 10rem;
   max-width: 11rem;
   font-size: var(--x-small);
-
 }
-.search-category div{
-
-      color: var(--color-primary) !important;
-
+.search-category div {
+  color: var(--color-primary) !important;
 }
 .search-category > div:first-of-type {
   color: var(--color-primary);
   border-width: 2px;
   border-radius: 999px;
   border-color: var(--color-primary);
+  text-align: center;
 }
 @media all and (max-width: 60em) {
   .search-container {
