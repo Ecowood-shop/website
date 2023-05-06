@@ -4,7 +4,7 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
-import { getOrders,deleteOrder } from "../../../store/actions/adminActions";
+import { getOrders, deleteOrder } from "../../../store/actions/adminActions";
 
 // COMPONENTS
 import OrderFilter from "../../../components/filter/OrderFilter";
@@ -17,17 +17,19 @@ import Nav from "./Nav";
 // OTHERS
 import styles from "./style.module.scss";
 
-const columns = [
+// translate
+import { useTranslation } from "react-i18next";
+const columns = (t) => [
   {
     Header: "ID",
     accessor: "_id",
   },
   {
-    Header: "მომხმარებელი",
+    Header: t("order.user"),
     accessor: (d) => d.user.first_name + " " + d.user.last_name,
   },
   {
-    Header: "ჩაბარებულია",
+    Header: t("order.delivered"),
     accessor: (d) =>
       d.isDelivered ? (
         <p
@@ -47,17 +49,18 @@ const columns = [
             fontWeight: "bold",
           }}
         >
-          მუშავდება
+          {t("order.in progress")}
         </p>
       ),
   },
   {
-    Header: "თანხა",
-    accessor: (d) => Number(d.totalPrice) + Number(d.shippingPrice)+" ლ",
+    Header: t("order.price"),
+    accessor: (d) => Number(d.totalPrice) + Number(d.shippingPrice) + " ლ",
   },
 ];
 
 function OrderScreen() {
+  const { t } = useTranslation(["admin"]);
   // HOOKS
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -67,31 +70,31 @@ function OrderScreen() {
   const word = searchParams.get("word");
   const status = searchParams.get("status");
   const page = searchParams.get("page");
-  const id =searchParams.get("id")
+  const id = searchParams.get("id");
 
   const adminOrders = useSelector((state) => state.adminOrders);
-  const { error, loading, orders,success } = adminOrders;
+  const { error, loading, orders, success } = adminOrders;
 
   useEffect(() => {
-    dispatch(getOrders(page, word, status,id));
-  }, [dispatch,page, word, status,id,success]);
+    dispatch(getOrders(page, word, status, id));
+  }, [dispatch, page, word, status, id, success]);
   console.log(orders?.Orders);
   return (
     <section className={styles.container}>
       <OrderFilter />
-      <Nav styles={styles} navigate={navigate} />
-      {loading && <Loader color="blueviolet" />}{" "}
+      <Nav styles={styles} navigate={navigate} t={t}/>
+      {loading && <Loader color="blueviolet" />}
       {error && <Message>{error}</Message>}
       {orders?.Orders && (
         <>
           <div className={styles.table}>
             <Table
-              columns={columns}
+              columns={columns(t)}
               data={orders.Orders}
               link="/order/"
               linkEnd=""
               Delete={(id) => dispatch(deleteOrder(id))}
-              text="პროდუქტის"
+              text={t("order.order")}
             />
           </div>
           <Pagination pages={orders.pages} page={orders.page} />

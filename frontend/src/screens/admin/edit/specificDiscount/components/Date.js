@@ -1,10 +1,10 @@
 // components
 import FormikControl from "../../../../../formik/FormikControl";
 
-function Date({ styles }) {
+function Date({ styles, t }) {
   return (
     <div className={styles.dateContainer}>
-      <h3>Start Date</h3>
+      <h3>{t("product.start date")}</h3>
       <div className={styles.date}>
         <FormikControl
           control="date"
@@ -18,7 +18,7 @@ function Date({ styles }) {
           className={styles.input}
         />
       </div>
-      <h3>End Date</h3>
+      <h3>{t("product.end date")}</h3>
       <div className={styles.date}>
         <FormikControl
           control="date"

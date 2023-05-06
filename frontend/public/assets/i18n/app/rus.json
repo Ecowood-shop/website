@@ -58,6 +58,9 @@
     "you will need": "Вам понадобится",
     "liter": "литр",
     "counted for two layers": "Рассчитан на два слоя",
-    "authorization is required": "Требуется авторизация"
+    "authorization is required": "Требуется авторизация",
+    "in stock": "в наличии",
+    "select quantity": "выберите количество",
+    "choose a color": "выберите цвет"
   }
 }

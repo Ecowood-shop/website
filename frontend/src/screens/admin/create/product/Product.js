@@ -11,22 +11,23 @@ import { getCategories } from "../../../../store/actions/systemActions";
 import { Formik, Form } from "formik";
 import Loader from "../../../../components/loader/Loader";
 import Message from "../../../../components/Message/Message";
-import Select from "./components/Select";
+
 import Inputs from "./components/Inputs";
 import Textarea from "./components/Textarea";
 import Discount from "./components/Discount";
-
 // values
 import { initialValues, validationSchema, onSubmit } from "./values";
 
 // styles
 import styles from "./styles.module.scss";
+// translate
+import { useTranslation } from "react-i18next";
 
 function Product() {
   // hooks
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const { t } = useTranslation(["admin"]);
   const adminProduct = useSelector((state) => state.adminProduct);
   const { error, loading, createSuccess: success } = adminProduct;
 
@@ -45,12 +46,13 @@ function Product() {
         onClick={() => navigate("/admin/products/")}
         className={styles.button}
       >
-        უკან
-      </button>{" "}
+        {t("global.back")}
+      </button>
       <section>
-        <h1>პროდუქტი</h1>
+        <h1>{t("product.create product")}</h1>
         {loading && <Loader />}
         {error && <Message>{error}</Message>}
+
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
@@ -59,18 +61,25 @@ function Product() {
           {(formik) => {
             return (
               <Form className={styles.form}>
-                <h2>SPECIFICATION</h2>
-                <Inputs styles={styles} />
-                <Select styles={styles} categories={categories} />
+                <h2>{t("product.specification")}</h2>
+                <Inputs styles={styles} categories={categories} t={t} />
 
-                <h2>DISCOUNT</h2>
-                <Discount styles={styles} formik={formik} />
+                <h2>{t("product.discount")}</h2>
+                <Discount styles={styles} formik={formik} t={t} />
 
-                <h2>DETAILS</h2>
-                <Textarea styles={styles} />
-                <button type="submit" className={styles.button}>
-                  Submit
-                </button>
+                <h2>{t("product.details")}</h2>
+                <Textarea styles={styles} t={t} />
+
+                {/* submit button */}
+                <div className={styles.grid}>
+                  <div className={styles.inputGroup}>
+                    <div>
+                      <button type="submit" className={styles.button}>
+                        {t("global.submit")}
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </Form>
             );
           }}

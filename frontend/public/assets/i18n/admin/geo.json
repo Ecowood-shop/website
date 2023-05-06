@@ -1,0 +1,67 @@
+{
+  "global": {
+    "back": "უკან",
+    "english": "ინგლისური",
+    "russian": "რუსული",
+    "georgian": "ქართული",
+    "colors": "ფერები",
+    "color": "ფერი",
+    "category": "კატეგორია",
+    "images": "სურათები",
+    "submit": "გაგზავნა",
+    "product": "პროდუქტი",
+    "add": "დამატება",
+    "type": "ტიპი",
+    "create": "შექმნა",
+    "edit": "რედაქტირება",
+    "quantity": "რაოდენობა",
+    "email": "ელ ფოსტა"
+  },
+  "product": {
+    "product": "პროდუქტი",
+    "create product": "პროდუქტის შექმნა",
+    "specification": "სპეციფიკაცია",
+    "name(product)": "დასახელება",
+    "pick a discount": "აირჩიე ფასდაკლება",
+    "discount": "ფასდაკლება",
+    "no discount": "ფასდაკლების გარეშე",
+    "discount percent": "ფასდაკლების პროცენტი",
+    "start date": "დაწყების თარიღი",
+    "end date": "დასრულების თარიღი",
+    "details": "დეტალები",
+    "technical requirements": "ტექნიკური მონაცემები",
+    "terms of use": "გამოყენების წესები",
+    "safety standard": " უსაფრთხოების სტანდარტი",
+    "price": "ფასი",
+    "brand": "ბრენდი",
+
+    "cover": "დაფარვა",
+    "layer": "ფენა",
+    "size": "ზომა",
+    "coverage length": "დაფარვის სიგრძე",
+
+    "edit product": "პროდუქტის რედაქტირება"
+  },
+  "images": {
+    "images": "სურათები",
+    "others": "სხვა",
+    "main": "მთავარი",
+    "upload image": "ატვირთეთ სურათი",
+    "specify type": "აირჩიეთ ტიპი"
+  },
+  "user": {
+    "first name": "სახელი",
+    "last name": "გვარი",
+    "user": "მომხმარებელი",
+    "admin": "ადმინი",
+    "phone": "ტელეფონი"
+  },
+  "order": {
+    "order": "შეკვეთა",
+    "user": "მომხმარებელი",
+    "delivered": "ჩაბარებულია",
+    "in progress": "მუშავდება",
+    "price": "ფასი",
+    "cities":"ქალაქები"
+  }
+}

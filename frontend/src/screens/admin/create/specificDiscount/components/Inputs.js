@@ -2,7 +2,7 @@
 import FormikControl from "../../../../../formik/FormikControl";
 import Date from "./Date";
 
-function Inputs({ styles, formik, users, products }) {
+function Inputs({ styles, formik, users, products, t }) {
   let customUsers =
     users?.length > 0
       ? users.map((user) => ({
@@ -49,10 +49,10 @@ function Inputs({ styles, formik, users, products }) {
         type="number"
         step={0.01}
         name="discountPercent"
-        placeholder="discount percent"
+        placeholder="enter percent..."
         className={styles.input}
       />{" "}
-      <Date styles={styles} />
+      <Date styles={styles} t={t} />
     </>
   );
 }

@@ -6,7 +6,11 @@ import Select from "react-select";
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { createImage,getImages,deleteImage } from "../../../store/actions/adminActions";
+import {
+  createImage,
+  getImages,
+  deleteImage,
+} from "../../../store/actions/adminActions";
 
 // COMPONENTS
 import Loader from "../../../components/loader/Loader";
@@ -16,20 +20,23 @@ import Image from "./image/Image";
 // OTHERS
 import styles from "./styles.module.scss";
 
-const options = [
-  { id: 0, name: "მთავარი" },
-  { id: 1, name: "ფოტოები" },
-  { id: 2, name: "სხვა" },
-];
+// translate
+import { useTranslation } from "react-i18next";
+
 function Images() {
+  const { t } = useTranslation(["admin"]);
+  const options = [
+    { id: 0, name: t("images.main") },
+    { id: 1, name: t("images.images") },
+    { id: 2, name: t("images.others") },
+  ];
   // HOOKS
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
 
-  
   const adminImages = useSelector((state) => state.adminImages);
-  const {error,loading,images,successDelete,successCreate } = adminImages;
+  const { error, loading, images, successDelete, successCreate } = adminImages;
 
   const {
     register,
@@ -39,37 +46,38 @@ function Images() {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data.type.id)
-    dispatch(createImage(id,data.image[0],data.type.id));
+    console.log(data.type.id);
+    dispatch(createImage(id, data.image[0], data.type.id));
   };
 
   useEffect(() => {
-      dispatch(getImages(id));
-     
-  }, [dispatch,successDelete,successCreate]);
-  console.log(images)
+    dispatch(getImages(id));
+  }, [dispatch, successDelete, successCreate, id]);
+  console.log(images);
   return (
     <article className={styles.container}>
       <button
         onClick={() => navigate(`/admin/products/${id}/edit`)}
         className={styles.button}
       >
-        უკან
+        {t("global.back")}
       </button>
       <section className={styles.createComponentContainer}>
         <form onSubmit={handleSubmit(onSubmit)} className={styles.table}>
-        <p className={styles.error}>
-              {errors.image
-                ? "ატვირთეთ სურათი"
-                : errors.type
-                ? "მიუთითეთ ტიპი"
-                : ""}
-            </p>
+          <p className={styles.error}>
+            {errors.image
+              ? "* " + t("images.upload image")
+              : errors.type
+              ? "* " + t("images.specify type")
+              : ""}
+          </p>
           <label className={styles.label}>
-            <input type="file" required 
-            placeholder="სურათი"
-            accept="image/*"
-            {...register("image", { required: true })}
+            <input
+              type="file"
+              required
+              placeholder="სურათი"
+              accept="image/*"
+              {...register("image", { required: true })}
             />
             <span>Select a file</span>
           </label>
@@ -79,7 +87,7 @@ function Images() {
             rules={{ required: true }}
             render={({ field: { onChange, value, ref } }) => (
               <Select
-                placeholder="ტიპი..."
+                placeholder={t("global.type") + "..."}
                 className={styles.select}
                 inputRef={ref}
                 options={options}
@@ -92,21 +100,27 @@ function Images() {
           />
 
           <button type="submit" className={styles.button}>
-           დამატება
+            {t("global.add")}
           </button>
         </form>
       </section>
       <section className={styles.imageContainer}>
-      {loading && <Loader/>}
-      {error && <Message>{error}</Message>}
-      {images && images.sort((a,b) => a.ord - b.ord).map((element)=><Image key={element.id} image={element} order={options.filter((option)=>option.id==element.ord)[0].name} Delete={()=>dispatch(deleteImage(element.id))}/>)}
+        {loading && <Loader />}
+        {error && <Message>{error}</Message>}
+        {images &&
+          images
+            .sort((a, b) => a.ord - b.ord)
+            .map((element) => (
+              <Image
+                key={element.id}
+                image={element}
+                order={
+                  options.filter((option) => option.id == element.ord)[0].name
+                }
+                Delete={() => dispatch(deleteImage(element.id))}
+              />
+            ))}
       </section>
-      {/* {loading && <Loader />}
-     {error && <Message>{error}</Message>} */}
-      {/* {variants &&
-       variants.map((variant) => (
-         <Variant variant={variant} key={variant.id} />
-       ))} */}
     </article>
   );
 }

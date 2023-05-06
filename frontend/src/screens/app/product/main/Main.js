@@ -63,7 +63,7 @@ function Main({ product, iframe, youtube, variants, navigate, id, t }) {
 
           <Formik
             initialValues={initialValues(variants)}
-            validationSchema={validationSchema}
+            validationSchema={validationSchema(t)}
             onSubmit={onSubmit}
           >
             {(formik) => {

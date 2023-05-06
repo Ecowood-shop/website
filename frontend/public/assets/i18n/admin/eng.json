@@ -1,0 +1,63 @@
+{
+  "global": {
+    "back": "back",
+    "english": "english",
+    "russian": "russian",
+    "georgian": "georgian",
+    "colors": "colors",
+    "color": "color",
+    "category": "category",
+    "images": "images",
+    "submit": "submit",
+    "product": "product",
+    "add": "add",
+    "type": "type",
+    "create": "create",
+    "edit": "edit",
+    "quantity": "quantity",
+    "email": "email"
+  },
+  "product": {
+    "product": "product",
+    "create product": "create product",
+    "specification": "specification",
+    "name(product)": "name",
+    "pick a discount": "pick a discount",
+    "discount": "discount",
+    "no discount": "no discount",
+    "discount percent": "discount percent",
+    "start date": "start date",
+    "end date": "end date",
+    "details": "details",
+    "technical requirements": "technical data",
+    "terms of use": "terms of use",
+    "safety standard": "safety standard",
+    "price": "price",
+    "brand": "brand",
+    "size": "size",
+    "coverage length": "coverage length",
+    "edit product": "edit product"
+  },
+  "images": {
+    "images": "images",
+    "others": "others",
+    "main": "main",
+    "upload image": "upload image",
+    "specify type": "specify type"
+  },
+  "user": {
+    "first name": "first name",
+    "last name": "last name",
+    "user": "user",
+    "admin": "admin",
+    "phone": "phone"
+  },
+  "order": {
+    "order": "order",
+    "user": "user",
+    "delivered": "delivered",
+    "in progress": "in progress",
+    "price": "price",
+    "cities": "cities"
+  }
+}

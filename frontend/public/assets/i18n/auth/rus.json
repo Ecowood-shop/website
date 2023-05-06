@@ -36,7 +36,7 @@
     "first name": "имя",
     "last name": "фамилия",
     "phone": "телефон",
-    "password": "новый пароль",
+    "new password": "новый пароль",
     "confirm password": "Повторите пароль",
     "current password": "текущий пароль"
   },

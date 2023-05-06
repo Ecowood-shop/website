@@ -1,4 +1,4 @@
-function Nav({ styles, navigate }) {
+function Nav({ styles, navigate,t }) {
   return (
     <nav className={styles.btnContainer}>
       <button
@@ -26,8 +26,8 @@ function Nav({ styles, navigate }) {
             strokeWidth="32"
             d="M256 176v160M336 256H176"
           />
-        </svg>{" "}
-        discount
+        </svg>
+       {t("product.discount")}
       </button>
     </nav>
   );

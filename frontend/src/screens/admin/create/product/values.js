@@ -4,20 +4,45 @@ import * as Yup from "yup";
 import { createProduct } from "../../../../store/actions/adminActions";
 
 export const initialValues = {
+  // name
   name_geo: "",
-  brand: "",
-  size: "",
+  name_eng: "",
+  name_rus: "",
+
+  // brand
+  brand_geo: "",
+  brand_eng: "",
+  brand_rus: "",
+
+  // size
+  size_geo: "",
+  size_eng: "",
+  size_rus: "",
+
+  // others
   youtubeUrl: "",
   price: "",
   coverageLength: "",
   category: "",
-  technicalRequirements: "",
-  instructionForUse: "",
-  safetyStandard: "",
+
+  // technical requirements
+  technicalRequirements_geo: "",
+  technicalRequirements_eng: "",
+  technicalRequirements_rus: "",
+
+  // instruction for use
+  instructionForUse_geo: "",
+  instructionForUse_eng: "",
+  instructionForUse_rus: "",
+
+  // safety standarts
+  safetyStandard_geo: "",
+  safetyStandard_eng: "",
+  safetyStandard_rus: "",
 
   // discounts
   discountType: "",
-  discountPercent: "",
+  discountPercent: 0,
   start_date: "",
   start_time: "23:59",
   end_date: "",
@@ -25,16 +50,41 @@ export const initialValues = {
 };
 
 export const validationSchema = Yup.object({
+  // name
   name_geo: Yup.string().required("Required"),
-  brand: Yup.string().required("Required"),
-  size: Yup.string().required("Required"),
+  name_eng: Yup.string(),
+  name_rus: Yup.string(),
+
+  // brand
+  brand_geo: Yup.string().required("Required"),
+  brand_eng: Yup.string(),
+  brand_rus: Yup.string(),
+
+  // size
+  size_geo: Yup.string().required("Required"),
+  size_eng: Yup.string(),
+  size_rus: Yup.string(),
+
+  //others
   youtubeUrl: Yup.string(),
   price: Yup.number().min(0).required("Required"),
   coverageLength: Yup.number().min(0),
   category: Yup.string().required("Required"),
-  technicalRequirements: Yup.string().required("Required"),
-  instructionForUse: Yup.string().required("Required"),
-  safetyStandard: Yup.string().required("Required"),
+
+  // technical requirements
+  technicalRequirements_geo: Yup.string().required("Required"),
+  technicalRequirements_eng: Yup.string(),
+  technicalRequirements_rus: Yup.string(),
+
+  // instruction for use
+  instructionForUse_geo: Yup.string().required("Required"),
+  instructionForUse_eng: Yup.string(),
+  instructionForUse_rus: Yup.string(),
+
+  // safety standarts
+  safetyStandard_geo: Yup.string().required("Required"),
+  safetyStandard_eng: Yup.string(),
+  safetyStandard_rus: Yup.string(),
 
   // discounts
   discountType: Yup.string().required("Required"),
@@ -71,19 +121,44 @@ export const validationSchema = Yup.object({
 
 export const onSubmit = (values, dispatch) => {
   let data = {
+    // name
     name_geo: values.name_geo,
-    brand: values.brand,
-    size: values.size,
+    name_eng: values.name_eng,
+    name_rus: values.name_rus,
+
+    // brand
+    brand_geo: values.brand_geo,
+    brand_eng: values.brand_eng,
+    brand_rus: values.brand_rus,
+
+    // size
+    size_geo: values.size_geo,
+    size_eng: values.size_eng,
+    size_rus: values.size_rus,
+
+    // others
     youtubeUrl: values.youtubeUrl,
     coverageLength: values.coverageLength,
     price: values.price,
     category: values.category,
+
     // discounts
     discountType: values.discountType,
-    // description
-    instructionForUse: values.instructionForUse,
-    safetyStandard: values.safetyStandard,
-    technicalRequirements: values.technicalRequirements,
+
+    // technical requirements
+    technicalRequirements_geo: values.instructionForUse_geo,
+    technicalRequirements_eng: values.instructionForUse_eng,
+    technicalRequirements_rus: values.instructionForUse_rus,
+
+    // instruction for use
+    instructionForUse_geo: values.instructionForUse_geo,
+    instructionForUse_eng: values.instructionForUse_eng,
+    instructionForUse_rus: values.instructionForUse_rus,
+
+    // safety standarts
+    safetyStandard_geo: values.safetyStandard_geo,
+    safetyStandard_eng: values.safetyStandard_eng,
+    safetyStandard_rus: values.safetyStandard_rus,
   };
   if (String(data.discountType) !== "0") {
     data.start_date =
@@ -107,7 +182,7 @@ export const onSubmit = (values, dispatch) => {
     data.discountPercent = values.discountPercent;
   }
   console.log(data);
-  dispatch(createProduct(data));
+  // dispatch(createProduct(data));
 };
 
 const convertTime12to24 = (time12h) => {
