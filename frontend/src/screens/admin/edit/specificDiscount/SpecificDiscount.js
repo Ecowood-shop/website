@@ -25,7 +25,11 @@ import { initialValues, validationSchema, onSubmit } from "./values";
 // styles
 import styles from "./styles.module.scss";
 
+// translate
+import { useTranslation } from "react-i18next";
+
 function SpecificDiscount() {
+  const { t } = useTranslation(["admin"]);
   // hooks
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -55,10 +59,10 @@ function SpecificDiscount() {
         onClick={() => navigate("/admin/discounts/")}
         className={styles.button}
       >
-        უკან
-      </button>{" "}
+        {t("global.back")}
+      </button>
       <section>
-        <h1>DISCOUNT</h1>
+        <h1>{t("product.discount")}</h1>
         {(discountLoading || loading) && <Loader />}
         {discountError && <Message>{discountError}</Message>}{" "}
         {discount && users && products?.length > 0 && (
@@ -79,9 +83,10 @@ function SpecificDiscount() {
                     formik={formik}
                     products={products}
                     users={users}
+                    t={t}
                   />
 
-                  <Buttons styles={styles} dispatch={dispatch} />
+                  <Buttons styles={styles} dispatch={dispatch}   t={t}/>
                 </Form>
               );
             }}

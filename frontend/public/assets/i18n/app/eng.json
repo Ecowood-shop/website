@@ -34,7 +34,7 @@
     "navigate to homepage": "navigate to Homepage"
   },
   "resetPassword": {
-    "reset password": "",
+    "reset password": "reset password",
     "password": "password",
     "confirm password": "confirm password",
     "submit": "submit"
@@ -58,6 +58,9 @@
     "you will need": "You will need",
     "liter": "liter",
     "counted for two layers": "Counted for two layers",
-    "authorization is required": "Authorization is required"
+    "authorization is required": "Authorization is required",
+    "in stock": "in stock",
+    "select quantity": "select quantity",
+    "choose a color": "choose a color"
   }
 }

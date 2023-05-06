@@ -1,5 +1,5 @@
 .container {
-  width: 60%;
+  width: 80%;
   min-height: var(--height);
   input::-webkit-outer-spin-button,
   input::-webkit-inner-spin-button {
@@ -12,17 +12,42 @@
   & > button {
     background-image: var(--linear-primary);
     border: none;
-    @media all and (max-width: 40rem) {
+    margin: 2rem 0rem;
+    padding: 1.5rem 3rem;
+    @media all and (max-width: 56rem) {
       margin-left: 1rem;
+      padding: 0rem 2.5rem;
+    }
+  }
+
+  .inputGroup,
+  .inputGroup div:not(.dateContainer, .date *) {
+    display: flex;
+    flex-direction: column;
+  }
+  .inputGroup {
+    width: 100%;
+    padding: 2rem;
+    margin-bottom: 3rem;
+    @media all and (max-width: 40rem) {
+      margin-bottom: 0rem;
+    }
+  }
+
+  .selectContainer {
+    width: 100%;
+    & > div {
+      width: 100%;
+      .input {
+        width: 100%;
+      }
     }
   }
 
   .datePicker {
     display: flex;
-    background-color: red;
   }
-  .date,
-  .selectContainer {
+  .date {
     width: 60%;
     & > div {
       width: 100%;
@@ -33,28 +58,26 @@
   }
 
   .dateContainer {
-    width: 60%;
-    h3 {
-      margin-top: 1rem;
-      margin-bottom: 0rem;
+    label {
+      margin-top: 3rem !important;
+      text-align: center !important;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }
+
   .date {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    margin: 2rem;
-    @media all and (max-width: 60rem) {
-      flex-direction: column;
-      & > div {
-        margin: 1rem;
-      }
-    }
+
     & > div {
       display: inline !important;
       width: max-content !important;
       height: 1.5rem !important;
+
       & input {
         height: 3rem;
         border: none;
@@ -64,14 +87,16 @@
         font-size: var(--small);
         margin: 0;
       }
-    }
-  }
-  .textContainer {
-    width: 60%;
-    & > div {
-      width: 100%;
-      .textarea {
-        width: 100%;
+      & .input {
+        margin-top: 3rem;
+      }
+      @media all and (max-width: 40rem) {
+        &:last-of-type {
+          margin-bottom: 3rem;
+        }
+        & input {
+          background-color: white;
+        }
       }
     }
   }
@@ -83,7 +108,9 @@
     border-radius: 10px;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
       rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
+    padding: 5rem;
     h2 {
+      text-align: center;
       margin: 3rem;
     }
     h1 {
@@ -92,21 +119,30 @@
       text-align: center;
       padding: 3rem 0;
     }
-    .form,
-    .form > div {
+    .form {
       display: flex;
-      flex-direction: column !important;
-      align-items: center !important;
+      flex-direction: column;
+      justify-content: center;
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      }
+      label {
+        text-transform: capitalize;
+        display: flex;
+        margin: 0.5rem 0;
+      }
     }
   }
-  @media all and (max-width: 85rem) {
-    width: 80%;
-    input {
-      font-size: var(--medium);
+  @media all and (max-width: 95rem) {
+    width: 90%;
+    section {
+      padding: 2rem;
     }
   }
-  @media all and (max-width: 40rem) {
+  @media all and (max-width: 56rem) {
     width: 100%;
+
     h2 {
       margin-bottom: 0rem !important;
     }
@@ -115,50 +151,52 @@
         width: 100%;
       }
     }
-
     section {
+      width: 100%;
       background-color: transparent;
       background: transparent;
       box-shadow: none;
       border: none;
+      h1 {
+        padding: 0rem;
+      }
+      .form {
+        width: 100%;
+        padding: 2rem;
+        @media all and (max-width: 56rem) {
+          padding: 0rem;
+        }
+      }
       margin-bottom: 5rem;
+      padding: 0 !important;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
 
       .input,
       .textarea {
-        width: 80%;
-        font-size: var(--x-small);
+        width: 100%;
         background-color: white;
         border-radius: 10px;
-      }
-      .selectContainer,
-      .textContainer {
-        width: 80%;
-      }
-      .textarea {
-        font-size: var(--x-small);
-        height: 20rem;
       }
     }
   }
 }
+
 .input,
 .button,
 .textarea {
-  width: 60%;
-  margin-top: 2rem;
   height: 3rem;
   border: none;
   border-radius: 10px;
   background-color: whitesmoke;
-  text-align: center;
-  font-size: var(--small);
+  font-size: var(--x-small);
 }
 .textarea {
   height: 15rem;
   border-radius: 10px;
   text-align: start;
   padding: 1rem;
-  font-size: var(--x-small);
 }
 
 .error {
@@ -166,30 +204,22 @@
   color: var(--color-error);
   font-size: var(--medium);
 }
-.admin {
-  font-size: var(--x-medium);
-  margin-top: 1rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+
 .input {
   padding: 0 2rem;
 }
-.checkbox[type="checkbox"] {
-  margin-right: 0.5rem;
-  height: 1.5rem;
-  width: 1.5rem;
-}
+
 .button {
-  margin: 2rem 0;
   display: flex;
   align-items: center;
+  width: max-content;
+  align-self: flex-end;
   justify-content: center;
-  width: auto;
-  padding: 1rem 2rem;
+  align-self: center;
+  padding: 1rem 5rem;
   color: white;
-  background-image: var(--linear-second);
+  background-image: var(--linear-primary);
+  font-size: var(--medium);
   border: none;
   border-radius: 999px;
   cursor: pointer;
@@ -198,35 +228,8 @@
   &:hover {
     transform: scale(1.05);
   }
-}
-
-.radioContainer {
-  display: flex;
-  width: 60%;
-  label {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 80%;
-    margin-top: 1rem;
-    height: 3rem;
-    border: none;
-    border-radius: 10px;
-    background-color: whitesmoke;
-    text-align: center;
+  @media all and (max-width: 56rem) {
     font-size: var(--small);
-    cursor: pointer;
+    padding: 0.5rem 4rem;
   }
-  input[type="radio"] {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    -ms-appearance: none;
-    -o-appearance: none;
-    appearance: none;
-  }
-}
-
-.radioContainer input[type="radio"]:checked + label {
-  background-color: var(--color-primary);
-  color: white;
 }

@@ -58,6 +58,9 @@
     "you will need": "თქვენ დაგჭირდებათ",
     "liter": "ლიტრი",
     "counted for two layers": "დათვლილია ორ ფენაზე",
-    "authorization is required": "საჭიროა ავტორიზაცია"
+    "authorization is required": "საჭიროა ავტორიზაცია",
+    "in stock": "მარაგშია",
+    "select quantity": "მიუთითეთ რაოდენობა",
+    "choose a color": "აირჩიეთ ფერი"
   }
 }

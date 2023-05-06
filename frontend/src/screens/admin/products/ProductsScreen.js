@@ -18,27 +18,29 @@ import Nav from "./Nav";
 
 // OTHERS
 import styles from "./style.module.scss";
-
-const columns = [
+// translate
+import { useTranslation } from "react-i18next";
+const columns = (t) => [
   {
     Header: "ID",
     accessor: "_id",
   },
   {
-    Header: "დასახელება",
+    Header: t("product.name(product)"),
     accessor: "name_geo",
   },
   {
-    Header: "კატეგორია",
+    Header: t("global.category"),
     accessor: "category",
   },
   {
-    Header: "ფასი",
+    Header: t("product.price"),
     accessor: "price",
   },
 ];
 
 function ProductsScreen() {
+  const { t } = useTranslation(["admin"]);
   // HOOKS
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -65,7 +67,7 @@ function ProductsScreen() {
   return (
     <section className={styles.container}>
       <Filter />
-      <Nav styles={styles} navigate={navigate} />
+      <Nav styles={styles} navigate={navigate} t={t} />
       {loading && <Loader color={"blueviolet"} />}{" "}
       {error && <Message>{error}</Message>}
       {products?.products && (
@@ -73,12 +75,12 @@ function ProductsScreen() {
           <div className={styles.table}>
             {products && (
               <Table
-                columns={columns}
+                columns={columns(t)}
                 data={products.products}
                 link="/admin/products/"
                 linkEnd="/edit"
                 Delete={(id) => dispatch(deleteProduct(id))}
-                text="პროდუქტის"
+                text={t("global.product")}
               />
             )}
           </div>{" "}

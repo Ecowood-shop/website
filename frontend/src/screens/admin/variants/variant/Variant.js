@@ -6,7 +6,8 @@ import Select from "react-select";
 import { useDispatch } from "react-redux";
 import {
   deleteVariant,
-  updateVariant,createVariant
+  updateVariant,
+  createVariant,
 } from "../../../../store/actions/adminActions";
 
 // OTHERS
@@ -35,8 +36,8 @@ function Variant(props) {
       data.color = data.color.name;
       data.variantTitle = "productID=" + props.id + " color=" + data.color;
       data.productID = props.id;
-      console.log(data)
-     dispatch(createVariant(data))
+      console.log(data);
+      dispatch(createVariant(data));
     } else {
       data.id = props.variant.id;
       data.color = props.variant.color;
@@ -58,13 +59,13 @@ function Variant(props) {
         ></div>
 
         <h1 onClick={() => opener()}>
-          {props.create ? "შექმნა" : props.variant.color}{" "}
+          {props.create ? props.t("global.create") : props.variant.color}{" "}
         </h1>
       </div>
       {open && (
         <form onSubmit={handleSubmit(onSubmit)} className={styles.table}>
           <input
-            placeholder="რაოდენობა"
+            placeholder={props.t("global.quantity")}
             type="number"
             {...register("quantity", { required: true, min: 0 })}
             defaultValue={props.create ? "" : props.variant.quantity}
@@ -73,13 +74,12 @@ function Variant(props) {
 
           {props?.colors && (
             <Controller
-           
               control={control}
               name="color"
               render={({ field: { onChange, value, ref } }) => (
                 <Select
-                placeholder="ფერი..."
-                className={styles.select}
+                  placeholder={props.t("global.color")}
+                  className={styles.select}
                   inputRef={ref}
                   options={props.colors}
                   value={props.colors.find((c) => c.name === value)}
@@ -92,7 +92,7 @@ function Variant(props) {
           )}
 
           <button type="submit" className={styles.button}>
-            {props.create ? "შექმნა" : "რედაქტირება"}
+            {props.create ? props.t("global.create") : props.t("global.edit")}
           </button>
           {!props.create && (
             <button

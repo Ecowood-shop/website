@@ -23,8 +23,11 @@ import { initialValues, validationSchema, onSubmit } from "./values";
 
 // styles
 import styles from "./styles.module.scss";
+// translate
+import { useTranslation } from "react-i18next";
 
 function SpecificDiscount() {
+  const { t } = useTranslation(["admin"]);
   // hooks
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -46,9 +49,9 @@ function SpecificDiscount() {
         className={styles.button}
       >
         უკან
-      </button>{" "}
+      </button>
       <section>
-        <h1>DISCOUNT</h1>
+        <h1>{t("product.discount")}</h1>
         {loading && <Loader />}
         <div className={styles.error}>
           {error && <Message>{error}</Message>}
@@ -68,9 +71,10 @@ function SpecificDiscount() {
                     formik={formik}
                     products={products}
                     users={users}
+                    t={t}
                   />
 
-                  <Buttons styles={styles} dispatch={dispatch} />
+                  <Buttons styles={styles} dispatch={dispatch} t={t} />
                 </Form>
               );
             }}

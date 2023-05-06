@@ -17,25 +17,27 @@ import Pagination from "../../../components/pagination/Pagination";
 // OTHERS
 import styles from "./style.module.scss";
 
-const columns = [
+// translate
+import { useTranslation } from "react-i18next";
+const columns = (t) => [
   {
     Header: "ID",
     accessor: "id",
   },
   {
-    Header: "სახელი",
+    Header: t("user.first name"),
     accessor: "first_name",
   },
   {
-    Header: "გვარი",
+    Header: t("user.last name"),
     accessor: "last_name",
   },
   {
-    Header: "მეილი",
+    Header: t("global.email"),
     accessor: "email",
   },
   {
-    Header: "ადმინი",
+    Header: t("user.admin"),
     accessor: (user) =>
       user.is_staff ? (
         <svg
@@ -58,6 +60,7 @@ const columns = [
 ];
 
 function UsersScreen() {
+  const { t } = useTranslation(["admin"]);
   // HOOKS
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -79,16 +82,16 @@ function UsersScreen() {
     <section className={styles.container}>
       <UserFilter />
       {loading && <Loader />} {error && <Message>{error}</Message>}
-      {users?.users?.length>0 && (
+      {users?.users?.length > 0 && (
         <>
           <div className={styles.table}>
             <Table
-              columns={columns}
+              columns={columns(t)}
               data={users.users}
               link="/admin/users/"
               linkEnd="/edit"
-              Delete={(id)=>dispatch(deleteUser(id))}
-              text="მომხმარებლის"
+              Delete={(id) => dispatch(deleteUser(id))}
+              text={t("user.user")}
             />
           </div>
 

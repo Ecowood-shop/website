@@ -1,9 +1,8 @@
-
-function Buttons({ styles, create, dispatch, id }) {
+function Buttons({ styles, t }) {
   return (
     <div className={styles.btnContainer}>
       <button type="submit" className={styles.button}>
-        submit
+        {t("global.submit")}
       </button>
     </div>
   );

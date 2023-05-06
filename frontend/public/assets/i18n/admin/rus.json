@@ -1,0 +1,67 @@
+{
+  "global": {
+    "back": "назад",
+    "english": "английский ",
+    "russian": "русский",
+    "georgian": "грузинский",
+    "colors": "Цвета",
+    "color": "Цвет",
+    "category": "категория",
+    "images": "картинки",
+    "submit": "Отправить",
+    "product": "продукт",
+    "add": "добавить",
+    "type": "тип",
+    "create": "Создать",
+    "edit": "редактировать",
+    "quantity": "количество",
+    "email": "электронная почта"
+  },
+  "product": {
+    "product": "продукт",
+    "create product": "Создать продукт",
+    "specification": "Спецификация",
+    "name(product)": "название",
+    "pick a discount": "Выберите скидку",
+    "discount": "скидка",
+    "no discount": "Без скидки ",
+    "discount percent": "процент скидки",
+    "start date": "Дата начала",
+    "end date": "Дата окончания",
+    "details": "детали",
+    "technical requirements": "Технические данные",
+    "terms of use": "Условия эксплуатации",
+    "safety standard": "стандарт безопасности",
+    "price": "цена",
+    "brand": "бренд",
+
+    "cover": "покрытия",
+    "layer": "слой",
+    "size": "объём",
+    "coverage length": "длина покрытия",
+
+    "edit product": "редактировать продукт"
+  },
+  "images": {
+    "images": "картинки",
+    "others": "другие",
+    "main": "главный",
+    "upload image": "загрузите картинки",
+    "specify type": "укажите тип"
+  },
+  "user": {
+    "first name": "имя",
+    "last name": "фамилия",
+    "user": "пользователь",
+    "admin": "администратор",
+    "phone": "телефон"
+  },
+  "order": {
+    "order": "заказ",
+    "user": "пользователь",
+    "delivered": "доставлен",
+    "in progress": "в процессе",
+    "price": "цена",
+    "cities": "города"
+  }
+}

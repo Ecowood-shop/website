@@ -18,7 +18,7 @@ function DatePicker(props) {
               id={name}
               {...field}
               {...rest}
-              placeholderText="date"
+              placeholderText="MM/DD/YYYY"
               selected={value}
               onChange={(val) => setFieldValue(name, val)}
             />

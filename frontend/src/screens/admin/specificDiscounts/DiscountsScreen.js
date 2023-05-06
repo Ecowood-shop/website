@@ -20,7 +20,10 @@ import Nav from "./Nav";
 // styles
 import styles from "./styles.module.scss";
 
+// translate
+import { useTranslation } from "react-i18next";
 function DiscountsScreen() {
+  const { t } = useTranslation(["admin"]);
   // HOOKS
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -37,21 +40,21 @@ function DiscountsScreen() {
     dispatch(getDiscounts(page, word));
   }, [dispatch, success, page, word, navigate]);
 
-  const columns = [
+  const columns = (t) => [
     {
       Header: "ID",
       accessor: "id",
     },
     {
-      Header: "მეილი",
+      Header: t("global.email"),
       accessor: "email",
     },
     {
-      Header: "პროდუქტი",
+      Header: t("product.product"),
       accessor: "product_name",
     },
     {
-      Header: "ფასდაკლება",
+      Header: t("product.discount"),
       accessor: (discount) => discount.percentage.percentage + "%",
     },
   ];
@@ -59,19 +62,19 @@ function DiscountsScreen() {
   return (
     <article className={styles.container}>
       <DiscountFilter />
-      <Nav styles={styles} navigate={navigate} />
+      <Nav styles={styles} navigate={navigate} t={t} />
       {loading && <Loader color={"blueviolet"} />}
       {error && <Message>{error}</Message>}
       {discounts && (
         <>
           <div className={styles.table}>
             <Table
-              columns={columns}
+              columns={columns(t)}
               data={discounts["Specific Discounts"]}
               link="/admin/discounts/"
               linkEnd="/edit"
               Delete={(id) => dispatch(deleteDiscount(id))}
-              text="მომხმარებლის"
+              text={t("product.discount")}
             />
           </div>
           <Pagination pages={discounts.pages} page={discounts.page} />
