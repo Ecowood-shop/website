@@ -197,7 +197,8 @@ def updateUserProfile(request):
 
     try:
         if data['password'] != '':
-            if data['new_password'] != '' and data['confirm_password'] != '' and user.check_password(data['password']) and data['new_password'] == data['confirm_password']:
+            if data['new_password'] != '' and data['confirm_password'] != '' and user.check_password(
+                    data['password']) and data['new_password'] == data['confirm_password']:
                 try:
                     validators.validate_password(password=data['new_password'], user=user)
                     user.password = make_password(data['new_password'])
@@ -212,7 +213,8 @@ def updateUserProfile(request):
                 except:
                     raise ValidationError('Password missing uppercase, lowercase or digit.')
 
-            elif data['new_password'] == '' and data['confirm_password'] == '' and user.check_password(data['password']):
+            elif data['new_password'] == '' and data['confirm_password'] == '' and user.check_password(
+                    data['password']):
                 if data['first_name']:
                     user.first_name = data['first_name']
                 if data['last_name']:
