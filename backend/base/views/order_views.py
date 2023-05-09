@@ -2,7 +2,7 @@ from datetime import datetime
 
 import jwt
 from base.models import Order, OrderItem, ShippingAddress, WithoutShipping, User, Warehouse, AddToCart, \
-    Picture, Variants, ShippingPrices
+    Picture, Variants, ShippingPrices, Translation
 from base.serializers import ProductSerializer, OrderSerializer, VariantSerializer, WarehouseSerializer, \
     ShippingPricesSerializer
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -27,6 +27,9 @@ def apply_user_discounts(products, user):
 def addOrderItems(request):
     token = request.COOKIES.get('jwt')
 
+    language = request.query_params.get('language')
+
+
     if not token:
         raise AuthenticationFailed('Unauthenticated!')
 
@@ -49,6 +52,7 @@ def addOrderItems(request):
             if product_discount:
                 discounted_price = float(item.product.price * (1 - (product_discount.percentage / 100)))
                 discounted_sum_price += float(item.qty * discounted_price)
+
         try:
             with transaction.atomic():
                 # (1) Create Order
@@ -98,6 +102,7 @@ def addOrderItems(request):
                 for i in orderItems:
                     if not i.product.active:
                         raise Exception
+
                     variant = Variants.objects.get(id=i.variants_id, active=True)
                     image = Picture.objects.get(product_id=i.product._id, ord=0)
 
@@ -128,6 +133,16 @@ def addOrderItems(request):
         my_thread.start()
         # sendOrderDetails(user, order, orderItems, 'temopkhakadze2002@gmail.com')
 
+        if language is not None and language != '':
+
+            for field in serializer.data['orderItems']:
+                try:
+                    # Get the translation for the product's name_geo in the specified language
+                    translation = Translation.objects.get(language=language, key=field['name'])
+                    field['name'] = translation.value
+                except Translation.DoesNotExist:
+                    pass  # If no translation is found, keep the original value
+
         if order.wants_delivery == 'False':
             warehouseSerializer = WarehouseSerializer(warehouse, many=False)
             return Response({'Cart': serializer.data, 'Warehouse': warehouseSerializer.data})
@@ -138,6 +153,8 @@ def addOrderItems(request):
 @api_view(['GET'])
 def getMyOrders(request):
     token = request.COOKIES.get('jwt')
+
+    language = request.query_params.get('language')
 
     if not token:
         raise AuthenticationFailed('Unauthenticated!')
@@ -169,6 +186,16 @@ def getMyOrders(request):
     print(orders)
 
     serializer = OrderSerializer(orders, many=True)
+
+    if language is not None and language != '':
+        for product in serializer.data:
+            for field in product['orderItems']:
+                try:
+                    # Get the translation for the product's name_geo in the specified language
+                    translation = Translation.objects.get(language=language, key=field['name'])
+                    field['name'] = translation.value
+                except Translation.DoesNotExist:
+                    pass  # If no translation is found, keep the original value
 
     return Response({'Orders': serializer.data, 'page': page, 'pages': paginator.num_pages})
 
@@ -235,6 +262,8 @@ def getOrders(request):
 def getOrderById(request, pk):
     token = request.COOKIES.get('jwt')
 
+    language = request.query_params.get('language')
+
     if not token:
         raise AuthenticationFailed('Unauthenticated!')
 
@@ -249,6 +278,7 @@ def getOrderById(request, pk):
         order = Order.objects.get(_id=pk)
     except:
         raise ValidationError('Order with this ID does not exist')
+
     orderItems = order.orderitem_set.all()
     variant = []
     products = []
@@ -262,11 +292,28 @@ def getOrderById(request, pk):
         variantSerializer = VariantSerializer(variant, many=True)
         productSerializer = ProductSerializer(products, many=True, fields=('_id', 'size'))
 
+        if language is not None and language != '':
+
+            for field in serializer.data['orderItems']:
+                try:
+                    # Get the translation for the product's name_geo in the specified language
+                    translation = Translation.objects.get(language=language, key=field['name'])
+                    field['name'] = translation.value
+                except Translation.DoesNotExist:
+                    pass  # If no translation is found, keep the original value
+
+            for field in variantSerializer.data:
+                try:
+                    # Get the translation for the product's name_geo in the specified language
+                    translation = Translation.objects.get(language=language, key=field['color'])
+                    field['color'] = translation.value
+                except Translation.DoesNotExist:
+                    pass  # If no translation is found, keep the original value
+
         return Response({'Order': serializer.data, 'variants': variantSerializer.data, 'size': productSerializer.data})
     else:
         Response({'detail': 'Not authorized to view this order'},
                  status=status.HTTP_400_BAD_REQUEST)
-
     return Response({'detail': 'Order does not exist'}, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -352,6 +399,8 @@ def deleteOrder(request, pk):
 
 @api_view(['GET'])
 def getShippingPrices(request):
+    language = request.query_params.get('language')
+
     token = request.COOKIES.get('jwt')
 
     if not token:
@@ -365,6 +414,14 @@ def getShippingPrices(request):
     prices = ShippingPrices.objects.all()
     serializer = ShippingPricesSerializer(prices, many=True)
 
+    if language is not None and language != '':
+        for product in serializer.data:
+            try:
+                # Get the translation for the product's name_geo in the specified language
+                translation = Translation.objects.get(language=language, key=product['location'])
+                product['location'] = translation.value
+            except Translation.DoesNotExist:
+                pass  # If no translation is found, keep the original value
     return Response(serializer.data)
 
 

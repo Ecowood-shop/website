@@ -276,3 +276,16 @@ class Picture(models.Model):
 
     def __str__(self):
         return str(self.picture)
+
+
+class Translation(models.Model):
+    language = models.CharField(max_length=3)
+    key = models.CharField(max_length=100)
+    value = models.CharField(max_length=100)
+
+    class Meta:
+        # Set the composite key as the primary key
+        unique_together = ('language', 'key')
+
+    def __str__(self):
+        return str((self.language, self.key))
