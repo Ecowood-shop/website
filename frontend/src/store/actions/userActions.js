@@ -209,13 +209,13 @@ export const updateUser = (formData) => async (dispatch) => {
 
 // CART
 
-export const getCart = () => async (dispatch) => {
+export const getCart = (language) => async (dispatch) => {
   try {
     dispatch({
       type: USER.GET_CART_REQUEST,
     });
 
-    const { data } = await useCustomAxios.get("/api/products/cart/");
+    const { data } = await useCustomAxios.get(`/api/products/cart/?language=${language.toUpperCase()}`);
 
     dispatch({
       type: USER.GET_CART_SUCCESS,

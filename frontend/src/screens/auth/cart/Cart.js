@@ -16,14 +16,14 @@ import { useTranslation } from "react-i18next";
 
 function Cartus() {
   const dispatch = useDispatch();
-  const { t } = useTranslation(["auth"]);
+  const { t,i18n } = useTranslation(["auth"]);
 
   const User = useSelector((state) => state.User);
   const { cart, success, user, loadingUser: loading } = User;
 
   useEffect(() => {
-    dispatch(getCart());
-  }, [dispatch, success]);
+    dispatch(getCart(i18n.language));
+  }, [dispatch, success,i18n.language]);
   console.log(cart);
 
   return (

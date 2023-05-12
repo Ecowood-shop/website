@@ -120,22 +120,39 @@ export const adminColorReducer = (state = {}, action) => {
       return state;
   }
 };
-
+//    Category
 export const adminCategoryReducer = (state = {}, action) => {
   switch (action.type) {
+    // get category by id for admin (USED: update category page)
+    case ADMIN.GET_CATEGORY_BY_ID_REQUEST:
+      return { loading: true };
+    case ADMIN.GET_CATEGORY_BY_ID_SUCCESS:
+      return { loading: false, category: action.payload };
+    case ADMIN.GET_CATEGORY_BY_ID_FAILURE:
+      return { loading: false, error: action.payload };
+
+    // update category with id for admin (USED: update category page)
+    case ADMIN.UPDATE_CATEGORY_REQUEST:
+      return { loading: true };
+    case ADMIN.UPDATE_CATEGORY_SUCCESS:
+      return { loading: false, success: true };
+    case ADMIN.UPDATE_CATEGORY_FAILURE:
+      return { loading: false, error: action.payload };
+
     case ADMIN.CREATE_CATEGORY_REQUEST:
       return { loading: true, success: false };
     case ADMIN.CREATE_CATEGORY_SUCCESS:
       return { loading: false, success: true };
     case ADMIN.CREATE_CATEGORY_FAIL:
       return { loading: false, error: action.payload };
-
     case ADMIN.DELETE_CATEGORY_REQUEST:
       return { loading: true, success: false };
     case ADMIN.DELETE_CATEGORY_SUCCESS:
       return { loading: false, success: true };
     case ADMIN.DELETE_CATEGORY_FAIL:
       return { loading: false, error: action.payload };
+    case ADMIN.CATEGORY_RESET:
+      return {};
     default:
       return state;
   }

@@ -15,7 +15,9 @@ import Message from "../../../components/Message/Message";
 import "./home.css";
 import { Products } from "../../../functions/CustomFunctions";
 
+import { useTranslation } from "react-i18next";
 function HomeScreen() {
+  const { t, i18n } = useTranslation();
   // HOOKS
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -26,13 +28,13 @@ function HomeScreen() {
   const { error, loading, products } = systemLatestProducts;
 
   useEffect(() => {
-    dispatch(getLatestProducts());
-    
-  }, [dispatch]);
-
+    dispatch(getLatestProducts(i18n.language));
+  }, [i18n.language, dispatch]);
+  console.log(products);
   return (
     <article className="home-container">
-      {loading && <Loader color={"blueviolet"}/>} {error && <Message>{error}</Message>}
+      {loading && <Loader color={"blueviolet"} />}{" "}
+      {error && <Message>{error}</Message>}
       {products &&
         Products(products).map((element) => (
           <Carousel
@@ -42,7 +44,6 @@ function HomeScreen() {
             navigate={navigate}
           />
         ))}
-        
     </article>
   );
 }

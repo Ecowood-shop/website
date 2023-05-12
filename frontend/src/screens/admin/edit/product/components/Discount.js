@@ -63,7 +63,6 @@ function Discount({ styles, formik, t }) {
               <FormikControl
                 control="input"
                 type="number"
-                step={0.01}
                 name="discountPercent"
                 className={styles.input}
                 placeholder="enter percent..."

@@ -12,12 +12,12 @@ export const initialValues = (product) => {
     name_rus: product?.name_rus ? product?.name_rus : "",
 
     // brand
-    brand_geo: product?.brand_geo ? product?.brand_geo : "",
+    brand_geo: product?.brand ? product?.brand : "",
     brand_eng: product?.brand_eng ? product?.brand_eng : "",
     brand_rus: product?.brand_rus ? product?.brand_rus : "",
 
     // size
-    size_geo: product?.size_geo ? product?.size_geo : "",
+    size_geo: product?.size ? product?.size : "",
     size_eng: product?.size_eng ? product?.size_eng : "",
     size_rus: product?.size_rus ? product?.size_rus : "",
 
@@ -28,8 +28,8 @@ export const initialValues = (product) => {
     category: product?.category_id ? product?.category_id : "",
 
     // technical requirements
-    technicalRequirements_geo: product?.technicalRequirements_geo
-      ? product?.technicalRequirements_geo
+    technicalRequirements_geo: product?.technicalRequirements
+      ? product?.technicalRequirements
       : "",
     technicalRequirements_eng: product?.technicalRequirements_eng
       ? product?.technicalRequirements_eng
@@ -39,8 +39,8 @@ export const initialValues = (product) => {
       : "",
 
     // instruction for use
-    instructionForUse_geo: product?.instructionForUse_geo
-      ? product?.instructionForUse_geo
+    instructionForUse_geo: product?.instructionForUse
+      ? product?.instructionForUse
       : "",
     instructionForUse_eng: product?.instructionForUse_eng
       ? product?.instructionForUse_eng
@@ -50,9 +50,7 @@ export const initialValues = (product) => {
       : "",
 
     // safety standarts
-    safetyStandard_geo: product?.safetyStandard_geo
-      ? product?.safetyStandard_geo
-      : "",
+    safetyStandard_geo: product?.safetyStandard ? product?.safetyStandard : "",
     safetyStandard_eng: product?.safetyStandard_eng
       ? product?.safetyStandard_eng
       : "",
@@ -179,7 +177,7 @@ export const onSubmit = (values, dispatch, id) => {
     youtubeUrl: values.youtubeUrl,
     coverageLength: values.coverageLength,
     price: values.price,
-    category: values.category,
+    category: String(values.category),
 
     // discounts
     discountType: values.discountType,
@@ -218,7 +216,8 @@ export const onSubmit = (values, dispatch, id) => {
       " " +
       convertTime12to24(values.end_time) +
       ":00";
-    data.discountPercent = values.discountPercent;
+    data.discountPercent =
+      values.discountPercent < 1 ? 0 : values.discountPercent;
   }
 
   console.log(data);

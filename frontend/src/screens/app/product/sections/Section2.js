@@ -8,7 +8,7 @@ import { getSimilarProducts } from "../../../../store/actions/systemActions";
 // COMPONENTS
 import Carousel from "../../../../components/carousel/Carousel";
 
-function Section2({ product, styles, navigate, category, dispatch, t }) {
+function Section2({ product, styles, navigate, category, dispatch, t, i18n }) {
   const [current, setCurrent] = useState(0);
 
   const systemSimilarProducts = useSelector(
@@ -17,8 +17,8 @@ function Section2({ product, styles, navigate, category, dispatch, t }) {
   const { products } = systemSimilarProducts;
 
   useEffect(() => {
-    dispatch(getSimilarProducts(category));
-  }, [dispatch]);
+    dispatch(getSimilarProducts(i18n.language, category.id));
+  }, [dispatch, category.id, i18n.language]);
 
   function renderSwitch(param) {
     switch (param) {
@@ -35,7 +35,7 @@ function Section2({ product, styles, navigate, category, dispatch, t }) {
 
   let k = [];
   products?.forEach((element) => k.push({ product: element }));
-
+  console.log(products);
   return (
     <section className={styles.section2}>
       <header>
@@ -45,7 +45,7 @@ function Section2({ product, styles, navigate, category, dispatch, t }) {
             current == 0 ? { fontWeight: "bold", backgroundColor: "white" } : {}
           }
         >
-         {t("product.technical requirements")}
+          {t("product.technical requirements")}
         </h2>
         <h2
           onClick={() => setCurrent(1)}
@@ -53,7 +53,7 @@ function Section2({ product, styles, navigate, category, dispatch, t }) {
             current == 1 ? { fontWeight: "bold", backgroundColor: "white" } : {}
           }
         >
-     {t("product.terms of use")}
+          {t("product.terms of use")}
         </h2>
         <h2
           onClick={() => setCurrent(2)}
@@ -61,16 +61,12 @@ function Section2({ product, styles, navigate, category, dispatch, t }) {
             current == 2 ? { fontWeight: "bold", backgroundColor: "white" } : {}
           }
         >
-        {t("product.safety standard")} 
+          {t("product.safety standard")}
         </h2>
       </header>
       <p> {renderSwitch(current)}</p>
       {products && (
-        <Carousel
-          category={{ category: category }}
-          products={k}
-          navigate={navigate}
-        />
+        <Carousel category={category} products={k} navigate={navigate} />
       )}
     </section>
   );

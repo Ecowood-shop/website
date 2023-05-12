@@ -102,6 +102,8 @@ def getProducts(request):
                     try:
                         # Get the translation for the product's name_geo in the specified language
                         translation = Translation.objects.get(language=language, key=product[field_name])
+                        if translation.value =='':
+                            raise Translation.DoesNotExist()
                         product[field_name] = translation.value
                     except Translation.DoesNotExist:
                         pass  # If no translation is found, keep the original value
@@ -118,6 +120,8 @@ def getProducts(request):
                 try:
                     # Get the translation for the product's name_geo in the specified language
                     translation = Translation.objects.get(language=language, key=product[field_name])
+                    if translation.value =='':
+                        raise Translation.DoesNotExist()
                     product[field_name] = translation.value
                 except Translation.DoesNotExist:
                     pass  # If no translation is found, keep the original value
@@ -141,6 +145,99 @@ def getCategories(request):
                 pass  # If no translation is found, keep the original value
     return Response(serializer.data)
 
+@api_view(['GET'])
+def getCategoryById(request, pk):
+    token = request.COOKIES.get('jwt')
+
+    if not token:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    try:
+        payload = jwt.decode(token, 'secret', algorithm=['HS256'])
+    except jwt.ExpiredSignatureError:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    user = User.objects.filter(id=payload['id']).first()
+
+    if not user.is_staff:
+        raise AuthenticationFailed('You do not have permission to perform this action.')
+
+    try:
+        newDict = {}
+
+        category = Category.objects.get(_id=pk)
+
+        translation = Translation.objects.filter(key=category)
+        serializer = CategorySerializer(category, many=False)
+
+        # Get the translation for the product's name_geo in the specified language
+        translation_eng = Translation.objects.get(language='ENG', key=category)
+        translation_rus = Translation.objects.get(language='RUS', key=category)
+
+        newDict.update(serializer.data)
+
+        newDict['name_eng'] = translation_eng.value
+        newDict['name_rus'] = translation_rus.value
+
+        return Response(newDict)
+    except Exception as e:
+        raise ValidationError(e)
+
+
+@api_view(['PUT'])
+def updateCategory(request, pk):
+    token = request.COOKIES.get('jwt')
+
+    if not token:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    try:
+        payload = jwt.decode(token, 'secret', algorithm=['HS256'])
+    except jwt.ExpiredSignatureError:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    user = User.objects.filter(id=payload['id']).first()
+
+    if not user.is_staff:
+        raise AuthenticationFailed('You do not have permission to perform this action.')
+
+    data = request.data
+
+    try:
+        category = Category.objects.get(_id=pk)
+        translation_eng = Translation.objects.get(language='ENG', key=category.name)
+        translation_rus = Translation.objects.get(language='RUS', key=category.name)
+
+    except Exception as e:
+        raise ValidationError(e)
+
+    with transaction.atomic():
+        if data['name'] and data['name'] != category.name:
+            category.name = data['name']
+
+            if not Translation.objects.filter(language='ENG', key=data['name'], value=data['name_eng']).exists():
+                Translation.objects.create(language='ENG', key=data['name'], value=data['name_eng'])
+
+            if not Translation.objects.filter(language='RUS', key=data['name'], value=data['name_rus']).exists():
+                Translation.objects.create(language='RUS', key=data['name'], value=data['name_rus'])
+
+            category.save()
+
+        else:
+            translation_eng.value = data['name_eng']
+            translation_rus.value = data['name_rus']
+
+            translation_eng.save()
+            translation_rus.save()
+    categorySerializer = CategorySerializer(category, many=False)
+
+    newDict = {}
+
+    newDict.update(categorySerializer.data)
+
+    newDict['category_eng'] = translation_eng.value
+    newDict['category_rus'] = translation_rus.value
+    return Response(newDict)
 
 @api_view(['GET'])
 def getLatestProducts(request):
@@ -160,6 +257,18 @@ def getLatestProducts(request):
         user = User.objects.filter(id=payload['id']).first()
     except:
         serializer = TopProductSerializer(products, many=True)
+        if language is not None and language != '':
+            for product in serializer.data:
+                for field_name in ['name_geo', 'category', 'size', 'price', 'discount']:
+                    try:
+                        # Get the translation for the product's name_geo in the specified language
+                        translation = Translation.objects.get(language=language, key=product[field_name])
+                        if translation.value =='':
+                            raise Translation.DoesNotExist()
+                    
+                        product[field_name] = translation.value
+                    except Translation.DoesNotExist:
+                        pass  # If no translation is found, keep the original value
         return Response(serializer.data)
 
     apply_user_discounts(products, user)
@@ -172,6 +281,10 @@ def getLatestProducts(request):
                 try:
                     # Get the translation for the product's name_geo in the specified language
                     translation = Translation.objects.get(language=language, key=product[field_name])
+
+                    if translation.value =='':
+                        raise Translation.DoesNotExist()
+                    
                     product[field_name] = translation.value
                 except Translation.DoesNotExist:
                     pass  # If no translation is found, keep the original value
@@ -183,7 +296,7 @@ def getLatestProduct(request, pk):
     language = request.query_params.get('language')
 
     try:
-        category = Category.objects.get(name=pk)
+        category = Category.objects.get(_id=pk)
     except:
         raise ValidationError('Category with this name does not exist')
     products = []
@@ -197,6 +310,18 @@ def getLatestProduct(request, pk):
         user = User.objects.filter(id=payload['id']).first()
     except:
         serializer = TopProductSerializer(products, many=True)
+        if language is not None and language != '':
+            for product in serializer.data:
+                for field_name in ['name_geo', 'category', 'size', 'price', 'discount']:
+                    try:
+                        # Get the translation for the product's name_geo in the specified language
+                        translation = Translation.objects.get(language=language, key=product[field_name])
+                        if translation.value =='':
+                            raise Translation.DoesNotExist()
+                    
+                        product[field_name] = translation.value
+                    except Translation.DoesNotExist:
+                        pass  # If no translation is found, keep the original value
         return Response(serializer.data)
 
     apply_user_discounts(products, user)
@@ -209,6 +334,9 @@ def getLatestProduct(request, pk):
                 try:
                     # Get the translation for the product's name_geo in the specified language
                     translation = Translation.objects.get(language=language, key=product[field_name])
+                    if translation.value =='':
+                        raise Translation.DoesNotExist()
+                    
                     product[field_name] = translation.value
                 except Translation.DoesNotExist:
                     pass  # If no translation is found, keep the original value
@@ -233,27 +361,61 @@ def getProduct(request, pk):
         payload = jwt.decode(token, 'secret', algorithm=['HS256'])
         user = User.objects.filter(id=payload['id']).first()
     except:
+        serializer_data=(ProductSerializer(product).data)
         serializer = ProductSerializer(product, many=False)
-        variantSerializer = VariantSerializer(variants, many=True)
-        return Response({'products': serializer.data, 'variants': variantSerializer.data})
 
-    serializer_data = []
+        if language is not None and language != '':
+            product=serializer_data
+            for field_name in ['name_geo', 'brand', 'category', 'size', 'technicalRequirements', 'instructionForUse',
+                                'safetyStandard', 'coverageLength', 'youtubeUrl', 'price', 'discount']:
+                try:
+                    # Get the translation for the product's name_geo in the specified language
+                    translation = Translation.objects.get(language=language, key=product[field_name])
+
+                    if translation.value =='':
+                        raise Translation.DoesNotExist()
+                    
+                    product[field_name] = translation.value
+                except Translation.DoesNotExist:
+                    pass  # If no translation is found, keep the original value
+
+        variantSerializer = VariantSerializer(variants, many=True)
+
+        if language is not None and language != '':
+            for product in variantSerializer.data:
+                for field_name in ['color', 'title']:
+                    try:
+                        # Get the translation for the product's name_geo in the specified language
+                        translation = Translation.objects.get(language=language, key=product[field_name])
+                        if translation.value =='':
+                            raise Translation.DoesNotExist()
+                        product[field_name] = translation.value
+                    except Translation.DoesNotExist:
+                        pass  # If no translation is found, keep the original value
+
+        return Response({'products': serializer_data, 'variants': variantSerializer.data})
+
+
 
     product.discount = product.get_discount(user)
-    serializer_data.append(ProductSerializer(product).data)
+    serializer_data=(ProductSerializer(product).data)
 
     serializer = ProductSerializer(product, many=False)
 
     if language is not None and language != '':
-        for product in serializer_data:
-            for field_name in ['name_geo', 'brand', 'category', 'size', 'technicalRequirements', 'instructionForUse',
-                               'safetyStandard', 'coverageLength', 'youtubeUrl', 'price', 'discount']:
-                try:
-                    # Get the translation for the product's name_geo in the specified language
-                    translation = Translation.objects.get(language=language, key=product[field_name])
-                    product[field_name] = translation.value
-                except Translation.DoesNotExist:
-                    pass  # If no translation is found, keep the original value
+        product=serializer_data
+        for field_name in ['name_geo', 'brand', 'category', 'size', 'technicalRequirements', 'instructionForUse',
+                            'safetyStandard', 'coverageLength', 'youtubeUrl', 'price', 'discount']:
+            try:
+                # Get the translation for the product's name_geo in the specified language
+                translation = Translation.objects.get(language=language, key=product[field_name])
+
+                if translation.value =='':
+                    raise Translation.DoesNotExist()
+                
+                product[field_name] = translation.value
+            except Translation.DoesNotExist:
+                pass  # If no translation is found, keep the original value
 
     variantSerializer = VariantSerializer(variants, many=True)
 
@@ -263,6 +425,8 @@ def getProduct(request, pk):
                 try:
                     # Get the translation for the product's name_geo in the specified language
                     translation = Translation.objects.get(language=language, key=product[field_name])
+                    if translation.value =='':
+                            raise Translation.DoesNotExist()
                     product[field_name] = translation.value
                 except Translation.DoesNotExist:
                     pass  # If no translation is found, keep the original value
@@ -301,6 +465,8 @@ def getJustProducts(request):
             try:
                 # Get the translation for the product's name_geo in the specified language
                 translation = Translation.objects.get(language=language, key=product['name_geo'])
+                if translation.value =='':
+                            raise Translation.DoesNotExist()
                 product['name_geo'] = translation.value
             except Translation.DoesNotExist:
                 pass  # If no translation is found, keep the original value
@@ -324,6 +490,8 @@ def getProductVariants(request, pk):
                 try:
                     # Get the translation for the product's name_geo in the specified language
                     translation = Translation.objects.get(language=language, key=product[field_name])
+                    if translation.value =='':
+                            raise Translation.DoesNotExist()
                     product[field_name] = translation.value
                 except Translation.DoesNotExist:
                     pass  # If no translation is found, keep the original value
@@ -346,6 +514,8 @@ def getProductColors(request):
             try:
                 # Get the translation for the product's name_geo in the specified language
                 translation = Translation.objects.get(language=language, key=product['name'])
+                if translation.value =='':
+                            raise Translation.DoesNotExist()
                 product['name'] = translation.value
             except Translation.DoesNotExist:
                 pass  # If no translation is found, keep the original value
@@ -394,42 +564,48 @@ def createProduct(request):
             ValidationError('There was error during creation process of discount')
     else:
         raise ValidationError('Invalid discount type')
+    try:
+        with transaction.atomic():
 
-    product = Product.objects.create(
-        user=user,
-        name_geo=data['name_geo'],
-        brand=data['brand_geo'],
-        category=category,
-        size=data['size_geo'],
-        coverageLength=data['coverageLength'],
-        technicalRequirements=data['technicalRequirements_geo'],
-        instructionForUse=data['instructionForUse_geo'],
-        safetyStandard=data['safetyStandard_geo'],
-        youtubeUrl=data['youtubeUrl'],
-        price=data['price'],
-        discount=discount,
-    )
+            product = Product.objects.create(
+                user=user,
+                name_geo=data['name_geo'],
+                brand=data['brand_geo'],
+                category=category,
+                size=data['size_geo'],
+                coverageLength=data['coverageLength'],
+                technicalRequirements=data['technicalRequirements_geo'],
+                instructionForUse=data['instructionForUse_geo'],
+                safetyStandard=data['safetyStandard_geo'],
+                youtubeUrl=data['youtubeUrl'],
+                price=data['price'],
+                discount=discount,
+            )
+            print('vegar gamovedi')
+        
+            fields = ['name_geo', 'brand_geo',  'size_geo', 'technicalRequirements_geo',
+                      'instructionForUse_geo', 'safetyStandard_geo']
 
-    fields = ['name_geo', 'brand_geo', 'category_name_geo', 'size_geo', 'technicalRequirements_geo',
-              'instructionForUse_geo', 'safetyStandard_geo']
+            for field in fields:
+                if field == 'category_name_geo':
+                    key = category.name
+                else:
+                    if data[field].isdigit():
+                        continue
+        
+                    key = data[field]
+                if not Translation.objects.filter(key=key).exists():
+                    eng = field[:-3] + 'eng'
+                    rus = field[:-3] + 'rus'
+        
+                    Translation.objects.bulk_create(
+                        [Translation(language='ENG', key=key, value=data[eng]),
+                         Translation(language='RUS', key=key, value=data[rus])])
 
-    for field in fields:
-        if field == 'category_name_geo':
-            key = category.name
-        else:
-            if data[field].isdigit():
-                continue
-
-            key = data[field]
-        if not Translation.objects.filter(key=key).exists():
-            eng = field[:-3] + 'eng'
-            rus = field[:-3] + 'rus'
-
-            Translation.objects.bulk_create(
-                [Translation(language='ENG', key=key, value=data[eng]),
-                 Translation(language='RUS', key=key, value=data[rus])])
-    serializer = ProductSerializer(product, many=False)
-    return Response(serializer.data)
+            serializer = ProductSerializer(product, many=False)
+            return Response(serializer.data)
+    except Exception as e:
+        raise ValidationError(e)
 
 
 @api_view(['POST'])
@@ -454,13 +630,13 @@ def createCategory(request):
     if Category.objects.filter(name=data['name']).exists():
         raise ValidationError("This category already exist.")
     else:
-        category = Category.objects.create(
-            name=data['name']
-        )
+        with transaction.atomic():
+            category = Category.objects.create(name=data['name'])
 
-    if not Translation.objects.filter(key=data['name']).exists():
-        Translation.objects.bulk_create(
-            [Translation(language='ENG', key=data['name']), Translation(language='RUS', key=data['name'])])
+            if not Translation.objects.filter(language='ENG', key=data['name']).exists():
+                Translation.objects.create(language='ENG', key=data['name'], value=data['name_eng'])
+            if not Translation.objects.filter(language='RUS', key=data['name']).exists():
+                Translation.objects.create(language='RUS', key=data['name'], value=data['name_rus'])
 
     return Response("Category " + data['name'] + " Created Successfully")
 
@@ -729,7 +905,30 @@ def getProductAdmin(request, pk):
 
     serializer = ProductSerializer(product, many=False)
     variantSerializer = VariantSerializer(variants, many=True)
-    return Response({'products': serializer.data, 'variants': variantSerializer.data})
+
+    newdict = {}
+
+    for field_name in ['name_geo', 'brand', 'size', 'technicalRequirements', 'instructionForUse', 'safetyStandard']:
+        try:
+            # Get the translation for the product's name_geo in the specified language
+            translation_eng = Translation.objects.get(language='ENG', key=serializer.data[field_name])
+            translation_rus = Translation.objects.get(language='RUS', key=serializer.data[field_name])
+            
+            if field_name == 'name_geo':
+                eng = field_name[:-3] + 'eng'
+                rus = field_name[:-3] + 'rus'
+            else:
+                eng = field_name + '_eng'
+                rus = field_name + '_rus'
+            print(eng)
+            newdict[eng] = translation_eng.value
+            newdict[rus] = translation_rus.value 
+            newdict.update(serializer.data)
+            
+        except Translation.DoesNotExist:
+            pass  # If no translation is found, keep the original value
+                
+    return Response({'products': newdict, 'variants': variantSerializer.data})
 
 
 @api_view(['PUT'])
@@ -896,6 +1095,9 @@ def getUserCart(request):
                 try:
                     # Get the translation for the product's name_geo in the specified language
                     translation = Translation.objects.get(language=language, key=product[field_name])
+                    if translation.value =='':
+                        raise Translation.DoesNotExist()
+                    
                     product[field_name] = translation.value
                 except Translation.DoesNotExist:
                     pass  # If no translation is found, keep the original value
@@ -908,6 +1110,8 @@ def getUserCart(request):
                 try:
                     # Get the translation for the product's name_geo in the specified language
                     translation = Translation.objects.get(language=language, key=product[field_name])
+                    if translation.value =='':
+                            raise Translation.DoesNotExist()
                     product[field_name] = translation.value
                 except Translation.DoesNotExist:
                     pass  # If no translation is found, keep the original value
@@ -1122,59 +1326,62 @@ def updateProduct(request, pk):
             ValidationError('There was error during creation process of discount')
     else:
         raise ValidationError('Invalid discount type')
+    try:
+        with transaction.atomic():
+            if data['name_geo']:
+                product.name_geo = data['name_geo']
+            if data['price']:
+                product.price = data['price']
+            if data['brand_geo']:
+                product.brand = data['brand_geo']
+            if category:
+                product.category = category
+            if data['size_geo']:
+                product.size = data['size_geo']
+            if data['technicalRequirements_geo']:
+                product.technicalRequirements = data['technicalRequirements_geo']
+            if data['instructionForUse_geo']:
+                product.instructionForUse = data['instructionForUse_geo']
+            if data['safetyStandard_geo']:
+                product.safetyStandard = data['safetyStandard_geo']
+            if data['youtubeUrl']:
+                product.youtubeUrl = data['youtubeUrl']
+            if data['coverageLength']:
+                product.coverageLength = data['coverageLength']
 
-    if data['name_geo']:
-        product.name_geo = data['name_geo']
-    if data['price']:
-        product.price = data['price']
-    if data['brand_geo']:
-        product.brand = data['brand_geo']
-    if category:
-        product.category = category
-    if data['size_geo']:
-        product.size = data['size_geo']
-    if data['technicalRequirements_geo']:
-        product.technicalRequirements = data['technicalRequirements_geo']
-    if data['instructionForUse_geo']:
-        product.instructionForUse = data['instructionForUse_geo']
-    if data['safetyStandard_geo']:
-        product.safetyStandard = data['safetyStandard_geo']
-    if data['youtubeUrl']:
-        product.youtubeUrl = data['youtubeUrl']
-    if data['coverageLength']:
-        product.coverageLength = data['coverageLength']
+            fields = ['name_geo', 'brand_geo', 'category', 'size_geo', 'technicalRequirements_geo',
+                    'instructionForUse_geo', 'safetyStandard_geo']
 
-    fields = ['name_geo', 'brand_geo', 'category', 'size_geo', 'technicalRequirements_geo',
-              'instructionForUse_geo', 'safetyStandard_geo']
+            for field in fields:
+                if data[field].isdigit():
+                    continue
 
-    for field in fields:
-        if data[field].isdigit():
-            continue
+                key = data[field]
 
-        key = data[field]
+                eng = field[:-3] + 'eng'
+                rus = field[:-3] + 'rus'
 
-        eng = field[:-3] + 'eng'
-        rus = field[:-3] + 'rus'
+                if Translation.objects.filter(key=key).exists():
+                    obj_eng = Translation.objects.get(language='ENG', key=key)
+                    obj_rus = Translation.objects.get(language='RUS', key=key)
 
-        if Translation.objects.filter(key=key).exists():
-            obj_eng = Translation.objects.get(language='ENG', key=key)
-            obj_rus = Translation.objects.get(language='RUS', key=key)
+                    obj_eng.value = data[eng]
+                    obj_rus.value = data[rus]
 
-            obj_eng.value = data[eng]
-            obj_rus.value = data[rus]
+                    obj_eng.save()
+                    obj_rus.save()
+                else:
+                    Translation.objects.bulk_create(
+                        [Translation(language='ENG', key=key, value=data[eng]),
+                        Translation(language='RUS', key=key, value=data[rus])])
+            product.discount.save()
+            product.save()
 
-            obj_eng.save()
-            obj_rus.save()
-        else:
-            Translation.objects.bulk_create(
-                [Translation(language='ENG', key=key, value=data[eng]),
-                 Translation(language='RUS', key=key, value=data[rus])])
-    product.discount.save()
-    product.save()
+            serializer = ProductSerializer(product, many=False)
 
-    serializer = ProductSerializer(product, many=False)
-
-    return Response({'products': serializer.data})
+            return Response({'products': serializer.data})
+    except Exception as e:
+        raise ValidationError(e)
 
 
 @api_view(['DELETE'])
@@ -1262,6 +1469,8 @@ def getWarehouses(request):
             try:
                 # Get the translation for the product's name_geo in the specified language
                 translation = Translation.objects.get(language=language, key=product['location'])
+                if translation.value =='':
+                            raise Translation.DoesNotExist()
                 product['location'] = translation.value
             except Translation.DoesNotExist:
                 pass  # If no translation is found, keep the original value

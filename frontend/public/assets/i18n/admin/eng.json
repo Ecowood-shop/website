@@ -58,6 +58,8 @@
     "delivered": "delivered",
     "in progress": "in progress",
     "price": "price",
-    "cities": "cities"
+    "cities": "cities",
+    "city": "city",
+    "limit": "limit"
   }
 }

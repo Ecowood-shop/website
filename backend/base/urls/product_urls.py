@@ -10,6 +10,7 @@ urlpatterns = [
     path('image/<str:pk>/', views.getProductImagesById, name="getImages"),
 
     path('categories/', views.getCategories, name="category"),
+    path('categories/<str:pk>/', views.getCategoryById, name="category-by-id"),
     path('colors/', views.getProductColors, name="colors"),
 
     path('cartload/<str:pk>/', views.addToCart, name='addToCart'),
@@ -23,6 +24,7 @@ urlpatterns = [
     path('variants/delete/<str:pk>/', views.deleteVariant, name="variant-delete"),
 
     path('category/create', views.createCategory, name='create-category'),
+    path('category/update/<str:pk>/', views.updateCategory, name='update-category'),
     path('category/delete/<str:pk>/', views.deleteCategory, name='delete-category'),
 
     path('latest/', views.getLatestProducts, name='latest-products'),
@@ -47,7 +49,7 @@ urlpatterns = [
     path('delete/specific/discount/<str:pk>/', views.deleteSpecificDiscount, name="specific-discount-delete"),
 
     path('<str:pk>/', views.getProduct, name="product"),
-    path('<str:pk>/admin', views.getProductAdmin, name="admin-product"),
+    path('<str:pk>/admin/', views.getProductAdmin, name="admin-product"),
 
 ]
 

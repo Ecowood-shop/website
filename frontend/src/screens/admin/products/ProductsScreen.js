@@ -40,7 +40,7 @@ const columns = (t) => [
 ];
 
 function ProductsScreen() {
-  const { t } = useTranslation(["admin"]);
+  const { t, i18n } = useTranslation(["admin"]);
   // HOOKS
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -61,8 +61,8 @@ function ProductsScreen() {
   useEffect(() => {
     dispatch({ type: ADMIN.UPDATE_PRODUCT_RESET });
     dispatch({ type: "GET_PRODUCT_RESET" });
-    dispatch(getProducts(word, category, orderby, page));
-  }, [dispatch, category, word, orderby, page, success]);
+    dispatch(getProducts(i18n.language, word, category, orderby, page));
+  }, [dispatch, category, word, orderby, page, success, i18n.language]);
   console.log(products);
   return (
     <section className={styles.container}>

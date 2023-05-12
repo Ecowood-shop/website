@@ -49,6 +49,9 @@ h2,
 h1 {
   text-transform: capitalize;
 }
+[id*="placeholder"] {
+  text-transform: capitalize;
+}
 input {
   &::placeholder {
     text-transform: capitalize;

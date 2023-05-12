@@ -1,5 +1,6 @@
 // REDUX
-import { createStore, combineReducers, applyMiddleware } from "redux";
+import { combineReducers, applyMiddleware } from "redux";
+import { legacy_createStore as createStore } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
 
@@ -19,6 +20,9 @@ import {
   adminImageReducer,
   adminCategoryReducer,
   adminOrderReducer,
+  //category
+  getCategoryByIdReducer,
+  updateCategoryReducer,
 } from "./reducers/adminReducers";
 import {
   userReducer,
@@ -27,7 +31,10 @@ import {
 } from "./reducers/userReducers";
 import { orderReducer } from "./reducers/orderReducers";
 import { shippingReducer } from "./reducers/shippingReducer";
-import { discountReducer,specificDiscountReducer } from "./reducers/discountReducers";
+import {
+  discountReducer,
+  specificDiscountReducer,
+} from "./reducers/discountReducers";
 
 const reducer = combineReducers({
   systemCategories: systemCategoriesReducer,
@@ -40,6 +47,7 @@ const reducer = combineReducers({
   adminVariants: adminVariantReducer,
   adminColors: adminColorReducer,
   adminImages: adminImageReducer,
+  // category
   adminCategories: adminCategoryReducer,
   adminOrders: adminOrderReducer,
   User: userReducer,
@@ -48,7 +56,7 @@ const reducer = combineReducers({
   Order: orderReducer,
   shipping: shippingReducer,
   discounts: discountReducer,
-  specificDiscount:specificDiscountReducer
+  specificDiscount: specificDiscountReducer,
 });
 
 const shippingFromStorage = localStorage.getItem("shipping")

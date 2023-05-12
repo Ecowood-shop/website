@@ -11,11 +11,15 @@ import { orderDelivered } from "../../../store/actions/adminActions";
 // OTHERS
 import styles from "./styles.module.scss";
 
+//components
+import Loader from "../../../components/loader/Loader";
+import Message from "../../../components/Message/Message";
+
 // translate
 import { useTranslation } from "react-i18next";
 
 function Order() {
-  const { t } = useTranslation(["auth"]);
+  const { t, i18n } = useTranslation(["auth"]);
   const User = useSelector((state) => state.User);
   const { user } = User;
 
@@ -31,8 +35,8 @@ function Order() {
   const { success } = adminOrders;
 
   useEffect(() => {
-    dispatch(getOrder(params.id));
-  }, [dispatch, success]);
+    dispatch(getOrder(params.id, i18n.language));
+  }, [dispatch, params.id, success, i18n.language]);
 
   let ID, username;
   if (order?.Order) {
@@ -64,8 +68,10 @@ function Order() {
   }
 
   console.log(order);
+  console.log(error);
   return (
     <article className={styles.container}>
+      {loading && <Loader />}
       {order?.Order && (
         <>
           <h1>
@@ -151,6 +157,7 @@ function Order() {
       )}
       <h2>{t("cart.products")}</h2>
       <section className={styles.products}>
+        {error && <Message>{error}</Message>}
         {order?.Order &&
           order?.Order.orderItems.map((product, index) => (
             <div className={styles.product} key={product._id}>
@@ -178,7 +185,7 @@ function Order() {
                 </div>
               </div>
               <p className={styles.emount}>
-                {product.qty}{" "}
+                {product.qty}
                 {product.qty > 1 ? t("global.items") : t("global.item")}
               </p>
             </div>

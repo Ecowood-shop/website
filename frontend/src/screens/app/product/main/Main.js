@@ -35,7 +35,7 @@ function Main({ product, iframe, youtube, variants, navigate, id, t }) {
 
   useEffect(() => {
     if (successCartAdd) navigate("/cart");
-  }, [successCartAdd]);
+  }, [successCartAdd, dispatch, navigate]);
 
   useEffect(() => {
     dispatch({ type: USER.CART_ERROR_RESET });
@@ -59,7 +59,7 @@ function Main({ product, iframe, youtube, variants, navigate, id, t }) {
               </div>
             )}
 
-          <Description product={product} t={t} />
+          <Description product={product} t={t} styles={styles} />
 
           <Formik
             initialValues={initialValues(variants)}
@@ -71,6 +71,7 @@ function Main({ product, iframe, youtube, variants, navigate, id, t }) {
               return (
                 <Form>
                   <Color
+                    styles={styles}
                     color={values["color"]}
                     variants={variants}
                     name={"color"}
@@ -91,10 +92,10 @@ function Main({ product, iframe, youtube, variants, navigate, id, t }) {
                             parseFloat(product.discount.percentage)) /
                             100
                         ).toFixed(2)}{" "}
-                       ₾ 
+                        ₾
                       </>
                     ) : (
-                      <>{product.price} ₾ </> 
+                      <>{product.price} ₾ </>
                     )}
                   </p>
                   <Quantity styles={styles} t={t} />

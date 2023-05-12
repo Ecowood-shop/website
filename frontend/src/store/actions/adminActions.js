@@ -67,6 +67,57 @@ export const createProduct = (formData) => async (dispatch) => {
   }
 };
 
+//    Category
+// get category by id for admin (USED: update category page)
+export const getCategoryById = (id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: ADMIN.GET_CATEGORY_BY_ID_REQUEST,
+    });
+
+    const { data } = await useAxios.get(`/api/products/categories/${id}/`);
+
+    dispatch({
+      type: ADMIN.GET_CATEGORY_BY_ID_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADMIN.GET_CATEGORY_BY_ID_FAILURE,
+      payload: error.response?.data
+        ? Object.values(error.response?.data)[0]
+        : error.response,
+    });
+  }
+};
+
+// update category with id  for admin (USED: update category page)
+export const updateCategory = (id, formData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: ADMIN.UPDATE_CATEGORY_REQUEST,
+    });
+
+    const { data } = await useAxios.put(
+      `/api/products/category/update/${id}/`,
+      {
+        ...formData,
+      }
+    );
+
+    dispatch({
+      type: ADMIN.UPDATE_CATEGORY_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADMIN.UPDATE_CATEGORY_FAILURE,
+      payload: error.response?.data
+        ? Object.values(error.response?.data)[0]
+        : error.response,
+    });
+  }
+};
 export const createCategory = (formData) => async (dispatch) => {
   try {
     console.log(formData);

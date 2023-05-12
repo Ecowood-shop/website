@@ -87,7 +87,7 @@ def addOrderItems(request):
                     order.save()
 
                 else:
-                    warehouse = Warehouse.objects.get(_id=data['_id'])
+                    warehouse = Warehouse.objects.get(location=data['_id'])
 
                     shipping = WithoutShipping.objects.create(
                         order=order,
@@ -298,6 +298,8 @@ def getOrderById(request, pk):
                 try:
                     # Get the translation for the product's name_geo in the specified language
                     translation = Translation.objects.get(language=language, key=field['name'])
+                    if translation.value =='':
+                            raise Translation.DoesNotExist()
                     field['name'] = translation.value
                 except Translation.DoesNotExist:
                     pass  # If no translation is found, keep the original value
@@ -306,7 +308,19 @@ def getOrderById(request, pk):
                 try:
                     # Get the translation for the product's name_geo in the specified language
                     translation = Translation.objects.get(language=language, key=field['color'])
+                    if translation.value =='':
+                            raise Translation.DoesNotExist()
                     field['color'] = translation.value
+                except Translation.DoesNotExist:
+                    pass  # If no translation is found, keep the original value
+
+            for field in productSerializer.data:
+                try:
+                    # Get the translation for the product's name_geo in the specified language
+                    translation = Translation.objects.get(language=language, key=field['size'])
+                    if translation.value =='':
+                            raise Translation.DoesNotExist()
+                    field['size'] = translation.value
                 except Translation.DoesNotExist:
                     pass  # If no translation is found, keep the original value
 
@@ -348,7 +362,7 @@ def updateOrderToPaid(request, pk):
 
 @api_view(['PUT'])
 def updateOrderToDelivered(request, pk):
-    token = request.COOKIES.get('jwt')
+    token = request.COOKIES. uppercaseget('jwt')
 
     if not token:
         raise AuthenticationFailed('Unauthenticated!')
