@@ -6,7 +6,7 @@ export const initialValues = (shippingFromStorage) => {
     // shipping method (_id is office id)
     wants_delivery: shippingFromStorage?.wants_delivery,
     cityId: shippingFromStorage?.cityId,
-    _id: shippingFromStorage?._id,
+    _id: shippingFromStorage?._id && shippingFromStorage?._id.toLowerCase(),
     // shipping details
     physicPerson: shippingFromStorage?.physicPerson,
     first_name: shippingFromStorage?.first_name,

@@ -280,8 +280,8 @@ class Picture(models.Model):
 
 class Translation(models.Model):
     language = models.CharField(max_length=3)
-    key = models.CharField(max_length=100)
-    value = models.CharField(max_length=100)
+    key = models.CharField(max_length=1000)
+    value = models.CharField(max_length=1000)
 
     class Meta:
         # Set the composite key as the primary key
@@ -289,3 +289,5 @@ class Translation(models.Model):
 
     def __str__(self):
         return str((self.language, self.key))
+    
+    

@@ -23,9 +23,12 @@ import UserScreen from "./screens/admin/edit/user/User";
 import OrderScreen from "./screens/admin/orders/OrderScreen";
 import CreateProductScreen from "./screens/admin/create/product/Product";
 import CategoryScreen from "./screens/admin/categories/CategoryScreen";
+import CreateCategoryScreen from "./screens/admin/create/category/CreateCategoryScreen";
+import Category from "./screens/admin/edit/category/Category";
 import Variants from "./screens/admin/variants/Variants";
 import Images from "./screens/admin/images/Images";
-import Shipping from "./screens/admin/shipping/Shipping";
+import CitiesScreen from "./screens/admin/cities/CitiesScreen";
+import CreateCityScreen from "./screens/admin/create/city/CreateCityScreen";
 import DiscountsScreen from "./screens/admin/specificDiscounts/DiscountsScreen";
 import DiscountScreen from "./screens/admin/edit/specificDiscount/SpecificDiscount";
 import CreateDIscountScreen from "./screens/admin/create/specificDiscount/SpecificDiscount";
@@ -107,6 +110,11 @@ function App() {
               />
               <Route path="/admin/products/:id/images/" element={<Images />} />
               <Route path="/admin/categories" element={<CategoryScreen />} />
+              <Route path="/admin/categories/:id/edit" element={<Category />} />
+              <Route
+                path="/admin/categories/create"
+                element={<CreateCategoryScreen />}
+              />
               <Route path="/admin/users" element={<UsersScreen />} />
               <Route path="/admin/users/:id/edit" element={<UserScreen />} />
               <Route path="/admin/discounts" element={<DiscountsScreen />} />
@@ -119,7 +127,11 @@ function App() {
                 element={<CreateDIscountScreen />}
               />
               <Route path="/admin/orders" element={<OrderScreen />} />
-              <Route path="/admin/shipping" element={<Shipping />} />
+              <Route path="/admin/cities" element={<CitiesScreen />} />{" "}
+              <Route
+                path="/admin/cities/create"
+                element={<CreateCityScreen />}
+              />
             </Route>
             <Route path="*" element={<Error />} />
           </Routes>

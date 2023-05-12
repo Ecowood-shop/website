@@ -109,6 +109,7 @@
 }
 
 .price {
+  padding: 1rem;
   font-size: var(--large) !important;
   text-align: center;
   b {
@@ -123,11 +124,6 @@
 
 b {
   font-weight: 600;
-}
-.color {
-  text-align: center;
-  font-size: var(--large) !important;
-  padding: 1rem;
 }
 
 .error {
@@ -156,6 +152,35 @@ b {
   }
   input[type="number"] {
     -moz-appearance: textfield !important;
+  }
+}
+
+.description {
+  width: 100%;
+  table {
+    width: 100%;
+  }
+  th,
+  td {
+    background: transparent !important;
+    border: none;
+    border-radius: 0;
+    padding: 0.5rem;
+    border-bottom: 1px solid var(--color-primary) !important;
+    text-align: left;
+  }
+
+  th {
+    font-size: var(--small);
+    background-color: red;
+    color: black;
+    width: 30%;
+  }
+  td {
+    width: 70%;
+    color: var(--color-primary);
+    font-size: var(--small);
+    background-color: green;
   }
 }
 
@@ -192,6 +217,12 @@ b {
 
     h2 {
       margin-top: 2rem;
+    }
+  }
+  .description {
+    th,
+    td {
+      font-size: var(--x-small);
     }
   }
   .btnContainer {

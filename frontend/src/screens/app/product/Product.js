@@ -35,11 +35,11 @@ function Product() {
   const systemProduct = useSelector((state) => state.systemProduct);
   const { error, loading, product } = systemProduct;
 
-  const { t } = useTranslation(["app"]);
+  const { t, i18n } = useTranslation(["app"]);
 
   useEffect(() => {
-    dispatch(getProduct(params.id));
-  }, [dispatch, params.id]);
+    dispatch(getProduct(params.id, i18n.language));
+  }, [dispatch, params.id, i18n.language]);
 
   console.log(product);
   return (
@@ -74,7 +74,11 @@ function Product() {
             product={product.products}
             navigate={navigate}
             dispatch={dispatch}
-            category={product.products.category}
+            category={{
+              id: product.products.category_id,
+              category: product.products.category,
+            }}
+            i18n={i18n}
           />
         </>
       )}

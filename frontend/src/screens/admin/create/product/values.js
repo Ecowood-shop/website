@@ -179,10 +179,11 @@ export const onSubmit = (values, dispatch) => {
       " " +
       convertTime12to24(values.end_time) +
       ":00";
-    data.discountPercent = values.discountPercent;
+    data.discountPercent =
+      values.discountPercent < 1 ? 0 : values.discountPercent;
   }
   console.log(data);
-  // dispatch(createProduct(data));
+  dispatch(createProduct(data));
 };
 
 const convertTime12to24 = (time12h) => {

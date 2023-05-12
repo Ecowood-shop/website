@@ -51,7 +51,6 @@ function RadioContainer({ styles, t }) {
       ),
     },
   ];
-  console.log(radioOptions);
   return (
     <div className={styles.radioContainer + " "+styles.center}>
       <FormikControl

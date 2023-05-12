@@ -15,7 +15,6 @@ function AutoComplete(props) {
 
   const { values, setFieldValue } = props.formik;
 
-  console.log(customOptions);
   return (
     <div className="form-control" { ...rest} >
       <Select { ...rest}

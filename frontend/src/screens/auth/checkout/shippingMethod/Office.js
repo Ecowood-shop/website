@@ -5,7 +5,7 @@ function Office({ styles, t }) {
   const radioOptions = [
     {
       key: "ecowood",
-      value: "1",
+      value: "ecowood",
       label: (
         <>
           {" "}
@@ -24,7 +24,7 @@ function Office({ styles, t }) {
     },
     {
       key: "express",
-      value: "2",
+      value: "express",
       label: (
         <>
           {" "}

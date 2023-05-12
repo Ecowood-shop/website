@@ -5,7 +5,7 @@ function Nav({ styles, navigate, t }) {
     <nav className={styles.btnContainer}>
       <button
         className={styles.btn + " w3-animate-right"}
-        onClick={() => navigate("/admin/shipping")}
+        onClick={() => navigate("/admin/cities")}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

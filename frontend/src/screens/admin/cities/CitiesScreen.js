@@ -4,17 +4,20 @@ import { useEffect } from "react";
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getCategories } from "../../../store/actions/systemActions";
-import ADMIN from "../../../store/constants/adminConstants";
-import { deleteCategory } from "../../../store/actions/adminActions";
+import {
+  deleteCity,
+  getShippingPrices,
+} from "../../../store/actions/shippingActions";
 
-// components
+// COMPONENTS
 import Loader from "../../../components/loader/Loader";
 import Message from "../../../components/Message/Message";
 import Table from "../../../components/table/Table";
 import Nav from "./Nav";
-// styles
+
+// OTHERS
 import styles from "./styles.module.scss";
+
 // translate
 import { useTranslation } from "react-i18next";
 const columns = (t) => [
@@ -23,42 +26,42 @@ const columns = (t) => [
     accessor: "_id",
   },
   {
-    Header: t("global.category"),
-    accessor: "name",
+    Header: t("order.cities"),
+    accessor: "location",
+  },
+  {
+    Header: t("order.limit"),
+    accessor: (city) => city.limit + "  ₾",
   },
 ];
-
-function CategoryScreen() {
+function CitiesScreen() {
   // HOOKS
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { t } = useTranslation(["admin"]);
 
-  const adminCategories = useSelector((state) => state.adminCategories);
-  const { success } = adminCategories;
-  const systemCategories = useSelector((state) => state.systemCategories);
-  const { error, loading, categories } = systemCategories;
+  const shipping = useSelector((state) => state.shipping);
+  const { prices, loading, error, success } = shipping;
 
   useEffect(() => {
-    dispatch({ type: ADMIN.CATEGORY_RESET });
-    dispatch(getCategories());
+    dispatch(getShippingPrices());
   }, [dispatch, success]);
-  console.log(categories);
 
+  console.log(prices);
   return (
     <article className={styles.container}>
       <Nav styles={styles} navigate={navigate} t={t} />
-      {loading && <Loader />}
+      {loading && <Loader color={"blueviolet"} />}
       {error && <Message>{error}</Message>}
-      {categories && (
+      {prices && (
         <div className={styles.table}>
           <Table
             columns={columns(t)}
-            data={categories}
-            link="/admin/categories/"
+            data={prices}
+            link="/admin/cities/"
             linkEnd="/edit"
-            Delete={(id) => dispatch(deleteCategory(id))}
-            text={t("global.category")}
+            Delete={(id) => dispatch(deleteCity(id))}
+            text={t("order.city")}
           />
         </div>
       )}
@@ -66,4 +69,4 @@ function CategoryScreen() {
   );
 }
 
-export default CategoryScreen;
+export default CitiesScreen;

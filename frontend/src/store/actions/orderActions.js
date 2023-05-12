@@ -29,12 +29,14 @@ export const createOrder = (formData) => async (dispatch) => {
   }
 };
 
-export const getOrder = (id) => async (dispatch) => {
+export const getOrder = (id, language) => async (dispatch) => {
   try {
     dispatch({
       type: ORDER.GET_REQUEST,
     });
-    const { data } = await useCustomAxios.get(`/api/orders/${id}`);
+    const { data } = await useCustomAxios.get(
+      `/api/orders/${id}/?language=${language}`
+    );
 
     dispatch({
       type: ORDER.GET_SUCCESS,
@@ -43,7 +45,9 @@ export const getOrder = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: ORDER.GET_FAIL,
-      payload: error?.message,
+      payload: error.data?.detail
+        ? error.data?.detail
+        : error.data
     });
   }
 };

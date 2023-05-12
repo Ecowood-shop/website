@@ -258,3 +258,4 @@ class SpecificDiscountSerializer(DynamicFieldsModelSerializer):
     class Meta:
         model = SpecificDiscount
         fields = '__all__'
+

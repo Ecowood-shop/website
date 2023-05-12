@@ -13,8 +13,11 @@ import Product from "../../../components/carousel/product/Product";
 
 // OTHERS
 import styles from "./styles.module.scss";
+// translate
+import { useTranslation } from "react-i18next";
 
 function Products() {
+  const { t, i18n } = useTranslation(["app"]);
   // HOOKS
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -30,8 +33,8 @@ function Products() {
   const { error, loading, products } = systemProducts;
 
   useEffect(() => {
-    dispatch(getProducts(word, category, orderby, page));
-  }, [dispatch, category, word, orderby, page]);
+    dispatch(getProducts(i18n.language, word, category, orderby, page));
+  }, [dispatch, category, word, orderby, page, i18n.language]);
   return (
     <article className={styles.container}>
       <Filter />

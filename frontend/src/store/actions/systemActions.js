@@ -25,13 +25,15 @@ export const getCategories = () => async (dispatch) => {
   }
 };
 
-export const getLatestProducts = () => async (dispatch) => {
+export const getLatestProducts = (language) => async (dispatch) => {
   try {
     dispatch({
       type: SYSTEM.GET_LATEST_PRODUCTS_REQUEST,
     });
 
-    const { data } = await useAxios.get("/api/products/latest/");
+    const { data } = await useAxios.get(
+      `/api/products/latest/?language=${language.toUpperCase()}`
+    );
 
     dispatch({
       type: SYSTEM.GET_LATEST_PRODUCTS_SUCCESS,
@@ -47,13 +49,15 @@ export const getLatestProducts = () => async (dispatch) => {
   }
 };
 
-export const getSimilarProducts = (category) => async (dispatch) => {
+export const getSimilarProducts = (language, category) => async (dispatch) => {
   try {
     dispatch({
       type: SYSTEM.GET_SIMILAR_PRODUCTS_REQUEST,
     });
 
-    const { data } = await useAxios.get(`/api/products/latest/${category}`);
+    const { data } = await useAxios.get(
+      `/api/products/latest/${category}/?language=${language.toUpperCase()}`
+    );
 
     dispatch({
       type: SYSTEM.GET_SIMILAR_PRODUCTS_SUCCESS,
@@ -70,14 +74,14 @@ export const getSimilarProducts = (category) => async (dispatch) => {
 };
 
 export const getProducts =
-  (word, category, orderby, page) => async (dispatch) => {
+  (language, word, category, orderby, page) => async (dispatch) => {
     try {
       dispatch({
         type: SYSTEM.GET_PRODUCTS_REQUEST,
       });
 
       const { data } = await useAxios.get(
-        `/api/products/?keyword=${word}&page=${page}&order=${orderby}&category=${category}`
+        `/api/products/?language=${language.toUpperCase()}&keyword=${word}&page=${page}&order=${orderby}&category=${category}`
       );
 
       dispatch({
@@ -94,13 +98,14 @@ export const getProducts =
     }
   };
 
-export const getProduct = (id) => async (dispatch) => {
+export const getProduct = (id, language) => async (dispatch) => {
   try {
     dispatch({
       type: SYSTEM.GET_PRODUCT_REQUEST,
     });
-
-    const { data } = await useAxios.get(`/api/products/${id}`);
+    const { data } = await useAxios.get(
+      `/api/products/${id}/?language=${language.toUpperCase()}`
+    );
 
     dispatch({
       type: SYSTEM.GET_PRODUCT_SUCCESS,
