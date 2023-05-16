@@ -78,7 +78,7 @@ class Color(models.Model):
 
 
 class Discount(models.Model):
-    name = models.CharField(max_length=100, null=False)
+    name = models.CharField(max_length=200, null=False)
     percentage = models.DecimalField(max_digits=5, decimal_places=2, null=False)
     start_date = models.DateTimeField(null=True, blank=True)
     end_date = models.DateTimeField(null=True, blank=True)
@@ -99,16 +99,15 @@ class Discount(models.Model):
 
 class Product(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    name_geo = models.CharField(max_length=200, null=True, blank=True)
-    brand = models.CharField(max_length=200, null=True, blank=True)
+    name_geo = models.TextField(null=True, blank=True)
+    brand = models.TextField(null=True, blank=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    variant = models.CharField(max_length=10, default="None")
-    size = models.CharField(max_length=10, null=True, blank=True)
+    size = models.CharField(max_length=1000, null=True, blank=True)
     technicalRequirements = models.TextField(null=True, blank=True)
     instructionForUse = models.TextField(null=True, blank=True)
     safetyStandard = models.TextField(null=True, blank=True)
-    coverageLength = models.CharField(max_length=200, null=True, blank=True)
-    youtubeUrl = models.URLField(max_length=200, null=True, blank=True)
+    coverageLength = models.TextField(null=True, blank=True)
+    youtubeUrl = models.URLField(max_length=1000, null=True, blank=True)
     price = models.DecimalField(max_digits=7, decimal_places=2, null=False, blank=True)
     discount = models.ForeignKey(Discount, null=True, default='0', on_delete=models.SET_NULL)
     createdAt = models.DateTimeField(auto_now_add=True)
@@ -162,7 +161,7 @@ class SpecificDiscount(models.Model):
 
 
 class Variants(models.Model):
-    title = models.CharField(max_length=100, blank=True, null=True)
+    title = models.TextField(null=True, blank=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='variants')
     color = models.ForeignKey(Color, on_delete=models.CASCADE, blank=True, null=True)
     quantity = models.IntegerField(null=True, blank=True, default=0)
@@ -198,11 +197,11 @@ class Order(models.Model):
 class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
-    name = models.CharField(max_length=200, null=True, blank=True)
+    name = models.TextField(null=True, blank=True)
     qty = models.IntegerField(null=True, blank=True, default=0)
     variant = models.ForeignKey(Variants, on_delete=models.SET_NULL, null=True)
     price = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
-    image = models.CharField(max_length=200, null=True, blank=True)
+    image = models.ImageField(null=True, blank=True, default='/placeholder.png')
     _id = models.AutoField(primary_key=True, editable=False)
 
     def __str__(self):
@@ -211,7 +210,7 @@ class OrderItem(models.Model):
 
 class ShippingPrices(models.Model):
     _id = models.AutoField(primary_key=True, editable=False)
-    location = models.CharField(max_length=200, null=True, blank=True)
+    location = models.TextField(null=True, blank=True)
     limit = models.DecimalField(max_digits=7, decimal_places=2, null=False, blank=True)
     upperLimit = models.DecimalField(max_digits=7, decimal_places=2, null=False, blank=True)
     lowerLimit = models.DecimalField(max_digits=7, decimal_places=2, null=False, blank=True)
@@ -223,12 +222,12 @@ class ShippingPrices(models.Model):
 
 class ShippingAddress(models.Model):
     order = models.OneToOneField(Order, on_delete=models.CASCADE, null=True, blank=True)
-    first_name = models.CharField(max_length=240, null=True, blank=False)
+    first_name = models.CharField(max_length=255, null=True, blank=False)
     last_name = models.CharField(max_length=255, null=True, blank=False)
     address = models.CharField(max_length=200, null=True, blank=True)
     city = models.ForeignKey(ShippingPrices, on_delete=models.CASCADE, related_name='shipping_prices')
     postalCode = models.CharField(max_length=200, null=True, blank=True)
-    personId = models.CharField(max_length=11, null=True, blank=True)
+    personId = models.CharField(max_length=40, null=True, blank=True)
     phone = models.CharField(max_length=50)
     shippingPrice = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
     _id = models.AutoField(primary_key=True, editable=False)
@@ -248,10 +247,10 @@ class Warehouse(models.Model):
 
 class WithoutShipping(models.Model):
     order = models.OneToOneField(Order, on_delete=models.CASCADE, null=True, blank=True)
-    name = models.CharField(max_length=200, null=True, blank=True)
-    surname = models.CharField(max_length=200, null=True, blank=True)
-    personId = models.CharField(max_length=11, null=True, blank=True)
-    phone = models.CharField(max_length=12, null=True)
+    name = models.TextField(null=True, blank=True)
+    surname = models.TextField(null=True, blank=True)
+    personId = models.CharField(max_length=40, null=True, blank=True)
+    phone = models.CharField(max_length=20, null=True)
     warehouse = models.ForeignKey(Warehouse, null=True, on_delete=models.CASCADE)
     _id = models.AutoField(primary_key=True, editable=False)
 
@@ -280,8 +279,8 @@ class Picture(models.Model):
 
 class Translation(models.Model):
     language = models.CharField(max_length=3)
-    key = models.CharField(max_length=1000)
-    value = models.CharField(max_length=1000)
+    key = models.TextField(null=True, blank=True)
+    value = models.TextField(null=True, blank=True)
 
     class Meta:
         # Set the composite key as the primary key

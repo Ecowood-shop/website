@@ -10,6 +10,8 @@ urlpatterns = [
     path('<str:pk>/deliver/', views.updateOrderToDelivered, name='order-delivered'),
 
     path('prices/', views.getShippingPrices, name='shipping-prices'),
+    path('prices/<str:pk>/', views.getShippingPricesById, name='shipping-price-by-id'),
+
     path('shippingPrice/create/', views.createShippingPrice, name='create-shipping-price'),
     path('shippingPrice/delete/<str:pk>/', views.deleteShippingPrice, name='delete-shipping-price'),
     path('shippingPrice/update/<str:pk>/', views.updateShippingPrice, name='update-shipping-price'),
