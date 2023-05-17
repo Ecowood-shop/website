@@ -102,7 +102,7 @@ def getProducts(request):
                     try:
                         # Get the translation for the product's name_geo in the specified language
                         translation = Translation.objects.get(language=language, key=product[field_name])
-                        if translation.value =='':
+                        if translation.value == '':
                             raise Translation.DoesNotExist()
                         product[field_name] = translation.value
                     except Translation.DoesNotExist:
@@ -120,7 +120,7 @@ def getProducts(request):
                 try:
                     # Get the translation for the product's name_geo in the specified language
                     translation = Translation.objects.get(language=language, key=product[field_name])
-                    if translation.value =='':
+                    if translation.value == '':
                         raise Translation.DoesNotExist()
                     product[field_name] = translation.value
                 except Translation.DoesNotExist:
@@ -144,6 +144,7 @@ def getCategories(request):
             except Translation.DoesNotExist:
                 pass  # If no translation is found, keep the original value
     return Response(serializer.data)
+
 
 @api_view(['GET'])
 def getCategoryById(request, pk):
@@ -239,6 +240,7 @@ def updateCategory(request, pk):
     newDict['category_rus'] = translation_rus.value
     return Response(newDict)
 
+
 @api_view(['GET'])
 def getLatestProducts(request):
     language = request.query_params.get('language')
@@ -263,9 +265,9 @@ def getLatestProducts(request):
                     try:
                         # Get the translation for the product's name_geo in the specified language
                         translation = Translation.objects.get(language=language, key=product[field_name])
-                        if translation.value =='':
+                        if translation.value == '':
                             raise Translation.DoesNotExist()
-                    
+
                         product[field_name] = translation.value
                     except Translation.DoesNotExist:
                         pass  # If no translation is found, keep the original value
@@ -282,9 +284,9 @@ def getLatestProducts(request):
                     # Get the translation for the product's name_geo in the specified language
                     translation = Translation.objects.get(language=language, key=product[field_name])
 
-                    if translation.value =='':
+                    if translation.value == '':
                         raise Translation.DoesNotExist()
-                    
+
                     product[field_name] = translation.value
                 except Translation.DoesNotExist:
                     pass  # If no translation is found, keep the original value
@@ -316,9 +318,9 @@ def getLatestProduct(request, pk):
                     try:
                         # Get the translation for the product's name_geo in the specified language
                         translation = Translation.objects.get(language=language, key=product[field_name])
-                        if translation.value =='':
+                        if translation.value == '':
                             raise Translation.DoesNotExist()
-                    
+
                         product[field_name] = translation.value
                     except Translation.DoesNotExist:
                         pass  # If no translation is found, keep the original value
@@ -334,9 +336,9 @@ def getLatestProduct(request, pk):
                 try:
                     # Get the translation for the product's name_geo in the specified language
                     translation = Translation.objects.get(language=language, key=product[field_name])
-                    if translation.value =='':
+                    if translation.value == '':
                         raise Translation.DoesNotExist()
-                    
+
                     product[field_name] = translation.value
                 except Translation.DoesNotExist:
                     pass  # If no translation is found, keep the original value
@@ -361,20 +363,20 @@ def getProduct(request, pk):
         payload = jwt.decode(token, 'secret', algorithm=['HS256'])
         user = User.objects.filter(id=payload['id']).first()
     except:
-        serializer_data=(ProductSerializer(product).data)
+        serializer_data = (ProductSerializer(product).data)
         serializer = ProductSerializer(product, many=False)
 
         if language is not None and language != '':
-            product=serializer_data
+            product = serializer_data
             for field_name in ['name_geo', 'brand', 'category', 'size', 'technicalRequirements', 'instructionForUse',
-                                'safetyStandard', 'coverageLength', 'youtubeUrl', 'price', 'discount']:
+                               'safetyStandard', 'coverageLength', 'youtubeUrl', 'price', 'discount']:
                 try:
                     # Get the translation for the product's name_geo in the specified language
                     translation = Translation.objects.get(language=language, key=product[field_name])
 
-                    if translation.value =='':
+                    if translation.value == '':
                         raise Translation.DoesNotExist()
-                    
+
                     product[field_name] = translation.value
                 except Translation.DoesNotExist:
                     pass  # If no translation is found, keep the original value
@@ -387,7 +389,7 @@ def getProduct(request, pk):
                     try:
                         # Get the translation for the product's name_geo in the specified language
                         translation = Translation.objects.get(language=language, key=product[field_name])
-                        if translation.value =='':
+                        if translation.value == '':
                             raise Translation.DoesNotExist()
                         product[field_name] = translation.value
                     except Translation.DoesNotExist:
@@ -395,24 +397,22 @@ def getProduct(request, pk):
 
         return Response({'products': serializer_data, 'variants': variantSerializer.data})
 
-
-
     product.discount = product.get_discount(user)
-    serializer_data=(ProductSerializer(product).data)
+    serializer_data = (ProductSerializer(product).data)
 
     serializer = ProductSerializer(product, many=False)
 
     if language is not None and language != '':
-        product=serializer_data
+        product = serializer_data
         for field_name in ['name_geo', 'brand', 'category', 'size', 'technicalRequirements', 'instructionForUse',
-                            'safetyStandard', 'coverageLength', 'youtubeUrl', 'price', 'discount']:
+                           'safetyStandard', 'coverageLength', 'youtubeUrl', 'price', 'discount']:
             try:
                 # Get the translation for the product's name_geo in the specified language
                 translation = Translation.objects.get(language=language, key=product[field_name])
 
-                if translation.value =='':
+                if translation.value == '':
                     raise Translation.DoesNotExist()
-                
+
                 product[field_name] = translation.value
             except Translation.DoesNotExist:
                 pass  # If no translation is found, keep the original value
@@ -425,8 +425,8 @@ def getProduct(request, pk):
                 try:
                     # Get the translation for the product's name_geo in the specified language
                     translation = Translation.objects.get(language=language, key=product[field_name])
-                    if translation.value =='':
-                            raise Translation.DoesNotExist()
+                    if translation.value == '':
+                        raise Translation.DoesNotExist()
                     product[field_name] = translation.value
                 except Translation.DoesNotExist:
                     pass  # If no translation is found, keep the original value
@@ -465,8 +465,8 @@ def getJustProducts(request):
             try:
                 # Get the translation for the product's name_geo in the specified language
                 translation = Translation.objects.get(language=language, key=product['name_geo'])
-                if translation.value =='':
-                            raise Translation.DoesNotExist()
+                if translation.value == '':
+                    raise Translation.DoesNotExist()
                 product['name_geo'] = translation.value
             except Translation.DoesNotExist:
                 pass  # If no translation is found, keep the original value
@@ -490,8 +490,8 @@ def getProductVariants(request, pk):
                 try:
                     # Get the translation for the product's name_geo in the specified language
                     translation = Translation.objects.get(language=language, key=product[field_name])
-                    if translation.value =='':
-                            raise Translation.DoesNotExist()
+                    if translation.value == '':
+                        raise Translation.DoesNotExist()
                     product[field_name] = translation.value
                 except Translation.DoesNotExist:
                     pass  # If no translation is found, keep the original value
@@ -514,8 +514,8 @@ def getProductColors(request):
             try:
                 # Get the translation for the product's name_geo in the specified language
                 translation = Translation.objects.get(language=language, key=product['name'])
-                if translation.value =='':
-                            raise Translation.DoesNotExist()
+                if translation.value == '':
+                    raise Translation.DoesNotExist()
                 product['name'] = translation.value
             except Translation.DoesNotExist:
                 pass  # If no translation is found, keep the original value
@@ -582,8 +582,8 @@ def createProduct(request):
                 discount=discount,
             )
             print('vegar gamovedi')
-        
-            fields = ['name_geo', 'brand_geo',  'size_geo', 'technicalRequirements_geo',
+
+            fields = ['name_geo', 'brand_geo', 'size_geo', 'technicalRequirements_geo',
                       'instructionForUse_geo', 'safetyStandard_geo']
 
             for field in fields:
@@ -592,12 +592,12 @@ def createProduct(request):
                 else:
                     if data[field].isdigit():
                         continue
-        
+
                     key = data[field]
                 if not Translation.objects.filter(key=key).exists():
                     eng = field[:-3] + 'eng'
                     rus = field[:-3] + 'rus'
-        
+
                     Translation.objects.bulk_create(
                         [Translation(language='ENG', key=key, value=data[eng]),
                          Translation(language='RUS', key=key, value=data[rus])])
@@ -913,7 +913,7 @@ def getProductAdmin(request, pk):
             # Get the translation for the product's name_geo in the specified language
             translation_eng = Translation.objects.get(language='ENG', key=serializer.data[field_name])
             translation_rus = Translation.objects.get(language='RUS', key=serializer.data[field_name])
-            
+
             if field_name == 'name_geo':
                 eng = field_name[:-3] + 'eng'
                 rus = field_name[:-3] + 'rus'
@@ -922,12 +922,12 @@ def getProductAdmin(request, pk):
                 rus = field_name + '_rus'
             print(eng)
             newdict[eng] = translation_eng.value
-            newdict[rus] = translation_rus.value 
+            newdict[rus] = translation_rus.value
             newdict.update(serializer.data)
-            
+
         except Translation.DoesNotExist:
             pass  # If no translation is found, keep the original value
-                
+
     return Response({'products': newdict, 'variants': variantSerializer.data})
 
 
@@ -1095,9 +1095,9 @@ def getUserCart(request):
                 try:
                     # Get the translation for the product's name_geo in the specified language
                     translation = Translation.objects.get(language=language, key=product[field_name])
-                    if translation.value =='':
+                    if translation.value == '':
                         raise Translation.DoesNotExist()
-                    
+
                     product[field_name] = translation.value
                 except Translation.DoesNotExist:
                     pass  # If no translation is found, keep the original value
@@ -1110,8 +1110,8 @@ def getUserCart(request):
                 try:
                     # Get the translation for the product's name_geo in the specified language
                     translation = Translation.objects.get(language=language, key=product[field_name])
-                    if translation.value =='':
-                            raise Translation.DoesNotExist()
+                    if translation.value == '':
+                        raise Translation.DoesNotExist()
                     product[field_name] = translation.value
                 except Translation.DoesNotExist:
                     pass  # If no translation is found, keep the original value
@@ -1350,7 +1350,7 @@ def updateProduct(request, pk):
                 product.coverageLength = data['coverageLength']
 
             fields = ['name_geo', 'brand_geo', 'category', 'size_geo', 'technicalRequirements_geo',
-                    'instructionForUse_geo', 'safetyStandard_geo']
+                      'instructionForUse_geo', 'safetyStandard_geo']
 
             for field in fields:
                 if data[field].isdigit():
@@ -1373,7 +1373,7 @@ def updateProduct(request, pk):
                 else:
                     Translation.objects.bulk_create(
                         [Translation(language='ENG', key=key, value=data[eng]),
-                        Translation(language='RUS', key=key, value=data[rus])])
+                         Translation(language='RUS', key=key, value=data[rus])])
             product.discount.save()
             product.save()
 
@@ -1469,8 +1469,8 @@ def getWarehouses(request):
             try:
                 # Get the translation for the product's name_geo in the specified language
                 translation = Translation.objects.get(language=language, key=product['location'])
-                if translation.value =='':
-                            raise Translation.DoesNotExist()
+                if translation.value == '':
+                    raise Translation.DoesNotExist()
                 product['location'] = translation.value
             except Translation.DoesNotExist:
                 pass  # If no translation is found, keep the original value

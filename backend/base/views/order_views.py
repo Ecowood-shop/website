@@ -439,6 +439,45 @@ def getShippingPrices(request):
     return Response(serializer.data)
 
 
+@api_view(['GET'])
+def getShippingPricesById(request, pk):
+    token = request.COOKIES.get('jwt')
+
+    if not token:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    try:
+        payload = jwt.decode(token, 'secret', algorithm=['HS256'])
+    except jwt.ExpiredSignatureError:
+        raise AuthenticationFailed('Unauthenticated!')
+
+    user = User.objects.filter(id=payload['id']).first()
+
+    if not user.is_staff:
+        raise AuthenticationFailed('You do not have permission to perform this action.')
+
+    try:
+        newDict = {}
+
+        shippingPrices = ShippingPrices.objects.get(_id=pk)
+
+        translation = Translation.objects.filter(key=shippingPrices)
+        serializer = ShippingPricesSerializer(shippingPrices, many=False)
+
+        # Get the translation for the product's name_geo in the specified language
+        translation_eng = Translation.objects.get(language='ENG', key=shippingPrices)
+        translation_rus = Translation.objects.get(language='RUS', key=shippingPrices)
+
+        newDict.update(serializer.data)
+
+        newDict['name_eng'] = translation_eng.value
+        newDict['name_rus'] = translation_rus.value
+
+        return Response(newDict)
+    except Exception as e:
+        raise ValidationError(e)
+
+
 @api_view(['POST'])
 def createShippingPrice(request):
     token = request.COOKIES.get('jwt')
@@ -461,13 +500,19 @@ def createShippingPrice(request):
     if ShippingPrices.objects.filter(location=data['location']).exists():
         raise ValidationError("This location already exist.")
     else:
-        location = ShippingPrices.objects.create(
-            location=data['location'],
-            limit=data['limit'],
-            upperLimit=data['upperLimit'],
-            lowerLimit=data['lowerLimit']
-        )
+        with transaction.atomic():
 
+            location = ShippingPrices.objects.create(
+                location=data['location'],
+                limit=data['limit'],
+                upperLimit=data['upperLimit'],
+                lowerLimit=data['lowerLimit']
+            )
+
+            if not Translation.objects.filter(language='ENG', key=data['location']).exists():
+                Translation.objects.create(language='ENG', key=data['location'], value=data['name_eng'])
+            if not Translation.objects.filter(language='RUS', key=data['location']).exists():
+                Translation.objects.create(language='RUS', key=data['location'], value=data['name_rus'])
     return Response("Location " + data['location'] + " Created Successfully")
 
 
@@ -497,20 +542,45 @@ def updateShippingPrice(request, pk):
 
     data = request.data
 
-    shippingPrice = ShippingPrices.objects.get(_id=pk)
+    try:
+        shippingPrice = ShippingPrices.objects.get(_id=pk)
+        translation_eng = Translation.objects.get(language='ENG', key=shippingPrice.location)
+        translation_rus = Translation.objects.get(language='RUS', key=shippingPrice.location)
+    except Exception as e:
+        raise ValidationError(e)
 
-    if data['location']:
-        shippingPrice.location = data['location']
+    with transaction.atomic():
+        if data['location'] and data['location'] != shippingPrice.location:
+            shippingPrice.location = data['location']
 
-    if data['limit']:
-        shippingPrice.limit = data['limit']
-    if data['upperLimit']:
-        shippingPrice.upperLimit = data['upperLimit']
-    if data['lowerLimit']:
-        shippingPrice.lowerLimit = data['lowerLimit']
+            if not Translation.objects.filter(language='ENG', key=data['location'], value=data['name_eng']).exists():
+                Translation.objects.create(language='ENG', key=data['location'], value=data['name_eng'])
+
+            if not Translation.objects.filter(language='RUS', key=data['location'], value=data['name_rus']).exists():
+                Translation.objects.create(language='RUS', key=data['location'], value=data['name_rus'])
+
+        else:
+            translation_eng.value = data['name_eng']
+            translation_rus.value = data['name_rus']
+
+            translation_eng.save()
+            translation_rus.save()
+
+        if data['limit']:
+            shippingPrice.limit = data['limit']
+        if data['upperLimit']:
+            shippingPrice.upperLimit = data['upperLimit']
+        if data['lowerLimit']:
+            shippingPrice.lowerLimit = data['lowerLimit']
 
     shippingPrice.save()
 
     serializer = ShippingPricesSerializer(shippingPrice, many=False)
 
-    return Response({'Location With Prices': serializer.data})
+    newDict = {}
+
+    newDict.update(serializer.data)
+
+    newDict['category_eng'] = translation_eng.value
+    newDict['category_rus'] = translation_rus.value
+    return Response({'Location With Prices': newDict})
