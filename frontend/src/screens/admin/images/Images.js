@@ -46,14 +46,13 @@ function Images() {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data.type.id);
     dispatch(createImage(id, data.image[0], data.type.id));
   };
 
   useEffect(() => {
     dispatch(getImages(id));
   }, [dispatch, successDelete, successCreate, id]);
-  console.log(images);
+
   return (
     <article className={styles.container}>
       <button

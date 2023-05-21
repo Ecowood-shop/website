@@ -43,7 +43,7 @@ function ShippingDetails() {
     data.address = String(values.wants_delivery) === "True" ? data.address : "";
     dispatch(saveShippingDetails(data));
     navigate("/checkout/paymentmethod");
-    console.log(data);
+
   }
   return (
     <article className={styles.container}>

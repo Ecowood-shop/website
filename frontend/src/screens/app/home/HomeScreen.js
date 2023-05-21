@@ -30,7 +30,7 @@ function HomeScreen() {
   useEffect(() => {
     dispatch(getLatestProducts(i18n.language));
   }, [i18n.language, dispatch]);
-  console.log(products);
+
   return (
     <article className="home-container">
       {loading && <Loader color={"blueviolet"} />}{" "}

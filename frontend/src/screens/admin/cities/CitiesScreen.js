@@ -8,6 +8,7 @@ import {
   deleteCity,
   getShippingPrices,
 } from "../../../store/actions/shippingActions";
+import SHIPPING from "../../../store/constants/shippingConstants";
 
 // COMPONENTS
 import Loader from "../../../components/loader/Loader";
@@ -38,16 +39,15 @@ function CitiesScreen() {
   // HOOKS
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { t } = useTranslation(["admin"]);
+  const { t, i18n } = useTranslation(["admin"]);
 
   const shipping = useSelector((state) => state.shipping);
   const { prices, loading, error, success } = shipping;
-
   useEffect(() => {
-    dispatch(getShippingPrices());
-  }, [dispatch, success]);
+    dispatch({ type: SHIPPING.GET_CITY_RESET });
+    dispatch(getShippingPrices(i18n.language));
+  }, [dispatch, success, i18n.language]);
 
-  console.log(prices);
   return (
     <article className={styles.container}>
       <Nav styles={styles} navigate={navigate} t={t} />

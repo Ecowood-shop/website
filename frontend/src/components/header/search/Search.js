@@ -33,8 +33,8 @@ function Search(props) {
     });
   };
   useEffect(() => {
-    dispatch(getCategories());
-  }, [dispatch]);
+    dispatch(getCategories(props.i18n.language));
+  }, [dispatch, props.i18n.language]);
 
   return (
     <div className="search-container">

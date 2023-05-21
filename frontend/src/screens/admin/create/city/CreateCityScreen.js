@@ -1,11 +1,10 @@
 // REACT
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
-import { createCategory } from "../../../../store/actions/adminActions";
+import { createCity } from "../../../../store/actions/shippingActions";
 import { useForm } from "react-hook-form";
 
 // COMPONENTS
@@ -23,8 +22,8 @@ function CreateCityScreen() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const adminCategories = useSelector((state) => state.adminCategories);
-  const { error, loading, success } = adminCategories;
+  const adminCity = useSelector((state) => state.adminCity);
+  const { error, loading, success } = adminCity;
 
   const {
     register,
@@ -33,20 +32,19 @@ function CreateCityScreen() {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
-    // dispatch(createCategory(data));
+    dispatch(createCity(data));
   };
 
   useEffect(() => {
     if (success) {
-      navigate("/admin/categories/");
+      navigate("/admin/cities/");
     }
   }, [dispatch, navigate, success]);
 
   return (
     <article className={styles.container}>
       <button
-        onClick={() => navigate("/admin/categories/")}
+        onClick={() => navigate("/admin/cities")}
         className={styles.button}
       >
         {t("global.back")}
@@ -57,31 +55,61 @@ function CreateCityScreen() {
         <form onSubmit={handleSubmit(onSubmit)}>
           <div>
             <label>
-              {t("global.category")} ({t("global.english")})
+              {t("order.city")} ({t("global.english")})
             </label>
             <input
               placeholder="enter text..."
-              {...register("category_eng")}
+              {...register("name_eng")}
               className={styles.input}
             />
           </div>{" "}
           <div>
             <label>
-              {t("global.category")} ({t("global.georgian")})
+              {t("order.city")} ({t("global.georgian")})
             </label>
             <input
               placeholder="enter text..."
-              {...register("category_geo", { required: "Required" })}
+              {...register("location", { required: "Required" })}
               className={styles.input}
             />
           </div>
           <div>
             <label>
-              {t("global.category")} ({t("global.russian")})
+              {t("order.city")} ({t("global.russian")})
             </label>
             <input
               placeholder="enter text..."
-              {...register("category_rus")}
+              {...register("name_rus")}
+              className={styles.input}
+            />
+          </div>
+          <div>
+            <label>{t("order.limit")}</label>
+            <input
+              placeholder="enter text..."
+              type="number"
+              min={0}
+              {...register("limit", { required: "Required" })}
+              className={styles.input}
+            />
+          </div>
+          <div>
+            <label>ზედა ფასი</label>
+            <input
+              min={0}
+              placeholder="enter text..."
+              type="number"
+              {...register("upperLimit", { required: "Required" })}
+              className={styles.input}
+            />
+          </div>
+          <div>
+            <label>ქვედა ფასი</label>
+            <input
+              min={0}
+              placeholder="enter text..."
+              type="number"
+              {...register("lowerLimit", { required: "Required" })}
               className={styles.input}
             />
           </div>

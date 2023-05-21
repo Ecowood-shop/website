@@ -215,7 +215,9 @@ export const getCart = (language) => async (dispatch) => {
       type: USER.GET_CART_REQUEST,
     });
 
-    const { data } = await useCustomAxios.get(`/api/products/cart/?language=${language.toUpperCase()}`);
+    const { data } = await useCustomAxios.get(
+      `/api/products/cart/?language=${language.toUpperCase()}`
+    );
 
     dispatch({
       type: USER.GET_CART_SUCCESS,
@@ -248,7 +250,6 @@ export const addToCart = (productId, variantID, qty) => async (dispatch) => {
       payload: data,
     });
   } catch (error) {
-    console.log(error);
     dispatch({
       type: USER.CART_ADD_FAIL,
       payload: error?.data ? error.data[0] : error?.message,
@@ -261,11 +262,9 @@ export const deleteCart = (cartId) => async (dispatch) => {
     dispatch({
       type: USER.CART_DELETE_REQUEST,
     });
-    console.log(cartId);
     const { data } = await useCustomAxios.delete(
       `/api/products/removecart/${cartId}`
     );
-    console.log(data);
     dispatch({
       type: USER.CART_DELETE_SUCCESS,
       payload: data,
@@ -283,7 +282,6 @@ export const updateCart = (cartId, qty) => async (dispatch) => {
     dispatch({
       type: USER.CART_UPDATE_REQUEST,
     });
-    console.log("id", cartId);
     const { data } = await useCustomAxios.put(
       `/api/products/updatecart/${cartId}/`,
       { qty: qty }

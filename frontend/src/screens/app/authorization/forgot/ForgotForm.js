@@ -17,7 +17,6 @@ function ForgotForm(props) {
   const onSubmit = (values, actions) => {
     setTimeout(() => {
       dispatch(forgotPassword(values.email));
-      console.log(values);
       actions.setSubmitting(false);
     }, 1000);
   };

@@ -19,18 +19,17 @@ function Cartus() {
   const { t,i18n } = useTranslation(["auth"]);
 
   const User = useSelector((state) => state.User);
-  const { cart, success, user, loadingUser: loading } = User;
+  const { cart, success, user} = User;
 
   useEffect(() => {
     dispatch(getCart(i18n.language));
   }, [dispatch, success,i18n.language]);
-  console.log(cart);
+
 
   return (
     <article className={styles.container}>
       <Products
         styles={styles}
-        loading={loading}
         cart={cart}
         dispatch={dispatch}
         user={user}

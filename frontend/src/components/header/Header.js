@@ -3,14 +3,12 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 // REDUX
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { logout } from "../../store/actions/userActions";
-import { getUser } from "../../store/actions/userActions";
 
 // COMPONENTS
 import Search from "./search/Search";
 import AdminPanel from "./AdminPanel";
-import Loader from "../loader/Loader";
 
 // OTHERS
 import { Opener } from "../../functions/Animation";
@@ -20,27 +18,16 @@ import logo from "../../static/images/altax.png";
 // translate
 import { useTranslation } from "react-i18next";
 
-function Header() {
+function Header({ user }) {
   // VARIABLES
   const [isOpen, setIsOpen] = useState(false);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
-  const { t } = useTranslation(["components"]);
+  const { t, i18n } = useTranslation(["components"]);
   // HOOKS
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const User = useSelector((state) => state.User);
-  const { user, loadingUser } = User;
-
-  useEffect(() => {
-    if (document.cookie.indexOf("altax") !== -1 && !loadingUser && !user) {
-      console.log("header run");
-      dispatch(getUser());
-    }
-  }, [dispatch]);
-
   // FUNCTIONS
-  console.log(user);
   const AdminOrdersNavigator = () => {
     navigate("/admin/orders");
   };
@@ -121,7 +108,7 @@ function Header() {
             <path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z" />
           </svg>
         </button>
-        <Search navigate={navigate} t={t}/>
+        <Search navigate={navigate} t={t} i18n={i18n} />
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="header-cart-icon"
@@ -138,9 +125,7 @@ function Header() {
           />
         </svg>
 
-        {loadingUser != false && document.cookie.indexOf("altax") !== -1 ? (
-          <Loader header />
-        ) : user ? (
+        {user ? (
           <h2 className="header-user" onClick={() => CloseDropdown()}>
             <p>
               {" "}
@@ -219,8 +204,9 @@ function Header() {
                   id="logOut-link"
                   className="header-dropdown-element w3-animate-right animate__animated"
                   onClick={() => {
-                    dispatch(logout());
-                    navigate("/");
+                    dispatch(logout()).then(() => {
+                      navigate("/");
+                    });
                   }}
                 >
                   {t("header.log out")}

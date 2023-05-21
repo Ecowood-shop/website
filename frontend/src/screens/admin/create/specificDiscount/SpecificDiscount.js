@@ -41,7 +41,6 @@ function SpecificDiscount() {
     dispatch(getProducts());
   }, [dispatch, navigate, success]);
 
-  console.log(users, products);
   return (
     <article className={styles.container}>
       <button

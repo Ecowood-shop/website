@@ -35,7 +35,7 @@ function Section2({ product, styles, navigate, category, dispatch, t, i18n }) {
 
   let k = [];
   products?.forEach((element) => k.push({ product: element }));
-  console.log(products);
+
   return (
     <section className={styles.section2}>
       <header>

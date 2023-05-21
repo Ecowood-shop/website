@@ -182,7 +182,6 @@ export const onSubmit = (values, dispatch) => {
     data.discountPercent =
       values.discountPercent < 1 ? 0 : values.discountPercent;
   }
-  console.log(data);
   dispatch(createProduct(data));
 };
 

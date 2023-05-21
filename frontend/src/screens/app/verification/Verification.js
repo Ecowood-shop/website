@@ -34,7 +34,6 @@ function Verification() {
 
   useEffect(() => {
     if (successVerification) {
-      console.log("verification run");
       dispatch(getUser());
     }
   }, [dispatch, successVerification, params.id, params.token]);

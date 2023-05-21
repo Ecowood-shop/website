@@ -41,7 +41,6 @@ function Product() {
     dispatch(getProduct(params.id, i18n.language));
   }, [dispatch, params.id, i18n.language]);
 
-  console.log(product);
   return (
     <article className={styles.container}>
       {loading && (

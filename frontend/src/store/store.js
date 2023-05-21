@@ -20,9 +20,6 @@ import {
   adminImageReducer,
   adminCategoryReducer,
   adminOrderReducer,
-  //category
-  getCategoryByIdReducer,
-  updateCategoryReducer,
 } from "./reducers/adminReducers";
 import {
   userReducer,
@@ -30,7 +27,7 @@ import {
   resetPasswordReducer,
 } from "./reducers/userReducers";
 import { orderReducer } from "./reducers/orderReducers";
-import { shippingReducer } from "./reducers/shippingReducer";
+import { shippingReducer, cityReducer } from "./reducers/shippingReducer";
 import {
   discountReducer,
   specificDiscountReducer,
@@ -47,6 +44,7 @@ const reducer = combineReducers({
   adminVariants: adminVariantReducer,
   adminColors: adminColorReducer,
   adminImages: adminImageReducer,
+  adminCity: cityReducer,
   // category
   adminCategories: adminCategoryReducer,
   adminOrders: adminOrderReducer,
@@ -55,6 +53,7 @@ const reducer = combineReducers({
   resetPassword: resetPasswordReducer,
   Order: orderReducer,
   shipping: shippingReducer,
+
   discounts: discountReducer,
   specificDiscount: specificDiscountReducer,
 });

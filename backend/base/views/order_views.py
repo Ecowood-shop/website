@@ -53,7 +53,7 @@ def addOrderItems(request):
                 discounted_price = float(item.product.price * (1 - (product_discount.percentage / 100)))
                 discounted_sum_price += float(item.qty * discounted_price)
 
-        try:
+   
             with transaction.atomic():
                 # (1) Create Order
 
@@ -97,7 +97,7 @@ def addOrderItems(request):
                         phone=data['phone'],
                         warehouse=warehouse
                     )
-
+               
                 # (3) Create order items and set order to orderItem relationship
                 for i in orderItems:
                     if not i.product.active:
@@ -105,7 +105,6 @@ def addOrderItems(request):
 
                     variant = Variants.objects.get(id=i.variants_id, active=True)
                     image = Picture.objects.get(product_id=i.product._id, ord=0)
-
                     item = OrderItem.objects.create(
                         product=i.product,
                         order=order,
@@ -113,19 +112,15 @@ def addOrderItems(request):
                         qty=i.qty,
                         price=i.product.price * (1 - (i.product.get_discount(user).percentage / 100)),
                         variant=variant,
-                        image=image,
+                        image=image.picture,
                     )
-
                     # (4) Update Stock
                     variant.quantity -= item.qty
                     variant.save()
-
+             
                 AddToCart.objects.filter(user=user).delete()
 
-        except Exception as e:
-            # log the error or handle it as appropriate
-            return Response({'detail': 'An error occurred'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
+ 
         serializer = OrderSerializer(order, many=False)
 
         my_thread = threading.Thread(target=sendOrderDetails,
@@ -139,6 +134,8 @@ def addOrderItems(request):
                 try:
                     # Get the translation for the product's name_geo in the specified language
                     translation = Translation.objects.get(language=language, key=field['name'])
+                    if translation.value =='':
+                        raise Translation.DoesNotExist()
                     field['name'] = translation.value
                 except Translation.DoesNotExist:
                     pass  # If no translation is found, keep the original value
@@ -193,6 +190,8 @@ def getMyOrders(request):
                 try:
                     # Get the translation for the product's name_geo in the specified language
                     translation = Translation.objects.get(language=language, key=field['name'])
+                    if translation.value =='':
+                        raise Translation.DoesNotExist()
                     field['name'] = translation.value
                 except Translation.DoesNotExist:
                     pass  # If no translation is found, keep the original value
@@ -308,7 +307,7 @@ def getOrderById(request, pk):
                 try:
                     # Get the translation for the product's name_geo in the specified language
                     translation = Translation.objects.get(language=language, key=field['color'])
-                    if translation.value =='':
+                    if translation.value == '' or translation.value is None:
                             raise Translation.DoesNotExist()
                     field['color'] = translation.value
                 except Translation.DoesNotExist:
@@ -362,7 +361,7 @@ def updateOrderToPaid(request, pk):
 
 @api_view(['PUT'])
 def updateOrderToDelivered(request, pk):
-    token = request.COOKIES. uppercaseget('jwt')
+    token = request.COOKIES.get('jwt')
 
     if not token:
         raise AuthenticationFailed('Unauthenticated!')
@@ -433,6 +432,8 @@ def getShippingPrices(request):
             try:
                 # Get the translation for the product's name_geo in the specified language
                 translation = Translation.objects.get(language=language, key=product['location'])
+                if translation.value =='':
+                    raise Translation.DoesNotExist()
                 product['location'] = translation.value
             except Translation.DoesNotExist:
                 pass  # If no translation is found, keep the original value

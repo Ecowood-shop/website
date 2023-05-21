@@ -36,7 +36,6 @@ function Carousel(props) {
       items: 1,
     },
   };
-  console.log(props.products);
   return (
     <section className="carousel-container w3-animate-right">
       <header>

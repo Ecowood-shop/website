@@ -32,7 +32,7 @@ function CategoryScreen() {
   // HOOKS
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { t } = useTranslation(["admin"]);
+  const { t, i18n } = useTranslation(["admin"]);
 
   const adminCategories = useSelector((state) => state.adminCategories);
   const { success } = adminCategories;
@@ -41,9 +41,9 @@ function CategoryScreen() {
 
   useEffect(() => {
     dispatch({ type: ADMIN.CATEGORY_RESET });
-    dispatch(getCategories());
-  }, [dispatch, success]);
-  console.log(categories);
+    dispatch(getCategories(i18n.language));
+  }, [dispatch, success, i18n.language]);
+
 
   return (
     <article className={styles.container}>

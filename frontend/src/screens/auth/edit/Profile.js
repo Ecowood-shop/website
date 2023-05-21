@@ -51,7 +51,7 @@ function Profile() {
     }
 
     setTimeout(() => {
-      console.log(data);
+
       dispatch(updateUser(data));
       actions.setSubmitting(false);
     }, 1000);

@@ -36,7 +36,6 @@ function ResetPassword() {
           values.confirmPassword
         )
       );
-      console.log(values);
       actions.setSubmitting(false);
     }, 1000);
   };

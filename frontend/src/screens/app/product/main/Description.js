@@ -1,36 +1,7 @@
 function Description({ styles, product, t }) {
   return (
     <div className={styles.description}>
-      {/* <div>
-        <p>
-          <b>{t("product.brand")}</b>
-        </p>
-        <p>
-          <b>{t("product.category")}</b>
-        </p>{" "}
-        {product.coverageLength && (
-          <p>
-            <b>
-              {t("product.cover")}
-              (1 {t("product.layer")})
-            </b>
-          </p>
-        )}{" "}
-        <p>
-          <b>{t("product.volume")}</b>
-        </p>
-      </div>
-      <div>
-        <p>{product.brand}</p>
-        <p>{product.category}</p>
-        {product.coverageLength && (
-          <p>
-            {product.coverageLength} {t("product.meter")}
-            <sup>2</sup>
-          </p>
-        )}{" "}
-        <p>{product.size}</p>
-      </div> */}
+  
       <table>
         <tbody>
           <tr>

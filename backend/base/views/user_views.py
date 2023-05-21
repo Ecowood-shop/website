@@ -164,7 +164,6 @@ def LoginUser(request):
 @api_view(['GET'])
 def getUserProfile(request):
     token = request.COOKIES.get('jwt')
-
     if not token:
         raise AuthenticationFailed('Unauthenticated!')
 

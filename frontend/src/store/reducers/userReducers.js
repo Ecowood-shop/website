@@ -61,7 +61,7 @@ export const userReducer = (state = {}, action) => {
       };
 
     case USER.LOGOUT:
-      return { loadingUser: false };
+      return { };
 
     case USER.REGISTER_REQUEST:
       return { ...state, loadingRegister: true };

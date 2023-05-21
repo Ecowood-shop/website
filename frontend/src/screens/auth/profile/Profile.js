@@ -71,8 +71,7 @@ function Profile() {
     dispatch(getUserOrders(page));
   }, [dispatch, page]);
 
-  console.log(user);
-  console.log(orders);
+  
 
   return (
     <article className={styles.container}>

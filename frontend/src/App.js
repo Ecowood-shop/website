@@ -29,6 +29,7 @@ import Variants from "./screens/admin/variants/Variants";
 import Images from "./screens/admin/images/Images";
 import CitiesScreen from "./screens/admin/cities/CitiesScreen";
 import CreateCityScreen from "./screens/admin/create/city/CreateCityScreen";
+import UpdateCityScreen from "./screens/admin/edit/city/UpdateCityScreen";
 import DiscountsScreen from "./screens/admin/specificDiscounts/DiscountsScreen";
 import DiscountScreen from "./screens/admin/edit/specificDiscount/SpecificDiscount";
 import CreateDIscountScreen from "./screens/admin/create/specificDiscount/SpecificDiscount";
@@ -51,12 +52,25 @@ import HomeLayout from "./layouts/HomeLayout";
 import AuthorizedLayout from "./layouts/AuthorizedLayout";
 import AdminLayout from "./layouts/AdminLayout";
 
+// REDUX
+import { useSelector, useDispatch } from "react-redux";
+import { getUser } from "./store/actions/userActions";
+import { useEffect } from "react";
+
 function App() {
+  const dispatch = useDispatch();
+  const User = useSelector((state) => state.User);
+  const { user, loadingUser } = User;
+
+  useEffect(() => {
+    dispatch(getUser());
+  }, [dispatch]);
+
   return (
     <Suspense fallback={null}>
       <Router>
         <ScrollToTop>
-          <Header />
+          <Header user={user} />
           <Translate />
           <Routes>
             <Route element={<HomeLayout />}>
@@ -76,7 +90,9 @@ function App() {
               />
             </Route>
 
-            <Route element={<AuthorizedLayout />}>
+            <Route
+              element={<AuthorizedLayout user={user} loading={loadingUser} />}
+            >
               <Route path="/profile" element={<Profile />} />
               <Route
                 path="/checkout/shippingmethod"
@@ -94,7 +110,7 @@ function App() {
               <Route path="/order/:id/" element={<Order />} />
             </Route>
 
-            <Route element={<AdminLayout />}>
+            <Route element={<AdminLayout user={user} loading={loadingUser} />}>
               <Route path="/admin/products" element={<ProductsScreen />} />
               <Route
                 path="/admin/products/create"
@@ -131,6 +147,10 @@ function App() {
               <Route
                 path="/admin/cities/create"
                 element={<CreateCityScreen />}
+              />
+              <Route
+                path="/admin/cities/:id/edit"
+                element={<UpdateCityScreen />}
               />
             </Route>
             <Route path="*" element={<Error />} />
