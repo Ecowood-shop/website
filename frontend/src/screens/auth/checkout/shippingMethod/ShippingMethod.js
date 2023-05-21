@@ -28,7 +28,7 @@ import { useTranslation } from "react-i18next";
 function ShippingMethod() {
   const shipping = useSelector((state) => state.shipping);
   const { shipping: shippingFromStorage, prices } = shipping;
-  const { t } = useTranslation(["auth"]);
+  const { t, i18n } = useTranslation(["auth"]);
 
   // HOOKS
   const dispatch = useDispatch();
@@ -46,8 +46,8 @@ function ShippingMethod() {
 
   useEffect(() => {
     dispatch({ type: ORDER.CLEAR_ORDER });
-    dispatch(getShippingPrices());
-  }, []);
+    dispatch(getShippingPrices(i18n.language));
+  }, [dispatch, i18n.language]);
 
   return (
     <article className={styles.container}>

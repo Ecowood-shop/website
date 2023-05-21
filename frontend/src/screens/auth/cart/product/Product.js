@@ -22,7 +22,6 @@ function Product({ product, variant, cart, dispatch, t }) {
         : ""
       : `${t("cart.product is deleted")}`
   );
-  console.log(product._id, cart.product, variant.product);
   const changer = (number) => {
     switch (number) {
       case "-":
@@ -129,7 +128,7 @@ function Product({ product, variant, cart, dispatch, t }) {
             </div>
             <p className={styles.message}>{message}</p>
           </section>
-          {variant.color != "default" && (
+          {variant?.color.toLowerCase() != "default" && (
             <span className={styles.color}>
               <b>{t("global.color")} </b>
               <Color element={variant} />

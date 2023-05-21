@@ -63,7 +63,7 @@ function ProductsScreen() {
     dispatch({ type: "GET_PRODUCT_RESET" });
     dispatch(getProducts(i18n.language, word, category, orderby, page));
   }, [dispatch, category, word, orderby, page, success, i18n.language]);
-  console.log(products);
+
   return (
     <section className={styles.container}>
       <Filter />

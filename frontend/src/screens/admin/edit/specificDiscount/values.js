@@ -64,7 +64,6 @@ export const onSubmit = (values, id, dispatch, func) => {
     convertTime12to24(values.end_time) +
     ":00";
 
-  console.log(data, id, func);
   dispatch(func(id, data));
 };
 

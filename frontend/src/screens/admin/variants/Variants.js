@@ -35,9 +35,6 @@ function Variants() {
     dispatch(getColors());
   }, [dispatch, success, successUpdate, successCreate, id]);
 
-  console.log(variants);
-  console.log(colors);
-
   return (
     <article className={styles.container}>
       <button

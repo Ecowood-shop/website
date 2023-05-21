@@ -10,10 +10,13 @@ export const createOrder = (formData) => async (dispatch) => {
       type: ORDER.CREATE_REQUEST,
     });
 
-    const { data } = await useCustomAxios.post("/api/orders/add/", {
-      ...formData,
-      shippingPrice: 0,
-    });
+    const { data } = await useCustomAxios.post(
+      "/api/orders/add/?language=GEO",
+      {
+        ...formData,
+        shippingPrice: 0,
+      }
+    );
 
     dispatch({
       type: ORDER.CREATE_SUCCESS,
@@ -21,7 +24,6 @@ export const createOrder = (formData) => async (dispatch) => {
     });
     localStorage.removeItem("shipping");
   } catch (error) {
-    console.log(error);
     dispatch({
       type: ORDER.CREATE_FAIL,
       payload: error,
@@ -45,9 +47,7 @@ export const getOrder = (id, language) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: ORDER.GET_FAIL,
-      payload: error.data?.detail
-        ? error.data?.detail
-        : error.data
+      payload: error.data?.detail ? error.data?.detail : error.data,
     });
   }
 };

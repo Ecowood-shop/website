@@ -56,10 +56,12 @@ function PaymentMethod() {
     });
     dispatch(savePaymentMethod(data));
     dispatch(createOrder(data));
-    console.log(data);
+
+    
   }
 
-  console.log(shippingFromStorage);
+
+  
 
   return (
     <article className={styles.container}>

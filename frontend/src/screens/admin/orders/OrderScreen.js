@@ -78,7 +78,6 @@ function OrderScreen() {
   useEffect(() => {
     dispatch(getOrders(page, word, status, id));
   }, [dispatch, page, word, status, id, success]);
-  console.log(orders?.Orders);
   return (
     <section className={styles.container}>
       <OrderFilter />

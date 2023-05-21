@@ -28,24 +28,28 @@ export const saveShippingDetails = (data) => (dispatch) => {
   localStorage.setItem("shipping", JSON.stringify(data));
 };
 
-export const getShippingPrices = () => async (dispatch) => {
-  try {
-    dispatch({
-      type: SHIPPING.GET_PRICES_REQUEST,
-    });
-    const { data } = await useCustomAxios.get(`/api/orders/prices/`);
+export const getShippingPrices =
+  (language = "geo") =>
+  async (dispatch) => {
+    try {
+      dispatch({
+        type: SHIPPING.GET_PRICES_REQUEST,
+      });
+      const { data } = await useCustomAxios.get(
+        `/api/orders/prices/?language=${language}`
+      );
 
-    dispatch({
-      type: SHIPPING.GET_PRICES_SUCCESS,
-      payload: data,
-    });
-  } catch (error) {
-    dispatch({
-      type: SHIPPING.GET_PRICES_FAIL,
-      payload: error?.message,
-    });
-  }
-};
+      dispatch({
+        type: SHIPPING.GET_PRICES_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: SHIPPING.GET_PRICES_FAIL,
+        payload: error?.message,
+      });
+    }
+  };
 
 export const createCity = (formData) => async (dispatch) => {
   try {
@@ -70,8 +74,7 @@ export const createCity = (formData) => async (dispatch) => {
   }
 };
 
-
-export const updateCity = (formData,id) => async (dispatch) => {
+export const updateCity = (formData, id) => async (dispatch) => {
   try {
     dispatch({
       type: SHIPPING.UPDATE_CITY_REQUEST,
@@ -94,7 +97,6 @@ export const updateCity = (formData,id) => async (dispatch) => {
   }
 };
 
-
 export const deleteCity = (id) => async (dispatch) => {
   try {
     dispatch({
@@ -112,6 +114,28 @@ export const deleteCity = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: SHIPPING.DELETE_CITY_FAIL,
+      payload: error?.data["detail "],
+    });
+  }
+};
+
+export const getCityById = (id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SHIPPING.GET_CITY_BY_ID_REQUEST,
+    });
+
+    const { data } = await useCustomAxios.get(
+      `/api/orders/prices/${id}/`
+    );
+
+    dispatch({
+      type: SHIPPING.GET_CITY_BY_ID_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: SHIPPING.GET_CITY_BY_ID_FAIL,
       payload: error?.data["detail "],
     });
   }

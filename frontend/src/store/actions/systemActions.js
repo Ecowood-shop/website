@@ -3,27 +3,31 @@ import SYSTEM from "../constants/systemConstants";
 //AXIOS
 import { useAxios } from "../../hooks/useAxios";
 
-export const getCategories = () => async (dispatch) => {
-  try {
-    dispatch({
-      type: SYSTEM.GET_CATEGORIES_REQUEST,
-    });
+export const getCategories =
+  (language = "geo") =>
+  async (dispatch) => {
+    try {
+      dispatch({
+        type: SYSTEM.GET_CATEGORIES_REQUEST,
+      });
 
-    const { data } = await useAxios.get("/api/products/categories/");
+      const { data } = await useAxios.get(
+        `/api/products/categories/?language=${language.toUpperCase()}`
+      );
 
-    dispatch({
-      type: SYSTEM.GET_CATEGORIES_SUCCESS,
-      payload: data,
-    });
-  } catch (error) {
-    dispatch({
-      type: SYSTEM.GET_CATEGORIES_FAIL,
-      payload: error.response?.data
-        ? Object.values(error.response?.data)[0][0]
-        : error.response,
-    });
-  }
-};
+      dispatch({
+        type: SYSTEM.GET_CATEGORIES_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: SYSTEM.GET_CATEGORIES_FAIL,
+        payload: error.response?.data
+          ? Object.values(error.response?.data)[0][0]
+          : error.response,
+      });
+    }
+  };
 
 export const getLatestProducts = (language) => async (dispatch) => {
   try {

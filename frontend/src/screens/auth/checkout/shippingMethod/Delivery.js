@@ -31,7 +31,6 @@ function Delivery({ styles, prices, t }) {
         };
       })
     : [];
-  console.log(radioOptions, prices);
   return (
     <div className={styles.officeContainer}>
       <div className={styles.text}>

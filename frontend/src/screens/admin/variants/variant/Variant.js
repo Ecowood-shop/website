@@ -36,7 +36,7 @@ function Variant(props) {
       data.color = data.color.name;
       data.variantTitle = "productID=" + props.id + " color=" + data.color;
       data.productID = props.id;
-      console.log(data);
+    
       dispatch(createVariant(data));
     } else {
       data.id = props.variant.id;
@@ -45,7 +45,7 @@ function Variant(props) {
       dispatch(updateVariant(data));
     }
   };
-  console.log(props.colors);
+
   return (
     <section className={styles.section}>
       <div className={styles.container}>

@@ -16,9 +16,7 @@ function Products({ styles, loading, cart, dispatch, user, t }) {
             <Message>{t("cart.cart is empty")}</Message>
           </div>
         )}
-        {loading != false && document.cookie.indexOf("altax") !== -1 ? (
-          <Loader color="blueviolet" height />
-        ) : user ? (
+        {user ? (
           <>
             {cart &&
               cart.carts.map((cartItem, index) => (

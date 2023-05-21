@@ -120,7 +120,6 @@ export const updateCategory = (id, formData) => async (dispatch) => {
 };
 export const createCategory = (formData) => async (dispatch) => {
   try {
-    console.log(formData);
     dispatch({
       type: ADMIN.CREATE_CATEGORY_REQUEST,
     });

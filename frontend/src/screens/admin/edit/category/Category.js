@@ -36,7 +36,6 @@ function Category() {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data, id);
     dispatch(updateCategory(id, data));
   };
 
@@ -44,7 +43,6 @@ function Category() {
     success ? navigate("/admin/categories/") : dispatch(getCategoryById(id));
   }, [dispatch, navigate, id, success]);
 
-  console.log(category);
   return (
     <article className={styles.container}>
       <button

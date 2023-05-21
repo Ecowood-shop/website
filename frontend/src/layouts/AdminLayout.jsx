@@ -1,29 +1,13 @@
-//  REACT
-import React, { useEffect } from "react";
-import { useNavigate, Outlet } from "react-router-dom";
-
-// REDUX
-import { useSelector, useDispatch } from "react-redux";
-import { getUser } from "../store/actions/userActions";
+import { Outlet } from "react-router-dom";
 
 // COMPONENTS
 import Error from "../screens/app/error/Error";
 import Loader from "../components/loader/Loader";
-
-
-function AdminLayout() {
-  const dispatch = useDispatch();
-  const User = useSelector((state) => state.User);
-  const { user, loadingUser: loading } = User;
-
-  useEffect(() => {
-    if (!loading) dispatch(getUser());
-  }, [dispatch]);
+function AdminLayout({ user, loading }) {
   return (
     <>
-      {loading != false && document.cookie.indexOf("altax") !== -1 ? (
-          <Loader color="blueviolet" />
-
+      {loading ? (
+        <Loader />
       ) : user?.is_staff ? (
         <>
           <Outlet />

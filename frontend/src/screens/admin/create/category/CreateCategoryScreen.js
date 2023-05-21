@@ -1,7 +1,6 @@
 // REACT
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
@@ -33,7 +32,6 @@ function CreateCategoryScreen() {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
     dispatch(createCategory(data));
   };
 

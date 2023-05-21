@@ -67,8 +67,6 @@ function Order() {
     }
   }
 
-  console.log(order);
-  console.log(error);
   return (
     <article className={styles.container}>
       {loading && <Loader />}
@@ -162,7 +160,7 @@ function Order() {
           order?.Order.orderItems.map((product, index) => (
             <div className={styles.product} key={product._id}>
               <img
-                src={"/images/" + product.image}
+                src={product.image}
                 onClick={() => navigate(`/product/${product.product}`)}
                 alt={product.name}
               />

@@ -27,7 +27,7 @@ function Product() {
   // hooks
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { t } = useTranslation(["admin"]);
+  const { t, i18n } = useTranslation(["admin"]);
   const adminProduct = useSelector((state) => state.adminProduct);
   const { error, loading, createSuccess: success } = adminProduct;
 
@@ -35,11 +35,10 @@ function Product() {
   const { categories } = systemCategories;
 
   useEffect(() => {
-    dispatch(getCategories());
+    dispatch(getCategories(i18n.language));
     if (success) navigate("/admin/products/");
-  }, [dispatch, navigate, success]);
+  }, [dispatch, navigate, success, i18n.language]);
 
-  console.log(categories);
   return (
     <article className={styles.container}>
       <button

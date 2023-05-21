@@ -112,7 +112,6 @@ export const updateDiscount = (id, formData) => async (dispatch) => {
     dispatch({
       type: DISCOUNT.CREATE_DISCOUNT_REQUEST,
     });
-    console.log(formData);
     const { data } = await useCustomAxios.put(
       `/api/products/specific/discount/update/${id}/`,
       {
@@ -137,7 +136,6 @@ export const deleteDiscount = (id) => async (dispatch) => {
     dispatch({
       type: DISCOUNT.DELETE_DISCOUNT_REQUEST,
     });
-    console.log(id);
     const { data } = await useCustomAxios.delete(
       `/api/products/delete/specific/discount/${id}/`
     );

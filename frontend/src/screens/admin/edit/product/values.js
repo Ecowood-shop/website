@@ -183,9 +183,9 @@ export const onSubmit = (values, dispatch, id) => {
     discountType: values.discountType,
 
     // technical requirements
-    technicalRequirements_geo: values.instructionForUse_geo,
-    technicalRequirements_eng: values.instructionForUse_eng,
-    technicalRequirements_rus: values.instructionForUse_rus,
+    technicalRequirements_geo: values.technicalRequirements_geo,
+    technicalRequirements_eng: values.technicalRequirements_eng,
+    technicalRequirements_rus: values.technicalRequirements_rus,
 
     // instruction for use
     instructionForUse_geo: values.instructionForUse_geo,
@@ -220,7 +220,6 @@ export const onSubmit = (values, dispatch, id) => {
       values.discountPercent < 1 ? 0 : values.discountPercent;
   }
 
-  console.log(data);
   dispatch(updateProduct(id, data));
 };
 

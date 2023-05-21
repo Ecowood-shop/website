@@ -26,7 +26,7 @@ export const validationSchema = Yup.object({
   end_time: Yup.string().required("Required"),
 });
 
-export const onSubmit = (values,  dispatch, func) => {
+export const onSubmit = (values, dispatch, func) => {
   let data = {
     userId: values.userId,
     productId: values.productId,
@@ -50,7 +50,6 @@ export const onSubmit = (values,  dispatch, func) => {
     " " +
     convertTime12to24(values.end_time) +
     ":00";
-
   dispatch(func(data));
 };
 

@@ -48,8 +48,6 @@ function Product() {
     }
   }, [dispatch, success, navigate, id]);
 
-  console.log(product);
-  console.log(categories);
   return (
     <article className={styles.container}>
       <button
