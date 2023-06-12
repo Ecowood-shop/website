@@ -128,6 +128,15 @@ class Product(models.Model):
             discount, _ = Discount.objects.get_or_create(percentage=0, defaults={'name': '0% discount'})
             return discount
 
+    def active_discounts(self):
+        global_discount = Discount.objects.filter(product=self, active=True).order_by('-percentage').first()
+
+        if global_discount and not global_discount.is_active():
+            discount, _ = Discount.objects.get_or_create(percentage=0, defaults={'name': '0% discount'})
+
+            return discount
+        return global_discount
+
     def delete(self, *args, **kwargs):
         self.active = False
         self.save()
