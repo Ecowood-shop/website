@@ -1,3 +1,4 @@
+import time
 from datetime import datetime
 
 import jwt
@@ -29,7 +30,6 @@ def addOrderItems(request):
 
     language = request.query_params.get('language')
 
-
     if not token:
         raise AuthenticationFailed('Unauthenticated!')
 
@@ -53,7 +53,6 @@ def addOrderItems(request):
                 discounted_price = float(item.product.price * (1 - (product_discount.percentage / 100)))
                 discounted_sum_price += float(item.qty * discounted_price)
 
-   
             with transaction.atomic():
                 # (1) Create Order
 
@@ -97,13 +96,13 @@ def addOrderItems(request):
                         phone=data['phone'],
                         warehouse=warehouse
                     )
-               
+
                 # (3) Create order items and set order to orderItem relationship
                 for i in orderItems:
                     if not i.product.active:
                         raise Exception
 
-                    variant = Variants.objects.get(id=i.variants_id, active=True)
+                    variant = Variants.objects.select_for_update().get(id=i.variants_id, active=True)
                     image = Picture.objects.get(product_id=i.product._id, ord=0)
                     item = OrderItem.objects.create(
                         product=i.product,
@@ -114,13 +113,17 @@ def addOrderItems(request):
                         variant=variant,
                         image=image.picture,
                     )
+
                     # (4) Update Stock
-                    variant.quantity -= item.qty
-                    variant.save()
-             
+                    if variant.quantity - item.qty >= 0:
+                        variant.quantity -= item.qty
+                        variant.save()
+
+                    else:
+                        return Response({'detail': 'Out of stock'}, status=status.HTTP_400_BAD_REQUEST)
+
                 AddToCart.objects.filter(user=user).delete()
 
- 
         serializer = OrderSerializer(order, many=False)
 
         my_thread = threading.Thread(target=sendOrderDetails,
@@ -134,7 +137,7 @@ def addOrderItems(request):
                 try:
                     # Get the translation for the product's name_geo in the specified language
                     translation = Translation.objects.get(language=language, key=field['name'])
-                    if translation.value =='':
+                    if translation.value == '':
                         raise Translation.DoesNotExist()
                     field['name'] = translation.value
                 except Translation.DoesNotExist:
@@ -166,7 +169,7 @@ def getMyOrders(request):
 
     page = request.query_params.get('page')
 
-    paginator = Paginator(orders, 10)
+    paginator = Paginator(orders, 20)
 
     try:
         orders = paginator.page(page)
@@ -190,7 +193,7 @@ def getMyOrders(request):
                 try:
                     # Get the translation for the product's name_geo in the specified language
                     translation = Translation.objects.get(language=language, key=field['name'])
-                    if translation.value =='':
+                    if translation.value == '':
                         raise Translation.DoesNotExist()
                     field['name'] = translation.value
                 except Translation.DoesNotExist:
@@ -237,7 +240,7 @@ def getOrders(request):
     else:
         orders = orders.filter(_id__exact=ordID).order_by('-createdAt')
 
-    paginator = Paginator(orders, 10)
+    paginator = Paginator(orders, 20)
 
     try:
         orders = paginator.page(page)
@@ -297,8 +300,8 @@ def getOrderById(request, pk):
                 try:
                     # Get the translation for the product's name_geo in the specified language
                     translation = Translation.objects.get(language=language, key=field['name'])
-                    if translation.value =='':
-                            raise Translation.DoesNotExist()
+                    if translation.value == '':
+                        raise Translation.DoesNotExist()
                     field['name'] = translation.value
                 except Translation.DoesNotExist:
                     pass  # If no translation is found, keep the original value
@@ -308,7 +311,7 @@ def getOrderById(request, pk):
                     # Get the translation for the product's name_geo in the specified language
                     translation = Translation.objects.get(language=language, key=field['color'])
                     if translation.value == '' or translation.value is None:
-                            raise Translation.DoesNotExist()
+                        raise Translation.DoesNotExist()
                     field['color'] = translation.value
                 except Translation.DoesNotExist:
                     pass  # If no translation is found, keep the original value
@@ -317,8 +320,8 @@ def getOrderById(request, pk):
                 try:
                     # Get the translation for the product's name_geo in the specified language
                     translation = Translation.objects.get(language=language, key=field['size'])
-                    if translation.value =='':
-                            raise Translation.DoesNotExist()
+                    if translation.value == '':
+                        raise Translation.DoesNotExist()
                     field['size'] = translation.value
                 except Translation.DoesNotExist:
                     pass  # If no translation is found, keep the original value
@@ -432,7 +435,7 @@ def getShippingPrices(request):
             try:
                 # Get the translation for the product's name_geo in the specified language
                 translation = Translation.objects.get(language=language, key=product['location'])
-                if translation.value =='':
+                if translation.value == '':
                     raise Translation.DoesNotExist()
                 product['location'] = translation.value
             except Translation.DoesNotExist:

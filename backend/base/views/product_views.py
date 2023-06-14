@@ -24,6 +24,15 @@ def apply_user_discounts(products, user):
         serializer_data.append(ProductSerializer(product).data)
 
 
+def get_active_discounts(products):
+    serializer_data = []
+
+    for product in products:
+        product.discount = product.active_discounts()
+        product.save()
+        serializer_data.append(ProductSerializer(product).data)
+
+
 @api_view(['GET'])
 def getProducts(request):
     query = request.query_params.get('keyword')
@@ -72,7 +81,7 @@ def getProducts(request):
         products = products.order_by('-price')
 
     page = request.query_params.get('page')
-    paginator = Paginator(products, 5)
+    paginator = Paginator(products, 20)
 
     try:
         products = paginator.page(page)
@@ -94,6 +103,9 @@ def getProducts(request):
         user = User.objects.filter(id=payload['id']).first()
     except:
         serializer = ProductSerializer(products, many=True)
+
+        get_active_discounts(products)
+
         if language is not None and language != '':
             for product in serializer.data:
                 for field_name in ['name_geo', 'brand', 'category', 'size', 'technicalRequirements',
@@ -109,8 +121,11 @@ def getProducts(request):
                         pass  # If no translation is found, keep the original value
         return Response({'products': serializer.data, 'page': page, 'pages': paginator.num_pages})
 
+    for e in products:
+        print(e.discount)
     apply_user_discounts(products, user)
-
+    for e in products:
+        print(e.discount)
     serializer = ProductSerializer(products, many=True)
     # Update the queryset with translated values if language is provided
     if language is not None and language != '':
@@ -261,6 +276,9 @@ def getLatestProducts(request):
         user = User.objects.filter(id=payload['id']).first()
     except:
         serializer = TopProductSerializer(products, many=True)
+
+        get_active_discounts(products)
+
         if language is not None and language != '':
             for product in serializer.data:
                 for field_name in ['name_geo', 'category', 'size', 'price', 'discount']:
@@ -314,6 +332,9 @@ def getLatestProduct(request, pk):
         user = User.objects.filter(id=payload['id']).first()
     except:
         serializer = TopProductSerializer(products, many=True)
+
+        get_active_discounts(products)
+
         if language is not None and language != '':
             for product in serializer.data:
                 for field_name in ['name_geo', 'category', 'size', 'price', 'discount']:
@@ -365,9 +386,12 @@ def getProduct(request, pk):
         payload = jwt.decode(token, 'secret', algorithm=['HS256'])
         user = User.objects.filter(id=payload['id']).first()
     except:
-        serializer_data = (ProductSerializer(product).data)
+        serializer_data = ProductSerializer(product).data
         serializer = ProductSerializer(product, many=False)
 
+        product.discount = product.active_discounts()
+        product.save()
+        
         if language is not None and language != '':
             product = serializer_data
             for field_name in ['name_geo', 'brand', 'category', 'size', 'technicalRequirements', 'instructionForUse',
@@ -400,7 +424,7 @@ def getProduct(request, pk):
         return Response({'products': serializer_data, 'variants': variantSerializer.data})
 
     product.discount = product.get_discount(user)
-    serializer_data = (ProductSerializer(product).data)
+    serializer_data = ProductSerializer(product).data
 
     serializer = ProductSerializer(product, many=False)
 
@@ -583,7 +607,6 @@ def createProduct(request):
                 price=data['price'],
                 discount=discount,
             )
-            
 
             fields = ['name_geo', 'brand_geo', 'size_geo', 'technicalRequirements_geo',
                       'instructionForUse_geo', 'safetyStandard_geo']
@@ -922,8 +945,7 @@ def getProductAdmin(request, pk):
             else:
                 eng = field_name + '_eng'
                 rus = field_name + '_rus'
-            
-            
+
             newdict[eng] = translation_eng.value
             newdict[rus] = translation_rus.value
             newdict.update(serializer.data)
@@ -1121,7 +1143,7 @@ def getUserCart(request):
 
     try:
         apply_user_discounts(products, user)
-        productSerializer = SpecificProductSerializer(products,many=True)
+        productSerializer = SpecificProductSerializer(products, many=True)
     except:
         pass
 

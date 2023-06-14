@@ -251,7 +251,7 @@ def LogoutUser(request):
 @api_view(['GET'])
 def getUsers(request):
     token = request.COOKIES.get('jwt')
-
+    
     if not token:
         raise AuthenticationFailed('Unauthenticated!')
 
@@ -281,7 +281,7 @@ def getUsers(request):
     users = users.filter(is_staff__icontains=is_staff)
 
     page = request.query_params.get('page')
-    paginator = Paginator(users, 5)
+    paginator = Paginator(users, 10)
 
     try:
         users = paginator.page(page)
