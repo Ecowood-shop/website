@@ -1,21 +1,22 @@
-// REACT
+// React
 import React from "react";
 import ReactDOM from "react-dom/client";
 
-// APP
+// Application
 import App from "./App";
 
-// REDUX
+// Redux
 import store from "./store/store";
 import { Provider } from "react-redux";
 
-// ADDITIONAL
+// Styles
 import "./index.scss";
 import "animate.css";
 
-// I18NEXT
+// i18next
 import "./i18next";
 
+// Render the app
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>

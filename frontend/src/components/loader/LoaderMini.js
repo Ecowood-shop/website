@@ -1,7 +1,7 @@
 import React from "react";
 import "./loader.css";
 
-function Loader({ header, height, color }) {
+function Loader({color }) {
   return (
     <div
       className="loader-mini-Container"
