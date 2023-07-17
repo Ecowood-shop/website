@@ -2,7 +2,7 @@
 import * as Yup from "yup";
 // redux
 
-import { updateCity } from "../../../../store/actions/shippingActions";
+import { updateShippingPrice } from "../../../../toolkit/shipping/actions";
 
 export const initialValues = (city) => {
   return {
@@ -33,5 +33,5 @@ export const onSubmit = (values, dispatch, id) => {
     lowerLimit: values.lowerLimit,
     upperLimit: values.upperLimit,
   };
-  dispatch(updateCity(data, id));
+  dispatch(updateShippingPrice({ formData: data, id: id }));
 };

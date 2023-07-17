@@ -1,5 +1,5 @@
 // components
-import FormikControl from "../../../../formik/FormikControl";
+import FormikControl from "../../../../components/formik/FormikControl";
 
 function RadioContainer({ styles, t }) {
   const radioOptions = [
@@ -52,7 +52,7 @@ function RadioContainer({ styles, t }) {
     },
   ];
   return (
-    <div className={styles.radioContainer + " "+styles.center}>
+    <div className={styles.radioContainer + " " + styles.center}>
       <FormikControl
         control="radio"
         name="wants_delivery"

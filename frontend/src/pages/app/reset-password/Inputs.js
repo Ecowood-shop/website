@@ -1,5 +1,5 @@
 //components
-import FormikControl from "../../../formik/FormikControl";
+import FormikControl from "../../../components/formik/FormikControl";
 
 function Inputs(props) {
   return (
@@ -16,8 +16,8 @@ function Inputs(props) {
       <FormikControl
         control="input"
         type="password"
-        label="confirmPassword"
-        name="confirmPassword"
+        label="confirm_password"
+        name="confirm_password"
         className={props.styles.input}
         placeholder={props.t("resetPassword.confirm password")}
         required

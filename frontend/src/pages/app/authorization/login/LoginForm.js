@@ -1,6 +1,6 @@
 // redux
 import { useDispatch } from "react-redux";
-import { login } from "../../../../store/actions/userActions";
+import { reset } from "../../../../toolkit/user/userSlice";
 // components
 import Loader from "../../../../components/loader/Loader";
 import Message from "../../../../components/Message/Message";
@@ -8,33 +8,34 @@ import { Formik, Form } from "formik";
 import Inputs from "./Inputs";
 import Button from "./Button";
 // values
-import { initialValues, validationSchema } from "./Values";
+import { initialValues, validationSchema, onSubmit } from "./Values";
 import logo from "../../../../static/images/altax.png";
+import { useEffect } from "react";
+
 function LoginForm(props) {
   const dispatch = useDispatch();
-  const onSubmit = (values, actions) => {
-    setTimeout(() => {
-      dispatch(login(values.email, values.password));
-      actions.setSubmitting(false);
-    }, 1000);
-  };
 
+  useEffect(() => {
+    return () => {
+      dispatch(reset());
+    };
+  }, []);
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={onSubmit}
+      onSubmit={(e, action) => onSubmit(e, action, dispatch)}
     >
       {(formik) => {
         return (
           <Form className="w3-animate-left">
-              <img
-                src={logo}
-                alt="altax logo"
-                className="header-logo"
-                id="altax-logo"
-              />
-            <Message styles>{props.message}</Message>
+            <img
+              src={logo}
+              alt="altax logo"
+              className="header-logo"
+              id="altax-logo"
+            />
+            <Message styles>{props.error}</Message>
             {props.loading && <Loader />}
             <Inputs styles={props.styles} t={props.t} />
             <Button

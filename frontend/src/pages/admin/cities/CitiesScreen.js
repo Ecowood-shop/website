@@ -5,10 +5,10 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
-  deleteCity,
   getShippingPrices,
-} from "../../../store/actions/shippingActions";
-import SHIPPING from "../../../store/constants/shippingConstants";
+  deleteShippingPrice,
+} from "../../../toolkit/shipping/actions";
+import { reset } from "../../../toolkit/shipping/shippingPriceSlice";
 
 // COMPONENTS
 import Loader from "../../../components/loader/Loader";
@@ -41,26 +41,29 @@ function CitiesScreen() {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation(["admin"]);
 
-  const shipping = useSelector((state) => state.shipping);
-  const { prices, loading, error, success } = shipping;
+  const shippingPriceSlice = useSelector((state) => state.shippingPrices);
+  const { error, isLoading, shippingPrices, success } = shippingPriceSlice;
+
   useEffect(() => {
-    dispatch({ type: SHIPPING.GET_CITY_RESET });
-    dispatch(getShippingPrices(i18n.language));
+    dispatch(getShippingPrices({ language: i18n.language }));
+    return () => {
+      dispatch(reset());
+    };
   }, [dispatch, success, i18n.language]);
 
   return (
     <article className={styles.container}>
       <Nav styles={styles} navigate={navigate} t={t} />
-      {loading && <Loader color={"blueviolet"} />}
+      {isLoading && <Loader color={"blueviolet"} />}
       {error && <Message>{error}</Message>}
-      {prices && (
+      {shippingPrices && (
         <div className={styles.table}>
           <Table
             columns={columns(t)}
-            data={prices}
+            data={shippingPrices}
             link="/admin/cities/"
             linkEnd="/edit"
-            Delete={(id) => dispatch(deleteCity(id))}
+            Delete={(id) => dispatch(deleteShippingPrice({ id: id }))}
             text={t("order.city")}
           />
         </div>

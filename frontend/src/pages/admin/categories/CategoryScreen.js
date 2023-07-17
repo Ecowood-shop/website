@@ -4,9 +4,11 @@ import { useEffect } from "react";
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getCategories } from "../../../store/actions/systemActions";
-import ADMIN from "../../../store/constants/adminConstants";
-import { deleteCategory } from "../../../store/actions/adminActions";
+import {
+  getCategories,
+  deleteCategory,
+} from "../../../toolkit/category/actions";
+import { reset } from "../../../toolkit/category/categorySlice";
 
 // components
 import Loader from "../../../components/loader/Loader";
@@ -34,21 +36,20 @@ function CategoryScreen() {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation(["admin"]);
 
-  const adminCategories = useSelector((state) => state.adminCategories);
-  const { success } = adminCategories;
-  const systemCategories = useSelector((state) => state.systemCategories);
-  const { error, loading, categories } = systemCategories;
+  const categoriesSlice = useSelector((state) => state.categories);
+  const { error, isLoading, categories, success } = categoriesSlice;
 
   useEffect(() => {
-    dispatch({ type: ADMIN.CATEGORY_RESET });
-    dispatch(getCategories(i18n.language));
+    dispatch(getCategories({ language: i18n.language }));
+    return () => {
+      dispatch(reset());
+    };
   }, [dispatch, success, i18n.language]);
-
 
   return (
     <article className={styles.container}>
       <Nav styles={styles} navigate={navigate} t={t} />
-      {loading && <Loader />}
+      {isLoading && <Loader color="darkmagenta" />}
       {error && <Message>{error}</Message>}
       {categories && (
         <div className={styles.table}>
@@ -57,7 +58,7 @@ function CategoryScreen() {
             data={categories}
             link="/admin/categories/"
             linkEnd="/edit"
-            Delete={(id) => dispatch(deleteCategory(id))}
+            Delete={(id) => dispatch(deleteCategory({ id: id }))}
             text={t("global.category")}
           />
         </div>

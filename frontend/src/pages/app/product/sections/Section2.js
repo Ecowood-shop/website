@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 
 // REDUX
 import { useSelector } from "react-redux";
-import { getSimilarProducts } from "../../../../store/actions/systemActions";
+import { getSimilarProducts } from "../../../../toolkit/product/similarProductSlice";
 
 // COMPONENTS
 import Carousel from "../../../../components/carousel/Carousel";
@@ -11,13 +11,12 @@ import Carousel from "../../../../components/carousel/Carousel";
 function Section2({ product, styles, navigate, category, dispatch, t, i18n }) {
   const [current, setCurrent] = useState(0);
 
-  const systemSimilarProducts = useSelector(
-    (state) => state.systemSimilarProducts
-  );
-  const { products } = systemSimilarProducts;
+  const { products } = useSelector((state) => state.similarProducts);
 
   useEffect(() => {
-    dispatch(getSimilarProducts(i18n.language, category.id));
+    dispatch(
+      getSimilarProducts({ category: category.id, language: i18n.language })
+    );
   }, [dispatch, category.id, i18n.language]);
 
   function renderSwitch(param) {

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 // redux
 import { useSelector, useDispatch } from "react-redux";
-import { updateUser } from "../../../store/actions/userActions";
+import { updateUser, reset } from "../../../toolkit/user/userUpdateSlice";
 
 // components
 import Loader from "../../../components/loader/Loader";
@@ -28,8 +28,9 @@ function Profile() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const User = useSelector((state) => state.User);
-  const { errorUpdate: error, loading, user, success } = User;
+  const { user } = useSelector((state) => state.user);
+  const userUpdateSlice = useSelector((state) => state.userUpdate);
+  const { isLoading, success, error } = userUpdateSlice;
 
   const { t } = useTranslation(["auth"]);
 
@@ -51,13 +52,15 @@ function Profile() {
     }
 
     setTimeout(() => {
-
       dispatch(updateUser(data));
       actions.setSubmitting(false);
     }, 1000);
   };
   useEffect(() => {
     if (success) navigate("/profile");
+    return () => {
+      dispatch(reset());
+    };
   }, [dispatch, success, navigate]);
 
   return (
@@ -65,7 +68,7 @@ function Profile() {
       <button onClick={() => navigate("/profile")} className={styles.button}>
         {t("global.back")}
       </button>
-      {loading && <Loader />}
+      {isLoading && <Loader color="darkmagenta" />}
       {user && (
         <section>
           <Formik
@@ -96,7 +99,7 @@ function Profile() {
                       <Inputs styles={styles} t={t} />
                     )}
                   </div>
-                  <Buttons styles={styles} formik={formik} t={t}/>
+                  <Buttons styles={styles} formik={formik} t={t} />
                 </Form>
               );
             }}

@@ -4,9 +4,8 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
-import { getProducts } from "../../../store/actions/systemActions";
-import ADMIN from "../../../store/constants/adminConstants";
-import { deleteProduct } from "../../../store/actions/adminActions";
+import { getProducts, deleteProduct } from "../../../toolkit/product/actions";
+import { reset } from "../../../toolkit/product/productSlice";
 
 // COMPONENTS
 import Filter from "../../../components/filter/Filter";
@@ -52,23 +51,29 @@ function ProductsScreen() {
   const orderby = searchParams.get("orderby");
   const page = searchParams.get("page");
 
-  const systemProducts = useSelector((state) => state.systemProducts);
-  const { error, loading, products } = systemProducts;
-
-  const adminProduct = useSelector((state) => state.adminProduct);
-  const { success } = adminProduct;
+  const productSlice = useSelector((state) => state.products);
+  const { error, isLoading, products, success } = productSlice;
 
   useEffect(() => {
-    dispatch({ type: ADMIN.UPDATE_PRODUCT_RESET });
-    dispatch({ type: "GET_PRODUCT_RESET" });
-    dispatch(getProducts(i18n.language, word, category, orderby, page));
+    dispatch(
+      getProducts({
+        language: i18n.language,
+        word: word,
+        category: category,
+        orderby: orderby,
+        page: page,
+      })
+    );
+    return () => {
+      dispatch(reset());
+    };
   }, [dispatch, category, word, orderby, page, success, i18n.language]);
 
   return (
     <section className={styles.container}>
       <Filter />
       <Nav styles={styles} navigate={navigate} t={t} />
-      {loading && <Loader color={"blueviolet"} />}{" "}
+      {isLoading && <Loader color={"blueviolet"} />}{" "}
       {error && <Message>{error}</Message>}
       {products?.products && (
         <>
@@ -79,11 +84,11 @@ function ProductsScreen() {
                 data={products.products}
                 link="/admin/products/"
                 linkEnd="/edit"
-                Delete={(id) => dispatch(deleteProduct(id))}
+                Delete={(id) => dispatch(deleteProduct({ id: id }))}
                 text={t("global.product")}
               />
             )}
-          </div>{" "}
+          </div>
           <Pagination pages={products.pages} page={products.page} />
         </>
       )}

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
-import { getLatestProducts } from "../../../store/actions/systemActions";
+import { getLatestProducts } from "../../../toolkit/product/latestProductSlice";
 
 // COMPONENTS
 import Carousel from "../../../components/carousel/Carousel";
@@ -22,13 +22,11 @@ function HomeScreen() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const systemLatestProducts = useSelector(
-    (state) => state.systemLatestProducts
-  );
-  const { error, loading, products } = systemLatestProducts;
+  const latestProductsSlice = useSelector((state) => state.latestProducts);
+  const { error, loading, products } = latestProductsSlice;
 
   useEffect(() => {
-    dispatch(getLatestProducts(i18n.language));
+    dispatch(getLatestProducts({ language: i18n.language }));
   }, [i18n.language, dispatch]);
 
   return (

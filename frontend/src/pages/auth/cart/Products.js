@@ -2,10 +2,9 @@
 import { useNavigate } from "react-router-dom";
 //components
 import Message from "../../../components/Message/Message";
-import Loader from "../../../components/loader/Loader";
 import Product from "./product/Product";
 
-function Products({ styles, loading, cart, dispatch, user, t }) {
+function Products({ styles, cart, dispatch, user, t }) {
   const navigate = useNavigate();
   return (
     <>

@@ -1,5 +1,5 @@
 // components
-import FormikControl from "../../../../../formik/FormikControl";
+import FormikControl from "../../../../../components/formik/FormikControl";
 import Select from "./Select";
 
 function Inputs({ styles, categories, t }) {

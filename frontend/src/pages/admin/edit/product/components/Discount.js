@@ -1,5 +1,5 @@
 // formik
-import FormikControl from "../../../../../formik/FormikControl";
+import FormikControl from "../../../../../components/formik/FormikControl";
 
 function Discount({ styles, formik, t }) {
   const radioOptions = [

@@ -5,9 +5,8 @@ import { useParams } from "react-router-dom";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
-import { getOrder } from "../../../store/actions/orderActions";
-import { orderDelivered } from "../../../store/actions/adminActions";
-
+import { getOrder, delivered } from "../../../toolkit/orders/actions";
+import { reset } from "../../../toolkit/orders/orderSlice";
 // OTHERS
 import styles from "./styles.module.scss";
 
@@ -20,22 +19,21 @@ import { useTranslation } from "react-i18next";
 
 function Order() {
   const { t, i18n } = useTranslation(["auth"]);
-  const User = useSelector((state) => state.User);
-  const { user } = User;
+  const { user } = useSelector((state) => state.user);
 
   // HOOKS
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const params = useParams();
 
-  const Order = useSelector((state) => state.Order);
-  const { error, loading, order } = Order;
-
-  const adminOrders = useSelector((state) => state.adminOrders);
-  const { success } = adminOrders;
+  const orderSlice = useSelector((state) => state.orders);
+  const { error, isLoading, order, success } = orderSlice;
 
   useEffect(() => {
-    dispatch(getOrder(params.id, i18n.language));
+    dispatch(getOrder({ id: params.id, language: i18n.language }));
+    return () => {
+      dispatch(reset());
+    };
   }, [dispatch, params.id, success, i18n.language]);
 
   let ID, username;
@@ -69,7 +67,7 @@ function Order() {
 
   return (
     <article className={styles.container}>
-      {loading && <Loader />}
+      {isLoading && <Loader />}
       {order?.Order && (
         <>
           <h1>
@@ -144,7 +142,7 @@ function Order() {
               {user.is_staff && !order.Order.isDelivered && (
                 <button
                   className={styles.delivered}
-                  onClick={() => dispatch(orderDelivered(params.id))}
+                  onClick={() => dispatch(delivered({ id: params.id }))}
                 >
                   {t("order.delivered")}
                 </button>

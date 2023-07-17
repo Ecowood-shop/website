@@ -5,11 +5,10 @@ import { useNavigate } from "react-router-dom";
 // redux
 import { useSelector, useDispatch } from "react-redux";
 
-import {
-  getProducts,
-  getUsers,
-  createDiscount,
-} from "../../../../store/actions/discountActions";
+import { createDiscount } from "../../../../toolkit/discounts/actions";
+import { reset } from "../../../../toolkit/discounts/discountSlice";
+import { getProducts } from "../../../../toolkit/discounts/discountProductSlice";
+import { getUsers } from "../../../../toolkit/discounts/discountUserSlice";
 
 // components
 import { Formik, Form } from "formik";
@@ -32,15 +31,22 @@ function SpecificDiscount() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const Discounts = useSelector((state) => state.discounts);
-  const { loading, users, products, success, error } = Discounts;
+  const discountSlice = useSelector((state) => state.discounts);
+  const { error, isLoading, success } = discountSlice;
+
+  const { products } = useSelector((state) => state.discountProducts);
+  const { users } = useSelector((state) => state.discountUsers);
+  useEffect(() => {
+    dispatch(getUsers());
+    dispatch(getProducts());
+  }, [dispatch]);
 
   useEffect(() => {
     if (success) navigate("/admin/discounts/");
-    dispatch(getUsers());
-    dispatch(getProducts());
+    return () => {
+      dispatch(reset());
+    };
   }, [dispatch, navigate, success]);
-
   return (
     <article className={styles.container}>
       <button
@@ -51,7 +57,7 @@ function SpecificDiscount() {
       </button>
       <section>
         <h1>{t("product.discount")}</h1>
-        {loading && <Loader />}
+        {isLoading && <Loader color="darkmagenta" />}
         <div className={styles.error}>
           {error && <Message>{error}</Message>}
         </div>

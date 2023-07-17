@@ -7,7 +7,8 @@ import { useSearchParams } from "react-router-dom";
 import {
   getDiscounts,
   deleteDiscount,
-} from "../../../store/actions/discountActions";
+} from "../../../toolkit/discounts/actions";
+import { reset } from "../../../toolkit/discounts/discountSlice";
 import { useNavigate } from "react-router-dom";
 // components
 import Loader from "../../../components/loader/Loader";
@@ -33,11 +34,14 @@ function DiscountsScreen() {
   const word = searchParams.get("word");
   const page = searchParams.get("page");
 
-  const Discounts = useSelector((state) => state.discounts);
-  const { error, loading, discounts, success } = Discounts;
+  const discountSlice = useSelector((state) => state.discounts);
+  const { error, isLoading, discounts, success } = discountSlice;
 
   useEffect(() => {
-    dispatch(getDiscounts(page, word));
+    dispatch(getDiscounts({ page: page, word: word }));
+    return () => {
+      dispatch(reset());
+    };
   }, [dispatch, success, page, word, navigate]);
 
   const columns = (t) => [
@@ -63,17 +67,17 @@ function DiscountsScreen() {
     <article className={styles.container}>
       <DiscountFilter />
       <Nav styles={styles} navigate={navigate} t={t} />
-      {loading && <Loader color={"blueviolet"} />}
+      {isLoading && <Loader color={"darkmagenta"} />}
       {error && <Message>{error}</Message>}
       {discounts && (
         <>
           <div className={styles.table}>
             <Table
               columns={columns(t)}
-              data={discounts["Specific Discounts"]}
+              data={discounts ? discounts["Specific Discounts"] : discounts}
               link="/admin/discounts/"
               linkEnd="/edit"
-              Delete={(id) => dispatch(deleteDiscount(id))}
+              Delete={(id) => dispatch(deleteDiscount({ id: id }))}
               text={t("product.discount")}
             />
           </div>

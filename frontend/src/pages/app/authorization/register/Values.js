@@ -1,9 +1,12 @@
 // yup
 import * as Yup from "yup";
 
+// Import register function
+import { register } from "../../../../toolkit/auth/registerSlice";
+
 export const initialValues = {
-  firstName: "",
-  lastName: "",
+  first_name: "",
+  last_name: "",
   email: "",
   phone: "",
   password: "",
@@ -11,13 +14,13 @@ export const initialValues = {
 };
 
 export const validationSchema = Yup.object({
-  firstName: Yup.string()
+  first_name: Yup.string()
     .matches(
       /^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$/,
       "name must contain only letters and numbers"
     )
     .required("Required"),
-  lastName: Yup.string()
+  last_name: Yup.string()
     .matches(
       /^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$/,
       "last name must contain only letters and numbers"
@@ -35,3 +38,10 @@ export const validationSchema = Yup.object({
     .oneOf([Yup.ref("password")], "Passwords don't  match")
     .required("Please confirm your password"),
 });
+
+export const onSubmit = (values, actions, dispatch) => {
+  setTimeout(() => {
+    dispatch(register(values));
+    actions.setSubmitting(false);
+  }, 1000);
+};

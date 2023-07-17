@@ -1,8 +1,8 @@
 // components
-import FormikControl from "../../../../../formik/FormikControl";
+import FormikControl from "../../../../../components/formik/FormikControl";
 
-function Select({ styles, categories ,t}) {
-  const dropdownOptions = [{ key: t("global.category"), value: ""}];
+function Select({ styles, categories, t }) {
+  const dropdownOptions = [{ key: t("global.category"), value: "" }];
   if (categories) {
     categories.forEach((category) => {
       dropdownOptions.push({ key: category.name, value: category._id });

@@ -1,9 +1,9 @@
 // react
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 // redux
 import { useSelector, useDispatch } from "react-redux";
-import { getCart } from "../../../store/actions/userActions";
-
+import { getCart } from "../../../toolkit/cart/actions";
+import { reset } from "../../../toolkit/cart/cartSlice";
 // styles
 import styles from "./styles.module.scss";
 
@@ -16,15 +16,19 @@ import { useTranslation } from "react-i18next";
 
 function Cartus() {
   const dispatch = useDispatch();
-  const { t,i18n } = useTranslation(["auth"]);
+  const { t, i18n } = useTranslation(["auth"]);
 
-  const User = useSelector((state) => state.User);
-  const { cart, success, user} = User;
+  const { user } = useSelector((state) => state.user);
+
+  const cartSlice = useSelector((state) => state.cart);
+  const { cart, success } = cartSlice;
 
   useEffect(() => {
-    dispatch(getCart(i18n.language));
-  }, [dispatch, success,i18n.language]);
-
+    dispatch(getCart({ language: i18n.language }));
+    return () => {
+      dispatch(reset());
+    };
+  }, [dispatch, success, i18n.language]);
 
   return (
     <article className={styles.container}>

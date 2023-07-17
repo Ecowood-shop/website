@@ -1,6 +1,5 @@
 // REACT
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 
 // components
 import Message from "../../../../components/Message/Message";
@@ -9,79 +8,58 @@ import Inputs from "./Inputs";
 import Loader from "../../../../components/loader/Loader";
 
 // REDUX
-import { useDispatch } from "react-redux";
-import { register } from "../../../../store/actions/userActions";
+import { useDispatch, useSelector } from "react-redux";
+import { reset } from "../../../../toolkit/auth/registerSlice";
+
 // styles
 import styles from "../styles/styles.module.scss";
 // values
-import { initialValues, validationSchema } from "./Values";
+import { initialValues, validationSchema, onSubmit } from "./Values";
 
 function Register(props) {
   const [nextPage, setNextPage] = useState(false);
-  const [message, setMessage] = useState("");
+
+  const registerSlice = useSelector((state) => state.register);
+  const { error, isLoading, success } = registerSlice;
 
   // HOOKS
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (props.error) {
-      setMessage(props.error);
-    }
-    if (props.user) {
-      navigate("/", { replace: true });
-    }
-    if (props.success) {
-      setMessage("");
-    }
-  }, [props.user, props.error, navigate, props.success]);
 
   const pageChanger = () => {
     setNextPage(!nextPage);
   };
 
-  const onSubmit = (values, actions) => {
-    setTimeout(() => {
-      dispatch(
-        register(
-          values.firstName,
-          values.lastName,
-          values.email,
-          values.phone,
-          values.password
-        )
-      );
-      actions.setSubmitting(false);
-    }, 1000);
-  };
-
+  useEffect(() => {
+    return () => {
+      dispatch(reset());
+    };
+  }, []);
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={onSubmit}
+      onSubmit={(e, action) => onSubmit(e, action, dispatch)}
     >
       {(formik) => {
         return (
           <Form className="w3-animate-left" id="register-form">
-            <h1 style={{ marginBottom: message ? "0" : "3rem" }}>
+            <h1 style={{ marginBottom: error ? "0" : "3rem" }}>
               {props.t("global.register")}
             </h1>
 
-            <Message>{message}</Message>
-            {props.loading && <Loader />}
+            <Message>{error}</Message>
+            {props.loading && <Loader color="white" />}
             <Inputs
-            t={props.t}
+              t={props.t}
               styles={styles}
-              loading={props.loading}
+              loading={isLoading}
               Loader={Loader}
-              success={props.success}
+              success={success}
               pageChanger={pageChanger}
               nextPage={nextPage}
               changer={props.changer}
               formik={formik}
             />
-
           </Form>
         );
       }}

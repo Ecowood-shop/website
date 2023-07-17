@@ -5,7 +5,7 @@ import Select from "react-select";
 
 //  REDUX
 import { useDispatch, useSelector } from "react-redux";
-import { getCategories } from "../../store/actions/systemActions";
+import { getCategories } from "../../toolkit/category/actions";
 
 // COMPONENTS
 import FilterPanel from "./FilterPanel";
@@ -22,7 +22,7 @@ function Filter() {
   const [category, setCategory] = useState("");
   const [priceOrder, setPriceOrder] = useState("");
 
-  const { t } = useTranslation(["components"]);
+  const { i18n, t } = useTranslation(["components"]);
 
   const priceOptions = [
     { value: "1", label: t("filter.ascending") },
@@ -32,8 +32,7 @@ function Filter() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const systemCategories = useSelector((state) => state.systemCategories);
-  const { categories } = systemCategories;
+  const { categories } = useSelector((state) => state.categories);
 
   const toggle = (container, containerResponsive) => {
     const filter = document.getElementById("filter");
@@ -58,9 +57,8 @@ function Filter() {
   };
 
   useEffect(() => {
-    dispatch(getCategories());
-  }, [dispatch]);
-
+    dispatch(getCategories({ language: i18n.language }));
+  }, [dispatch, i18n.language]);
   return (
     <header id="filter" className={styles.container + " w3-animate-right"}>
       <FilterPanel

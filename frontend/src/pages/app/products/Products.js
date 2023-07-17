@@ -4,7 +4,7 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
-import { getProducts } from "../../../store/actions/systemActions";
+import { getProducts } from "../../../toolkit/product/actions";
 
 // COMPONENTS
 import Filter from "../../../components/filter/Filter";
@@ -29,11 +29,19 @@ function Products() {
   const orderby = searchParams.get("orderby");
   const page = searchParams.get("page");
 
-  const systemProducts = useSelector((state) => state.systemProducts);
-  const { error, loading, products } = systemProducts;
+  const productsSlice = useSelector((state) => state.products);
+  const { error, isLoading, products } = productsSlice;
 
   useEffect(() => {
-    dispatch(getProducts(i18n.language, word, category, orderby, page));
+    dispatch(
+      getProducts({
+        language: i18n.language,
+        word: word,
+        category: category,
+        orderby: orderby,
+        page: page,
+      })
+    );
   }, [dispatch, category, word, orderby, page, i18n.language]);
   return (
     <article className={styles.container}>

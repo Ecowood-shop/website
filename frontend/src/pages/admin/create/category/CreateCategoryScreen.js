@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
-import { createCategory } from "../../../../store/actions/adminActions";
+import { createCategory } from "../../../../toolkit/category/actions";
+import { reset } from "../../../../toolkit/category/categorySlice";
 import { useForm } from "react-hook-form";
 
 // COMPONENTS
@@ -22,8 +23,8 @@ function CreateCategoryScreen() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const adminCategories = useSelector((state) => state.adminCategories);
-  const { error, loading, success } = adminCategories;
+  const categorySlice = useSelector((state) => state.categories);
+  const { error, isLoading, success } = categorySlice;
 
   const {
     register,
@@ -39,6 +40,9 @@ function CreateCategoryScreen() {
     if (success) {
       navigate("/admin/categories/");
     }
+    return () => {
+      dispatch(reset());
+    };
   }, [dispatch, navigate, success]);
 
   return (
@@ -49,7 +53,8 @@ function CreateCategoryScreen() {
       >
         {t("global.back")}
       </button>
-      {loading && <Loader />} {error && <Message>{error}</Message>}
+      {isLoading && <Loader color="darkmagenta" />}{" "}
+      {error && <Message>{error}</Message>}
       <section>
         <h1>{t("global.create")}</h1>
         <form onSubmit={handleSubmit(onSubmit)}>

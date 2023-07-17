@@ -2,7 +2,7 @@
 import * as Yup from "yup";
 // redux
 
-import { updateProduct } from "../../../../store/actions/adminActions";
+import { updateProduct } from "../../../../toolkit/product/actions";
 
 export const initialValues = (product) => {
   return {
@@ -219,8 +219,7 @@ export const onSubmit = (values, dispatch, id) => {
     data.discountPercent =
       values.discountPercent < 1 ? 0 : values.discountPercent;
   }
-
-  dispatch(updateProduct(id, data));
+  dispatch(updateProduct({ id: id, formData: data }));
 };
 
 const convertTime12to24 = (time12h) => {

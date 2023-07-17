@@ -4,7 +4,9 @@ import { useEffect } from "react";
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { getVariants, getColors } from "../../../store/actions/adminActions";
+import { getVariants } from "../../../toolkit/variant/actions";
+import { reset } from "../../../toolkit/variant/variantSlice";
+import { getColors } from "../../../toolkit/color/colorSlice";
 
 // COMPONENTS
 import Loader from "../../../components/loader/Loader";
@@ -23,18 +25,21 @@ function Variants() {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const adminVariants = useSelector((state) => state.adminVariants);
-  const { error, loading, variants, success, successUpdate, successCreate } =
-    adminVariants;
+  const variantsSlice = useSelector((state) => state.variants);
+  const { error, isLoading, variants, success } = variantsSlice;
 
-  const adminColors = useSelector((state) => state.adminColors);
-  const { colors } = adminColors;
+  const { colors } = useSelector((state) => state.colors);
 
   useEffect(() => {
-    dispatch(getVariants(id));
     dispatch(getColors());
-  }, [dispatch, success, successUpdate, successCreate, id]);
+  }, [dispatch]);
 
+  useEffect(() => {
+    dispatch(getVariants({ id: id }));
+    return () => {
+      dispatch(reset());
+    };
+  }, [dispatch, success, id]);
   return (
     <article className={styles.container}>
       <button
@@ -44,7 +49,7 @@ function Variants() {
         {t("global.back")}
       </button>
       {colors && <Variant create colors={colors} id={id} t={t} />}
-      {loading && <Loader color={"blueviolet"} />}
+      {isLoading && <Loader color={"blueviolet"} />}
       {error && <Message>{error}</Message>}
       {variants &&
         variants.map((variant) => (

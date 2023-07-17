@@ -4,7 +4,7 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
-import { getUserOrders } from "../../../store/actions/userActions";
+import { getOrders } from "../../../toolkit/user/userOrderSlice";
 
 // COMPONENTS
 import Section1 from "./sections/Section1";
@@ -64,18 +64,17 @@ function Profile() {
 
   const page = searchParams.get("page");
 
-  const User = useSelector((state) => state.User);
-  const { error, loading, user, orders } = User;
+  const { user } = useSelector((state) => state.user);
+  const userOrdersSlice = useSelector((state) => state.userOrders);
+  const { isLoading, orders, error } = userOrdersSlice;
 
   useEffect(() => {
-    dispatch(getUserOrders(page));
+    dispatch(getOrders(page));
   }, [dispatch, page]);
-
-  
 
   return (
     <article className={styles.container}>
-      {loading && <Loader />}
+      {isLoading && <Loader color="darkmagenta" />}
       {user && (
         <>
           <Section1 user={user} navigate={navigate} t={t} />

@@ -6,11 +6,8 @@ import Select from "react-select";
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  createImage,
-  getImages,
-  deleteImage,
-} from "../../../store/actions/adminActions";
+import { getImages,createImage,deleteImage } from "../../../toolkit/image/imageSlice";
+import { reset } from "../../../toolkit/image/imageSlice";
 
 // COMPONENTS
 import Loader from "../../../components/loader/Loader";
@@ -35,8 +32,8 @@ function Images() {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const adminImages = useSelector((state) => state.adminImages);
-  const { error, loading, images, successDelete, successCreate } = adminImages;
+  const imagesSlice = useSelector((state) => state.images);
+  const { error, isLoading, images, success } = imagesSlice;
 
   const {
     register,
@@ -46,13 +43,25 @@ function Images() {
   } = useForm();
 
   const onSubmit = (data) => {
-    dispatch(createImage(id, data.image[0], data.type.id));
+    const formData = new FormData();
+    formData.append("picture", data.image[0]);
+    formData.append("product_id", id);
+    formData.append("ord", data.type.id);
+    dispatch(
+      createImage({
+        formData: formData,
+      })
+    );
   };
 
   useEffect(() => {
-    dispatch(getImages(id));
-  }, [dispatch, successDelete, successCreate, id]);
+    dispatch(getImages({ id: id }));
+    return () => {
+      dispatch(reset());
+    };
+  }, [dispatch, success, id]);
 
+  const imagesClone = [...images];
   return (
     <article className={styles.container}>
       <button
@@ -104,19 +113,19 @@ function Images() {
         </form>
       </section>
       <section className={styles.imageContainer}>
-        {loading && <Loader />}
+        {isLoading && <Loader color="darkmagenta" />}
         {error && <Message>{error}</Message>}
-        {images &&
-          images
+        {imagesClone &&
+          imagesClone
             .sort((a, b) => a.ord - b.ord)
             .map((element) => (
               <Image
                 key={element.id}
                 image={element}
                 order={
-                  options.filter((option) => option.id == element.ord)[0].name
+                  options.filter((option) => option.id === element.ord)[0].name
                 }
-                Delete={() => dispatch(deleteImage(element.id))}
+                Delete={() => dispatch(deleteImage({ id: element.id }))}
               />
             ))}
       </section>

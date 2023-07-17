@@ -5,7 +5,8 @@ import { useParams } from "react-router-dom";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
-import { getUser, updateUser } from "../../../../store/actions/adminActions";
+import { getUser, updateUser } from "../../../../toolkit/users/actions";
+import { reset } from "../../../../toolkit/users/usersSlice";
 import { useForm } from "react-hook-form";
 
 // COMPONENTS
@@ -23,8 +24,8 @@ function User() {
   const dispatch = useDispatch();
   const { id } = useParams();
 
-  const adminUsers = useSelector((state) => state.adminUsers);
-  const { errorUser, loadingUser, user, success } = adminUsers;
+  const usersSlice = useSelector((state) => state.users);
+  const { error, isLoading, user, success } = usersSlice;
 
   const {
     register,
@@ -33,13 +34,19 @@ function User() {
   } = useForm();
 
   const onSubmit = (data) => {
-    data.id = id;
-    dispatch(updateUser(data));
+    dispatch(updateUser({ formData: data, id: id }));
   };
 
   useEffect(() => {
-    success ? navigate("/admin/users/") : dispatch(getUser(id));
-  }, [dispatch, success]);
+    dispatch(getUser({ id: id }));
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    if (success) navigate("/admin/users/");
+    return () => {
+      dispatch(reset());
+    };
+  }, [dispatch, navigate, success]);
 
   return (
     <article className={styles.container}>
@@ -49,7 +56,8 @@ function User() {
       >
         {t("global.back")}
       </button>
-      {loadingUser && <Loader />} {errorUser && <Message>{errorUser}</Message>}
+      {isLoading && <Loader color="darkmagenta" />}{" "}
+      {error && <Message>{error}</Message>}
       {user && (
         <section>
           <h1>{t("global.edit")}</h1>
@@ -58,7 +66,7 @@ function User() {
               <label>{t("user.first name")}</label>
               <input
                 placeholder="enter text..."
-                {...register("firstName")}
+                {...register("first_name")}
                 className={styles.input}
                 defaultValue={user ? user.first_name : ""}
               />
@@ -67,7 +75,7 @@ function User() {
               <label>{t("user.last name")}</label>
               <input
                 placeholder="enter text..."
-                {...register("lastName")}
+                {...register("last_name")}
                 className={styles.input}
                 defaultValue={user ? user.last_name : ""}
               />
@@ -95,7 +103,7 @@ function User() {
             <div className={styles.admin}>
               <input
                 type="checkbox"
-                {...register("status")}
+                {...register("is_staff")}
                 defaultChecked={user ? user.is_staff : false}
                 className={styles.checkbox}
               />

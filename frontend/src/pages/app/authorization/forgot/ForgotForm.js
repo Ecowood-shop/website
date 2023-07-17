@@ -1,8 +1,11 @@
 // redux
 import { useDispatch } from "react-redux";
-import { forgotPassword } from "../../../../store/actions/userActions";
+import {
+  forgotPassword,
+  reset,
+} from "../../../../toolkit/auth/forgotPasswordSlice";
 // components
-import Loader from "../../../../components/loader/Loader";
+import components from "../../../../components";
 import Message from "../../../../components/Message/Message";
 import { Formik, Form } from "formik";
 import Inputs from "./Inputs";
@@ -11,19 +14,27 @@ import Button from "./Button";
 import { initialValues, validationSchema } from "./Values";
 // redux
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 function ForgotForm(props) {
+  const { LoaderMini } = components;
   const dispatch = useDispatch();
   const onSubmit = (values, actions) => {
     setTimeout(() => {
-      dispatch(forgotPassword(values.email));
+      dispatch(forgotPassword(values));
       actions.setSubmitting(false);
     }, 1000);
   };
 
-  const store = useSelector((state) => state.forgotPassword);
-  const { loading, error, success } = store;
+  const forgotPasswordSlice = useSelector((state) => state.forgotPassword);
+  const { isLoading, error, success } = forgotPasswordSlice;
 
+  useEffect(() => {
+    return () => {
+      dispatch(reset());
+    };
+  }, []);
+  
   return (
     <Formik
       initialValues={initialValues}
@@ -38,14 +49,19 @@ function ForgotForm(props) {
             </h1>
             <Message styles>{error}</Message>
             {success && <p className={props.styles.success}>{success}</p>}
-            {loading && <Loader />}
-            <Inputs styles={props.styles} t={props.t} />
-            <Button
-              t={props.t}
-              styles={props.styles}
-              changer={props.changer}
-              formik={formik}
-            />
+            {isLoading ? (
+              <LoaderMini />
+            ) : (
+              <>
+                <Inputs styles={props.styles} t={props.t} />
+                <Button
+                  t={props.t}
+                  styles={props.styles}
+                  changer={props.changer}
+                  formik={formik}
+                />
+              </>
+            )}
           </Form>
         );
       }}

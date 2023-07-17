@@ -4,8 +4,8 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
-import { getUsers } from "../../../store/actions/adminActions";
-import { deleteUser } from "../../../store/actions/adminActions";
+import { getUsers, deleteUser } from "../../../toolkit/users/actions";
+import { reset } from "../../../toolkit/users/usersSlice";
 
 // COMPONENTS
 import UserFilter from "../../../components/filter/UserFilter";
@@ -66,8 +66,8 @@ function UsersScreen() {
   const dispatch = useDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const adminUsers = useSelector((state) => state.adminUsers);
-  const { error, loading, users, success } = adminUsers;
+  const usersSlice = useSelector((state) => state.users);
+  const { error, isLoading, users, success } = usersSlice;
 
   // PARAMS
   const word = searchParams.get("word");
@@ -75,13 +75,17 @@ function UsersScreen() {
   const page = searchParams.get("page");
 
   useEffect(() => {
-    dispatch(getUsers(page, word, status));
+    dispatch(getUsers({ page: page, word: word, status: status }));
+    return () => {
+      dispatch(reset());
+    };
   }, [dispatch, word, status, page, success]);
 
   return (
     <section className={styles.container}>
       <UserFilter />
-      {loading && <Loader />} {error && <Message>{error}</Message>}
+      {isLoading && <Loader color="darkmagenta" />}{" "}
+      {error && <Message>{error}</Message>}
       {users?.users?.length > 0 && (
         <>
           <div className={styles.table}>
@@ -90,7 +94,7 @@ function UsersScreen() {
               data={users.users}
               link="/admin/users/"
               linkEnd="/edit"
-              Delete={(id) => dispatch(deleteUser(id))}
+              Delete={(id) => dispatch(deleteUser({ id: id }))}
               text={t("user.user")}
             />
           </div>

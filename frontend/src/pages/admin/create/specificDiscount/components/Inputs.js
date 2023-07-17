@@ -1,5 +1,5 @@
 // formik
-import FormikControl from "../../../../../formik/FormikControl";
+import FormikControl from "../../../../../components/formik/FormikControl";
 import Date from "./Date";
 
 function Inputs({ styles, formik, users, products, t }) {

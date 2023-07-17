@@ -3,12 +3,8 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 // REDUX
 import { useDispatch, useSelector } from "react-redux";
-import {
-  saveShippingDetails,
-  getShippingPrices,
-} from "../../../../store/actions/shippingActions";
-import ORDER from "../../../../store/constants/orderConstants";
-
+import { saveShippingMethod } from "../../../../toolkit/shipping/shippingSlice";
+import { getShippingPrices } from "../../../../toolkit/shipping/actions";
 // components
 import CheckoutSteps from "../../../../components/checkoutSteps/CheckoutSteps";
 import Details from "./Details";
@@ -26,8 +22,9 @@ import styles from "./styles.module.scss";
 import { useTranslation } from "react-i18next";
 
 function ShippingMethod() {
-  const shipping = useSelector((state) => state.shipping);
-  const { shipping: shippingFromStorage, prices } = shipping;
+  const { shipping } = useSelector((state) => state.shipping);
+  const { shippingPrices } = useSelector((state) => state.shippingPrices);
+
   const { t, i18n } = useTranslation(["auth"]);
 
   // HOOKS
@@ -40,13 +37,12 @@ function ShippingMethod() {
       ? (data._id = "")
       : (data.cityId = "");
 
-    dispatch(saveShippingDetails(data));
+    dispatch(saveShippingMethod(data));
     navigate("/checkout/shippingdetails", { replace: true });
   }
 
   useEffect(() => {
-    dispatch({ type: ORDER.CLEAR_ORDER });
-    dispatch(getShippingPrices(i18n.language));
+    dispatch(getShippingPrices({ language: i18n.language }));
   }, [dispatch, i18n.language]);
 
   return (
@@ -56,7 +52,7 @@ function ShippingMethod() {
         <Details styles={styles} t={t} />
 
         <Formik
-          initialValues={initialValues(shippingFromStorage)}
+          initialValues={initialValues(shipping)}
           validationSchema={validationSchema}
           onSubmit={onSubmit}
         >
@@ -70,7 +66,7 @@ function ShippingMethod() {
                 )}
 
                 {formik.values.wants_delivery === "True" && (
-                  <Delivery styles={styles} prices={prices} t={t} />
+                  <Delivery styles={styles} prices={shippingPrices} t={t} />
                 )}
 
                 <button type="submit" className={styles.btn}>

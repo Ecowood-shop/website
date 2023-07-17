@@ -16,60 +16,38 @@ import { useTranslation } from "react-i18next";
 function AuthorizationScreen() {
   // hooks
   const [page, setPage] = useState("login");
-  const [message, setMessage] = useState("");
 
   const { t } = useTranslation(["app"]);
 
   const navigate = useNavigate();
-  const User = useSelector((state) => state.User);
-  const {
-    errorLogin,
-    errorRegister,
-    loadingRegister,
-    loadingUser: loading,
-    user,
-    registerSuccess,
-  } = User;
+  const { isLoading, error, user } = useSelector((state) => state.user);
 
   const changer = (pageName) => {
     setPage(pageName);
   };
 
   useEffect(() => {
-    if (errorLogin) {
-      setMessage(errorLogin);
-    }
     if (user) {
       navigate("/", { replace: true });
     }
-  }, [errorLogin, user, navigate]);
+  }, [user, navigate]);
 
   return (
     <article className={styles.container}>
-      {!loading && (
+      {!isLoading && (
         <>
           <section className="w3-animate-left">
             {page === "login" && (
               <LoginForm
-                loading={loading}
                 styles={styles}
                 changer={changer}
-                message={message}
+                error={error}
                 t={t}
               />
             )}
-            {page === "register" && (
-              <Register
-                t={t}
-                user={user}
-                error={errorRegister}
-                success={registerSuccess}
-                loading={loadingRegister}
-                changer={changer}
-              />
-            )}
+            {page === "register" && <Register t={t} changer={changer} />}
             {page === "forgot" && (
-              <ForgotForm user={user} changer={changer} styles={styles} t={t}/>
+              <ForgotForm user={user} changer={changer} styles={styles} t={t} />
             )}
           </section>
           <section className={styles.carousel}>

@@ -4,7 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 
 // Import redux
 import { useSelector, useDispatch } from "react-redux";
-import { getUser } from "./store/actions/userActions";
+import { getUser } from "./toolkit/user/actions";
 
 // Import routes
 import Router from "./routes/routes";
@@ -16,13 +16,13 @@ import components from "./components";
 function App() {
   // Redux store
   const dispatch = useDispatch();
-  const User = useSelector((state) => state.User);
-  const { user, loadingUser } = User;
+  const userSlice = useSelector((state) => state.user);
+  const { user, isLoading } = userSlice;
 
   // Components
   const { Header, Footer, Translate, ScrollToTop } = components;
 
-  // Getting User data
+  // Getting User profile
   useEffect(() => {
     dispatch(getUser());
   }, [dispatch]);
@@ -33,7 +33,7 @@ function App() {
         <ScrollToTop>
           <Header user={user} />
           <Translate />
-          <Router user={user} loading={loadingUser} />
+          <Router user={user} loading={isLoading} />
           <Footer />
         </ScrollToTop>
 

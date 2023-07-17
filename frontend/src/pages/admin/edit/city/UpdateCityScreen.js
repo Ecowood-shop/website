@@ -4,7 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
-import { getCityById } from "../../../../store/actions/shippingActions";
+import { getShippingPrice } from "../../../../toolkit/shipping/actions";
+import { reset } from "../../../../toolkit/shipping/shippingPriceSlice";
+
 // components
 import { Formik, Form } from "formik";
 // values
@@ -12,7 +14,7 @@ import { initialValues, validationSchema, onSubmit } from "./values";
 // COMPONENTS
 import Loader from "../../../../components/loader/Loader";
 import Message from "../../../../components/Message/Message";
-import FormikControl from "../../../../formik/FormikControl";
+import FormikControl from "../../../../components/formik/FormikControl";
 // OTHERS
 import styles from "./styles.module.scss";
 // translate
@@ -24,13 +26,18 @@ function UpdateCityScreen() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { id } = useParams();
-  const adminCity = useSelector((state) => state.adminCity);
-  const { error, loading, city, success } = adminCity;
+  const shippingPriceSlice = useSelector((state) => state.shippingPrices);
+  const { error, isLoading, shippingPrice, success } = shippingPriceSlice;
 
   useEffect(() => {
-    success ? navigate("/admin/cities/") : dispatch(getCityById(id));
+    success
+      ? navigate("/admin/cities/")
+      : dispatch(getShippingPrice({ id: id }));
+    return () => {
+      dispatch(reset());
+    };
   }, [dispatch, navigate, success, id]);
- 
+
   return (
     <article className={styles.container}>
       <button
@@ -39,10 +46,11 @@ function UpdateCityScreen() {
       >
         {t("global.back")}
       </button>
-      {loading && <Loader />} {error && <Message>{error}</Message>}
-      {city && (
+      {isLoading && <Loader color="darkmagenta" />}{" "}
+      {error && <Message>{error}</Message>}
+      {shippingPrice && (
         <Formik
-          initialValues={initialValues(city)}
+          initialValues={initialValues(shippingPrice)}
           validationSchema={validationSchema}
           onSubmit={(e) => onSubmit(e, dispatch, id)}
         >

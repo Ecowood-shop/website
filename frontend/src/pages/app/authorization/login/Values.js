@@ -1,6 +1,8 @@
-
 // yup
 import * as Yup from "yup";
+
+// Import login
+import { login } from "../../../../toolkit/user/actions";
 
 export const initialValues = {
   email: "",
@@ -12,4 +14,9 @@ export const validationSchema = Yup.object({
   password: Yup.string().required("Required"),
 });
 
-
+export const onSubmit = (values, actions, dispatch) => {
+  setTimeout(() => {
+    dispatch(login(values));
+    actions.setSubmitting(false);
+  }, 1000);
+};

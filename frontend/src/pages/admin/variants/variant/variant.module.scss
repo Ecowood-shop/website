@@ -19,31 +19,26 @@
     transform: translate(50%, -50%);
     cursor: pointer;
   }
-  
-  
 }
 
-.select{
-  &>div{
-
+.select {
+  & > div {
     margin-left: 1rem;
   }
-  &>div:first-of-type{
-   border: none;
+  & > div:first-of-type {
+    border: none;
     min-width: 10rem;
     border-radius: 3rem;
-    
-    padding-left: 0.5rem ;
+
+    padding-left: 0.5rem;
   }
-  & input{
-    padding-top: 0!important;
+  & input {
+    padding-top: 0 !important;
     padding-bottom: 0 !important;
     margin: 0 !important;
     height: 2rem;
-   
   }
-
- }
+}
 .section {
   margin: 3rem 0;
   border-radius: 999px;
@@ -68,9 +63,14 @@
       -webkit-appearance: none;
       margin: 0;
     }
+
     &[type="number"] {
       -moz-appearance: textfield;
     }
+  }
+  & > div {
+    max-width: 8rem;
+    margin: 0 1rem 0 1rem;
   }
   .button {
     color: white;

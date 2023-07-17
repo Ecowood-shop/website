@@ -1,4 +1,4 @@
-import FormikControl from "../../../formik/FormikControl";
+import FormikControl from "../../../components/formik/FormikControl";
 
 function Inputs({ styles, t }) {
   return (

@@ -6,9 +6,11 @@ import { useParams } from "react-router-dom";
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
 import {
-  getCategoryById,
+  getCategory,
   updateCategory,
-} from "../../../../store/actions/adminActions";
+} from "../../../../toolkit/category/actions";
+import { reset } from "../../../../toolkit/category/categorySlice";
+
 import { useForm } from "react-hook-form";
 
 // COMPONENTS
@@ -26,8 +28,8 @@ function Category() {
   const dispatch = useDispatch();
   const { id } = useParams();
 
-  const store = useSelector((state) => state.adminCategories);
-  const { error, loading, category, success } = store;
+  const categorySlice = useSelector((state) => state.categories);
+  const { error, isLoading, category, success } = categorySlice;
 
   const {
     register,
@@ -36,12 +38,19 @@ function Category() {
   } = useForm();
 
   const onSubmit = (data) => {
-    dispatch(updateCategory(id, data));
+    dispatch(updateCategory({ id: id, formData: data }));
   };
 
   useEffect(() => {
-    success ? navigate("/admin/categories/") : dispatch(getCategoryById(id));
-  }, [dispatch, navigate, id, success]);
+    dispatch(getCategory({ id: id }));
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    if (success) navigate("/admin/categories/");
+    return () => {
+      dispatch(reset());
+    };
+  }, [dispatch, navigate, success]);
 
   return (
     <article className={styles.container}>
@@ -51,7 +60,7 @@ function Category() {
       >
         {t("global.back")}
       </button>
-      {loading && <Loader />}
+      {isLoading && <Loader color="darkmagenta" />}
       {error && <Message>{error}</Message>}
       {category && (
         <section>

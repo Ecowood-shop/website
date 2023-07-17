@@ -14,6 +14,7 @@ function youtube_parser(url) {
 
 function SlideShow(props) {
   const { height, width } = useWindowDimensions();
+  const images = [...props.product?.picture_set];
 
   return (
     <div className={props.styles.imgContainer}>
@@ -34,8 +35,8 @@ function SlideShow(props) {
       ) : (
         <ImageGallery
           items={
-            props.product?.picture_set?.length > 0
-              ? props.product?.picture_set
+            images?.length > 0
+              ? images
                   .sort((a, b) => a.ord - b.ord)
                   .map((element) =>
                     Object.assign(

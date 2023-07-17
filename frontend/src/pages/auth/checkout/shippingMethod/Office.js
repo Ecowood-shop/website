@@ -1,5 +1,5 @@
 // components
-import FormikControl from "../../../../formik/FormikControl";
+import FormikControl from "../../../../components/formik/FormikControl";
 
 function Office({ styles, t }) {
   const radioOptions = [

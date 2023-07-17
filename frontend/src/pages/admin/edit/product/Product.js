@@ -4,8 +4,9 @@ import { useNavigate, useParams } from "react-router-dom";
 
 // redux
 import { useSelector, useDispatch } from "react-redux";
-import { getCategories } from "../../../../store/actions/systemActions";
-import { getProduct } from "../../../../store/actions/adminActions";
+import { getCategories } from "../../../../toolkit/category/actions";
+import { getProductAdmin } from "../../../../toolkit/product/actions";
+import { reset } from "../../../../toolkit/product/productSlice";
 
 // components
 import { Formik, Form } from "formik";
@@ -28,26 +29,25 @@ function Product() {
   // hooks
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { t } = useTranslation(["admin"]);
+  const { i18n, t } = useTranslation(["admin"]);
   const { id } = useParams();
 
-  const systemProduct = useSelector((state) => state.systemProduct);
-  const { error, loading } = systemProduct;
+  const productSlice = useSelector((state) => state.products);
+  const { error, isLoading, product, success } = productSlice;
 
-  const adminProduct = useSelector((state) => state.adminProduct);
-  const { success, product } = adminProduct;
-
-  const systemCategories = useSelector((state) => state.systemCategories);
-  const { categories } = systemCategories;
+  const { categories } = useSelector((state) => state.categories);
 
   useEffect(() => {
-    dispatch(getCategories());
-    dispatch(getProduct(id));
     if (success) {
       navigate("/admin/products/");
+    } else {
+      dispatch(getCategories({ language: i18n.language }));
+      dispatch(getProductAdmin({ id: id }));
     }
-  }, [dispatch, success, navigate, id]);
-
+    return () => {
+      dispatch(reset());
+    };
+  }, [dispatch, success, navigate, i18n.language, id]);
   return (
     <article className={styles.container}>
       <button
@@ -56,7 +56,7 @@ function Product() {
       >
         {t("global.back")}
       </button>
-      {loading && <Loader />}
+      {isLoading && <Loader />}
 
       <section>
         <Buttons styles={styles} id={id} navigate={navigate} t={t} />

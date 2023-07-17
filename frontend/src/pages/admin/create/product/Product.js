@@ -5,7 +5,8 @@ import { useNavigate } from "react-router-dom";
 // redux
 import { useSelector, useDispatch } from "react-redux";
 
-import { getCategories } from "../../../../store/actions/systemActions";
+import { getCategories } from "../../../../toolkit/category/actions";
+import { reset } from "../../../../toolkit/product/productSlice";
 
 // components
 import { Formik, Form } from "formik";
@@ -28,15 +29,17 @@ function Product() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { t, i18n } = useTranslation(["admin"]);
-  const adminProduct = useSelector((state) => state.adminProduct);
-  const { error, loading, createSuccess: success } = adminProduct;
+  const productSlice = useSelector((state) => state.products);
+  const { error, isLoading, success } = productSlice;
 
-  const systemCategories = useSelector((state) => state.systemCategories);
-  const { categories } = systemCategories;
+  const { categories } = useSelector((state) => state.categories);
 
   useEffect(() => {
-    dispatch(getCategories(i18n.language));
+    dispatch(getCategories({ langauge: i18n.language }));
     if (success) navigate("/admin/products/");
+    return () => {
+      dispatch(reset());
+    };
   }, [dispatch, navigate, success, i18n.language]);
 
   return (
@@ -49,7 +52,7 @@ function Product() {
       </button>
       <section>
         <h1>{t("product.create product")}</h1>
-        {loading && <Loader />}
+        {isLoading && <Loader />}
         {error && <Message>{error}</Message>}
 
         <Formik

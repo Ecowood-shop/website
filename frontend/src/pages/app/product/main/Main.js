@@ -3,8 +3,8 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 // redux
 import { useSelector, useDispatch } from "react-redux";
-import { addToCart } from "../../../../store/actions/userActions";
-import USER from "../../../../store/constants/userConstants";
+import { addToCart } from "../../../../toolkit/cart/actions";
+import { reset } from "../../../../toolkit/cart/cartSlice";
 
 //components
 import SlideShow from "./SlideShow";
@@ -20,26 +20,28 @@ import styles from ".././sections/scss/section1.module.scss";
 
 function Main({ product, iframe, youtube, variants, navigate, id, t }) {
   const dispatch = useDispatch();
-  const User = useSelector((state) => state.User);
-  const { error, loading, successCartAdd, user } = User;
+  const { user } = useSelector((state) => state.user);
+  const cartSlice = useSelector((state) => state.cart);
+  const { error, success } = cartSlice;
 
   const onSubmit = (values, actions) => {
     setTimeout(() => {
-      dispatch(addToCart(product._id, values.color.id, values.quantity));
+      dispatch(
+        addToCart({
+          id: product._id,
+          formData: { variantID: values.color.id, qty: values.quantity },
+        })
+      );
       actions.setSubmitting(false);
     }, 1000);
   };
-  const onChange = () => {
-    if (error) dispatch({ type: USER.CART_ERROR_RESET });
-  };
 
   useEffect(() => {
-    if (successCartAdd) navigate("/cart");
-  }, [successCartAdd, dispatch, navigate]);
-
-  useEffect(() => {
-    dispatch({ type: USER.CART_ERROR_RESET });
-  }, []);
+    if (success) navigate("/cart");
+    return () => {
+      dispatch(reset());
+    };
+  }, [dispatch, navigate, success]);
 
   return (
     <article className={styles.article}>
@@ -77,7 +79,6 @@ function Main({ product, iframe, youtube, variants, navigate, id, t }) {
                     name={"color"}
                     setColor={(e) => {
                       setFieldValue("color", e);
-                      onChange();
                     }}
                   />
                   <p className={styles.price}>

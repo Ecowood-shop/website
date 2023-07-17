@@ -3,7 +3,7 @@ import * as Yup from "yup";
 
 export const initialValues = {
   password: "",
-  confirmPassword: "",
+  confirm_password: "",
 };
 
 export const validationSchema = Yup.object({
@@ -13,7 +13,7 @@ export const validationSchema = Yup.object({
       "password must contain at least eight characters, at least one number and both lower and uppercase letters"
     )
     .required("required"),
-  confirmPassword: Yup.string()
+  confirm_password: Yup.string()
     .oneOf([Yup.ref("password")], "passwords don't  match")
     .required("please confirm your password"),
 });

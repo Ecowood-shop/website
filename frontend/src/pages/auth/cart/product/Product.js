@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 // REDUX
-import { deleteCart, updateCart } from "../../../../store/actions/userActions";
+import { deleteCart, updateCart } from "../../../../toolkit/cart/actions";
 
 // components
 import Color from "../../../../components/colorPicker/color/Color";
@@ -61,10 +61,10 @@ function Product({ product, variant, cart, dispatch, t }) {
   };
 
   useEffect(() => {
-    if (quantity > 0 && quantity <= variant.quantity && quantity != cart.qty) {
-      dispatch(updateCart(cart.id, quantity));
+    if (quantity > 0 && quantity <= variant.quantity && quantity !== cart.qty) {
+      dispatch(updateCart({ id: cart.id, qty: quantity }));
     }
-  }, [quantity]);
+  }, [dispatch, quantity, variant.quantity, cart.id, cart.qty]);
 
   return (
     <section className={styles.container}>
@@ -84,7 +84,7 @@ function Product({ product, variant, cart, dispatch, t }) {
       )}
       <button
         className={styles.deleteBtn}
-        onClick={() => dispatch(deleteCart(cart.id))}
+        onClick={() => dispatch(deleteCart({ id: cart.id }))}
       >
         {" "}
         <svg
@@ -128,7 +128,7 @@ function Product({ product, variant, cart, dispatch, t }) {
             </div>
             <p className={styles.message}>{message}</p>
           </section>
-          {variant?.color.toLowerCase() != "default" && (
+          {variant?.color.toLowerCase() !== "default" && (
             <span className={styles.color}>
               <b>{t("global.color")} </b>
               <Color element={variant} />

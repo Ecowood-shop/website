@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
-import { createCity } from "../../../../store/actions/shippingActions";
+import { createShippingPrice } from "../../../../toolkit/shipping/actions";
+import { reset } from "../../../../toolkit/shipping/shippingPriceSlice";
 import { useForm } from "react-hook-form";
 
 // COMPONENTS
@@ -22,8 +23,8 @@ function CreateCityScreen() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const adminCity = useSelector((state) => state.adminCity);
-  const { error, loading, success } = adminCity;
+  const shippingPriceSlice = useSelector((state) => state.shippingPrices);
+  const { error, isLoading, success } = shippingPriceSlice;
 
   const {
     register,
@@ -32,13 +33,16 @@ function CreateCityScreen() {
   } = useForm();
 
   const onSubmit = (data) => {
-    dispatch(createCity(data));
+    dispatch(createShippingPrice({ formData: data }));
   };
 
   useEffect(() => {
     if (success) {
       navigate("/admin/cities/");
     }
+    return () => {
+      dispatch(reset());
+    };
   }, [dispatch, navigate, success]);
 
   return (
@@ -49,7 +53,8 @@ function CreateCityScreen() {
       >
         {t("global.back")}
       </button>
-      {loading && <Loader />} {error && <Message>{error}</Message>}
+      {isLoading && <Loader color="darkmagenta" />}{" "}
+      {error && <Message>{error}</Message>}
       <section>
         <h1>{t("global.create")}</h1>
         <form onSubmit={handleSubmit(onSubmit)}>

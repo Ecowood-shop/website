@@ -1,5 +1,5 @@
 //components
-import FormikControl from "../../../../formik/FormikControl";
+import FormikControl from "../../../../components/formik/FormikControl";
 
 function Page2(props) {
   return (
@@ -7,8 +7,8 @@ function Page2(props) {
       <FormikControl
         control="input"
         type="text"
-        label="firstName"
-        name="firstName"
+        label="first_name"
+        name="first_name"
         className={props.styles.input + " w3-animate-left"}
         placeholder={props.t("register.first name")}
         required
@@ -16,8 +16,8 @@ function Page2(props) {
       <FormikControl
         control="input"
         type="text"
-        label="lastName"
-        name="lastName"
+        label="last_name"
+        name="last_name"
         className={props.styles.input + " w3-animate-left"}
         placeholder={props.t("register.last name")}
         required

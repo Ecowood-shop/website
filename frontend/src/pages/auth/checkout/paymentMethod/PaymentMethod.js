@@ -3,9 +3,9 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 // REDUX
 import { useDispatch, useSelector } from "react-redux";
-import { savePaymentMethod } from "../../../../store/actions/shippingActions";
-import { createOrder } from "../../../../store/actions/orderActions";
-
+import { savePaymentMethod } from "../../../../toolkit/shipping/shippingSlice";
+import { createOrder } from "../../../../toolkit/orders/actions";
+import { reset } from "../../../../toolkit/orders/orderSlice";
 // components
 import CheckoutSteps from "../../../../components/checkoutSteps/CheckoutSteps";
 import Loader from "../../../../components/loader/Loader";
@@ -26,28 +26,27 @@ function PaymentMethod() {
 
   const { t } = useTranslation(["auth"]);
 
-  const shipping = useSelector((state) => state.shipping);
-  const { shipping: shippingFromStorage } = shipping;
+  const { shipping } = useSelector((state) => state.shipping);
 
-  const Order = useSelector((state) => state.Order);
-  const { error, success, loading, order } = Order;
+  const OrderSlice = useSelector((state) => state.orders);
+  const { error, isLoading, success, order } = OrderSlice;
 
   useEffect(() => {
     if (success) {
-      dispatch({ type: "CLEAR_SHIPPING_ITEMS" });
       navigate(`/order/${order.Cart._id}`, { replace: true });
     }
+    return () => {
+      dispatch(reset());
+    };
   }, [success, dispatch, order?.Cart._id, navigate]);
 
   function onSubmit(values) {
     let data = { ...values };
 
     // data transform
-    data.first_name =
-      shippingFromStorage?.first_name || shippingFromStorage?.company_name;
-    data.last_name =
-      shippingFromStorage?.last_name || shippingFromStorage?.company_type;
-    data.personId = shippingFromStorage?.id || shippingFromStorage?.company_id;
+    data.first_name = shipping?.first_name || shipping?.company_name;
+    data.last_name = shipping?.last_name || shipping?.company_type;
+    data.personId = shipping?.id || shipping?.company_id;
 
     Object.keys(data).forEach((key) => {
       if (data[key] === "") {
@@ -55,13 +54,8 @@ function PaymentMethod() {
       }
     });
     dispatch(savePaymentMethod(data));
-    dispatch(createOrder(data));
-
-    
+    dispatch(createOrder({ formData: data }));
   }
-
-
-  
 
   return (
     <article className={styles.container}>
@@ -75,11 +69,11 @@ function PaymentMethod() {
               : "something want wrong :)"}
           </p>
         )}
-        {loading ? (
+        {isLoading ? (
           <Loader color="blueviolet" />
         ) : (
           <Formik
-            initialValues={initialValues(shippingFromStorage)}
+            initialValues={initialValues(shipping)}
             validationSchema={validationSchema}
             onSubmit={onSubmit}
           >

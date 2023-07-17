@@ -4,7 +4,8 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
-import { getOrders, deleteOrder } from "../../../store/actions/adminActions";
+import { getOrders, deleteOrder } from "../../../toolkit/orders/actions";
+import { reset } from "../../../toolkit/orders/orderSlice";
 
 // COMPONENTS
 import OrderFilter from "../../../components/filter/OrderFilter";
@@ -72,17 +73,21 @@ function OrderScreen() {
   const page = searchParams.get("page");
   const id = searchParams.get("id");
 
-  const adminOrders = useSelector((state) => state.adminOrders);
-  const { error, loading, orders, success } = adminOrders;
+  const orderSlice = useSelector((state) => state.orders);
+  const { error, isLoading, orders, success } = orderSlice;
 
   useEffect(() => {
-    dispatch(getOrders(page, word, status, id));
+    dispatch(getOrders({ page: page, word: word, status: status, id: id }));
+    return () => {
+      dispatch(reset());
+    };
   }, [dispatch, page, word, status, id, success]);
+
   return (
     <section className={styles.container}>
       <OrderFilter />
-      <Nav styles={styles} navigate={navigate} t={t}/>
-      {loading && <Loader color="blueviolet" />}
+      <Nav styles={styles} navigate={navigate} t={t} />
+      {isLoading && <Loader color="blueviolet" />}
       {error && <Message>{error}</Message>}
       {orders?.Orders && (
         <>
@@ -92,7 +97,7 @@ function OrderScreen() {
               data={orders.Orders}
               link="/order/"
               linkEnd=""
-              Delete={(id) => dispatch(deleteOrder(id))}
+              Delete={(id) => dispatch(deleteOrder({ id: id }))}
               text={t("order.order")}
             />
           </div>

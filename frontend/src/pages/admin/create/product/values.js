@@ -1,7 +1,7 @@
 // yup
 import * as Yup from "yup";
 // redux
-import { createProduct } from "../../../../store/actions/adminActions";
+import { createProduct } from "../../../../toolkit/product/actions";
 
 export const initialValues = {
   // name
@@ -182,6 +182,7 @@ export const onSubmit = (values, dispatch) => {
     data.discountPercent =
       values.discountPercent < 1 ? 0 : values.discountPercent;
   }
+
   dispatch(createProduct(data));
 };
 

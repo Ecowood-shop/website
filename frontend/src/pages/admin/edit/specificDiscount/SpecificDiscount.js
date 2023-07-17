@@ -5,12 +5,14 @@ import { useNavigate } from "react-router-dom";
 // redux
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
+
 import {
-  getProducts,
-  getUsers,
-  getSpecificDiscount,
+  getDiscount,
   updateDiscount,
-} from "../../../../store/actions/discountActions";
+} from "../../../../toolkit/discounts/actions";
+import { reset } from "../../../../toolkit/discounts/discountSlice";
+import { getProducts } from "../../../../toolkit/discounts/discountProductSlice";
+import { getUsers } from "../../../../toolkit/discounts/discountUserSlice";
 
 // components
 import { Formik, Form } from "formik";
@@ -34,24 +36,25 @@ function SpecificDiscount() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const Discounts = useSelector((state) => state.discounts);
-  const { loading, users, products, success } = Discounts;
-
-  const specificDiscount = useSelector((state) => state.specificDiscount);
-  const {
-    error: discountError,
-    loading: discountLoading,
-    discount,
-  } = specificDiscount;
-
   const { id } = useParams();
+
+  const discountSlice = useSelector((state) => state.discounts);
+  const { error, isLoading, discount, success } = discountSlice;
+
+  const { products } = useSelector((state) => state.discountProducts);
+  const { users } = useSelector((state) => state.discountUsers);
   useEffect(() => {
-    if (success) navigate("/admin/discounts/");
+    dispatch(getDiscount({ id: id }));
     dispatch(getUsers());
     dispatch(getProducts());
-    dispatch(getSpecificDiscount(id));
-  }, [dispatch, id, navigate, success]);
+  }, [dispatch, id]);
 
+  useEffect(() => {
+    if (success) navigate("/admin/discounts/");
+    return () => {
+      dispatch(reset());
+    };
+  }, [dispatch, navigate, success]);
   return (
     <article className={styles.container}>
       <button
@@ -62,9 +65,9 @@ function SpecificDiscount() {
       </button>
       <section>
         <h1>{t("product.discount")}</h1>
-        {(discountLoading || loading) && <Loader />}
-        {discountError && <Message>{discountError}</Message>}{" "}
-        {discount && users && products?.length > 0 && (
+        {isLoading && <Loader color="darkmagenta" />}
+        {error && <Message>{error}</Message>}{" "}
+        {discount && users?.length > 0 && products?.length > 0 && (
           <Formik
             initialValues={initialValues(
               discount.user,
@@ -85,7 +88,7 @@ function SpecificDiscount() {
                     t={t}
                   />
 
-                  <Buttons styles={styles} dispatch={dispatch}   t={t}/>
+                  <Buttons styles={styles} dispatch={dispatch} t={t} />
                 </Form>
               );
             }}

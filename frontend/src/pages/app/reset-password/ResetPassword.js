@@ -2,7 +2,7 @@
 import { useParams } from "react-router-dom";
 // redux
 import { useSelector, useDispatch } from "react-redux";
-import { resetPassword } from "../../../store/actions/userActions";
+import { resetPassword } from "../../../toolkit/auth/resetPasswordSlice";
 // components
 import { Formik, Form } from "formik";
 import Inputs from "./Inputs";
@@ -29,19 +29,18 @@ function ResetPassword() {
   const onSubmit = (values, actions) => {
     setTimeout(() => {
       dispatch(
-        resetPassword(
-          params.id,
-          params.token,
-          values.password,
-          values.confirmPassword
-        )
+        resetPassword({
+          id: params.id,
+          token: params.token,
+          formData: values,
+        })
       );
       actions.setSubmitting(false);
     }, 1000);
   };
 
-  const store = useSelector((state) => state.resetPassword);
-  const { error, loading, success } = store;
+  const resetPasswordSlice = useSelector((state) => state.resetPassword);
+  const { error, isLoading, success } = resetPasswordSlice;
 
   return (
     <div className={styles.container}>
@@ -57,7 +56,7 @@ function ResetPassword() {
 
               {error && <Message>{error}</Message>}
               {!success &&
-                (loading ? (
+                (isLoading ? (
                   <LoaderMini
                     color={
                       width <

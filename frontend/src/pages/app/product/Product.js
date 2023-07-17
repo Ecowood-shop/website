@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
-import { getProduct } from "../../../store/actions/systemActions";
+import { getProduct } from "../../../toolkit/product/actions";
 
 // COMPONENTS
 import Message from "../../../components/Message/Message";
@@ -32,18 +32,18 @@ function Product() {
   // VARIABLES
   const [iframe, setIframe] = useState(false);
 
-  const systemProduct = useSelector((state) => state.systemProduct);
-  const { error, loading, product } = systemProduct;
+  const productSlice = useSelector((state) => state.products);
+  const { error, isLoading, product } = productSlice;
 
   const { t, i18n } = useTranslation(["app"]);
 
   useEffect(() => {
-    dispatch(getProduct(params.id, i18n.language));
+    dispatch(getProduct({ id: params.id, language: i18n.language }));
   }, [dispatch, params.id, i18n.language]);
 
   return (
     <article className={styles.container}>
-      {loading && (
+      {isLoading && (
         <div className={styles.loaderContainer}>
           <Loader color="blueviolet" />
         </div>

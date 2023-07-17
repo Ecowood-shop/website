@@ -2,7 +2,7 @@
 import { useNavigate } from "react-router-dom";
 // REDUX
 import { useDispatch, useSelector } from "react-redux";
-import { saveShippingDetails } from "../../../../store/actions/shippingActions";
+import { saveShippingDetails } from "../../../../toolkit/shipping/shippingSlice";
 
 // components
 import { Formik, Form } from "formik";
@@ -26,8 +26,7 @@ function ShippingDetails() {
 
   const { t } = useTranslation(["auth"]);
 
-  const shipping = useSelector((state) => state.shipping);
-  const { shipping: shippingFromStorage } = shipping;
+  const { shipping } = useSelector((state) => state.shipping);
 
   function onSubmit(values) {
     let data = { ...values };
@@ -43,7 +42,6 @@ function ShippingDetails() {
     data.address = String(values.wants_delivery) === "True" ? data.address : "";
     dispatch(saveShippingDetails(data));
     navigate("/checkout/paymentmethod");
-
   }
   return (
     <article className={styles.container}>
@@ -51,7 +49,7 @@ function ShippingDetails() {
       <section>
         <h1>{t("shipping details.shipping details")}</h1>
         <Formik
-          initialValues={initialValues(shippingFromStorage)}
+          initialValues={initialValues(shipping)}
           validationSchema={validationSchema}
           onSubmit={onSubmit}
         >
@@ -66,10 +64,7 @@ function ShippingDetails() {
                     <Company styles={styles} t={t} />
                   )}
 
-                  <Data
-                    styles={styles}
-                    shippingFromStorage={shippingFromStorage}
-                  />
+                  <Data styles={styles} shippingFromStorage={shipping} />
 
                   <button type="submit" className={styles.btn}>
                     {t("shipping details.payment methods")}

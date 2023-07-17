@@ -1,20 +1,23 @@
 // React
-import React from "react";
 import ReactDOM from "react-dom/client";
 
-// Application
+// Import Application
 import App from "./App";
 
-// Redux
+// Import Redux toolkit
 import store from "./store/store";
 import { Provider } from "react-redux";
+import { injectStore } from "./utils/hooks/useAxios";
 
-// Styles
+// Import styles
 import "./index.scss";
 import "animate.css";
 
-// i18next
+// Import i18next translate
 import "./i18next";
+
+// Inject store into axios interceptors
+injectStore(store);
 
 // Render the app
 const root = ReactDOM.createRoot(document.getElementById("root"));
