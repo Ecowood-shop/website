@@ -1,17 +1,20 @@
+// Geo Fonts
 @font-face {
   font-family: "BPG Arial Caps";
-  src: url("../src/fonts/pbg-arial/bpg-arial-caps-webfont.eot"); /* IE9 Compat Modes */
-  src: url("../src/fonts/pbg-arial/bpg-arial-caps-webfont.eot?#iefix")
+  src: url("../src/static/fonts/pbg-arial/bpg-arial-caps-webfont.eot"); /* IE9 Compat Modes */
+  src: url("../src/static/fonts/pbg-arial/bpg-arial-caps-webfont.eot?#iefix")
       format("embedded-opentype"),
-    /* IE6-IE8 */ url("../src/fonts/pbg-arial/bpg-arial-caps-webfont.woff2")
+    /* IE6-IE8 */
+      url("../src/static/fonts/pbg-arial/bpg-arial-caps-webfont.woff2")
       format("woff2"),
     /* Super Modern Browsers */
-      url("../src/fonts/pbg-arial/bpg-arial-caps-webfont.woff") format("woff"),
+      url("../src/static/fonts/pbg-arial/bpg-arial-caps-webfont.woff")
+      format("woff"),
     /* Pretty Modern Browsers */
-      url("../src/fonts/pbg-arial/bpg-arial-caps-webfont.ttf")
+      url("../src/static/fonts/pbg-arial/bpg-arial-caps-webfont.ttf")
       format("truetype"),
     /* Safari, Android, iOS */
-      url("../src/fonts/pbg-arial/bpg-arial-caps-webfont.svg#bpg_arial_capsregular")
+      url("../src/static/fonts/pbg-arial/bpg-arial-caps-webfont.svg#bpg_arial_capsregular")
       format("svg"); /* Legacy iOS */
 }
 
@@ -76,9 +79,9 @@ code {
     monospace;
 }
 
-/* VARIABLES */
+/* Variables */
 :root {
-  /* COLORS */
+  /* Colors */
   --color-primary: #9c36b5;
   --color-magenta: darkmagenta;
   --color-second: #a4508b;
@@ -87,7 +90,7 @@ code {
   --linear-primary: linear-gradient(326deg, #a4508b 0%, #5f0a87 74%);
   --linear-second: linear-gradient(to right, #ea384d, #d31027);
 
-  /* FONT SIZE */
+  /* Font size */
   --xx-medium: 1.8rem;
   --x-medium: 1.6rem;
   --medium: 1.4rem;
@@ -97,6 +100,6 @@ code {
   --x-large: 2.5rem;
   --large: 2rem;
 
-  /* MIN HEIGHT */
+  /* Min height */
   --height: 80vh;
 }

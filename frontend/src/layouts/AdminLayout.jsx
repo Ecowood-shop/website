@@ -1,13 +1,20 @@
+// Import outlet
 import { Outlet } from "react-router-dom";
 
-// COMPONENTS
-import Error from "../screens/app/error/Error";
-import Loader from "../components/loader/Loader";
+// Import components
+import components from "../components";
+
+// Import error page
+import Error from "../pages/app/error/Error";
+
+// Export Admin layout
 function AdminLayout({ user, loading }) {
+  const { Loader } = components;
+
   return (
     <>
       {loading ? (
-        <Loader />
+        <Loader color={"darkmagenta"} />
       ) : user?.is_staff ? (
         <>
           <Outlet />

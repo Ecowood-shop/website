@@ -8,7 +8,11 @@ import placeholder from "../../../static/images/placeholder.png";
 function Product(props) {
   // HOOKS
   const navigate = useNavigate();
-
+  const images = [...props.product?.picture_set];
+  const src =
+    images?.length > 0
+      ? images?.sort((a, b) => a.ord - b.ord)[0]?.picture
+      : placeholder;
   return (
     <div
       className={styles.container}
@@ -21,15 +25,7 @@ function Product(props) {
           </div>
         )}
 
-      <img
-        alt={props.product.name_geo}
-        src={
-          props.product?.picture_set?.length > 0
-            ? props.product?.picture_set?.sort((a, b) => a.ord - b.ord)[0]
-                ?.picture
-            : placeholder
-        }
-      />
+      <img alt={props.product.name_geo} src={src} />
       <div className={styles.table}>
         <h2>{props.product.name_geo}</h2>
         <div>

@@ -5,7 +5,7 @@ import { createSearchParams } from "react-router-dom";
 
 // REDUX
 import { useDispatch, useSelector } from "react-redux";
-import { getCategories } from "../../../store/actions/systemActions";
+import { getCategories } from "../../../toolkit/category/actions";
 
 // OTHERS
 import "./search.css";
@@ -17,8 +17,8 @@ function Search(props) {
   // HOOKS
   const dispatch = useDispatch();
 
-  const systemCategories = useSelector((state) => state.systemCategories);
-  const { categories } = systemCategories;
+  const categoriesSlice = useSelector((state) => state.categories);
+  const { categories } = categoriesSlice;
 
   const Navigator = () => {
     props.navigate({
@@ -33,7 +33,7 @@ function Search(props) {
     });
   };
   useEffect(() => {
-    dispatch(getCategories(props.i18n.language));
+    dispatch(getCategories({ language: props.i18n.language }));
   }, [dispatch, props.i18n.language]);
 
   return (

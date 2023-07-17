@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 // REDUX
 import { useDispatch } from "react-redux";
-import { logout } from "../../store/actions/userActions";
+import { logout } from "../../toolkit/user/actions";
 
 // COMPONENTS
 import Search from "./search/Search";
