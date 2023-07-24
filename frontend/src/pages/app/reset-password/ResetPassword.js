@@ -14,7 +14,7 @@ import styles from "./styles/styles.module.scss";
 // values
 import { initialValues, validationSchema } from "./values";
 // hooks
-import useWindowDimensions from "../../../functions/Window";
+import useWindowDimensions from "../../../utils/hooks/useWindowDimensions";
 
 // translate
 import { useTranslation } from "react-i18next";

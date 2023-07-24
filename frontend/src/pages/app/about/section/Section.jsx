@@ -13,7 +13,7 @@ export default function Section(props) {
           <Phone {...props} />
           <Gmail {...props} />
           <Address {...props} />
-          <Schedule {...props}  />
+          <Schedule {...props}/>
         </div>
       </div>
       <Location {...props} />

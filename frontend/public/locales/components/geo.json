@@ -1,0 +1,56 @@
+{
+  "global": {
+    "category": "კატეგორია",
+    "search": "ძიება",
+    "filter": "გაფილტრვა",
+    "status": "სტატუსი",
+    "admin": "ადმინი",
+    "user": "მომხმარებელი",
+    "details": "დეტალები",
+    "edit": "რედაქტირება"
+  },
+  "footer": {
+    "about us": "ჩვენს შესახებ",
+    "Tbilisi, Tskalsadeni St. N21": "თბილისი, წყალსადენის ქ. N21",
+    "instruction": "ინსტრუქცია",
+    "navigation": "ნავიგაცია",
+    "social": "სოც. ქსელები",
+    "contact": "კონტაქტი",
+    "location": "ლოკაცია"
+  },
+  "header": {
+    "admin panel": "ადმინ პანელი",
+    "branches": "ფილიალები",
+    "profile": "პროფილი",
+    "log out": "გამოსვლა",
+    "hotline": "ცხელი ხაზი",
+    "cart": "კალათა",
+    "log in": "შესვლა",
+    "back": "უკან",
+    "users": "მომხმარებლები",
+    "products": "პროდუქტები",
+    "orders": "შეკვეთები",
+    "discounts": "ფასდაკლებები",
+    "search": "ძიება"
+  },
+  "carousel": {
+    "more": "სრულად"
+  },
+  "checkoutSteps": {
+    "authorization": "ავტორიზაცია",
+    "shipping": "მიწოდება",
+    "shipping details": "მიწოდების დეტალები",
+    "payment methods": "გადახდის მეთოდები"
+  },
+  "popup": {
+    "yes": "დიახ",
+    "no": "არა"
+  },
+  "filter": {
+    "ascending": "ზრდადობით",
+    "descending": "კლებადობით",
+    "price": "ფასი",
+    "delivered": "ჩაბარებულია",
+    "in progress": "მუშავდება"
+  }
+}

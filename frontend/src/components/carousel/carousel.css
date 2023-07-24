@@ -50,7 +50,6 @@
   }
   .carousel-container header h1 {
     display: table-caption;
-    font-size: var(--large);
     margin-left: 2rem;
   }
   .carousel-container header button {

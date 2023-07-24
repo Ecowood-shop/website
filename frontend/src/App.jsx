@@ -13,6 +13,9 @@ import Router from "./routes/routes";
 import components from "./components";
 // import MessengerCustomerChat from "react-messenger-customer-chat";
 
+// Import Global styles
+import GlobalStyle from "./styles/GlobalStyles";
+
 function App() {
   // Redux store
   const dispatch = useDispatch();
@@ -20,7 +23,7 @@ function App() {
   const { user, isLoading } = userSlice;
 
   // Components
-  const { Header, Footer, Translate, ScrollToTop } = components;
+  const { Header, Footer, ScrollToTop } = components;
 
   // Getting User profile
   useEffect(() => {
@@ -31,8 +34,8 @@ function App() {
     <Suspense fallback={null}>
       <BrowserRouter>
         <ScrollToTop>
+          <GlobalStyle />
           <Header user={user} />
-          <Translate />
           <Router user={user} loading={isLoading} />
           <Footer />
         </ScrollToTop>

@@ -2,7 +2,7 @@
 import { Link } from "react-router-dom";
 
 // FUNCTIONS
-import useWindowDimensions from "../../functions/Window";
+import useWindowDimensions from "../../utils/hooks/useWindowDimensions";
 
 // OTHERS
 import styles from "./checkoutSteps.module.scss";
