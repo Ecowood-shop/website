@@ -4,58 +4,58 @@ export const FontSize = `
 /* Media Query for Mobile Devices */
 @media (max-width: 480px) {
 
-    --large:36px;
-    --medium-l:32px;
-    --medium-m:28px;
-    --medium-s:24px;
-    --small-l:16px;
-    --small-m:14px;
-    --small-s:12px;
+    --large:2.25rem;
+    --medium-l:2rem;
+    --medium-m:1.75rem;
+    --medium-s:1.5rem;
+    --small-l:1rem;
+    --small-m:0.875rem;
+    --small-s:0.75rem;
 }
    
 /* Media Query for low resolution  Tablets, Ipads */
 @media (min-width: 481px) and (max-width: 767px) {
 
-    --large:45px;
-    --medium-l:36px;
-    --medium-m:32px;
-    --medium-s:24px;
-    --small-l:16px;
-    --small-m:14px;
-    --small-s:12px;
+    --large:2.8rem;
+    --medium-l:2.25rem;
+    --medium-m:2rem;
+    --medium-s:1.5rem;
+    --small-l:1rem;
+    --small-m:0.875rem;
+    --small-s:0.75rem;
 }
    
 /* Media Query for Tablets Ipads portrait mode */
 @media (min-width: 768px) and (max-width: 1024px){
 
-    --large:45px;
-    --medium-l:36px;
-    --medium-m:32px;
-    --medium-s:24px;
-    --small-l:16px;
-    --small-m:14px;
-    --small-s:12px;
+    --large:2.8rem;
+    --medium-l:2.25rem;
+    --medium-m:2rem;
+    --medium-s:1.5rem;
+    --small-l:1rem;
+    --small-m:0.875rem;
+    --small-s:0.75rem;
 }
    
 /* Media Query for Laptops and Desktops */
 @media (min-width: 1025px) and (max-width: 1280px){
-    --large:64px;
-    --medium-l:57px;
-    --medium-m:45px;
-    --medium-s:24px;
-    --small-l:16px;
-    --small-m:14px;
-    --small-s:12px;
+    --large:4rem;
+    --medium-l:3.56rem;
+    --medium-m:2.8rem;
+    --medium-s:1.5rem;
+    --small-l:1rem;
+    --small-m:0.875rem;
+    --small-s:0.75rem;
 }
       
 /* Media Query for Large screens */
 @media (min-width: 1281px) {
-    --large:72px;
-    --medium-l:64px;
-    --medium-m:45px;
-    --medium-s:28px;
-    --small-l:18px;
-    --small-m:16px;
-    --small-s:14px;
+    --large:4.5rem;
+    --medium-l:4rem;
+    --medium-m:2.8rem;
+    --medium-s:1.75rem;
+    --small-l:1.125rem;
+    --small-m:1rem;
+    --small-s:0.875rem;
 }
 `;

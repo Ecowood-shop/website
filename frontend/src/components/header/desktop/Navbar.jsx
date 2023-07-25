@@ -15,8 +15,8 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 70px;
-  padding: 8px 10%;
+  height: 4.375rem;
+  padding: 0.5rem 10%;
 `;
 
 // Altax text

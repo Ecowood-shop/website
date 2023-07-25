@@ -10,7 +10,8 @@ export const DefaultStyles = `
   box-sizing: border-box;
 }
 
-#root {  -webkit-font-smoothing: antialiased;
+#root {  
+  -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   height: auto;
   background-color: whitesmoke;
@@ -19,7 +20,6 @@ export const DefaultStyles = `
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
   background-image: url(${BackgroundImage});
   color: var(--color-black);
   width:100vw;

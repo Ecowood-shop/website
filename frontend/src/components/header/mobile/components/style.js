@@ -31,11 +31,11 @@ export const CloseIconContainer = styled.div`
   border-radius: 50%;
   padding: 1px;
   svg {
-    height: 30px;
-    width: 30px;
+    height: 1.875rem;
+    width: 1.875rem;
     ${respondTo.mobile`
-      height:24px;
-      width:24px;
+      height:1.625rem;
+      width:1.625rem ;
     `}
     fill: var(--darkmagenta);
   }
@@ -59,8 +59,8 @@ export const DropDown = styled.div`
   flex-direction: column;
   align-items: flex-start;
   width: 80%;
-  padding: 20px;
-  gap: 10px;
+  padding: 1.25rem;
+  gap: 0.625rem;
   border-top: 1px solid white;
 `;
 
@@ -86,13 +86,13 @@ export const IconContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 10px;
+  margin-right: 0.625rem;
   svg {
-    height: 30px;
-    width: 30px;
+    height: 1.875rem;
+    width: 1.875rem;
     ${respondTo.mobile`
-      height:26px;
-      width:26px;
+      height:1.625rem;
+      width:1.625rem;
     `}
   }
 `;
@@ -104,11 +104,11 @@ export const ArrowContainer = styled.div`
   justify-content: center;
   margin-left: auto;
   svg {
-    height: 30px;
-    width: 30px;
+     height: 1.875rem;
+    width: 1.875rem;
     ${respondTo.mobile`
-      height:26px;
-      width:26px;
+      height:1.625rem;
+      width:1.625rem;
     `}
   }
 `;

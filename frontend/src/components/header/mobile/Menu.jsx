@@ -16,6 +16,7 @@ const Container = styled.div`
   align-items: center;
   width: 100%;
   flex-direction: column;
+  
 `;
 
 // Navbar container
@@ -23,11 +24,10 @@ const NavBar = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
-  height: 64px;
-  padding: 8px 2vw;
+  height: 4rem;
+  padding: 0.5rem 2vw;
 
   background-image: var(--gradient-primary);
-
 `;
 
 // Altax text
@@ -52,8 +52,8 @@ const IconContainer = styled.div`
     "background-color:var(--white);border-radius:50%;padding:1px;svg{fill:var(--darkmagenta)}"}
 
   svg {
-    height: 24px;
-    width: 24px;
+    height: 1.5rem;
+    width: 1.5rem;
   }
 `;
 
@@ -63,7 +63,7 @@ const IconsPanel = styled.div`
   align-items: center;
   justify-content: center;
   margin-left: auto;
-  gap: 10px;
+  gap: 0.625rem;
 `;
 
 // Export Menu component
@@ -109,7 +109,7 @@ function Menu({ user }) {
           closeMenu={() => setIsOpenMenu(false)}
         />
       )}
-      
+
       {/* Search component */}
       {isOpenSearch && <Search t={t} i18n={i18n} />}
     </Container>

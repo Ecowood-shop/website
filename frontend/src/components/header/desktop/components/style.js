@@ -19,7 +19,7 @@ export const Link = styled.div`
   align-items: center;
   min-width: 100%;
   width: max-content;
-  padding: 15px;
+  padding: 1rem;
   color: white;
 
   text-transform: capitalize;
@@ -41,16 +41,16 @@ export const Link = styled.div`
 // Export svg container
 export const SVGContainer = styled.div`
   background-color: white;
-  padding: 5px;
+  padding: 0.3125rem;
   border-radius: 50%;
-  margin-right: 15px;
+  margin-right: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
   svg {
     stroke: darkmagenta;
-    height: 24px;
-    width: 24px;
+    height: 1.5rem;
+    width: 1.5rem;
     margin: 0;
   }
 `;
@@ -68,7 +68,7 @@ export const UserPanel = styled.div`
 
   // Styles
   min-width: 100%;
-  border-radius: 10px;
+  border-radius: 0.625rem;
   background-color: var(--secondary);
   animation: ${slideInRightAnimation} 0.5s ease-out;
 `;
@@ -80,11 +80,11 @@ export const UserText = styled.h2`
   align-items: center;
   justify-content: center;
 
-  max-width: 300px;
+  max-width: 18.75rem;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  gap: 5px;
+  gap: 0.3125rem;
   color: white;
   font-size: var(--small-l);
   transition: color 0.1s ease-in-out;
