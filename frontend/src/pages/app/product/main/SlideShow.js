@@ -1,7 +1,7 @@
 // components
 import ImageGallery from "react-image-gallery";
 // hooks
-import useWindowDimensions from "../../../../functions/Window";
+import useWindowDimensions from "../../../../utils/hooks/useWindowDimensions";
 // images
 import placeholder from "../../../../static/images/placeholder.png";
 

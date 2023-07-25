@@ -10,7 +10,6 @@ import { Provider } from "react-redux";
 import { injectStore } from "./utils/hooks/useAxios";
 
 // Import styles
-import "./index.scss";
 import "animate.css";
 
 // Import i18next translate

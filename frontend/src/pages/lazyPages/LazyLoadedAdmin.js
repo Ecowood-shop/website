@@ -1,5 +1,5 @@
 // Import lazy load
-import { lazyLoadComponent } from "../../utils/lazyLoad/LazyLoad";
+import { lazyLoadComponent } from "../../utils/helpers/LazyLoad";
 
 /* Lazily loaded pages */
 // Products

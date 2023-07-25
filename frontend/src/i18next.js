@@ -12,7 +12,8 @@ i18n
   .init({
     backend: {
       // translation file path
-      loadPath: "/assets/i18n/{{ns}}/{{lng}}.json",
+      loadPath: `/locales/{{ns}}/{{lng}}.json`,
+      // $ {window.location.pathname}locales/{{ns}}/{{lng}}.json`,
     },
     fallbackLng: "eng",
     load: "languageOnly",

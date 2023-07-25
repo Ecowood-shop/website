@@ -1,0 +1,56 @@
+{
+  "global": {
+    "category": "категория",
+    "search": "поиск",
+    "filter": "фильтровать",
+    "status": "статус",
+    "admin": "админ",
+    "user": "пользователь",
+    "details": "детали",
+    "edit": "редактировать"
+  },
+  "footer": {
+    "about us": "O нас",
+    "Tbilisi, Tskalsadeni St. N21": "Тбилиси, ул. Цкалсадени N21",
+    "instruction": "Инструкция",
+    "navigation": "Навигация",
+    "social": "Cети",
+    "contact": "Kонтакт",
+    "location": "расположение"
+  },
+  "header": {
+    "admin panel": "админ-панель",
+    "branches": "филиалы",
+    "log out": "выйти",
+    "hotline": "горячая линия",
+    "cart": "Корзина",
+    "profile": "профиль",
+    "log in": "войти",
+    "back": "назад",
+    "users": "пользователи",
+    "products": "продукты",
+    "orders": "заказы",
+    "discounts": "скидки",
+    "search": "поиск"
+  },
+  "carousel": {
+    "more": "больше"
+  },
+  "checkoutSteps": {
+    "authorization": "aвторизация",
+    "shipping": "доставка",
+    "shipping details": "детали доставки",
+    "payment methods": "способы оплаты"
+  },
+  "popup": {
+    "yes": "да",
+    "no": "нет"
+  },
+  "filter": {
+    "ascending": "По возрастанию",
+    "descending": "По убыванию",
+    "price": "цена",
+    "delivered": "доставлен",
+    "in progress": "В процессе"
+  }
+}
