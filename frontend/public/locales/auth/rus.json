@@ -25,6 +25,9 @@
     "checkout": "оформить заказ"
   },
   "profile": {
+    "profile": "профиль",
+    "first name": "имя",
+    "last name": "фамилия",
     "total": "Сумма",
     "phone": "телефон",
     "email": "эл почта",

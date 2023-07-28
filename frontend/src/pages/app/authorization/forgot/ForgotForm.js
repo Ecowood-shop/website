@@ -5,7 +5,7 @@ import {
   reset,
 } from "../../../../toolkit/auth/forgotPasswordSlice";
 // components
-import components from "../../../../components";
+import { LoaderMini } from "../../../../components";
 import Message from "../../../../components/Message/Message";
 import { Formik, Form } from "formik";
 import Inputs from "./Inputs";
@@ -17,7 +17,6 @@ import { useSelector } from "react-redux";
 import { useEffect } from "react";
 
 function ForgotForm(props) {
-  const { LoaderMini } = components;
   const dispatch = useDispatch();
   const onSubmit = (values, actions) => {
     setTimeout(() => {
@@ -34,7 +33,7 @@ function ForgotForm(props) {
       dispatch(reset());
     };
   }, []);
-  
+
   return (
     <Formik
       initialValues={initialValues}

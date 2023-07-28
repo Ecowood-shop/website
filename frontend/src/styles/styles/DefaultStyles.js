@@ -13,13 +13,12 @@ export const DefaultStyles = `
 #root {  
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  height: auto;
+  min-height: calc(var(--height) + 31.25rem);
   background-color: whitesmoke;
   font-family: "BPG Arial Caps", sans-serif !important;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   background-image: url(${BackgroundImage});
   color: var(--color-black);
   width:100vw;

@@ -11,10 +11,11 @@ import Navigation from "./components/Navigation";
 
 // Container
 const Container = styled.div`
+  margin-top: auto;
   width: 100%;
   background-image: var(--gradient-primary);
-  min-height: 500px;
-  padding: 40px;
+  min-height: 31.25rem;
+  padding: 2.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -26,8 +27,8 @@ function Footer() {
   const { t } = useTranslation(["components"]);
 
   return (
-    <Container className="w3-animate-right">
-      <GridContainer>
+    <Container>
+      <GridContainer className="w3-animate-right">
         {/* Columns */}
         <Navigation t={t} />
         <Social t={t} />
@@ -36,7 +37,7 @@ function Footer() {
       </GridContainer>
 
       {/* CopyRight */}
-      <CopyRightContainer>
+      <CopyRightContainer className="w3-animate-right">
         Copyright &copy; 2022 Altax.ge. All rights reserved.
       </CopyRightContainer>
     </Container>

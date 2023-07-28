@@ -25,10 +25,13 @@
     "checkout": "checkout"
   },
   "profile": {
+    "profile": "profile",
+    "first name": "first name",
+    "last name": "last name",
     "total": "total",
     "phone": "phone",
     "email": "email",
-    "edit": "edit"
+    "edit": "edit profile"
   },
   "edit profile": {
     "edit profile": "edit profile",

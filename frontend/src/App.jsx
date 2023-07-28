@@ -10,7 +10,7 @@ import { getUser } from "./toolkit/user/actions";
 import Router from "./routes/routes";
 
 // Import components
-import components from "./components";
+import { Header, Footer, ScrollToTop } from "./components";
 // import MessengerCustomerChat from "react-messenger-customer-chat";
 
 // Import Global styles
@@ -21,9 +21,6 @@ function App() {
   const dispatch = useDispatch();
   const userSlice = useSelector((state) => state.user);
   const { user, isLoading } = userSlice;
-
-  // Components
-  const { Header, Footer, ScrollToTop } = components;
 
   // Getting User profile
   useEffect(() => {

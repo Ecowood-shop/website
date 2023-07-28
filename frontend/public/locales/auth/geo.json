@@ -25,6 +25,9 @@
     "checkout": "გადახდა"
   },
   "profile": {
+    "profile": "პროფილი",
+    "first name": "სახელი",
+    "last name": "გვარი",
     "total": "თანხა",
     "phone": "ტელეფონი",
     "email": "ელ ფოსტა",
