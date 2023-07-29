@@ -29,7 +29,7 @@
       }
     }
   }
-  p {
+  .switch {
     font-size: var(--medium);
     margin: 1rem;
   }
@@ -47,7 +47,7 @@
     .section2 {
       margin-top: 5rem;
       width: 100%;
-      p {
+      .switch {
         margin: 2rem 0;
       }
       h2 {
@@ -75,7 +75,7 @@
         font-size: var(--x-small) !important;
       }
     }
-    p {
+    .switch {
       display: block;
       font-size: var(--x-small);
     }

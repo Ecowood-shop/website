@@ -51,7 +51,7 @@ function Orders({ t, navigate }) {
 
   return (
     <Container>
-      <Header>Orders</Header>
+      <Header>{t("profile.orders")}</Header>
       {isLoading && <Loader color="darkmagenta" />}
       {orders?.Orders && (
         <>

@@ -63,7 +63,7 @@ function Section2({ product, styles, navigate, category, dispatch, t, i18n }) {
           {t("product.safety standard")}
         </h2>
       </header>
-      <p> {renderSwitch(current)}</p>
+      <p className={styles.switch}> {renderSwitch(current)}</p>
       {products && (
         <Carousel category={category} products={k} navigate={navigate} />
       )}

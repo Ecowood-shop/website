@@ -12,7 +12,7 @@ i18n
   .init({
     backend: {
       // translation file path
-      loadPath: `/locales/{{ns}}/{{lng}}.json`,
+      loadPath: `/static/locales/{{ns}}/{{lng}}.json`,
       // $ {window.location.pathname}locales/{{ns}}/{{lng}}.json`,
     },
     fallbackLng: "eng",
