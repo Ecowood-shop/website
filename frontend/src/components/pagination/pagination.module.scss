@@ -2,11 +2,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 5rem;
- 
+
+  margin-top: 2rem;
 }
 .pagination {
-  display: flex;  
+  display: flex;
   padding: 0;
   margin: 0;
 
@@ -16,28 +16,37 @@
     border: none;
   }
   .next {
-    margin-left: 1rem;
+    margin-left: 0.5rem;
   }
 }
-.page:hover,
-.break:hover,
-.next:hover,
-.previous:hover {
-  transform: scale(1.1);
-  cursor: pointer;
+@media screen and (min-width: 1280px) {
+  .page:hover,
+  .break:hover,
+  .next:hover,
+  .previous:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+  }
+}
+
+.active {
+  background-color: var(--color-primary) !important;
 }
 .page,
 .break {
-  color: white;
   height: 2.5rem;
   width: 2.5rem;
-  text-align: center;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: 1rem;
-  font-size: var(--medium);
-  border-radius: 50%;
+
+  margin-left: 0.5rem;
+  border-radius: 40%;
+
+  color: white;
+  text-align: center;
+  font-size: var(--small-l);
   background-color: var(--color-magenta);
 }
 .icon {
@@ -45,7 +54,7 @@
   height: 2.5rem;
   width: 2.5rem;
   background-color: var(--color-magenta);
-  border-radius: 50%;
+  border-radius: 40%;
 }
 path {
   padding: 0;
@@ -59,5 +68,4 @@ path {
     height: 2rem;
     width: 2rem;
   }
-
 }

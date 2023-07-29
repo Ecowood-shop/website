@@ -17,6 +17,7 @@ const Container = styled.div`
   width: 100%;
   height: 4.375rem;
   padding: 0.5rem 10%;
+  
 `;
 
 // Altax text

@@ -13,7 +13,11 @@ function UserPanel({ user, t, navigate, panelChanger }) {
 
   // Hooks
   const dispatch = useDispatch();
-
+  // Function
+  const logoutNavigator = () => {
+    navigate("/");
+    dispatch(logout());
+  };
   return (
     <UserPanelComponent>
       {/* Open admin menu if user is staff */}
@@ -43,7 +47,7 @@ function UserPanel({ user, t, navigate, panelChanger }) {
       </Link>
 
       {/* Log out link */}
-      <Link $borderBottom onClick={() => dispatch(logout())}>
+      <Link $borderBottom onClick={() => logoutNavigator()}>
         <SVGContainer>
           <LogOutSVG />
         </SVGContainer>

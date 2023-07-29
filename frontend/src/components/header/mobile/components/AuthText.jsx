@@ -10,12 +10,18 @@ function AuthText({ navigate, closeMenu, user, t }) {
   const dispatch = useDispatch();
 
   // Functions
-  const navigator = (url) => {
-    user ? dispatch(logout()) : navigate(url);
+  const navigator = () => {
+    if (user) {
+      navigate("/");
+      dispatch(logout());
+    } else {
+      navigate("/authorization");
+    }
     closeMenu();
   };
+
   return (
-    <AuthContainer onClick={() => navigator("/authorization")}>
+    <AuthContainer onClick={() => navigator()}>
       {user ? t("header.log out") : t("header.log in")}
     </AuthContainer>
   );

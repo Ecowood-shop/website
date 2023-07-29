@@ -20,7 +20,7 @@ function Topbar() {
   const { t, i18n } = useTranslation(["components"]);
 
   return (
-    <Container>
+    <Container className="w3-animate-right">
       <Link>
         <p>{t("header.hotline")} </p>
         <PhoneSVG />

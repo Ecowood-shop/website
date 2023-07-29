@@ -1,65 +1,75 @@
-// REACT
-import ReactCarousel from "react-multi-carousel";
+// Import styled component
+import styled from "styled-components";
 import "react-multi-carousel/lib/styles.css";
+import { respondTo } from "../../utils/styles/_respondTo";
+// Import components
+import Product from "./components/Product";
+import ReactCarousel from "react-multi-carousel";
+import { responsive } from "./components/responsive";
 
-// COMPONENTS
-import Product from "./product/Product";
+// Import Hooks
+import { useNavigate } from "react-router-dom";
 
-// OTHERS
-import "./carousel.css";
+// Main container
+const Container = styled.div`
+  border-radius: 10px;
+  background-color: whitesmoke;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
+    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
+`;
 
-// translate
-import { useTranslation } from "react-i18next";
+// Header
+const Header = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
+  border-radius: 10px 10px 0 0;
+
+  text-align: center;
+  color: var(--white);
+  background: var(--linear-primary);
+
+  ${respondTo.desktop`
+    cursor:pointer;
+  `}
+`;
+
+const HeaderText = styled.h3`
+  font-size: var(--medium-s);
+`;
+
+// Export carousel components
 function Carousel(props) {
-  const { t } = useTranslation(["components"]);
-  const responsive = {
-    superLargeDesktop: {
-      // the naming can be any, depends on you.
-      breakpoint: { max: 4000, min: 3000 },
-      items: 5,
-    },
-    desktop: {
-      breakpoint: { max: 3000, min: 1420 },
-      items: 4,
-    },
-    notebook: {
-      breakpoint: { max: 1420, min: 1024 },
-      items: 3,
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 600 },
-      items: 2,
-    },
-    mobile: {
-      breakpoint: { max: 600, min: 0 },
-      items: 1,
-    },
-  };
+  // Hooks
+  const navigate = useNavigate();
+
   return (
-    <section className="carousel-container w3-animate-right">
-      <header>
-        <h1>{props.category.category}</h1>
-        <button
+    <Container className="w3-animate-right">
+      {/* Header container */}
+      <Header>
+        <HeaderText
           onClick={() => {
-            props.navigate(
-              "/products/search?category=" + props.category.category
-            );
+            navigate("/products/search?category=" + props.category.category);
           }}
         >
-          {t("carousel.more")}
-        </button>
-      </header>
-      <ReactCarousel responsive={responsive} className="carousel ">
+          {props.category.category}
+        </HeaderText>
+      </Header>
+
+      {/* React carousel */}
+      <ReactCarousel responsive={responsive}>
         {props.products &&
           props.products.map((productObject) => (
             <Product
               key={productObject.product._id}
+              navigate={navigate}
               product={productObject.product}
             />
           ))}
       </ReactCarousel>
-    </section>
+    </Container>
   );
 }
 
