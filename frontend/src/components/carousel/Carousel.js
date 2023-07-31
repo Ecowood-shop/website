@@ -64,7 +64,6 @@ function Carousel(props) {
           props.products.map((productObject) => (
             <Product
               key={productObject.product._id}
-              navigate={navigate}
               product={productObject.product}
             />
           ))}

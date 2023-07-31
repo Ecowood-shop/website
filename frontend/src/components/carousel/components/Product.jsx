@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { respondTo } from "../../../utils/styles/_respondTo";
 // Import helper functions
 import { getMainImage } from "../../../utils/helpers/getMainImage";
+// Import Hooks
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   ${respondTo.desktop`
@@ -49,13 +51,15 @@ const ImageContainer = styled.div`
 `;
 
 const DiscountContainer = styled.div`
-  position: absolute;
   top: 0;
   right: 0;
+  z-index: 1;
+  position: absolute;
+
   background-color: var(--color-primary);
   font-size: var(--small-l);
   color: white;
-  z-index: 100;
+
   border-bottom-left-radius: 10px;
   padding: 0.5rem 1rem;
 `;
@@ -101,7 +105,9 @@ const Price = styled.p`
   }
 `;
 // Export product component
-function Product({ product, navigate }) {
+function Product({ product }) {
+  // Hooks
+  const navigate = useNavigate();
   return (
     <Container onClick={() => navigate(`/product/${product._id}`)}>
       {product?.discount && parseFloat(product?.discount.percentage) > 0 && (

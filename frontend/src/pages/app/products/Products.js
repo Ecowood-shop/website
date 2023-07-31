@@ -1,36 +1,58 @@
-// REACT
+// Styles
+import { styled } from "styled-components";
+import { respondTo } from "../../../utils/styles/_respondTo";
+// Hooks
 import { useEffect } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
-
-// REDUX
-import { useSelector, useDispatch } from "react-redux";
-import { getProducts } from "../../../toolkit/product/actions";
-
-// COMPONENTS
-import Filter from "../../../components/filter/Filter";
-import Pagination from "../../../components/pagination/Pagination";
-import Product from "../../../components/carousel/product/Product";
-
-// OTHERS
-import styles from "./styles.module.scss";
-// translate
 import { useTranslation } from "react-i18next";
+import { useSelector, useDispatch } from "react-redux";
+import { useSearchParams } from "react-router-dom";
+// Functions
+import { getProducts } from "../../../toolkit/product/actions";
+// Components
+import Filter from "../../../components/filter/Filter";
+import Product from "../../../components/carousel/components/Product";
+import { Loader, Pagination } from "../../../components";
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  padding: 3rem;
+  min-height: var(--height);
+
+  ${respondTo.mobile`
+    width:100%;
+  `}
+
+  ${respondTo.lowTablet`
+    width:100%;
+  `}
+`;
+
+const InnerContainer = styled.div`
+  width: 100%;
+  display: grid;
+  margin-top: 3rem;
+  column-gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+`;
+
+// Products page
 function Products() {
-  const { t, i18n } = useTranslation(["app"]);
-  // HOOKS
-  const navigate = useNavigate();
+  // Hooks
   const dispatch = useDispatch();
-  const [searchParams, setSearchParams] = useSearchParams();
 
-  // QUERY PARAMS
+  const { i18n } = useTranslation(["app"]);
+  const [searchParams] = useSearchParams();
+
+  // query params
   const category = searchParams.get("category");
   const word = searchParams.get("word");
   const orderby = searchParams.get("orderby");
   const page = searchParams.get("page");
 
   const productsSlice = useSelector((state) => state.products);
-  const { error, isLoading, products } = productsSlice;
+  const { isLoading, products } = productsSlice;
 
   useEffect(() => {
     dispatch(
@@ -44,19 +66,27 @@ function Products() {
     );
   }, [dispatch, category, word, orderby, page, i18n.language]);
   return (
-    <article className={styles.container}>
+    <Container>
+      {/* Products filter  */}
       <Filter />
-      {products?.products && (
-        <>
-          <section className={styles.section + " w3-animate-right"}>
-            {products.products.map((product) => (
-              <Product key={product._id} product={product} />
-            ))}
-          </section>{" "}
-          <Pagination pages={products.pages} page={products.page} />
-        </>
+
+      {isLoading ? (
+        <Loader color="blueviolet" />
+      ) : (
+        products?.products && (
+          <>
+            {/* Products from carousel */}
+            <InnerContainer className={" w3-animate-right"}>
+              {products.products.map((product) => (
+                <Product key={product._id} product={product} />
+              ))}
+            </InnerContainer>
+            {/* Pagination for products */}
+            <Pagination pages={products.pages} page={products.page} />
+          </>
+        )
       )}
-    </article>
+    </Container>
   );
 }
 

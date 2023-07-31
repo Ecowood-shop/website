@@ -61,7 +61,7 @@ export const InnerContainer = styled.div`
   & > div:first-child > div:first-of-type {
     // Content position
     width: 200px;
-    text-align: center;
+    padding-left: 1rem;
 
     // Border style
     border-radius: 100px !important;

@@ -13,6 +13,7 @@ import { getOrders } from "../../../../toolkit/user/userOrderSlice";
 
 // Main container which contains profile and side bar
 const Container = styled.div`
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
 `;
