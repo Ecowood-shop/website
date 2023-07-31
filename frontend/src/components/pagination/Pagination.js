@@ -17,7 +17,7 @@ function Pagination({ page, pages }) {
   }, [page]);
 
   return (
-    <nav className={styles.container}>
+    <nav className={styles.container + " w3-animate-right"}>
       {pages > 1 && (
         <ReactPaginate
           containerClassName={styles.pagination}
@@ -32,7 +32,7 @@ function Pagination({ page, pages }) {
             searchParams.set("page", event.selected + 1);
             setSearchParams(searchParams);
           }}
-          forcePage={currentPage} 
+          forcePage={currentPage}
           marginPagesDisplayed={1}
           pageRangeDisplayed={window.innerWidth > 1000 ? 2 : 1}
           pageCount={pages}

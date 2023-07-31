@@ -11,8 +11,7 @@ const CategorySelect = ({ t, i18n, formik }) => {
   const dispatch = useDispatch();
 
   // Get categories from category slice
-  const categoriesSlice = useSelector((state) => state.categories);
-  const { categories } = categoriesSlice;
+  const { categories } = useSelector((state) => state.categories);
 
   // Get categories according to language
   useEffect(() => {

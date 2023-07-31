@@ -1,6 +1,6 @@
 // Import styled components
 import { styled } from "styled-components";
-// Import formik
+// Import formik configuration
 import FormikControl from "../../../formik/FormikControl";
 
 // Search input
