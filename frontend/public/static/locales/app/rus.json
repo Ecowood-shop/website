@@ -1,6 +1,7 @@
 {
   "global": {
-    "register": "регистрация"
+    "register": "регистрация",
+    "required": "обязательно"
   },
   "about": {
     "header": "О НАС",
@@ -41,6 +42,7 @@
   },
   "product": {
     "gallery": "галерея",
+    "selected quantity must be greater than 0": "выбранное количество должно быть больше 0",
     "technical requirements": "Технические данные",
     "terms of use": "Условия эксплуатации",
     "safety standard": "стандарт безопасности",
@@ -53,7 +55,7 @@
     "meter": "м",
     "quantity": "количество",
     "add": "Добавить в корзину",
-    "find out easily how much you need": "Легко узнайте, сколько вам нужно",
+    "calculator": "калькулятор",
     "enter the coverage area": "Введите длину зоны покрытия",
     "you will need": "Вам понадобится",
     "liter": "литр",

@@ -1,7 +1,7 @@
 // Import styled components
 import { DropDown, Item, IconContainer, ArrowContainer } from "./style";
-import { headerIcons, componentIcons } from "../../../../static/icons";
-
+import { headerIcons} from "../../../../static/icons";
+import { BranchSVG,EcowoodSVG,RightArrowSVG } from "../../../../static/icons/components";
 // Import components
 import Translate from "./Translate";
 import AdminPanel from "./AdminPanel";
@@ -10,7 +10,6 @@ import AdminPanel from "./AdminPanel";
 function Dropdown({ i18n, t, navigate, closeMenu, user }) {
   // Destructure icons
   const { CartSVG, ProfileSVG } = headerIcons;
-  const { BranchSVG, EcowoodSVG, RightArrowSVG } = componentIcons;
 
   // Functions
   const navigator = (url) => {

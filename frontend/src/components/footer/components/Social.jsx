@@ -1,12 +1,12 @@
 // Import styled component
-import { componentIcons, socialIcons } from "../../../static/icons";
+import { socialIcons } from "../../../static/icons";
+import { RombSVG } from "../../../static/icons/components";
 import { Column, Header, IconContainer, ItemContainer, Item } from "../style";
 
 // Social column
 function Social({ t }) {
   // Destructure icons
   const { FacebookSVG, YoutubeSVG, InstagramSVG } = socialIcons;
-  const { RombSVG } = componentIcons;
   return (
     <Column>
       {/* Social */}

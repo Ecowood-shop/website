@@ -23,7 +23,6 @@ export const validationSchema = Yup.object({
 // On submit function which navigates to search page
 // with params category and keyword
 export const onSubmit = (values, navigate, categories) => {
-  console.log(values);
   const category =
     categories?.length > 0
       ? categories.find((category) => category._id === Number(values.category))

@@ -1,7 +1,7 @@
 // Import styled components
 import { styled } from "styled-components";
 import { respondTo } from "../../utils/styles/_respondTo";
-import { componentIcons } from "../../static/icons/components";
+import { DeleteSVG,EditSVG } from "../../static/icons/components";
 // Import hooks
 import { useState } from "react";
 import { useTable } from "react-table";
@@ -20,8 +20,6 @@ const SVG = styled.div`
 
 
 function Table({ columns, data, link, linkEnd, Delete, text, user }) {
-  // Destructure icons
-  const { DeleteSVG, EditSVG } = componentIcons;
 
   // HOOKS
   const navigate = useNavigate();

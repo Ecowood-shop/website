@@ -1,6 +1,7 @@
 // Import styles
 import { styled } from "styled-components";
-import { headerIcons, componentIcons } from "../../../static/icons";
+import { headerIcons} from "../../../static/icons";
+import { CloseSVG } from "../../../static/icons/components";
 import { respondTo } from "../../../utils/styles/_respondTo";
 // Import hooks
 import { useState } from "react";
@@ -76,7 +77,6 @@ function Menu({ user }) {
 
   // Destructure icons
   const { MenuSVG, SearchSVG } = headerIcons;
-  const { CloseSVG } = componentIcons;
 
   return (
     <Container className="w3-animate-top">

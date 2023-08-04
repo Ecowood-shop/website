@@ -1,6 +1,7 @@
 {
   "global": {
-    "register": "register"
+    "register": "register",
+    "required": "required"
   },
   "about": {
     "header": "ABOUT US",
@@ -41,6 +42,7 @@
   },
   "product": {
     "gallery": "gallery",
+    "selected quantity must be greater than 0": "selected quantity must be greater than 0",
     "technical requirements": "technical data",
     "terms of use": "terms of use",
     "safety standard": "safety standard",
@@ -53,7 +55,7 @@
     "meter": "m",
     "quantity": "Quantity",
     "add": "Add to Cart",
-    "find out easily how much you need": "Find out easily how much you need",
+    "calculator": "calculator",
     "enter the coverage area": "Enter the coverage area length",
     "you will need": "You will need",
     "liter": "liter",

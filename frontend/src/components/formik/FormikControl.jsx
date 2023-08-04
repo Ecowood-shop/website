@@ -1,4 +1,4 @@
-// components
+// Import components
 import Input from "./Input";
 import Textarea from "./Textarea";
 import Select from "./Select";
@@ -6,9 +6,9 @@ import RadioButtons from "./RadioButtons";
 import CheckboxGroup from "./CheckboxGroup";
 import DatePicker from "./DatePicker";
 import AutoComplete from "./AutoComplete";
-// styles
-// styles
-import styles from "./styles/styles.module.scss";
+
+
+// Export formik control
 function FormikControl(props) {
   const { control, ...rest } = props;
   switch (control) {

@@ -1,6 +1,7 @@
 {
   "global": {
-    "register": "რეგისტრაცია"
+    "register": "რეგისტრაცია",
+    "required": "აუცილებელია"
   },
   "about": {
     "header": "ჩვენს შესახებ",
@@ -41,6 +42,7 @@
   },
   "product": {
     "gallery": "გალერეა",
+    "selected quantity must be greater than 0": "რაოდენობა უნდა იყოს 0-ზე მეტი",
     "technical requirements": "ტექნიკური მონაცემები",
     "terms of use": "გამოყენების წესები",
     "safety standard": " უსაფრთხოების სტანდარტი",
@@ -53,7 +55,7 @@
     "meter": "მ",
     "quantity": "რაოდენობა",
     "add": "კალათაში დამატება",
-    "find out easily how much you need": "გაიგე მარტივად რა რაოდენობის გჭირდება",
+    "calculator": "კალკულატორი",
     "enter the coverage area": "შეიყვანეთ დასაფარი ფართი",
     "you will need": "თქვენ დაგჭირდებათ",
     "liter": "ლიტრი",
