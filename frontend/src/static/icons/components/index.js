@@ -9,9 +9,10 @@ import DeleteSVG from "./DeleteSVG";
 import EcowoodSVG from "./EcowoodSG";
 import LocationSVG from "./LocationSVG";
 import RightArrowSVG from "./RightArrowSVG";
+import ErrorSVG from "./ErrorSVG";
 
 // Export svgs
-export const componentIcons = {
+export {
   RombSVG,
   EditSVG,
   PhoneSVG,
@@ -21,4 +22,5 @@ export const componentIcons = {
   BranchSVG,
   LocationSVG,
   RightArrowSVG,
+  ErrorSVG
 };

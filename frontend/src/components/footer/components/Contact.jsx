@@ -1,12 +1,12 @@
 // Import styled component
-import { componentIcons, socialIcons } from "../../../static/icons";
+import { socialIcons } from "../../../static/icons";
+import { RombSVG,PhoneSVG,LocationSVG } from "../../../static/icons/components";
 import { Column, Header, IconContainer, ItemContainer, Item } from "../style";
 
 // Contact column
 function Contact({ t }) {
   // Destructure icons
   const { MailSVG } = socialIcons;
-  const { RombSVG, PhoneSVG, LocationSVG } = componentIcons;
   return (
     <Column>
       {/* Contact */}

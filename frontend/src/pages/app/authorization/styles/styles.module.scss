@@ -51,9 +51,9 @@
 }
 
 .registerSuccess {
-  color: green;
+  color: var(--white);
   font-weight: bold;
-  font-size: var(--large);
+  font-size: var(--medium-s);
 }
 .btnBlock {
   top: 50%;

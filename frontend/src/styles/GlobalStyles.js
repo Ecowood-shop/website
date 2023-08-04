@@ -40,7 +40,10 @@ ${ButtonStyles}
   --gradient-secondary:linear-gradient(336deg, #a4508b 0%, darkmagenta 74%);
   --secondary: #a4508b;
   --white: white;
-  --whiteWithOpacity:rgba(255, 255, 255, 0.7);
+  --black: rgb(11, 11, 11);
+  --error: #d31027;
+  --blackWithOpacity: rgba(11, 11, 11, 0.7);
+  --whiteWithOpacity: rgba(255, 255, 255, 0.7);
   --darkmagenta:darkmagenta;
 
   /* Font size */

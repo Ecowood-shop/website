@@ -1,6 +1,6 @@
 // Import styled components
 import { styled } from "styled-components";
-import { componentIcons } from "../../../static/icons";
+import { CloseSVG } from "../../../static/icons/components";
 import { AltaxText, CloseIconContainer, Header } from "./components/style";
 
 // Import hooks
@@ -34,8 +34,6 @@ const InnerContainer = styled.div`
 
 // Export sidebar popup
 function Sidebar({ t, i18n, navigate, user, closeMenu }) {
-  // Destructure icons
-  const { CloseSVG } = componentIcons;
 
   // Freeze background moving
   useEffect(() => {

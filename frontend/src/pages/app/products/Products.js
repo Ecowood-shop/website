@@ -71,7 +71,7 @@ function Products() {
       <Filter />
 
       {isLoading ? (
-        <Loader color="blueviolet" />
+        <Loader color="darkmagenta" />
       ) : (
         products?.products && (
           <>

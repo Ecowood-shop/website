@@ -1,11 +1,9 @@
 // Import styled component
-import { componentIcons } from "../../../static/icons";
+import { RombSVG } from "../../../static/icons/components";
 import { Column, Header, IconContainer, ItemContainer, Item } from "../style";
 
 // Location column
 function Location({ t }) {
-  // Destructure icons
-  const { RombSVG } = componentIcons;
   return (
     <Column>
       {/* Location */}

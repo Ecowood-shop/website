@@ -132,6 +132,7 @@ export const productSlice = createSlice({
 
     // Get product for user
     builder.addCase(getProduct.pending, (state) => {
+      state.error = null;
       state.isLoading = true;
     });
     builder.addCase(getProduct.fulfilled, (state, action) => {

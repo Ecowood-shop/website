@@ -8,7 +8,6 @@ input {
 
   font-size: var(--small-l);
   padding-left: 30px;
-  text-transform: capitalize;
 
 
   [id*="placeholder"] {

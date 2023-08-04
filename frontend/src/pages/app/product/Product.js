@@ -1,37 +1,46 @@
-// REACT
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
-
-// REDUX
-import { useSelector, useDispatch } from "react-redux";
-import { getProduct } from "../../../toolkit/product/actions";
-
-// COMPONENTS
-import Message from "../../../components/Message/Message";
-import Loader from "../../../components/loader/Loader";
-
-// SECTIONS
-import Section0 from "./sections/Section0";
-import Section2 from "./sections/Section2";
-import Main from "./main/Main";
-
-// OTHERS
-import styles from "./styles.module.scss";
-import "react-image-gallery/styles/css/image-gallery.css";
-
-// translate
+// Import styles
+import { styled } from "styled-components";
+import { respondTo } from "../../../utils/styles/_respondTo";
+// Import hooks
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useSelector, useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
+// Import actions
+import { getProduct } from "../../../toolkit/product/actions";
+// Import components
+import Table from "./components/Table";
+import { Loader, ErrorMessage } from "../../../components";
+import Details from "./components/Details";
+import SimilarProducts from "./components/SimilarProducts";
 
+const Container = styled.div`
+  min-height: var(--height);
+  padding: 5rem 0;
+
+  width: 80%;
+
+  ${respondTo.mobile`
+      width: 90%;
+  `}
+
+  @media screen and (min-width: 1280px) and (max-width: 1500px) {
+    width: 90%;
+  }
+`;
+
+const HeaderText = styled.h1`
+  text-align: center;
+  font-size: var(--medium-m);
+`;
+
+// Export product component
 function Product() {
-  // HOOKS
-  const navigate = useNavigate();
+  // Initialize hooks
   const dispatch = useDispatch();
   const params = useParams();
 
-  // VARIABLES
-  const [iframe, setIframe] = useState(false);
-
+  // Get product from product slice
   const productSlice = useSelector((state) => state.products);
   const { error, isLoading, product } = productSlice;
 
@@ -42,46 +51,40 @@ function Product() {
   }, [dispatch, params.id, i18n.language]);
 
   return (
-    <article className={styles.container}>
-      {isLoading && (
-        <div className={styles.loaderContainer}>
-          <Loader color="blueviolet" />
-        </div>
-      )}
-      {error && <Message>{error}</Message>}
-      {product?.products && (
-        <>
-          <Section0
-            setter={(value) => setIframe(value)}
-            navigate={navigate}
-            iframe={iframe}
-            youtube={product.products.youtubeUrl ? true : false}
-            t={t}
-          />
-          <Main
-            t={t}
-            product={product.products}
-            variants={product.variants}
-            iframe={iframe}
-            youtube={product.products.youtubeUrl ? true : false}
-            navigate={navigate}
-          />
+    <Container>
+      {error && <ErrorMessage>{error}</ErrorMessage>}
+      {isLoading ? (
+        <Loader color="darkmagenta" />
+      ) : (
+        product?.products && (
+          <>
+            {/* Product name */}
+            <HeaderText className="w3-animate-right">
+              {product.products.name_geo}
+            </HeaderText>
 
-          <Section2
-            t={t}
-            styles={styles}
-            product={product.products}
-            navigate={navigate}
-            dispatch={dispatch}
-            category={{
-              id: product.products.category_id,
-              category: product.products.category,
-            }}
-            i18n={i18n}
-          />
-        </>
+            {/* Content */}
+            <Table
+              product={product.products}
+              variants={product.variants}
+              t={t}
+            />
+
+            {/* Product details */}
+            <Details product={product.products} t={t} />
+
+            {/* Similar products carousel */}
+            <SimilarProducts
+              i18n={i18n}
+              category={{
+                id: product.products.category_id,
+                category: product.products.category,
+              }}
+            />
+          </>
+        )
       )}
-    </article>
+    </Container>
   );
 }
 

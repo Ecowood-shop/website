@@ -8,12 +8,10 @@ import Translate from "../components/topBar/Translate";
 // Import translate
 import { useTranslation } from "react-i18next";
 // Import svgs
-import { componentIcons } from "../../../static/icons";
+import { PhoneSVG } from "../../../static/icons/components";
 
 // Export top bar
 function Topbar() {
-  // Destructure icons
-  const { PhoneSVG } = componentIcons;
 
   // Hooks
   const navigate = useNavigate();
