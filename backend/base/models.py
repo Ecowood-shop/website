@@ -288,7 +288,7 @@ class Picture(models.Model):
 
 class Translation(models.Model):
     language = models.CharField(max_length=3)
-    key = models.TextField(null=True, blank=True)
+    key = models.TextField(max_length=5000)
     value = models.TextField(null=True, blank=True)
 
     class Meta:

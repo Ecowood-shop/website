@@ -32,8 +32,12 @@ class UserSerializer(serializers.ModelSerializer):
 
         try:
             my_thread = threading.Thread(target=sendMail,
-                                     args=(user.id, user.first_name, user.email, user.email_verification_token), daemon=True)
+                                         args=(user.id, user.first_name, user.email, user.email_verification_token),
+                                         daemon=True)
             my_thread.start()
+            print('ageeeeeeeeeeeeeer')
+
+
         except Exception as e:
             user.delete()
             raise serializers.ValidationError(str(e))
@@ -258,4 +262,3 @@ class SpecificDiscountSerializer(DynamicFieldsModelSerializer):
     class Meta:
         model = SpecificDiscount
         fields = '__all__'
-
