@@ -22,6 +22,7 @@ function Product({ product, variant, cart, dispatch, t }) {
         : ""
       : `${t("cart.product is deleted")}`
   );
+  
   const changer = (number) => {
     switch (number) {
       case "-":

@@ -10,8 +10,8 @@ const Container = styled.div`
 
   color: var(--white);
   font-size: var(--medium-s);
-  border-top-right-radius: 10px;
-  border-bottom-left-radius: 10px;
+  border-top-right-radius: 20px;
+  border-bottom-left-radius: 20px;
   background-color: var(--color-primary);
 
   ${respondTo.mobile`

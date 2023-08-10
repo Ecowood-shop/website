@@ -19,7 +19,7 @@ const Container = styled.div`
     flex-direction:row;
     align-items: stretch;
     
-    border-radius: 10px;
+    border-radius: 20px;
     background-color: white;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
       rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
@@ -29,7 +29,14 @@ const Container = styled.div`
     gap:5rem;
     flex-direction:row;
     align-items:center;
-`}
+  `}
+
+
+  ${respondTo.tv`
+    gap:5rem;
+    flex-direction:row;
+    align-items:center;
+  `}
 `;
 
 const InnerContainer = styled.div`
@@ -56,7 +63,18 @@ const InnerContainer = styled.div`
     margin-left: auto;
     padding: 2rem 3rem;
 
-    border-radius: 10px;
+    border-radius: 20px;
+    background-color: white;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
+    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
+  `}
+
+  ${respondTo.tv`
+    width:40%;
+    margin-left: auto;
+    padding: 2rem 3rem;
+
+    border-radius: 20px;
     background-color: white;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
     rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;

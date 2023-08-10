@@ -1,5 +1,6 @@
 // Import styled components
 import { styled } from "styled-components";
+import { respondTo } from "../../../utils/styles/_respondTo";
 // Import navigate
 import { useNavigate } from "react-router-dom";
 // Import translate
@@ -17,7 +18,11 @@ const Container = styled.div`
   width: 100%;
   height: 4.375rem;
   padding: 0.5rem 10%;
-  
+
+  ${respondTo.tv`
+    padding: 0.5rem 0;
+    max-width: 1400px;
+  `}
 `;
 
 // Altax text

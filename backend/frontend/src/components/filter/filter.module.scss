@@ -3,7 +3,7 @@
   margin-top: 2rem;
   height: 5rem;
   background-image: var(--linear-primary);
-  border-radius: 10px;
+  border-radius: 20px;
   border-top-right-radius: 999px;
   border-bottom-right-radius: 999px;
   display: flex;
@@ -133,7 +133,7 @@
     }
   }
   .containerResponsive {
-    border-radius: 10px;
+    border-radius: 20px;
 
     .inputContainer {
       display: flex;

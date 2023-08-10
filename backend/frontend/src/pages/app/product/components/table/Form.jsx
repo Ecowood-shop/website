@@ -29,7 +29,7 @@ const ErrorContainer = styled.div`
   left: 0.5rem;
   position: relative;
 
-  color: var(--error);
+  color: var(--red);
   font-size: var(--small-m);
 `;
 

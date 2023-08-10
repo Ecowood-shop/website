@@ -20,6 +20,12 @@ const TitleContainer = styled.div`
       align-items: center;
       justify-content: space-evenly;
   `}
+
+  ${respondTo.tv`
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+  `}
 `;
 
 const Title = styled.h3`
@@ -48,7 +54,16 @@ const Title = styled.h3`
     &:hover {
       color:var(--blackWithOpacity);
     }
-`}
+  `}
+
+  ${respondTo.tv`
+    cursor:pointer;  
+    padding: 0.5rem 1rem;
+
+    &:hover {
+      color:var(--blackWithOpacity);
+    }
+  `}
 `;
 
 const TextContainer = styled.div`

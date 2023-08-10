@@ -14,11 +14,10 @@ const Container = styled.div`
 
   height: ${(props) => (props.$youtube ? "max-content" : "auto")};
 
-  border-radius: 10px;
+  border-radius: 20px;
   background-color: white;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
     rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
-
 
   ${respondTo.tablet`
     width:80%;
@@ -31,6 +30,10 @@ const Container = styled.div`
   `}
 
   ${respondTo.desktop`
+    width:50%;
+  `}
+
+    ${respondTo.tv`
     width:50%;
   `}
 `;
@@ -51,7 +54,7 @@ const ButtonContainer = styled.div`
   border-radius: 0 0 100px 100px;
   transition: color 1ms ease-in-out;
   background-color: ${(props) =>
-    props.$youtube ? "var(--error)" : "var(--darkmagenta)"};
+    props.$youtube ? "var(--red)" : "var(--darkmagenta)"};
 
   ${respondTo.laptop`
     right:auto;
@@ -64,6 +67,13 @@ const ButtonContainer = styled.div`
   `}
 
   ${respondTo.desktop`
+    &:hover{
+      cursor:pointer;
+      color:var(--whiteWithOpacity)
+    }
+  `}
+
+  ${respondTo.tv`
     &:hover{
       cursor:pointer;
       color:var(--whiteWithOpacity)

@@ -18,7 +18,7 @@ function Table({ styles, cart, t }) {
             </>
           ) : (
             <> {cart.sum_price} ₾</>
-          )}{" "}
+          )}
         </h2>
         <Button styles={styles} cart={cart} t={t} />
       </div>

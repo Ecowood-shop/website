@@ -1,15 +1,13 @@
 // Import styled component
 import styled from "styled-components";
-import { respondTo } from "../../../utils/styles/_respondTo";
 // Import helper functions
 import { getMainImage } from "../../../utils/helpers/getMainImage";
 // Import Hooks
 import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
-  ${respondTo.desktop`
-    cursor:pointer;
-  `}
+  cursor: pointer;
+
   height: 16rem;
   position: relative;
 
@@ -18,7 +16,7 @@ const Container = styled.div`
   align-items: center;
 
   margin: 2rem 1rem;
-  border-radius: 10px;
+  border-radius: 20px;
   background-color: white;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
     rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
@@ -60,7 +58,7 @@ const DiscountContainer = styled.div`
   font-size: var(--small-l);
   color: white;
 
-  border-bottom-left-radius: 10px;
+  border-bottom-left-radius: 20px;
   padding: 0.5rem 1rem;
 `;
 

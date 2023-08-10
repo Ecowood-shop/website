@@ -11,7 +11,6 @@ import { reset } from "../../../toolkit/product/productSlice";
 import Filter from "../../../components/filter/Filter";
 import Table from "../../../components/table/Table";
 import Loader from "../../../components/loader/Loader";
-import Message from "../../../components/Message/Message";
 import Pagination from "../../../components/pagination/Pagination";
 import Nav from "./Nav";
 
@@ -43,7 +42,7 @@ function ProductsScreen() {
   // HOOKS
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   // QUERY PARAMS
   const category = searchParams.get("category");
@@ -52,7 +51,7 @@ function ProductsScreen() {
   const page = searchParams.get("page");
 
   const productSlice = useSelector((state) => state.products);
-  const { error, isLoading, products, success } = productSlice;
+  const { isLoading, products, success } = productSlice;
 
   useEffect(() => {
     dispatch(
@@ -73,24 +72,26 @@ function ProductsScreen() {
     <section className={styles.container}>
       <Filter />
       <Nav styles={styles} navigate={navigate} t={t} />
-      {isLoading && <Loader color={"blueviolet"} />}{" "}
-      {error && <Message>{error}</Message>}
-      {products?.products && (
-        <>
-          <div className={styles.table}>
-            {products && (
-              <Table
-                columns={columns(t)}
-                data={products.products}
-                link="/admin/products/"
-                linkEnd="/edit"
-                Delete={(id) => dispatch(deleteProduct({ id: id }))}
-                text={t("global.product")}
-              />
-            )}
-          </div>
-          <Pagination pages={products.pages} page={products.page} />
-        </>
+      {isLoading ? (
+        <Loader color={"blueviolet"} />
+      ) : (
+        products?.products && (
+          <>
+            <div className={styles.table}>
+              {products && (
+                <Table
+                  columns={columns(t)}
+                  data={products.products}
+                  link="/admin/products/"
+                  linkEnd="/edit"
+                  Delete={(id) => dispatch(deleteProduct({ id: id }))}
+                  text={t("global.product")}
+                />
+              )}
+            </div>
+            <Pagination pages={products.pages} page={products.page} />
+          </>
+        )
       )}
     </section>
   );

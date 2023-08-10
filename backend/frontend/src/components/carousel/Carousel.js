@@ -1,7 +1,6 @@
 // Import styled component
 import styled from "styled-components";
 import "react-multi-carousel/lib/styles.css";
-import { respondTo } from "../../utils/styles/_respondTo";
 // Import components
 import Product from "./components/Product";
 import ReactCarousel from "react-multi-carousel";
@@ -12,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 
 // Main container
 const Container = styled.div`
-  border-radius: 10px;
+  border-radius: 20px;
   background-color: whitesmoke;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
     rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
@@ -20,20 +19,17 @@ const Container = styled.div`
 
 // Header
 const Header = styled.div`
+  cursor: pointer;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
 
-  border-radius: 10px 10px 0 0;
+  border-radius: 20px 20px 0 0;
 
   text-align: center;
   color: var(--white);
   background: var(--linear-primary);
-
-  ${respondTo.desktop`
-    cursor:pointer;
-  `}
 `;
 
 const HeaderText = styled.h3`

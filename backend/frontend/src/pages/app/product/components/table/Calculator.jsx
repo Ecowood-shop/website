@@ -46,6 +46,13 @@ const Button = styled.button`
       color:var(--whiteWithOpacity)
     }
   `}
+
+  ${respondTo.tv`
+    &:hover{
+      cursor:pointer;
+      color:var(--whiteWithOpacity)
+    }
+  `}
 `;
 
 const InnerContainer = styled.div`
@@ -54,6 +61,11 @@ const InnerContainer = styled.div`
   z-index: 1001;
   min-width: 10%;
   position: fixed;
+
+  ${respondTo.tv`
+  position: absolute;
+  transform: translateY(150%);
+`}
 
   display: flex;
   padding: 1rem 3rem;
@@ -78,6 +90,16 @@ const IconContainer = styled.div`
   position: absolute;
 
   ${respondTo.desktop`
+    &:hover{
+      cursor:pointer;
+
+      svg{
+        fill:var(--whiteWithOpacity)
+      }
+    }
+  `}
+
+  ${respondTo.tv`
     &:hover{
       cursor:pointer;
 

@@ -13,6 +13,10 @@
   margin-left: 0;
   position: relative;
   display: inline;
+
+  @media screen and (max-width: 1280px) {
+    cursor: default;
+  }
 }
 .imgText,
 .img {
@@ -24,6 +28,7 @@
   height: 100%;
 }
 .holder {
+  z-index: 10;
   position: absolute;
   height: 13rem;
   top: -16rem;
@@ -36,7 +41,7 @@
   background-color: white;
   font-weight: bold;
   padding: 0.2rem 0.5rem;
-  border-radius: 10px !important;
+  border-radius: 20px !important;
   width: max-content;
   max-width: 80%;
   text-align: center;

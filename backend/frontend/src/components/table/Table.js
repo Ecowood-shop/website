@@ -1,7 +1,6 @@
 // Import styled components
 import { styled } from "styled-components";
-import { respondTo } from "../../utils/styles/_respondTo";
-import { DeleteSVG,EditSVG } from "../../static/icons/components";
+import { DeleteSVG, EditSVG } from "../../static/icons/components";
 // Import hooks
 import { useState } from "react";
 import { useTable } from "react-table";
@@ -18,9 +17,7 @@ const SVG = styled.div`
   }
 `;
 
-
 function Table({ columns, data, link, linkEnd, Delete, text, user }) {
-
   // HOOKS
   const navigate = useNavigate();
 
@@ -123,16 +120,12 @@ const Container = styled.div`
       transition: transform 0.1s ease-out;
       font-size: var(--small-l);
 
- 
-
       ${(props) => props.$admin && "&:nth-last-child(2),"} &:last-child {
         background-color: var(--color-magenta);
         &:hover {
+          cursor: pointer;
           background-color: var(--white);
 
-          ${respondTo.desktop`
-          cursor:pointer;
-          `}
           svg {
             fill: var(--darkmagenta);
           }

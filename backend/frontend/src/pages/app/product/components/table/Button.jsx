@@ -3,6 +3,8 @@ import { styled } from "styled-components";
 import { respondTo } from "../../../../../utils/styles/_respondTo";
 
 const Container = styled.button`
+  cursor: pointer;
+
   margin: 1rem 0;
   padding: 0.5rem 0;
   border: none;
@@ -14,8 +16,12 @@ const Container = styled.button`
   transition: color 1ms ease-in-out;
 
   ${respondTo.desktop`
-    cursor:pointer;
-    
+    &:hover{
+        color:var(--whiteWithOpacity);
+    }
+  `}
+
+  ${respondTo.tv`
     &:hover{
         color:var(--whiteWithOpacity);
     }

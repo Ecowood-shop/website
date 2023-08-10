@@ -8,6 +8,7 @@ const customBreakpoints = [
   { label: "tablet", breakPoint: "767px" },
   { label: "laptop", breakPoint: "1024px" },
   { label: "desktop", breakPoint: "1280px" },
+  { label: "tv", breakPoint: "1920px" },
 ];
 
 // Custom media query

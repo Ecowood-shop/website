@@ -11,13 +11,14 @@
     "color": "ფერი",
     "item": "ცალი",
     "items": "ცალი",
-    "pay": "გადახდა"
+    "pay": "გადახდა",
+    "product name": "პროდუქტის დასახელება"
   },
   "cart": {
+    "cart": "კალათა",
     "products": "პროდუქტები",
     "cart is empty": "კალათა ცარიელია",
-    "please": "გთხოვთ გაიაროთ",
-    "log in": "ავტორიზაცია",
+    "authorization is required": "საჭიროა ავტორიზაცია",
     "in stock": "მარაგშია",
     "product is deleted": "პროდუქტი წაშლილია",
     "total": "ჯამი",

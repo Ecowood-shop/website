@@ -1,5 +1,6 @@
 // Import create global styles
 import { createGlobalStyle } from "styled-components";
+import { respondTo } from "../utils/styles/_respondTo";
 // Import styles
 import {
   FontSize,
@@ -22,6 +23,36 @@ ${SVGStyles}
 ${InputStyles}
 ${ButtonStyles}
 
+/* On touch devices cursor should not be pointer */
+${respondTo.mobile`
+  & * 
+  {
+    cursor:default !important;
+  }
+`}
+
+${respondTo.lowTablet`
+  & * 
+  {
+    cursor:default !important;
+  }
+`}
+
+${respondTo.tablet`
+  & * 
+  {
+    cursor:default !important;
+  }
+`}
+
+${respondTo.laptop`
+  & * 
+  {
+    cursor:default !important;
+  }
+`}
+
+
 /* Variables */
 :root {
 
@@ -39,10 +70,14 @@ ${ButtonStyles}
   --gradient-primary: linear-gradient(326deg, #a4508b 0%, #5f0a87 74%);
   --gradient-secondary:linear-gradient(336deg, #a4508b 0%, darkmagenta 74%);
   --secondary: #a4508b;
-  --white: white;
+
+  --red: rgb(211,16,39);
+  --redWithOpacity:rgba(211,16,39,0.7);
+  
   --black: rgb(11, 11, 11);
-  --error: #d31027;
   --blackWithOpacity: rgba(11, 11, 11, 0.7);
+
+  --white: white;
   --whiteWithOpacity: rgba(255, 255, 255, 0.7);
   --darkmagenta:darkmagenta;
 
@@ -56,18 +91,11 @@ ${ButtonStyles}
   --x-large: 2.5rem;
 
   /* Min height */
-  --height: 100vh;
 
 ${FontSize}
 }
 
-div{
-    @include responsive(mobile) {
-        border: 3px solid #b28451;
-        background-color:red !important;
-        color:red !important
-    }
-}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;

@@ -11,9 +11,9 @@ export const DefaultStyles = `
 }
 
 #root {  
+  position:relative;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  min-height: calc(var(--height) + 31.25rem);
   background-color: whitesmoke;
   font-family: "BPG Arial Caps", sans-serif !important;
   display: flex;
@@ -22,5 +22,10 @@ export const DefaultStyles = `
   background-image: url(${BackgroundImage});
   color: var(--color-black);
   width:100vw;
+  overflow-x:hidden;
+  min-height:1400px;
+  @media screen and (max-height:1600px){
+    min-height:100vh;
+  }
 }
 `;

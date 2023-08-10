@@ -15,13 +15,13 @@ import Details from "./components/Details";
 import SimilarProducts from "./components/SimilarProducts";
 
 const Container = styled.div`
-  min-height: var(--height);
   padding: 5rem 0;
 
   width: 80%;
+  max-width: 1400px;
 
   ${respondTo.mobile`
-      width: 90%;
+    width: 90%;
   `}
 
   @media screen and (min-width: 1280px) and (max-width: 1500px) {

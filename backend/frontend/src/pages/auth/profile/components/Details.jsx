@@ -12,8 +12,11 @@ const Container = styled.div`
   align-items: center;
   gap: 3rem;
 
-  
   ${respondTo.desktop`
+    flex-direction:row;
+  `}
+
+  ${respondTo.tv`
     flex-direction:row;
   `}
 `;
@@ -31,6 +34,12 @@ const Text = styled.div`
   text-shadow: var(--color-primary) 1px 0 10px;
 
   ${respondTo.desktop`
+    order:0;
+    flex-grow: 1;
+    margin-left: auto;
+  `}
+
+  ${respondTo.tv`
     order:0;
     flex-grow: 1;
     margin-left: auto;

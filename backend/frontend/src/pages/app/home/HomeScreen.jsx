@@ -1,5 +1,6 @@
 // Styles
 import { styled } from "styled-components";
+import { respondTo } from "../../../utils/styles/_respondTo";
 // Hooks
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -12,9 +13,10 @@ import { getLatestProducts } from "../../../toolkit/product/latestProductSlice";
 import { mapLatestProducts } from "../../../utils/helpers/mapLatestProducts";
 
 const Container = styled.div`
-  width: 80vw;
+  width: 80%;
+  max-width: 1400px;
+  
   padding: 5rem 0;
-  min-height: var(--height);
 
   gap: 5rem;
   display: flex;

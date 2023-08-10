@@ -68,7 +68,7 @@ export const UserPanel = styled.div`
 
   // Styles
   min-width: 100%;
-  border-radius: 0.625rem;
+  border-radius: 20px;
   background-color: var(--secondary);
   animation: ${slideInRightAnimation} 0.5s ease-out;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,

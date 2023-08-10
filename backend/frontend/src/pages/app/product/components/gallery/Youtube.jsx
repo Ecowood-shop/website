@@ -14,6 +14,11 @@ const Container = styled.div`
     height:40vw;
     max-height:40rem;
   `}
+
+  ${respondTo.tv`
+    height:40vw;
+    max-height:40rem;
+  `}
 `;
 
 // Function to normilize youtube url

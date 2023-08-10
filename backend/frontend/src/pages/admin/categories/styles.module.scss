@@ -1,6 +1,5 @@
 .container {
   width: 80%;
-  min-height: var(--height);
   margin-bottom: 10rem;
   @media all and (max-width: 60em) {
     width: 90%;
@@ -76,7 +75,6 @@
         padding: 1rem 3rem;
         height: 3rem;
       }
-
     }
   }
 

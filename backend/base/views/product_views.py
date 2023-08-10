@@ -1144,6 +1144,19 @@ def getUserCart(request):
     try:
         apply_user_discounts(products, user)
         productSerializer = SpecificProductSerializer(products, many=True)
+
+        if language is not None and language != '':
+            for product in productSerializer.data:
+                for field_name in ['name_geo', 'size', 'price', 'discount']:
+                    try:
+                        # Get the translation for the product's name_geo in the specified language
+                        translation = Translation.objects.get(language=language, key=product[field_name])
+                        if translation.value == '':
+                            raise Translation.DoesNotExist()
+
+                        product[field_name] = translation.value
+                    except Translation.DoesNotExist:
+                        pass  # If no translation is found, keep the original value
     except:
         pass
 

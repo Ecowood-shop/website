@@ -1,12 +1,12 @@
 // Import styled component
 import styled from "styled-components";
-// translate
 import { respondTo } from "../../utils/styles/_respondTo";
 
 export const GridContainer = styled.div`
-  display: grid;
-  grid-auto-rows: 1;
   gap: 4vw;
+  display: grid;
+  max-width: 1400px;
+  grid-auto-rows: 1;
 
   // Desktop
   grid-template-columns: repeat(4, 1fr);
@@ -96,6 +96,11 @@ export const IconContainer = styled.div`
         height: 1.5rem;
         width: 1.5rem;
     `}
+
+    ${respondTo.tv`
+        height: 1.5rem;
+        width: 1.5rem;
+    `}
   }
 `;
 
@@ -106,25 +111,25 @@ export const ItemContainer = styled.div`
 `;
 // Item
 export const Item = styled.div`
-  font-size: var(--small-l);
-  gap: 0.3125rem;
+  cursor: pointer;
+
   display: flex;
+  gap: 0.3125rem;
   align-items: center;
+
+  font-size: var(--small-l);
   text-transform: capitalize;
   transition: color 0.1s ease-in-out;
-  ${respondTo.desktop`
-    cursor:pointer;
-    `}
+
   a {
-    cursor: default;
-    ${respondTo.desktop`
-    cursor:pointer;
-    `}
-    text-decoration: none;
+    cursor: pointer;
+
     display: flex;
+    gap: 0.3125rem;
     align-items: center;
     justify-content: center;
-    gap: 0.3125rem;
+
+    text-decoration: none;
   }
   svg {
     height: 1.25rem;
@@ -136,13 +141,25 @@ export const Item = styled.div`
     border: none;
     border-radius: 0.625rem;
   }
+
   ${respondTo.desktop`
     &:hover {
-    color: var(--whiteWithOpacity);
-    svg {
-      fill: var(--whiteWithOpacity);
+      color: var(--whiteWithOpacity);
+    
+      svg {
+        fill: var(--whiteWithOpacity);
+      }
     }
-  }
+  `}
+
+  ${respondTo.tv`
+    &:hover {
+      color: var(--whiteWithOpacity);
+    
+      svg {
+        fill: var(--whiteWithOpacity);
+      }
+    }
   `}
 `;
 

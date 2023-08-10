@@ -13,8 +13,13 @@ export const Container = styled.div`
   background-image: var(--gradient-secondary);
 
   ${respondTo.desktop`
-  background-image:none;
-  width:fit-content;
+    background-image:none;
+    width:fit-content;
+  `}
+
+  ${respondTo.tv`
+    background-image:none;
+    width:fit-content;
   `}
 
   form {
@@ -24,7 +29,7 @@ export const Container = styled.div`
     margin: 0 20px;
   }
   svg {
-    ${respondTo.desktop`cursor: pointer;`}
+    cursor: pointer;
   }
 `;
 
@@ -68,7 +73,7 @@ export const InnerContainer = styled.div`
     border: 2px solid var(--color-primary);
   }
   & div:last-child {
-    border-radius: 10px !important;
+    border-radius: 20px !important;
   }
 `;
 
@@ -95,6 +100,10 @@ export const Cart = styled.div`
   justify-content: center;
 
   ${respondTo.desktop`
-  display: flex;
+    display: flex;
+  `}
+
+  ${respondTo.tv`
+    display: flex;
   `}
 `;

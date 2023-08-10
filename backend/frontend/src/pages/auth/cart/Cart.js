@@ -1,27 +1,50 @@
-// react
-import { useEffect } from "react";
-// redux
+// Import styles
+import styled from "styled-components";
+// Import hooks
+import { useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
+import useWindowDimensions from "../../../utils/hooks/useWindowDimensions";
 import { useSelector, useDispatch } from "react-redux";
+// Import components
+import Table from "./desktop/Table";
+import MobileTable from "./mobile/MobileTable";
+import ProductTable from "./desktop/ProductTable";
+import { Loader } from "../../../components";
+// Import actions
 import { getCart } from "../../../toolkit/cart/actions";
 import { reset } from "../../../toolkit/cart/cartSlice";
-// styles
-import styles from "./styles.module.scss";
+import { respondTo } from "../../../utils/styles/_respondTo";
 
-// components
-import Products from "./Products";
-import Table from "./table/Table";
+const Container = styled.div`
+  width: 90%;
+  display: flex;
+  justify-content: center;
 
-// translate
-import { useTranslation } from "react-i18next";
+  padding: 5rem 0;
 
-function Cartus() {
+  ${respondTo.desktop`
+    width: 80%;
+  `}
+
+  ${respondTo.tv`
+    width:1400px;
+  `}
+`;
+
+const InnerContainer = styled.div`
+  width: 100%;
+  display: flex;
+`;
+function Cart() {
+  // Initialize hooks
   const dispatch = useDispatch();
+  const renderCount = useRef(0);
+  const { width } = useWindowDimensions();
   const { t, i18n } = useTranslation(["auth"]);
 
-  const { user } = useSelector((state) => state.user);
-
+  // Get cart from cart slice
   const cartSlice = useSelector((state) => state.cart);
-  const { cart, success } = cartSlice;
+  const { cart, isLoading, success } = cartSlice;
 
   useEffect(() => {
     dispatch(getCart({ language: i18n.language }));
@@ -30,18 +53,26 @@ function Cartus() {
     };
   }, [dispatch, success, i18n.language]);
 
+  if (renderCount.current < 3) ++renderCount.current;
+
   return (
-    <article className={styles.container}>
-      <Products
-        styles={styles}
-        cart={cart}
-        dispatch={dispatch}
-        user={user}
-        t={t}
-      />
-      {cart && <Table styles={styles} cart={cart} t={t} />}
-    </article>
+    <Container>
+      {isLoading && renderCount.current < 3 ? (
+        <Loader color="darkmagenta" />
+      ) : (
+        <InnerContainer>
+          {width > 1024 ? (
+            <>
+              <ProductTable cart={cart} t={t} />
+              <Table cart={cart} t={t} />
+            </>
+          ) : (
+            <MobileTable cart={cart} t={t} />
+          )}
+        </InnerContainer>
+      )}
+    </Container>
   );
 }
 
-export default Cartus;
+export default Cart;

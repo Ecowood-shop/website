@@ -5,6 +5,7 @@ import { respondTo } from "../../../utils/styles/_respondTo";
 
 // Main container
 const Container = styled.button`
+  cursor: pointer;
   height: 90%;
   margin-left: auto;
   display: flex;
@@ -23,8 +24,12 @@ const Container = styled.button`
     rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
 
   ${respondTo.desktop`  
-    cursor: pointer;
+    &:hover{
+        color:var(--whiteWithOpacity)
+    }
+    `}
 
+  ${respondTo.tv`  
     &:hover{
         color:var(--whiteWithOpacity)
     }

@@ -1,15 +1,30 @@
 // Import styled component
 import styled from "styled-components";
+import { respondTo } from "../../../../utils/styles/_respondTo";
 
 // Export main container
 export const Container = styled.div`
-  display: flex;
-  justify-content: space-evenly;
-  background-image: var(--gradient-secondary);
   width: 100%;
   height: 32px;
+  display: flex;
+  justify-content: center;
+  background-image: var(--gradient-secondary);
+`;
+
+
+export const InnerContainer = styled.div`
+  width: 100%;
+  height: 32px;
+  display: flex;
   padding: 8px 10%;
+  justify-content: space-evenly;
+
   color: white;
+
+  ${respondTo.tv`
+    padding: 8px 0;
+    max-width: 1400px;
+  `}
 `;
 
 // Export link

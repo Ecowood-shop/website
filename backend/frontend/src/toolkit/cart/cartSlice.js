@@ -19,7 +19,6 @@ export const cartSlice = createSlice({
   reducers: {
     // Reset state
     reset: (state) => {
-      state.cart = null;
       state.success = false;
       state.error = null;
     },
@@ -35,6 +34,7 @@ export const cartSlice = createSlice({
     });
     builder.addCase(getCart.rejected, (state, action) => {
       state.isLoading = false;
+      state.cart = null;
       state.error = action.payload;
     });
 

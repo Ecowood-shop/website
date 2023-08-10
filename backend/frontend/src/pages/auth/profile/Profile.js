@@ -15,9 +15,9 @@ const Container = styled.div`
   flex-direction: column;
 
   width: 80%;
+  max-width: 1400px;
   gap: 5rem;
   padding: 5rem 0;
-  min-height: var(--height);
 
   ${respondTo.mobile`
     width:90%;

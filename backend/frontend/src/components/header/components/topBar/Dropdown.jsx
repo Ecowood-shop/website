@@ -23,7 +23,7 @@ const DropDown = styled.div`
   transform: translateX(-50%);
 
   // Styles
-  border-radius: 10px;
+  border-radius: 20px;
   background-color:var(--secondary)
 `;
 

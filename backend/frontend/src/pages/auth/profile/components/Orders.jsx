@@ -24,13 +24,10 @@ const Header = styled.div`
   align-items: center;
   justify-content: center;
 
-  color: var(--color-magenta);
   font-weight: bold;
-  font-size: var(--large);
-  text-transform: uppercase;
-
   text-align: center;
-  font-size: var(--large);
+  font-size: var(--medium-m);
+  color: var(--color-magenta);
   text-transform: capitalize;
 `;
 

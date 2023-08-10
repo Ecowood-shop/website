@@ -19,6 +19,16 @@ const Container = styled.div`
       }
   }
   `}
+
+  ${respondTo.tv`
+    flex-direction:row;
+    
+    &:hover {
+      div:last-child {
+        opacity: 1;
+      }
+  }
+  `}
 `;
 
 // Container for profile details
@@ -117,13 +127,25 @@ const Text = styled.p`
 
 // SideBar
 const SideBar = styled.div`
+  cursor: pointer;
+
   display: flex;
   align-items: start;
   justify-content: center;
 
   ${respondTo.desktop`
     opacity: 0;
-    cursor: pointer;
+    align-items:center;
+    justify-content: flex-start;
+    transition: opacity 0.1s ease-in-out;
+      
+    :hover {
+      opacity: 1;
+    }
+  `}
+
+  ${respondTo.tv`
+    opacity: 0;
     align-items:center;
     justify-content: flex-start;
     transition: opacity 0.1s ease-in-out;
@@ -153,6 +175,20 @@ const SideText = styled.p`
   background-color: var(--color-primary);
 
   ${respondTo.desktop`
+    width:fit-content;
+    padding: 2rem 0.5rem 2rem 0.3rem;
+    border-radius: 0 100px  100px 0;
+
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transition: color 0.1s ease-in-out;
+
+    &:hover {
+      color: var(--whiteWithOpacity);
+    }
+  `}
+
+  ${respondTo.tv`
     width:fit-content;
     padding: 2rem 0.5rem 2rem 0.3rem;
     border-radius: 0 100px  100px 0;

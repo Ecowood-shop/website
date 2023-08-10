@@ -17,7 +17,12 @@ const Container = styled.div`
   width: 100%;
 
   ${respondTo.desktop`
-  background-image: var(--gradient-primary);`}
+    background-image: var(--gradient-primary);
+  `}
+
+  ${respondTo.tv`
+    background-image: var(--gradient-primary);
+  `}
 `;
 
 function Header({ user }) {

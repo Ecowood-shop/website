@@ -8,7 +8,7 @@ const Container = styled.h3`
   }
   i {
     text-decoration: line-through;
-    color: var(--error);
+    color: var(--red);
     margin-right: 0.6rem;
   }
 `;

@@ -11,13 +11,14 @@
     "color": "цвет",
     "item": "товар",
     "items": "товаров",
-    "pay": "Оплатить"
+    "pay": "Оплатить",
+    "product name": "Название продукта"
   },
   "cart": {
+    "cart": "Корзина",
     "products": "продукты",
     "cart is empty": "Корзина пуста",
-    "please": "Пожалуйста, ",
-    "log in": "авторизуйтесь",
+    "authorization is required": "Требуется авторизация",
     "in stock": "в наличии",
     "product is deleted": "продукт удален",
     "total": "Сумма заказа",

@@ -11,13 +11,14 @@
     "color": "color",
     "item": "item",
     "items": "items",
-    "pay": "Proceed to Payment"
+    "pay": "Proceed to Payment",
+    "product name": "product name"
   },
   "cart": {
+    "cart": "cart",
     "products": "products",
     "cart is empty": "Cart is empty",
-    "please": "You need to",
-    "log in": "log in",
+    "authorization is required": "authorization is required",
     "in stock": "in stock",
     "product is deleted": "product is deleted",
     "total": "total",
