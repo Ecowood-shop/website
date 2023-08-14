@@ -1,5 +1,6 @@
 // Styles
 import { styled } from "styled-components";
+import { ErrorSVG } from "../../../static/icons/components";
 import { respondTo } from "../../../utils/styles/_respondTo";
 // Hooks
 import { useEffect } from "react";
@@ -37,12 +38,42 @@ const InnerContainer = styled.div`
   grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
 `;
 
-// Products page
+const MessageContainer = styled.div`
+  ${(props) => props.$auth && "cursor:pointer;"}
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+
+  margin: 1rem 0;
+  padding: 1rem 0;
+
+  border-radius: 20px;
+  gap: 0.5rem;
+  color: var(--red);
+  font-size: var(--small-l);
+
+  p::first-letter {
+    text-transform: capitalize;
+  }
+  svg {
+    stroke: var(--red);
+    height: 24px;
+    width: 24px;
+  }
+
+  ${respondTo.desktop`
+  margin:7rem 0 1rem 0;
+  `}
+`;
+
+// Export Products page
 function Products() {
   // Hooks
   const dispatch = useDispatch();
 
-  const { i18n } = useTranslation(["app"]);
+  const { t, i18n } = useTranslation(["app"]);
   const [searchParams] = useSearchParams();
 
   // query params
@@ -72,19 +103,22 @@ function Products() {
 
       {isLoading ? (
         <Loader color="darkmagenta" />
+      ) : products?.products?.length > 0 ? (
+        <>
+          {/* Products from carousel */}
+          <InnerContainer className={" w3-animate-right"}>
+            {products.products.map((product) => (
+              <Product key={product._id} product={product} />
+            ))}
+          </InnerContainer>
+          {/* Pagination for products */}
+          <Pagination pages={products.pages} page={products.page} />
+        </>
       ) : (
-        products?.products && (
-          <>
-            {/* Products from carousel */}
-            <InnerContainer className={" w3-animate-right"}>
-              {products.products.map((product) => (
-                <Product key={product._id} product={product} />
-              ))}
-            </InnerContainer>
-            {/* Pagination for products */}
-            <Pagination pages={products.pages} page={products.page} />
-          </>
-        )
+        <MessageContainer>
+          <ErrorSVG />
+          <p>{t("error.no products found")}</p>
+        </MessageContainer>
       )}
     </Container>
   );

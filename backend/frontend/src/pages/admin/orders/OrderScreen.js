@@ -87,7 +87,7 @@ function OrderScreen() {
     <section className={styles.container}>
       <OrderFilter />
       <Nav styles={styles} navigate={navigate} t={t} />
-      {isLoading && <Loader color="blueviolet" />}
+      {isLoading && <Loader color="darkmagenta" />}
       {error && <Message>{error}</Message>}
       {orders?.Orders && (
         <>

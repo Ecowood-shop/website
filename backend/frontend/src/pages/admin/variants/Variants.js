@@ -49,7 +49,7 @@ function Variants() {
         {t("global.back")}
       </button>
       {colors && <Variant create colors={colors} id={id} t={t} />}
-      {isLoading && <Loader color={"blueviolet"} />}
+      {isLoading && <Loader color={"darkmagenta"} />}
       {error && <Message>{error}</Message>}
       {variants &&
         variants.map((variant) => (

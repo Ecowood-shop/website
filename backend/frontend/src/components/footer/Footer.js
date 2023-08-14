@@ -38,7 +38,8 @@ function Footer() {
 
       {/* CopyRight */}
       <CopyRightContainer className="w3-animate-right">
-        Copyright &copy; 2022 Altax.ge. All rights reserved.
+        Copyright &copy; {new Date().getFullYear()} Altax.ge. All rights
+        reserved.
       </CopyRightContainer>
     </Container>
   );

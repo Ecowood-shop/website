@@ -1,12 +1,9 @@
 import React from "react";
 import "./loader.css";
 
-function Loader({ header, height, color }) {
+function Loader({ color }) {
   return (
-    <div
-      className="loader-Container"
-      style={height ? { height: "10rem" } : header ? { marginLeft: "auto",marginRight:"5rem" } : {}}
-    >
+    <div className="loader-Container">
       <div className="loader-container">
         <div className="loader">
           <div className="inner one" style={{ borderBottomColor: color }}></div>

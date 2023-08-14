@@ -52,7 +52,7 @@ function Product() {
       </button>
       <section>
         <h1>{t("product.create product")}</h1>
-        {isLoading && <Loader />}
+        {isLoading && <Loader color="darkmagenta" />}
         {error && <Message>{error}</Message>}
 
         <Formik

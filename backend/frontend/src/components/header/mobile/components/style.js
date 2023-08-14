@@ -48,9 +48,9 @@ export const AuthContainer = styled.div`
   justify-content: center;
 
   color: var(--white);
-  font-size: var(--medium-s);
+  font-size: var(--small-l);
   text-transform: capitalize;
-  margin: auto 5% 10% auto;
+  margin: auto auto 10% 5%;
 `;
 
 // Dropdown component
@@ -72,7 +72,7 @@ export const Item = styled.div`
   color: var(--white);
   text-transform: capitalize;
   width: 100%;
-  font-size: var(--medium-s);
+  font-size: var(--small-l);
 
   ${(props) => props.$left && "align-self:start;"}
   a {

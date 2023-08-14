@@ -70,6 +70,7 @@ const MessageContainer = styled.div`
     text-transform: capitalize;
   }
   svg {
+    margin-bottom: 0.3rem;
     stroke: var(--red);
     height: 24px;
     width: 24px;

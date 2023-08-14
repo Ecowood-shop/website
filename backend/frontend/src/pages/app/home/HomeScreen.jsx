@@ -15,7 +15,7 @@ import { mapLatestProducts } from "../../../utils/helpers/mapLatestProducts";
 const Container = styled.div`
   width: 80%;
   max-width: 1400px;
-  
+
   padding: 5rem 0;
 
   gap: 5rem;
@@ -43,7 +43,7 @@ function HomeScreen() {
   return (
     <Container>
       {isLoading ? (
-        <Loader color={"darkmagenta"} />
+        <Loader color="darkmagenta" />
       ) : (
         products &&
         latestProducts.map((element) => (

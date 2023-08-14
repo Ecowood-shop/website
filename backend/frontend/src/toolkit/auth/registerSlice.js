@@ -42,6 +42,7 @@ export const registerSlice = createSlice({
     });
     builder.addCase(register.fulfilled, (state, action) => {
       state.isLoading = false;
+      state.error = null;
       state.success = action.payload;
     });
     builder.addCase(register.rejected, (state, action) => {

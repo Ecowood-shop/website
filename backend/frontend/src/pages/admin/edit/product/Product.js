@@ -56,7 +56,7 @@ function Product() {
       >
         {t("global.back")}
       </button>
-      {isLoading && <Loader />}
+      {isLoading && <Loader color="darkmagenta" />}
 
       <section>
         <Buttons styles={styles} id={id} navigate={navigate} t={t} />

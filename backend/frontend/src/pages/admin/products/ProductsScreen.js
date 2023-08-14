@@ -73,7 +73,7 @@ function ProductsScreen() {
       <Filter />
       <Nav styles={styles} navigate={navigate} t={t} />
       {isLoading ? (
-        <Loader color={"blueviolet"} />
+        <Loader color={"darkmagenta"} />
       ) : (
         products?.products && (
           <>

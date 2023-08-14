@@ -11,7 +11,7 @@ import Router from "./routes/routes";
 
 // Import components
 import { Header, Footer, ScrollToTop } from "./components";
-// import MessengerCustomerChat from "react-messenger-customer-chat";
+import MessengerCustomerChat from "react-messenger-customer-chat";
 
 // Import Global styles
 import GlobalStyle from "./styles/GlobalStyles";
@@ -36,11 +36,10 @@ function App() {
           <Router user={user} loading={isLoading} />
           <Footer />
         </ScrollToTop>
-
-        {/*  <MessengerCustomerChat
-    pageId="<PAGE_ID>"
-    appId="<APP_ID>"
-  />, */}
+        <MessengerCustomerChat
+          pageId="101479372628795"
+          appId="1202628510495152"
+        />
       </BrowserRouter>
     </Suspense>
   );

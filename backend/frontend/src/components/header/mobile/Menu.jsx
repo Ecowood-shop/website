@@ -1,11 +1,11 @@
 // Import styles
 import { styled } from "styled-components";
-import { headerIcons} from "../../../static/icons";
+import { headerIcons } from "../../../static/icons";
 import { CloseSVG } from "../../../static/icons/components";
 import { respondTo } from "../../../utils/styles/_respondTo";
 // Import hooks
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 // Import components
 import Sidebar from "./Sidebar";
@@ -17,7 +17,6 @@ const Container = styled.div`
   align-items: center;
   width: 100%;
   flex-direction: column;
-  
 `;
 
 // Navbar container
@@ -71,12 +70,17 @@ const IconsPanel = styled.div`
 function Menu({ user }) {
   // create hooks
   const navigate = useNavigate();
+  const location = useLocation();
   const { t, i18n } = useTranslation(["components"]);
   const [isOpenSearch, setIsOpenSearch] = useState(false);
   const [isOpenMenu, setIsOpenMenu] = useState(false);
 
   // Destructure icons
   const { MenuSVG, SearchSVG } = headerIcons;
+
+  useEffect(() => {
+    if (location.pathname.includes("search")) setIsOpenSearch(false);
+  }, [location.pathname]);
 
   return (
     <Container className="w3-animate-top">

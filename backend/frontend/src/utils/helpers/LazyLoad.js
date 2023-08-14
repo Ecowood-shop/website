@@ -10,7 +10,7 @@ export const lazyLoadComponent = (importFunc) => {
 
   // Display fallback until component is fully imported
   return (props) => (
-    <Suspense fallback={<Loader />}>
+    <Suspense fallback={<Loader color="darkmagenta" />}>
       <LazyComponent {...props} />
     </Suspense>
   );

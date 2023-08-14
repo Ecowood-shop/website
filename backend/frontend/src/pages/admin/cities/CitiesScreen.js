@@ -54,7 +54,7 @@ function CitiesScreen() {
   return (
     <article className={styles.container}>
       <Nav styles={styles} navigate={navigate} t={t} />
-      {isLoading && <Loader color={"blueviolet"} />}
+      {isLoading && <Loader color={"darkmagentaa"} />}
       {error && <Message>{error}</Message>}
       {shippingPrices && (
         <div className={styles.table}>

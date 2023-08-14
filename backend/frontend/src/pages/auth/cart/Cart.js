@@ -35,6 +35,8 @@ const InnerContainer = styled.div`
   width: 100%;
   display: flex;
 `;
+
+// Export cart page
 function Cart() {
   // Initialize hooks
   const dispatch = useDispatch();
