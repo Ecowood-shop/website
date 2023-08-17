@@ -25,7 +25,6 @@ function RadioButtons(props) {
           });
         }}
       </Field>
-      <ErrorMessage component={TextError} name={name} />
     </>
   );
 }

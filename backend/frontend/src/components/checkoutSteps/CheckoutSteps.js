@@ -11,7 +11,7 @@ import styles from "./checkoutSteps.module.scss";
 import { useTranslation } from "react-i18next";
 
 function CheckoutSteps({ step1, step2, step3, step4 }) {
-  const { height, width } = useWindowDimensions();
+  const { width } = useWindowDimensions();
   const { t } = useTranslation(["components"]);
 
   return (

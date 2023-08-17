@@ -14,6 +14,9 @@
     "pay": "Оплатить",
     "product name": "Название продукта"
   },
+  "validation": {
+    "required": "необходимый"
+  },
   "cart": {
     "cart": "Корзина",
     "products": "продукты",
@@ -79,6 +82,14 @@
     "ecowood": "эковуд",
     "select branch": "Выберите филиал",
     "express branch": "Экспресс-филиал",
-    "select city": "выберите город"
+    "select city": "выберите город",
+    "delivery across Tbilisi in 2-4 working days": "Доставка по Тбилиси осуществляется в течение 2-4 рабочих дней",
+    "delivery to regions will be made in 4-5 working days": "доставка в регионы осуществляется в течение 4-5 рабочих дней",
+    "if the total price of the cart exceeds the limit, you will use service 2": "если общая стоимость корзины превышает лимит, вы будете использовать услугу 2",
+    "otherwise service 1": " в противном случае услугу 1",
+    "Working hours - Ecowood 10:00-18:00 (every day)": "Время работы - Ecowood 10:00 - 18:00 (ежедневно)",
+    "Working hours - Express branch 10:00-18:00 (every day)": "Время работы - Экспресс-отделение 10:00 - 18:00 (ежедневно)",
+    "limit": "лимит",
+    "service": "услуга"
   }
 }
