@@ -38,6 +38,7 @@ const Advertisement = styled.div`
 
   a {
     color: darkmagenta;
+    text-decoration: none;
     font-size: var(--small-s);
   }
 `;
