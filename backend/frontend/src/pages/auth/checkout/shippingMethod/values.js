@@ -19,13 +19,20 @@ export const initialValues = (shippingFromStorage) => {
     address: shippingFromStorage?.address,
   };
 };
-export const validationSchema = Yup.object({
-  // shipping method (_id is office id)
-  wants_delivery: Yup.string().required("Required"),
-  cityId: Yup.string().when("wants_delivery", (wants_delivery, schema) =>
-    String(wants_delivery) === "True" ? schema.required("Required") : schema
-  ),
-  _id: Yup.string().when("wants_delivery", (wants_delivery, schema) =>
-    String(wants_delivery) === "False" ? schema.required("Required") : schema
-  ),
-});
+
+export const validationSchema = (t) => {
+  return Yup.object({
+    // shipping method (_id is office id)
+    wants_delivery: Yup.string().required(t("validation.required")),
+    cityId: Yup.string().when("wants_delivery", (wants_delivery, schema) =>
+      String(wants_delivery) === "True"
+        ? schema.required(t("validation.required"))
+        : schema
+    ),
+    _id: Yup.string().when("wants_delivery", (wants_delivery, schema) =>
+      String(wants_delivery) === "False"
+        ? schema.required(t("validation.required"))
+        : schema
+    ),
+  });
+};

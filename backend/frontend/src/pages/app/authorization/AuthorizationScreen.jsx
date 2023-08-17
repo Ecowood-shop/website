@@ -85,7 +85,6 @@ const CarouselContainer = styled.div`
 
   ${respondTo.laptop`
     display:flex;
-    margin-top: 0;
   `}
 
   @media screen and (min-width: 1799px) {

@@ -38,7 +38,8 @@
     "link is sent": "ბმული გაიგზავნა"
   },
   "error": {
-    "page not found": "გვერდი ვერ მოიძებნა",
+    "page not found": "გვერდი არ მოიძებნა",
+    "back to site": "საიტზე დაბრუნება",
     "no products found": "პროდუქტი ვერ მოიძებნა"
   },
   "verification": {
