@@ -23,6 +23,7 @@
     "every day": "every day"
   },
   "register": {
+    "resend verification": "resend verification",
     "first name": "first name",
     "last name": "last name",
     "email": "email",

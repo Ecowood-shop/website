@@ -13,6 +13,11 @@ const AuthorizationPage = lazyLoadComponent(() =>
 // About
 const AboutPage = lazyLoadComponent(() => import("../app/about/About"));
 
+// Instruction of use
+const ConditionsPage = lazyLoadComponent(() =>
+  import("../app/conditions/Conditions")
+);
+
 // Products
 const ProductsPage = lazyLoadComponent(() =>
   import("../app/products/Products")
@@ -41,6 +46,7 @@ export const lazyPublicPages = {
   HomePage,
   AuthorizationPage,
   AboutPage,
+  ConditionsPage,
   ProductsPage,
   ProductPage,
   CartPage,

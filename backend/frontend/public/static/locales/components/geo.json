@@ -9,10 +9,14 @@
     "details": "დეტალები",
     "edit": "რედაქტირება"
   },
+  "cookie": {
+    "cookies help us deliver our services. by using our services, you agree to our use of cookies. for more details please see": "საიტით სარგებლობის გაგრძელებით, თქვენ ეთანხმები Cookie ჩანაწერების გამოყენებას. მეტი ინფორმაცისათვის იხილეთ",
+    "cookie policy": "cookie პოლიტიკა"
+  },
   "footer": {
     "about us": "ჩვენს შესახებ",
     "Tbilisi, Tskalsadeni St. N21": "თბილისი, წყალსადენის ქ. N21",
-    "instruction": "ინსტრუქცია",
+    "conditions of use": "გამოყენების პირობები",
     "navigation": "ნავიგაცია",
     "social": "სოც. ქსელები",
     "contact": "კონტაქტი",

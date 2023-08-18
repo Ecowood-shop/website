@@ -18,10 +18,12 @@ function Navigation({ t }) {
           <Link to="/about-us"> {t("footer.about us")}</Link>
         </Item>
         <Item>
-          <Link to="/about-us">{t("footer.instruction")}</Link>
+          <Link to="/about-us#branches">{t("header.branches")}</Link>
         </Item>
         <Item>
-          <Link to="/about-us#branches">{t("header.branches")}</Link>
+          <Link to="/terms-and-conditions">
+            {t("footer.conditions of use")}
+          </Link>
         </Item>
       </ItemContainer>
     </Column>

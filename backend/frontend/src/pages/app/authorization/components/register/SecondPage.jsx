@@ -4,6 +4,9 @@ import { styled } from "styled-components";
 import FormikControl from "../../../../../components/formik/FormikControl";
 
 const Container = styled.div`
+  width: 30rem;
+  max-width: 80vw;
+
   & > div {
     margin: 1rem 0;
   }

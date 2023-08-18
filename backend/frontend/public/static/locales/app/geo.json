@@ -23,6 +23,7 @@
     "every day": "ყოველდღე"
   },
   "register": {
+    "resend verification": "აქტივაციის ხელახლა გაგზავნა",
     "first name": "სახელი",
     "last name": "გვარი",
     "email": "ელ ფოსტა",

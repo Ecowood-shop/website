@@ -9,10 +9,14 @@
     "details": "details",
     "edit": "edit"
   },
+  "cookie": {
+    "cookies help us deliver our services. by using our services, you agree to our use of cookies. for more details please see": "  Cookies help us deliver our services. By using our services, you agree to our use of cookies. For more details please see",
+    "cookie policy": "cookie policy"
+  },
   "footer": {
     "about us": "About us",
     "Tbilisi, Tskalsadeni St. N21": "Tbilisi, Tskalsadeni St. N21",
-    "instruction": "Instruction",
+    "conditions of use": "Conditions of use",
     "navigation": "Navigation",
     "social": "Social",
     "contact": "Contact",

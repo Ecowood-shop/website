@@ -9,10 +9,14 @@
     "details": "детали",
     "edit": "редактировать"
   },
+  "cookie": {
+    "cookies help us deliver our services. by using our services, you agree to our use of cookies. for more details please see": "Куки помогают нам предоставлять услуги. Используя наши услуги, вы соглашаетесь с использованием нами куки. Дополнительные подробности смотрите в",
+    "cookie policy": "политика использования куки"
+  },
   "footer": {
     "about us": "O нас",
     "Tbilisi, Tskalsadeni St. N21": "Тбилиси, ул. Цкалсадени N21",
-    "instruction": "Инструкция",
+    "conditions of use": "Условия использования",
     "navigation": "Навигация",
     "social": "Cети",
     "contact": "Kонтакт",

@@ -10,6 +10,8 @@ import ScrollToTop from "./scroll/ScrollToTop";
 import ErrorMessage from "./error/ErrorMessage";
 import Pagination from "./pagination/Pagination";
 import Product from "./carousel/components/Product";
+import CookieConsent from "./cookieConsent/CookieConsent";
+
 // Export components
 export {
   Table,
@@ -23,4 +25,5 @@ export {
   Pagination,
   ScrollToTop,
   ErrorMessage,
+  CookieConsent
 };

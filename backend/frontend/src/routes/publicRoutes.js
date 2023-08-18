@@ -30,6 +30,12 @@ export default function PublicRoutes() {
         element: <lazyPages.AboutPage />,
       },
 
+      // Instruction
+      {
+        path: "terms-and-conditions",
+        element: <lazyPages.ConditionsPage />,
+      },
+
       // Products
       {
         path: "products/search",

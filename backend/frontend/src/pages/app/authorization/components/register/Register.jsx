@@ -47,6 +47,7 @@ const SuccessContainer = styled.div`
   flex: 1;
   display: flex;
   align-items: center;
+  flex-direction: column;
   justify-content: center;
 
   max-width: 30rem;
@@ -62,6 +63,37 @@ const SuccessText = styled.h3`
     text-transform: uppercase;
   }
 `;
+
+const ResendButton = styled.button`
+  cursor: pointer;
+
+  border: none;
+  border-radius: 20px;
+  padding: 0.5rem 1rem;
+
+  color: var(--white);
+  font-size: var(--small-l);
+  transition: color 0.1s ease-in-out;
+  background-color: var(--color-primary);
+
+  text-transform: lowercase;
+  &::first-letter {
+    text-transform: capitalize;
+  }
+
+  ${respondTo.tv`
+    &:hover {
+    color: var(--whiteWithOpacity);
+  }
+  `}
+
+  ${respondTo.desktop`
+    &:hover {
+    color: var(--whiteWithOpacity);
+  }
+  `}
+`;
+
 // Export register component
 function Register({ t, pageChanger }) {
   // Initialize hooks
@@ -90,6 +122,9 @@ function Register({ t, pageChanger }) {
               {success ? (
                 <SuccessContainer>
                   <SuccessText>{t("register.verify your E-mail")}</SuccessText>
+                  <ResendButton type="submit">
+                    {t("register.resend verification")}
+                  </ResendButton>
                 </SuccessContainer>
               ) : (
                 <HeaderText>{t("global.register")}</HeaderText>

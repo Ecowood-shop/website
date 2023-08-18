@@ -30,7 +30,15 @@ const ErrorContainer = styled.div`
   position: relative;
 
   color: var(--red);
+  font-weight: bold;
   font-size: var(--small-m);
+  transition: color 0.1s ease-in-out;
+
+  &::first-letter{
+    text-transform: capitalize;
+  }
+  ${(props) =>
+    props.$cursor && "cursor:pointer; &:hover{color:var(--redWithOpacity)}"}
 `;
 
 function Form({ product, variants, t }) {
@@ -58,7 +66,7 @@ function Form({ product, variants, t }) {
           onSubmit(values, actions, dispatch, product)
         }
       >
-        {({ errors }) => {
+        {({ errors, values }) => {
           return (
             <FormikForm>
               {/* Color picker */}
@@ -71,7 +79,16 @@ function Form({ product, variants, t }) {
               <Input t={t} />
 
               {/* Error message container */}
-              <ErrorContainer>{error ? error : errors.quantity}</ErrorContainer>
+              <ErrorContainer
+                onClick={() => {
+                  if (values.quantity && !user) {
+                    navigate("/authorization");
+                  }
+                }}
+                $cursor={values.quantity && !user}
+              >
+                {error ? error : errors.quantity}
+              </ErrorContainer>
 
               {/* Submit button */}
               <Button t={t} />

@@ -29,12 +29,14 @@ const TitleContainer = styled.div`
 `;
 
 const Title = styled.h3`
-  padding: 0;
+  padding: 0.5rem 1rem;
   white-space: pre;
 
   color: var(--black);
   font-size: var(--small-l);
   text-transform: capitalize;
+  background-color: var(--white);
+  border-radius: 20px;
 
   transition: color 1ms ease-in-out;
   font-weight: ${(props) => (props.$active ? "bolder" : "normal")};
@@ -45,11 +47,13 @@ const Title = styled.h3`
   }
 
   ${respondTo.mobile`
+    padding:0;
+    background:transparent;
     font-size:var(--small-m);
   `}
+
   ${respondTo.desktop`
     cursor:pointer;  
-    padding: 0.5rem 1rem;
 
     &:hover {
       color:var(--blackWithOpacity);
@@ -70,6 +74,7 @@ const TextContainer = styled.div`
   display: flex;
   margin: 1rem 0;
 `;
+
 const Text = styled.p`
   font-size: var(--small-l);
   text-align: justify;

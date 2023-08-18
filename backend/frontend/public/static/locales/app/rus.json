@@ -23,6 +23,7 @@
     "every day": "каждый день"
   },
   "register": {
+    "resend verification":"Повторно отправить активацию",
     "first name": "имя",
     "last name": "фамилия",
     "email": "электронная почта",
