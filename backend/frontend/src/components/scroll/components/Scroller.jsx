@@ -6,7 +6,7 @@ import { ArrowUpSVG } from "../../../static/icons/components";
 import { useState, useEffect } from "react";
 
 const Container = styled.button`
-  right: 0.5rem;
+  left: 0.5rem;
   bottom: 0;
 
   position: fixed;
@@ -15,12 +15,12 @@ const Container = styled.button`
   background: transparent;
 
   ${respondTo.laptop`
-     right: 1rem;
+     left: 1rem;
      bottom: 0.5rem;
   `}
 
   ${respondTo.desktop`
-     right: 1rem;
+     left: 1rem;
      bottom: 0.5rem;
   `}
 `;

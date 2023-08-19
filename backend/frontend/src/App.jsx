@@ -33,21 +33,22 @@ function App() {
     <Suspense fallback={null}>
       <BrowserRouter>
         {/* Web pages */}
-        <ScrollToTop>
+        <ScrollToTop visible={cookies.cookieConsent}>
           <GlobalStyle />
           <Header user={user} />
           <Router user={user} loading={isLoading} />
           <Footer />
         </ScrollToTop>
-
         {/* Cookie popup */}
         {!cookies.cookieConsent && <CookieConsent />}
 
         {/* Messenger */}
-        <MessengerCustomerChat
-          pageId="101479372628795"
-          appId="1202628510495152"
-        />
+        {cookies.cookieConsent && (
+          <MessengerCustomerChat
+            pageId="101479372628795"
+            appId="1202628510495152"
+          />
+        )}
       </BrowserRouter>
     </Suspense>
   );

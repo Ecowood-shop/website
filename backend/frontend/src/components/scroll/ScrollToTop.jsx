@@ -26,7 +26,7 @@ const ScrollToTop = (props) => {
   return (
     <>
       {props.children}
-      <Scroller />
+      {props.visible && <Scroller />}
     </>
   );
 };
