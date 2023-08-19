@@ -33,22 +33,26 @@ const ErrorContainer = styled.div`
   border-radius: 100px;
 
   text-align: center;
-  color: var(--red);
-  font-size: var(--small-m);
+
   background-color: whitesmoke;
   transform: translate(calc(-100% - 1rem), 0.3rem);
 
   ${respondTo.mobile`
       right:0;
-      transform: translate(calc(100% + 1rem), 0.3rem);
+      left:auto;
+      transform: translate(100%, 0.3rem);
   `}
+
   ${respondTo.lowTablet`
       right:0;
-      transform: translate(calc(100% + 1rem), 0.3rem);
+      left:auto;
+      transform: translate(100%, 0.3rem); 
   `}
+
   ${respondTo.tablet`
       right:0;
-      transform: translate(calc(100% + 1rem), 0.3rem);
+      left:auto;
+      transform: translate(100%, 0.3rem);
   `}
   &:empty {
     display: none;
@@ -59,6 +63,14 @@ const ErrorContainer = styled.div`
   }
 `;
 
+const ErrorMessage = styled.p`
+  color: var(--red);
+  font-size: var(--small-m);
+
+  &::first-letter {
+    text-transform: capitalize;
+  }
+`;
 const Input = styled.input`
   padding: 0;
   max-width: 2rem;
@@ -134,13 +146,18 @@ function Form({ variant, cart, t }) {
 
   // Quantity validation
   function setQuantity(value) {
-    if (value > variant.quantity || value < 1) {
-      formikProps.setFieldError(
-        "quantity",
-        `${t("cart.in stock")} ${variant.quantity}`
-      );
-    } else {
-      formikProps.setFieldValue("quantity", value);
+    if (variant.active) {
+      if (value > variant.quantity || value < 1) {
+        formikProps.setFieldError(
+          "quantity",
+          `${t("cart.in stock")} ${variant.quantity}`
+        );
+        if (formikProps.values.quantity > value && value > 0) {
+          formikProps.setFieldValue("quantity", value);
+        }
+      } else {
+        formikProps.setFieldValue("quantity", value);
+      }
     }
     debounceForm();
   }
@@ -174,7 +191,7 @@ function Form({ variant, cart, t }) {
             <IconContainer $error>
               <ErrorSVG />
             </IconContainer>
-            {formikProps.errors.quantity}
+            <ErrorMessage> {formikProps.errors.quantity}</ErrorMessage>
           </>
         )}
       </ErrorContainer>

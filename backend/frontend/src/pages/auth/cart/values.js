@@ -17,8 +17,8 @@ export const validationSchema = (t, variant) =>
       .test("variant not active", `${t("cart.product is deleted")}`, () => {
         return !!variant.active;
       })
-      .min(1)
-      .max(variant.quantity)
+      .min(1, `${t("cart.in stock")} ${variant.quantity}`)
+      .max(variant.quantity, `${t("cart.in stock")} ${variant.quantity}`)
       .required(t("product.select quantity")),
   });
 

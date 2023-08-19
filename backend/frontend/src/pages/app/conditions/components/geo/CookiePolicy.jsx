@@ -21,7 +21,7 @@ function CookiePolicy({ cookieRef }) {
         cookies გამოყენებას ამ პოლიტიკის პირობების შესაბამისად.
       </Text>
 
-      <TextHeader>1. რარ არის Cookie?</TextHeader>
+      <TextHeader>1. რა არის Cookie?</TextHeader>
       <Text>
         ქუქი-ფაილები არის მცირე ზომის ტექსტური ფაილები, რომლებიც განთავსებულია
         თქვენს მოწყობილობაზე, როდესაც სტუმრობთ ჩვენს ვებსაიტს. ისინი ფართოდ

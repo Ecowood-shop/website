@@ -119,7 +119,7 @@ function Register({ t, pageChanger }) {
         {(formik) => {
           return (
             <Form className="w3-animate-left">
-              {success ? (
+              {success && !isLoading ? (
                 <SuccessContainer>
                   <SuccessText>{t("register.verify your E-mail")}</SuccessText>
                   <ResendButton type="submit">
