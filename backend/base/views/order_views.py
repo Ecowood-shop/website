@@ -15,6 +15,8 @@ from rest_framework.response import Response
 from base.sendEmail import sendOrderDetails
 import threading
 
+from base.payment.JustPay import justPay
+
 
 def apply_user_discounts(products, user):
     serializer_data = []
@@ -122,6 +124,18 @@ def addOrderItems(request):
                     else:
                         return Response({'detail': 'Out of stock'}, status=status.HTTP_400_BAD_REQUEST)
 
+                if language == 'ENG':
+                    lan = 'EN'
+                elif language == 'KA':
+                    lan = 'KA'
+                elif language == 'RU':
+                    lan = 'RU'
+
+                if order.wants_delivery == 'True':
+                    payment = justPay(order.totalPrice + order.shippingPrice, order._id, lan)
+                else:
+                    payment = justPay(order.totalPrice, order._id, )
+
                 AddToCart.objects.filter(user=user).delete()
 
         serializer = OrderSerializer(order, many=False)
@@ -143,11 +157,7 @@ def addOrderItems(request):
                 except Translation.DoesNotExist:
                     pass  # If no translation is found, keep the original value
 
-        if order.wants_delivery == 'False':
-            warehouseSerializer = WarehouseSerializer(warehouse, many=False)
-            return Response({'Cart': serializer.data, 'Warehouse': warehouseSerializer.data})
-        else:
-            return Response({'Cart': serializer.data})
+        return Response({'transactionUrl': payment['response']['transactionUrl']})
 
 
 @api_view(['GET'])
