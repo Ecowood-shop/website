@@ -15,6 +15,7 @@ import { CloseSVG } from "../../../../static/icons/components";
 import placeholder from "../../../../static/images/placeholder.png";
 
 const Timage = styled.td`
+  cursor: pointer;
   height: 6rem;
   padding: 0.5rem;
   img {

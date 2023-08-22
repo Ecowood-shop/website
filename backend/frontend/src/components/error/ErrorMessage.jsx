@@ -40,7 +40,7 @@ const IconContainer = styled.div`
 // Export error message container component
 function ErrorMessage({ children }) {
   return (
-    <Container>
+    <Container className="w3-animate-right">
       <TextContainer>
         <IconContainer>
           <ErrorSVG />

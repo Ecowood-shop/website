@@ -36,7 +36,8 @@
     "total": "total",
     "phone": "phone",
     "email": "email",
-    "edit": "edit profile"
+    "edit": "edit profile",
+    "no orders": "no orders"
   },
   "edit profile": {
     "edit profile": "edit profile",

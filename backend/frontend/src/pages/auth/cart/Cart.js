@@ -3,8 +3,9 @@ import styled from "styled-components";
 // Import hooks
 import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import useWindowDimensions from "../../../utils/hooks/useWindowDimensions";
 import { useSelector, useDispatch } from "react-redux";
+import useWindowDimensions from "../../../utils/hooks/useWindowDimensions";
+
 // Import components
 import Table from "./desktop/Table";
 import MobileTable from "./mobile/MobileTable";

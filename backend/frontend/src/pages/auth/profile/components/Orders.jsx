@@ -5,7 +5,12 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 //Import components
-import { Pagination, Loader, Table } from "../../../../components";
+import {
+  Pagination,
+  Loader,
+  Table,
+  ErrorMessage,
+} from "../../../../components";
 // Import columns
 import { columns } from "./Columns";
 // Import actions
@@ -31,8 +36,17 @@ const Header = styled.div`
   text-transform: capitalize;
 `;
 
+const ErrorContainer = styled.div`
+  margin: 1rem 0;
+
+  & * {
+    background: transparent;
+    color: darkmagenta;
+    fill: darkmagenta;
+  }
+`;
 // Export orders component
-function Orders({ t, navigate }) {
+function Orders({ t }) {
   // Hooks
   const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
@@ -50,19 +64,29 @@ function Orders({ t, navigate }) {
   return (
     <Container>
       <Header>{t("profile.orders")}</Header>
-      {isLoading && <Loader color="darkmagenta" />}
-      {orders?.Orders && (
-        <>
-          <Table
-            columns={columns(t)}
-            data={orders.Orders}
-            link="/order/"
-            linkEnd=""
-            text="პროდუქტის"
-            user
-          />
-          <Pagination pages={orders.pages} page={orders.page} />
-        </>
+      {isLoading ? (
+        <Loader color="darkmagenta" />
+      ) : (
+        orders?.Orders && (
+          <>
+            <Table
+              columns={columns(t)}
+              data={orders.Orders}
+              link="/order/"
+              linkEnd=""
+              text="პროდუქტის"
+              user
+            />
+
+            {!orders?.Orders?.length > 0 && (
+              <ErrorContainer>
+                <ErrorMessage>{t("profile.no orders")}</ErrorMessage>
+              </ErrorContainer>
+            )}
+
+            <Pagination pages={orders.pages} page={orders.page} />
+          </>
+        )
       )}
     </Container>
   );

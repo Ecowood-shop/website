@@ -1,31 +1,99 @@
-// REACT
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+// Impor styles
+import styled from "styled-components";
+import { respondTo } from "../../../utils/styles/_respondTo";
+// Import hooks
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-
-// REDUX
-import { useSelector, useDispatch } from "react-redux";
-import { getOrder, delivered } from "../../../toolkit/orders/actions";
-import { reset } from "../../../toolkit/orders/orderSlice";
-// OTHERS
-import styles from "./styles.module.scss";
-
-//components
-import Loader from "../../../components/loader/Loader";
-import Message from "../../../components/Message/Message";
-
-// translate
 import { useTranslation } from "react-i18next";
+import { useSelector, useDispatch } from "react-redux";
+import useWindowDimensions from "../../../utils/hooks/useWindowDimensions";
 
+// Import actions
+import { getOrder } from "../../../toolkit/orders/actions";
+import { reset } from "../../../toolkit/orders/orderSlice";
+
+// Import component
+import Details from "./components/Details";
+import ProductTable from "./components/desktop/ProductTable";
+import MobileTable from "./components/mobile/MobileTable";
+import { Loader, ErrorMessage } from "../../../components";
+
+const Container = styled.div`
+  width: 80%;
+  min-height: 40vh;
+  display: flex;
+  flex-direction: column;
+
+  padding: 5rem;
+  margin: 3rem 0;
+
+  border-radius: 10px;
+  background-color: var(--white);
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
+    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
+
+  ${(props) =>
+    props.$error && "padding:0;background:transparent;box-shadow:none;"}
+
+  ${respondTo.mobile`
+    width:100%;
+    padding:1rem;
+    margin:1rem 0;
+
+    border:none;
+    box-shadow:none;
+    background:transparent;
+  `}
+
+  ${respondTo.lowTablet`
+    width:100%;
+    padding:1rem;
+    margin:1rem 0;
+
+    border:none;
+    box-shadow:none;
+    background:transparent;
+  `}
+
+
+  ${respondTo.tablet`
+    width:100%;
+    padding:3rem;
+    margin:1rem 0;
+
+    border:none;
+    box-shadow:none;
+    background:transparent;
+  `}
+
+  ${respondTo.laptop`
+    padding:3rem;
+  `}
+
+  ${respondTo.tv`
+    width:1400px;
+  `}
+`;
+
+const InnerContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const Header = styled.h1`
+  font-size: var(--medium-m);
+`;
+
+// Export order page
 function Order() {
-  const { t, i18n } = useTranslation(["auth"]);
-  const { user } = useSelector((state) => state.user);
-
-  // HOOKS
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+  // Initialize hooks
   const params = useParams();
+  const dispatch = useDispatch();
+  const { width } = useWindowDimensions();
+  const { t, i18n } = useTranslation(["auth"]);
 
+  // Get order from store
   const orderSlice = useSelector((state) => state.orders);
   const { error, isLoading, order, success } = orderSlice;
 
@@ -36,158 +104,30 @@ function Order() {
     };
   }, [dispatch, params.id, success, i18n.language]);
 
-  let ID, username;
-  if (order?.Order) {
-    if (order.Order.physicPerson) {
-      ID = order.Order.shippingAddress
-        ? order.Order.shippingAddress.personId
-        : order.Order.withoutShipping.personId;
-
-      username = order.Order.shippingAddress
-        ? order.Order.shippingAddress.first_name +
-          " " +
-          order.Order.shippingAddress.last_name
-        : order.Order.withoutShipping.name +
-          " " +
-          order.Order.withoutShipping.surname;
-    } else {
-      ID = order.Order.shippingAddress
-        ? order.Order.shippingAddress.personId
-        : order.Order.withoutShipping.personId;
-
-      username = order.Order.shippingAddress
-        ? order.Order.shippingAddress.last_name +
-          " " +
-          order.Order.shippingAddress.first_name
-        : order.Order.withoutShipping.surname +
-          " " +
-          order.Order.withoutShipping.name;
-    }
-  }
-
   return (
-    <article className={styles.container}>
-      {isLoading && <Loader />}
-      {order?.Order && (
-        <>
-          <h1>
-            {t("order.order")} N{params.id}
-          </h1>
-          <h2>{t("order.details")}</h2>
-          <section className={styles.sectionDetails}>
-            <div>
-              <p>
-                <b>ID: </b>
-                {ID}
-              </p>
-              <p>
-                <b>{t("order.receiver")}</b>
-                {username}
-              </p>
+    <Container $error={error}>
+      {error && <ErrorMessage>{error}</ErrorMessage>}
+      {isLoading ? (
+        <Loader color="darkmagenta" />
+      ) : (
+        order?.Order && (
+          <>
+            <InnerContainer className="w3-animate-right">
+              <Header>
+                {t("order.order")} N{params.id}
+              </Header>
+              <Details t={t} order={order} id={params.id} />
+            </InnerContainer>
 
-              <p>
-                <b>{t("order.phone")}:</b>
-                {order.Order.shippingAddress
-                  ? order.Order.shippingAddress.phone
-                  : order.Order.withoutShipping.phone}
-              </p>
-              {order.Order.wants_delivery ? (
-                <>
-                  <p>
-                    <b>{t("order.address")}:</b>
-                    {order.Order.shippingAddress.location},
-                    {order.Order.shippingAddress.address}
-                  </p>
-                </>
-              ) : (
-                <p>
-                  <b>{t("order.office")}:</b>
-                  {order.Order.withoutShipping.warehouse.location}
-                </p>
-              )}
-
-              <p>
-                <b>{t("order.date")}:</b>
-                {order.Order.createdAt.substring(0, 10)}
-              </p>
-            </div>
-            <div>
-              {" "}
-              {order.Order.wants_delivery && (
-                <p className={styles.sum}>
-                  <b>{t("order.shipping")}:</b>
-                  {order.Order.shippingPrice} ₾
-                </p>
-              )}
-              <p className={styles.sum}>
-                <b>{t("order.total")}:</b>
-                {Number(order.Order.totalPrice) +
-                  Number(order.Order.shippingPrice)}{" "}
-                ₾
-              </p>
-              <p
-                className={styles.status}
-                style={{ color: order.Order.isDelivered ? "green" : "red" }}
-              >
-                <b>
-                  {order.Order.isDelivered
-                    ? t("order.delivered")
-                    : t("order.status")}
-                  :
-                </b>
-                {order.Order.isDelivered
-                  ? order.Order.deliveredAt.substring(0, 10)
-                  : t("order.in progress")}
-              </p>
-              {user.is_staff && !order.Order.isDelivered && (
-                <button
-                  className={styles.delivered}
-                  onClick={() => dispatch(delivered({ id: params.id }))}
-                >
-                  {t("order.delivered")}
-                </button>
-              )}
-            </div>
-          </section>
-        </>
+            {width > 1024 ? (
+              <ProductTable t={t} order={order} />
+            ) : (
+              <MobileTable t={t} order={order} />
+            )}
+          </>
+        )
       )}
-      <h2>{t("cart.products")}</h2>
-      <section className={styles.products}>
-        {error && <Message>{error}</Message>}
-        {order?.Order &&
-          order?.Order.orderItems.map((product, index) => (
-            <div className={styles.product} key={product._id}>
-              <img
-                src={product.image}
-                onClick={() => navigate(`/product/${product.product}`)}
-                alt={product.name}
-              />
-              <div>
-                <p
-                  className={styles.name}
-                  onClick={() => navigate(`/product/${product.product}`)}
-                >
-                  {product.name}
-                </p>
-                <div className={styles.productDetails}>
-                  <p>{order.size[index].size}</p>
-                  <p>
-                    <b>{t("global.price")}: </b> {product.price} ₾
-                  </p>
-                  <p>
-                    <b>{t("global.color")}: </b>
-                    {order.variants[index].color}
-                  </p>
-                </div>
-              </div>
-              <p className={styles.emount}>
-                {product.qty}
-                {product.qty > 1 ? t("global.items") : t("global.item")}
-              </p>
-            </div>
-          ))}
-      </section>
-    </article>
+    </Container>
   );
 }
 
