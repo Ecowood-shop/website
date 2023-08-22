@@ -40,10 +40,10 @@ export const getOrder = createAsyncThunk(
 export const createOrder = createAsyncThunk(
   "order/create",
   async (args, { rejectWithValue }) => {
-    const { formData } = args;
+    const { formData, language = "geo" } = args;
     try {
       const { data } = await useCustomAxios.post(
-        "/api/orders/add/?language=GEO",
+        `/api/orders/add/?language=${language.toUpperCase()}`,
         {
           ...formData,
           shippingPrice: 0,

@@ -126,15 +126,15 @@ def addOrderItems(request):
 
                 if language == 'ENG':
                     lan = 'EN'
-                elif language == 'KA':
+                elif language == 'GEO':
                     lan = 'KA'
-                elif language == 'RU':
+                elif language == 'RUS':
                     lan = 'RU'
 
                 if order.wants_delivery == 'True':
-                    payment = justPay(order.totalPrice + order.shippingPrice, order._id, lan)
+                    payment = justPay(order.totalPrice + float(order.shippingPrice), order._id, lan)
                 else:
-                    payment = justPay(order.totalPrice, order._id, )
+                    payment = justPay(order.totalPrice, order._id, lan)
 
                 AddToCart.objects.filter(user=user).delete()
 

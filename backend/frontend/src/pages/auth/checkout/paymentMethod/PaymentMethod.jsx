@@ -5,7 +5,6 @@ import { respondTo } from "../../../../utils/styles/_respondTo";
 // Import hooks
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { savePaymentMethod } from "../../../../toolkit/shipping/shippingSlice";
 
@@ -137,13 +136,17 @@ const HeaderText = styled.h1`
   font-size: var(--medium-s);
 `;
 
+const ErrorMessage = styled.p`
+  text-align: center;
+  color: var(--red);
+  font-size: var(--small-l);
+`;
 // Export payment method component
 function PaymentMethod() {
   // Initialize hooks
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
-  const { t } = useTranslation(["auth"]);
+  const { t, i18n } = useTranslation(["auth"]);
 
   const { shipping } = useSelector((state) => state.shipping);
 
@@ -153,12 +156,12 @@ function PaymentMethod() {
 
   useEffect(() => {
     if (success) {
-      navigate(`/order/${order.Cart._id}`, { replace: true });
+      window.location.replace(order?.transactionUrl);
     }
     return () => {
       dispatch(reset());
     };
-  }, [success, dispatch, order?.Cart._id, navigate]);
+  }, [success, dispatch]);
 
   function onSubmit(values) {
     let data = { ...values };
@@ -173,7 +176,7 @@ function PaymentMethod() {
       }
     });
     dispatch(savePaymentMethod(data));
-    dispatch(createOrder({ formData: data }));
+    dispatch(createOrder({ formData: data, language: i18n.language }));
   }
 
   return (
@@ -184,13 +187,13 @@ function PaymentMethod() {
           <HeaderText>{t("shipping details.payment methods")}</HeaderText>
         </Header>
         {error && (
-          <p>
-            {error?.data["detail"]
-              ? error?.data["detail"]
+          <ErrorMessage>
+            {error?.data?.detail
+              ? error?.message?.detail
               : "something want wrong :)"}
-          </p>
+          </ErrorMessage>
         )}
-        {isLoading ? (
+        {isLoading || success ? (
           <Loader color="blueviolet" />
         ) : (
           <Formik

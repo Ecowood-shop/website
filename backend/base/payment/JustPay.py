@@ -14,7 +14,7 @@ def justPay(amount, orderID, language):
             "callback": "https://altax.ge/order/" + str(orderID),
             "callbackError": "https://www.facebook.com/profile.php?id=100071892284909",
             "preauthorize": False,
-            "lang": "EN",
+            "lang": language,
             "hookUrl": "https://corp.com/payze_hook?authorization_token=token",
             "hookUrlV2": "https://corp.com/payze_hook?authorization_token=token",
             "hookRefund": False
