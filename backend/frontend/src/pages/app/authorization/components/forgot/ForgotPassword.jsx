@@ -43,6 +43,7 @@ const HeaderText = styled.h2`
   align-items: center;
   justify-content: center;
 
+  text-align: center;
   color: var(--white);
   font-size: var(--medium-m);
 `;

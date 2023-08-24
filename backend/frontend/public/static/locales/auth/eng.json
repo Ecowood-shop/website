@@ -15,7 +15,12 @@
     "product name": "product name"
   },
   "validation": {
-    "required": "required"
+    "name must contain only letters and numbers": "name must contain only letters and numbers",
+    "last name must contain only letters and numbers": "last name must contain only letters and numbers",
+    "required": "required",
+    "password must contain at least eight characters, at least one number and both lower and uppercase letters": "password must contain at least eight characters, at least one number and both lower and uppercase letters",
+    "passwords don't  match": "passwords don't  match",
+    "invalid email format": "invalid email format"
   },
   "cart": {
     "cart": "cart",

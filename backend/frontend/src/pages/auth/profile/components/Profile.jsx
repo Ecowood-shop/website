@@ -120,7 +120,7 @@ const Label = styled.p`
 
 const Text = styled.p`
   width: 60%;
-  margin-left: 1rem;
+  margin-left: auto;
 
   font-size: var(--small-l);
 `;

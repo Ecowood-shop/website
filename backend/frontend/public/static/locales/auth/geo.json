@@ -15,7 +15,12 @@
     "product name": "პროდუქტის დასახელება"
   },
   "validation": {
-    "required": "აუცილებელია"
+    "name must contain only letters and numbers": "სახელი უნდა შეიცავდეს მხოლოდ ასოებს და ციფრებს",
+    "last name must contain only letters and numbers": "გვარი უნდა შეიცავდეს მხოლოდ ასოებს და რიცხვებს",
+    "required": "აუცილებელია",
+    "password must contain at least eight characters, at least one number and both lower and uppercase letters": "პაროლი უნდა შეიცავდეს მინიმუმ რვა სიმბოლოს, მინიმუმ ერთ რიცხვს და როგორც ქვედა, ასევე დიდ ასოებს",
+    "passwords don't  match": "პაროლი არ ემთხვევა",
+    "invalid email format": "ელფოსტის ფორმატი არ არის ვალიდური"
   },
   "cart": {
     "cart": "კალათა",

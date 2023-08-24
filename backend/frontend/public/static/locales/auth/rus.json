@@ -15,7 +15,12 @@
     "product name": "Название продукта"
   },
   "validation": {
-    "required": "необходимый"
+    "name must contain only letters and numbers": "имя должно содержать только буквы и цифры",
+    "last name must contain only letters and numbers": "фамилия должна содержать только буквы и цифры",
+    "required": "необходимый",
+    "password must contain at least eight characters, at least one number and both lower and uppercase letters": "пароль должен содержать не менее восьми символов, не менее одной цифры и букв нижнего и верхнего регистра",
+    "passwords don't  match": "пароли не совпадают",
+    "invalid email format": "неверный формат электронной почты"
   },
   "cart": {
     "cart": "Корзина",

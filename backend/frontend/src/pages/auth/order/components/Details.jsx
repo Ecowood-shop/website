@@ -73,8 +73,12 @@ const TableItem = styled.div`
   }
 
   ${(props) => props.$last && "grid-column:2;"}
+  ${(props) =>
+    props.$border &&
+    `@media screen and (max-width:767px){border-top:1px solid black;}`}
 
   ${respondTo.mobile`
+
     &:nth-of-type(5) {
         grid-column:1;
         grid-row:5;
@@ -224,9 +228,15 @@ function Details({ t, order, id }) {
           </TableItem>
         )}
 
+        {/* Order date */}
+        <TableItem>
+          <TableLabel>{t("order.date")}</TableLabel>
+          <TableText>{order.Order.createdAt.substring(0, 10)}</TableText>
+        </TableItem>
+
         {/* Shipping price */}
         {order.Order.wants_delivery && (
-          <TableItem>
+          <TableItem $border>
             <TableLabel>{t("order.shipping")}</TableLabel>
             <TableText>{order.Order.shippingPrice} ₾</TableText>
           </TableItem>
@@ -239,12 +249,6 @@ function Details({ t, order, id }) {
             {Number(order.Order.totalPrice) + Number(order.Order.shippingPrice)}{" "}
             ₾
           </TableText>
-        </TableItem>
-
-        {/* Order date */}
-        <TableItem>
-          <TableLabel>{t("order.date")}</TableLabel>
-          <TableText>{order.Order.createdAt.substring(0, 10)}</TableText>
         </TableItem>
 
         {/* Order status */}

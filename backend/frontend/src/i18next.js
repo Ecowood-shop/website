@@ -15,7 +15,7 @@ i18n
       loadPath: `/static/locales/{{ns}}/{{lng}}.json`,
       // $ {window.location.pathname}locales/{{ns}}/{{lng}}.json`,
     },
-    fallbackLng: "eng",
+    fallbackLng: "geo",
     load: "languageOnly",
     supportedLngs: ["eng", "geo", "rus"],
     // disabled in production

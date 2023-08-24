@@ -1,84 +1,85 @@
-// react-router-dom
-import { useParams } from "react-router-dom";
-// redux
-import { useSelector, useDispatch } from "react-redux";
-import { resetPassword } from "../../../toolkit/auth/resetPasswordSlice";
-// components
-import { Formik, Form } from "formik";
-import Inputs from "./Inputs";
-import Button from "./Button";
-import Message from "../../../components/Message/Message";
-import LoaderMini from "../../../components/loader/LoaderMini";
-//styles
-import styles from "./styles/styles.module.scss";
-// values
-import { initialValues, validationSchema } from "./values";
-// hooks
-import useWindowDimensions from "../../../utils/hooks/useWindowDimensions";
-
-// translate
+// Import styles
+import styled from "styled-components";
+import { respondTo } from "../../../utils/styles/_respondTo";
+// Import hooks
+import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
+// Import components
+import Form from "./components/Form";
+import { LoaderMini, ErrorMessage } from "../../../components";
 
+const Container = styled.div`
+  margin: 10rem;
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 20px;
+  background-color: var(--white);
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
+    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
+
+  ${respondTo.mobile`
+    box-shadow:none;
+    background:transparent;
+  `}
+
+  ${respondTo.lowTablet`
+    box-shadow:none;
+    background:transparent;
+  `}
+`;
+const Header = styled.h1`
+  font-size: var(--medium-s);
+`;
+
+const SuccessMessage = styled.p`
+  min-width: max-content;
+  color: var(--color-primary);
+  font-size: var(--medium-s);
+
+  &::first-letter {
+    text-transform: capitalize;
+  }
+`;
+
+const ErrorContainer = styled.div`
+  * {
+    margin: 0;
+    stroke: var(--red);
+    color: var(--red);
+    background: transparent;
+  }
+
+  svg {
+    margin-right: 0.5rem;
+  }
+`;
+// Export reset password page
 function ResetPassword() {
-  const dispatch = useDispatch();
-  const params = useParams();
-  const { height, width } = useWindowDimensions();
-
+  // Initialize hooks
   const { t } = useTranslation(["app"]);
 
-  const onSubmit = (values, actions) => {
-    setTimeout(() => {
-      dispatch(
-        resetPassword({
-          id: params.id,
-          token: params.token,
-          formData: values,
-        })
-      );
-      actions.setSubmitting(false);
-    }, 1000);
-  };
-
+  // Get success from state
   const resetPasswordSlice = useSelector((state) => state.resetPassword);
   const { error, isLoading, success } = resetPasswordSlice;
 
   return (
-    <div className={styles.container}>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={onSubmit}
-      >
-        {(formik) => {
-          return (
-            <Form className={styles.form}>
-              <h1>{success ? success : t("resetPassword.reset password")}</h1>
-
-              {error && <Message>{error}</Message>}
-              {!success &&
-                (isLoading ? (
-                  <LoaderMini
-                    color={
-                      width <
-                      46 *
-                        parseFloat(
-                          getComputedStyle(document.documentElement).fontSize
-                        )
-                        ? "darkmagenta"
-                        : ""
-                    }
-                  />
-                ) : (
-                  <>
-                    <Inputs styles={styles} t={t} />
-                    <Button styles={styles} formik={formik} t={t} />
-                  </>
-                ))}
-            </Form>
-          );
-        }}
-      </Formik>
-    </div>
+    <Container>
+      {success ? (
+        <SuccessMessage>{success}</SuccessMessage>
+      ) : (
+        <>
+          <Header>{t("resetPassword.reset password")}</Header>
+          {error && (
+            <ErrorContainer>
+              <ErrorMessage>{error}</ErrorMessage>
+            </ErrorContainer>
+          )}
+          {isLoading ? <LoaderMini color={"darkmagenta"} /> : <Form t={t} />}
+        </>
+      )}
+    </Container>
   );
 }
 
