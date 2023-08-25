@@ -17,7 +17,7 @@ const Container = styled.div`
   align-items: center;
   flex-direction: column;
 
-  padding: 3rem;
+  padding: 3rem 5rem 5rem 5rem;
   margin: 5rem 0;
   border-radius: 20px;
   background-color: white;
@@ -42,6 +42,15 @@ const Container = styled.div`
 
   ${respondTo.tablet`
       width:90%;
+      padding:3rem;
+  `}
+
+  ${respondTo.laptop`
+      padding:3rem;
+  `}
+  
+  ${respondTo.tv`
+    width:1400px;
   `}
 `;
 

@@ -9,10 +9,12 @@ const ScrollToTop = (props) => {
   const location = useLocation();
   useEffect(() => {
     const scrollToTop = () => {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
+      if (!location.hash.includes("#")) {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      }
     };
 
     // Delay the scroll action by a short timeout

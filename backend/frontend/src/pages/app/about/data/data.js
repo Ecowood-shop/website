@@ -2,7 +2,7 @@
 export const altax = (t) => {
   return {
     sectionName: t("about.ecowood"),
-    phone: "0 322 47 44 22",
+    phone: "( 032 ) 2 47 44 22",
     gmail: "sales@essltd.ge",
     address: t("about.Tbilisi, Tskalsadeni St. N21"),
     shedule: `10:00-18:00 (${t("about.every day")})`,
@@ -16,7 +16,7 @@ export const altax = (t) => {
 export const express = (t) => {
   return {
     sectionName: t("about.express"),
-    phone: "0 322 47 33 22",
+    phone: "( 032 ) 2 47 33 22",
     gmail: "sales@altax.ge",
     address: t("about.Tbilisi, Rafael Agladze st. N15"),
     shedule: `10:00-18:00 (${t("about.every day")})`,

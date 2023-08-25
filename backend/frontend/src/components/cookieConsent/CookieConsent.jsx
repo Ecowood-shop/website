@@ -143,9 +143,10 @@ const CookieConsent = () => {
   const [cookie, setCookie] = useCookies(["cookieConsent"]);
 
   const giveCookieConsent = () => {
-    setCookie("cookieConsent", true, { path: "/" });
+    const expirationDate = new Date();
+    expirationDate.setDate(expirationDate.getDate() + 30); // Example: 30 days from now
+    setCookie("cookieConsent", true, { path: "/", expires: expirationDate });
   };
-
   return (
     <Container className="w3-animate-bottom">
       <Header>
