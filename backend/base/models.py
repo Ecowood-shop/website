@@ -174,6 +174,7 @@ class Variants(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='variants')
     color = models.ForeignKey(Color, on_delete=models.CASCADE, blank=True, null=True)
     quantity = models.IntegerField(null=True, blank=True, default=0)
+    previous_quantity = models.IntegerField(null=True, blank=True, default=0)
     active = models.BooleanField(default=True)
 
     def delete(self, *args, **kwargs):
@@ -197,6 +198,7 @@ class Order(models.Model):
     physicPerson = models.BooleanField(default=True)
     deliveredAt = models.DateTimeField(auto_now_add=False, null=True, blank=True)
     createdAt = models.DateTimeField(auto_now_add=True)
+    transactionId = models.CharField(max_length=255)
     _id = models.AutoField(primary_key=True, editable=False)
 
     def __str__(self):

@@ -13,9 +13,12 @@ from rest_framework.decorators import api_view
 from rest_framework.exceptions import AuthenticationFailed, ValidationError
 from rest_framework.response import Response
 from base.sendEmail import sendOrderDetails
-import threading
+from django.db.models import F
 
-from base.payment.JustPay import justPay
+import threading
+import json
+
+from base.payment.JustPay import justPay, transactionInformation
 
 
 def apply_user_discounts(products, user):
@@ -118,7 +121,8 @@ def addOrderItems(request):
 
                     # (4) Update Stock
                     if variant.quantity - item.qty >= 0:
-                        variant.quantity -= item.qty
+                        variant.previous_quantity = F('quantity')
+                        variant.quantity = F('quantity') - item.qty
                         variant.save()
 
                     else:
@@ -136,6 +140,8 @@ def addOrderItems(request):
                 else:
                     payment = justPay(order.totalPrice, order._id, lan)
 
+                order.transactionId = payment['response']['transactionId']
+                order.save()
                 AddToCart.objects.filter(user=user).delete()
 
         serializer = OrderSerializer(order, many=False)
@@ -158,6 +164,41 @@ def addOrderItems(request):
                     pass  # If no translation is found, keep the original value
 
         return Response({'transactionUrl': payment['response']['transactionUrl']})
+
+
+@api_view(['POST'])
+def paymentStatus(request):
+    response_dict = json.loads(request.body)
+
+    payment_id = response_dict['PaymentId']
+    payment_status = response_dict['PaymentStatus']
+
+    with transaction.atomic():
+        try:
+            # lock the row until the transaction ends
+            order = Order.objects.select_for_update().get(transactionId=payment_id)
+        except Order.DoesNotExist:
+            return Response({'Error': "Order does not exist"})
+
+        variant = order.variant
+
+        if payment_status == 'Captured':
+            variant.previous_quantity = variant.quantity
+            variant.save()
+            return Response({'Status': "Successful"})
+
+        elif payment_status == 'Rejected':
+            variant.quantity = variant.previous_quantity
+            variant.save()
+            return Response({'Status': "Rejected"})
+
+        return Response({'Payment': payment_status})
+
+
+@api_view(['GET'])
+def check(request):
+    info = transactionInformation("03D85F725B844B40BC41BD7C90E55D16")
+    return Response({"status": info})
 
 
 @api_view(['GET'])
