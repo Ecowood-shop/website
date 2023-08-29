@@ -15,7 +15,16 @@
     "create": "შექმნა",
     "edit": "რედაქტირება",
     "quantity": "რაოდენობა",
-    "email": "ელ ფოსტა"
+    "email": "ელ ფოსტა",
+    "service": "სერვისი"
+  },
+  "validation": {
+    "name must contain only letters and numbers": "სახელი უნდა შეიცავდეს მხოლოდ ასოებს და ციფრებს",
+    "last name must contain only letters and numbers": "გვარი უნდა შეიცავდეს მხოლოდ ასოებს და რიცხვებს",
+    "required": "აუცილებელია",
+    "password must contain at least eight characters, at least one number and both lower and uppercase letters": "პაროლი უნდა შეიცავდეს მინიმუმ რვა სიმბოლოს, მინიმუმ ერთ რიცხვს და როგორც ქვედა, ასევე დიდ ასოებს",
+    "passwords don't  match": "პაროლი არ ემთხვევა",
+    "invalid email format": "ელფოსტის ფორმატი არ არის ვალიდური"
   },
   "product": {
     "product": "პროდუქტი",
@@ -62,8 +71,13 @@
     "delivered": "ჩაბარებულია",
     "in progress": "მუშავდება",
     "price": "ფასი",
-    "cities":"ქალაქები",
-    "city":"ქალაქი",
-    "limit":"ლიმიტი"
+    "cities": "ქალაქები",
+    "city": "ქალაქი",
+    "create city": "ქალაქის დამატება",
+    "limit": "ლიმიტი",
+    "upper limit": "ზედა ზღვარი",
+    "lower limit": "ქვედა ზღვარი",
+    "no orders": "შეკვეთები ცარიელია",
+    "no shipping cities": "ქალაქები ცარიელია"
   }
 }

@@ -77,7 +77,7 @@ function Conditions() {
     return () => clearTimeout(timer);
   }, [location]);
   return (
-    <Container>
+    <Container className={"w3-animate-right"}>
       <Header>{t("footer.conditions of use")}</Header>
 
       {i18n.language.toLowerCase() === "eng" && (

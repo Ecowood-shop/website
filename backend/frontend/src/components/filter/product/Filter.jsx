@@ -1,8 +1,8 @@
 // Import styles
 import styled from "styled-components";
 // Import components
-import FilterPanel from "./components/FilterPanel";
-import SelectPanel from "./components/SelectPanel";
+import FilterPanel from "../components/FilterPanel";
+import SelectPanel from "../components/SelectPanel";
 // Import formik configuration
 import { useEffect } from "react";
 import { Formik, Form } from "formik";
@@ -11,7 +11,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { initialValues, validationSchema, onSubmit } from "./values";
 // Import actions
-import { getCategories } from "../../toolkit/category/actions";
+import { getCategories } from "../../../toolkit/category/actions";
 
 // Container which contains form
 const Container = styled.div`
@@ -23,7 +23,7 @@ const Container = styled.div`
   }
 `;
 
-// Filter component for products
+// Export product filter
 function Filter() {
   // Initializing hooks
   const navigate = useNavigate();
@@ -50,7 +50,7 @@ function Filter() {
   }, [dispatch, i18n.language]);
 
   const values = { word, orderBy, category };
-  
+
   return (
     <Container className="w3-animate-right">
       <Formik
@@ -62,7 +62,7 @@ function Filter() {
           return (
             <Form>
               <FilterPanel />
-              <SelectPanel />
+              <SelectPanel category price />
             </Form>
           );
         }}

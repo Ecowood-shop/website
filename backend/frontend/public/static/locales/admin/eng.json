@@ -15,7 +15,16 @@
     "create": "create",
     "edit": "edit",
     "quantity": "quantity",
-    "email": "email"
+    "email": "email",
+    "service": "service"
+  },
+  "validation": {
+    "name must contain only letters and numbers": "name must contain only letters and numbers",
+    "last name must contain only letters and numbers": "last name must contain only letters and numbers",
+    "required": "required",
+    "password must contain at least eight characters, at least one number and both lower and uppercase letters": "password must contain at least eight characters, at least one number and both lower and uppercase letters",
+    "passwords don't  match": "passwords don't  match",
+    "invalid email format": "invalid email format"
   },
   "product": {
     "product": "product",
@@ -60,6 +69,11 @@
     "price": "price",
     "cities": "cities",
     "city": "city",
-    "limit": "limit"
+    "create city": "create city",
+    "limit": "limit",
+    "upper limit": "upper limit",
+    "lower limit": "lower limit",
+    "no orders": "no orders",
+    "no shipping cities": "no shipping cities"
   }
 }

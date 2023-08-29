@@ -8,7 +8,7 @@ import { getProducts, deleteProduct } from "../../../toolkit/product/actions";
 import { reset } from "../../../toolkit/product/productSlice";
 
 // COMPONENTS
-import Filter from "../../../components/filter/Filter";
+import { ProductFilter as Filter } from "../../../components/filter";
 import Table from "../../../components/table/Table";
 import Loader from "../../../components/loader/Loader";
 import Pagination from "../../../components/pagination/Pagination";

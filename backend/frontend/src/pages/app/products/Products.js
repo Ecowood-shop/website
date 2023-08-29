@@ -10,7 +10,7 @@ import { useSearchParams } from "react-router-dom";
 // Functions
 import { getProducts } from "../../../toolkit/product/actions";
 // Components
-import Filter from "../../../components/filter/Filter";
+import { ProductFilter as Filter } from "../../../components/filter";
 import Product from "../../../components/carousel/components/Product";
 import { Loader, Pagination } from "../../../components";
 
@@ -64,19 +64,19 @@ const MessageContainer = styled.div`
   }
 
   ${respondTo.desktop`
-  margin:7rem 0 1rem 0;
+    margin:7rem 0 1rem 0;
   `}
 `;
 
 // Export Products page
 function Products() {
-  // Hooks
+  // Initialize hooks
   const dispatch = useDispatch();
 
   const { t, i18n } = useTranslation(["app"]);
   const [searchParams] = useSearchParams();
 
-  // query params
+  // Query params
   const category = searchParams.get("category");
   const word = searchParams.get("word");
   const orderby = searchParams.get("orderby");

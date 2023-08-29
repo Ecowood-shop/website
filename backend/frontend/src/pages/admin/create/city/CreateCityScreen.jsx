@@ -5,7 +5,6 @@ import { respondTo } from "../../../../utils/styles/_respondTo";
 // Import Hooks
 import { useEffect } from "react";
 import { Formik, Form } from "formik";
-import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useSelector, useDispatch } from "react-redux";
@@ -18,7 +17,6 @@ import { LoaderMini, ErrorMessage } from "../../../../components";
 // Import action and values
 import { initialValues, validationSchema, onSubmit } from "./values";
 import { reset } from "../../../../toolkit/shipping/shippingPriceSlice";
-import { getShippingPrice } from "../../../../toolkit/shipping/actions";
 
 const Container = styled.div`
   margin: 10rem;
@@ -72,30 +70,29 @@ const ErrorContainer = styled.div`
   }
 `;
 
-// Export update city page
-function UpdateCityScreen() {
+// Export create city page
+function CreateCityScreen() {
   // Initialize hooks
-  const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { t } = useTranslation(["admin"]);
 
   // Get shipping prices from store
   const shippingPriceSlice = useSelector((state) => state.shippingPrices);
-  const { error, isLoading, shippingPrice, success } = shippingPriceSlice;
+  const { error, isLoading, success } = shippingPriceSlice;
 
   useEffect(() => {
-    success
-      ? navigate("/admin/cities/")
-      : dispatch(getShippingPrice({ id: id }));
+    if (success) {
+      navigate("/admin/cities/");
+    }
     return () => {
       dispatch(reset());
     };
-  }, [dispatch, navigate, success, id]);
+  }, [dispatch, navigate, success]);
 
   return (
     <Container>
-      <Header>{t("global.edit")}</Header>
+      <Header>{t("order.create city")}</Header>
 
       {!isLoading && error && (
         <ErrorContainer>
@@ -108,25 +105,23 @@ function UpdateCityScreen() {
           <LoaderMini color="darkmagenta" />
         </LoaderContainer>
       ) : (
-        shippingPrice && (
-          <Formik
-            initialValues={initialValues(shippingPrice)}
-            validationSchema={() => validationSchema(t)}
-            onSubmit={(e) => onSubmit(e, dispatch, id)}
-          >
-            {(formik) => {
-              return (
-                <Form className="w3-animate-right">
-                  <Inputs t={t} />
-                  <Button t={t} />
-                </Form>
-              );
-            }}
-          </Formik>
-        )
+        <Formik
+          initialValues={initialValues}
+          validationSchema={() => validationSchema(t)}
+          onSubmit={(e) => onSubmit(e, dispatch)}
+        >
+          {() => {
+            return (
+              <Form className="w3-animate-right">
+                <Inputs t={t} />
+                <Button t={t} />
+              </Form>
+            );
+          }}
+        </Formik>
       )}
     </Container>
   );
 }
 
-export default UpdateCityScreen;
+export default CreateCityScreen;

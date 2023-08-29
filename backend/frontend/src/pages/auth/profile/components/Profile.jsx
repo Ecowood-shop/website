@@ -1,5 +1,7 @@
 // Import styled components
 import { styled } from "styled-components";
+import { EditSVG, PhoneSVG } from "../../../../static/icons/components";
+import MailSVG from "../../../../static/icons/social/MailSVG";
 import { respondTo } from "../../../../utils/styles/_respondTo";
 
 // Import redux
@@ -9,6 +11,14 @@ import { useSelector } from "react-redux";
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  min-width: 40%;
+  max-width: 100%;
+  background-image: var(--linear-primary);
+  padding: 1rem 2rem 2rem 2rem;
+  border-radius: 20px;
+
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
+    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
 
   ${respondTo.desktop`
     flex-direction:row;
@@ -33,174 +43,109 @@ const Container = styled.div`
 
 // Container for profile details
 const InnerContainer = styled.div`
+  width: 100%;
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: space-evenly;
 
-  gap: 2rem;
-  padding: 3rem 4rem;
-
-  color: var(--white);
   border: none;
   border-radius: 10%;
-  background-image: var(--gradient-primary);
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
-    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
-  ${respondTo.mobile`
-    padding:2rem 3rem;
-    gap:1rem
-  `}
 `;
 
 // User name + User surname
 const Header = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+`;
+
+// User name + User surname
+const HeaderText = styled.h1`
+  width: 100%;
+  text-align: center;
+  color: var(--white);
+  font-size: var(--medium-m);
+  text-transform: capitalize;
+
+`;
+
+const IconContainer = styled.div`
+  cursor: pointer;
+  right: 0;
+  margin-left: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  text-align: center;
-  text-transform: capitalize;
-  font-size: var(--medium-m);
+
+  svg {
+    width: var(--medium-s);
+    height: var(--medium-s);
+    transition: fill 0.1s ease-in-out;
+  }
+
+  &:hover {
+    svg {
+      ${respondTo.desktop`
+        fill:var(--whiteWithOpacity);
+      `}
+
+      ${respondTo.tv`
+        fill:var(--whiteWithOpacity);
+      `}
+    }
+  }
 `;
 
 // Container for user details
 const Body = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  width: 100%;
+  display: flex;
+  gap: calc(var(--medium-s) * 5);
+  justify-content: space-between;
 
   ${respondTo.mobile`
-    grid-template-columns: repeat(1, 1fr);
-
-    & div:nth-child(2){
-      order:3
-    }
-    & div:nth-child(4){
-      order:3
-    }
+    gap:0;
+    flex-direction:column;
+    justify-content: space-between;
   `}
 
   ${respondTo.lowTablet`
-    grid-template-columns: repeat(1, 1fr);
-
-    & div:nth-child(2){
-      order:3
-    }
-    & div:nth-child(4){
-      order:3
-    }
+    gap:0;
+    flex-direction:column;
+    justify-content: space-between;
   `}
 `;
 
 // Item of Container
 const Item = styled.div`
   display: flex;
+  width: max-content;
 
   color: var(--white);
   text-transform: capitalize;
-  word-break: break-all;
 `;
 
-const Label = styled.p`
-  white-space: nowrap;
-  overflow: visible;
+const Label = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  font-size: var(--small-l);
-  color: var(--whiteWithOpacity);
+  margin-right: 0.5rem;
 
-  ${respondTo.mobile`
-    margin-left:0;
-    width:40%;
-  `}
+  svg {
+    width: var(--small-l);
+    height: var(--small-l);
 
-  ${respondTo.lowTablet`
-    margin-left:0;
-    width:30%;
-  `}
+    ${(props) =>
+      props.$phone &&
+      "margin-bottom:0.1rem;width: var(--small-m); height: var(--small-m);"}
+  }
 `;
 
 const Text = styled.p`
-  width: 60%;
-  margin-left: auto;
-
+  word-break: break-all;
   font-size: var(--small-l);
-`;
-
-// SideBar
-const SideBar = styled.div`
-  cursor: pointer;
-
-  display: flex;
-  align-items: start;
-  justify-content: center;
-
-  ${respondTo.desktop`
-    opacity: 0;
-    align-items:center;
-    justify-content: flex-start;
-    transition: opacity 0.1s ease-in-out;
-      
-    :hover {
-      opacity: 1;
-    }
-  `}
-
-  ${respondTo.tv`
-    opacity: 0;
-    align-items:center;
-    justify-content: flex-start;
-    transition: opacity 0.1s ease-in-out;
-      
-    :hover {
-      opacity: 1;
-    }
-  `}
-`;
-
-// SideBar text
-const SideText = styled.p`
-  width: 80%;
-  padding: 0.3rem 0 0.5rem 0;
-  border: none;
-  border-bottom-left-radius: 100px;
-  border-bottom-right-radius: 100px;
-
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
-    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
-
-  color: var(--white);
-
-  text-align: center;
-  text-transform: uppercase;
-  font-size: var(--small-m);
-  background-color: var(--color-primary);
-
-  ${respondTo.desktop`
-    width:fit-content;
-    padding: 2rem 0.5rem 2rem 0.3rem;
-    border-radius: 0 100px  100px 0;
-
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
-    transition: color 0.1s ease-in-out;
-
-    &:hover {
-      color: var(--whiteWithOpacity);
-    }
-  `}
-
-  ${respondTo.tv`
-    width:fit-content;
-    padding: 2rem 0.5rem 2rem 0.3rem;
-    border-radius: 0 100px  100px 0;
-
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
-    transition: color 0.1s ease-in-out;
-
-    &:hover {
-      color: var(--whiteWithOpacity);
-    }
-  `}
 `;
 
 // Export profile details component
@@ -211,33 +156,30 @@ function Profile({ t, navigate }) {
   return (
     <Container>
       <InnerContainer>
-        <Header>{user.first_name + " " + user.last_name}</Header>
+        <Header>
+          <HeaderText>{user.first_name + " " + user.last_name}</HeaderText>
+
+          <IconContainer onClick={() => navigate("/profile/update")}>
+            <EditSVG />
+          </IconContainer>
+        </Header>
+
         <Body>
           <Item>
-            <Label>{t("profile.first name")}:</Label>
-            <Text> {user.first_name}</Text>
-          </Item>
-          <Item>
-            <Label>{t("profile.phone")}:</Label>
+            <Label $phone>
+              <PhoneSVG />
+            </Label>
             <Text> {user.phone}</Text>
           </Item>
+
           <Item>
-            <Label>{t("profile.last name")}:</Label>
-            <Text> {user.last_name}</Text>
-          </Item>
-          <Item>
-            <Label>{t("profile.email")}:</Label>
+            <Label>
+              <MailSVG />
+            </Label>
             <Text> {user.email}</Text>
           </Item>
         </Body>
       </InnerContainer>
-
-      {/* Sidebar */}
-      <SideBar>
-        <SideText onClick={() => navigate("/profile/update")}>
-          {t("profile.edit")}
-        </SideText>
-      </SideBar>
     </Container>
   );
 }

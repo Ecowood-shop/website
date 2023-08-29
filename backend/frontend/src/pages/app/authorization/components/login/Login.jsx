@@ -1,6 +1,5 @@
 // Import styles
 import { styled } from "styled-components";
-import AltaxSVG from "../../../../../static/icons/header/AltaxSVG";
 import { ErrorSVG } from "../../../../../static/icons/components";
 // Import hooks
 import { useEffect } from "react";
@@ -71,7 +70,7 @@ function Login({ t, pageChanger }) {
               <HeaderText>{t("register.log in")}</HeaderText>
 
               {/* Display login error */}
-              {error && (
+              {error && !isLoading && (
                 <ErrorContainer>
                   <IconContainer>
                     <ErrorSVG />

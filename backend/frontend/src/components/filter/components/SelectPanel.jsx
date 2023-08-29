@@ -2,8 +2,10 @@
 import styled from "styled-components";
 import { respondTo } from "../../../utils/styles/_respondTo";
 // Import components
+import Idinput from "./IdInput";
 import PriceSelect from "./PriceSelect";
 import CategorySelect from "./CategorySelect";
+import OrderStatusSelect from "./OrderStatusSelect";
 
 // Main Container
 const Container = styled.div`
@@ -42,12 +44,15 @@ const InnerContainer = styled.div`
 `;
 
 // Export select panel which contains category and price selects
-function SelectPanel() {
+function SelectPanel(props) {
   return (
     <Container>
       <InnerContainer>
-        <CategorySelect />
-        <PriceSelect />
+        {props.price && <PriceSelect />}
+        {props.category && <CategorySelect />}
+
+        {props.order && <Idinput />}
+        {props.order && <OrderStatusSelect />}
       </InnerContainer>
     </Container>
   );

@@ -13,6 +13,7 @@ export const getShippingPrices = createAsyncThunk(
       const { data } = await useCustomAxios.get(
         `/api/orders/prices/?language=${language}`
       );
+      console.log(data);
       return data;
     } catch (err) {
       return rejectWithValue(Object.values(err.response.data)[0]);
@@ -42,7 +43,11 @@ export const createShippingPrice = createAsyncThunk(
     try {
       await useCustomAxios.post("/api/orders/shippingPrice/create/", formData);
     } catch (err) {
-      return rejectWithValue(Object.values(err.response.data)[0]);
+      return rejectWithValue(
+        err?.response
+          ? Object.values(err?.response?.data)[0]
+          : Object.values(err?.data)[0]
+      );
     }
   }
 );

@@ -21,37 +21,11 @@ const Container = styled.div`
   `}
 `;
 
-const Text = styled.div`
-  order: -1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  color: var(--color-magenta);
-  font-weight: bold;
-  font-size: var(--large);
-  text-transform: uppercase;
-  text-shadow: var(--color-primary) 1px 0 10px;
-
-  ${respondTo.desktop`
-    order:0;
-    flex-grow: 1;
-    margin-left: auto;
-  `}
-
-  ${respondTo.tv`
-    order:0;
-    flex-grow: 1;
-    margin-left: auto;
-  `}
-`;
-
 // Export profile details component
 function Details({ t, navigate }) {
   return (
     <Container className="w3-animate-right">
       <Profile t={t} navigate={navigate} />
-      <Text>{t("profile.profile")}</Text>
     </Container>
   );
 }
