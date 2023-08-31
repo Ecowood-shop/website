@@ -17,7 +17,8 @@
     "edit": "edit",
     "quantity": "quantity",
     "email": "email",
-    "service": "service"
+    "service": "service",
+    "create discount": "create discount"
   },
   "validation": {
     "name must contain only letters and numbers": "name must contain only letters and numbers",

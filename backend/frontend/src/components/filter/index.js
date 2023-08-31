@@ -1,5 +1,7 @@
 // Import filters
+import UserFilter from "./user/Filter";
 import OrderFilter from "./order/Filter";
 import ProductFilter from "./product/Filter";
-import UserFilter from "./user/Filter";
-export { OrderFilter, ProductFilter, UserFilter };
+import DiscountFilter from "./discount/Filter";
+
+export { UserFilter, OrderFilter, ProductFilter, DiscountFilter };

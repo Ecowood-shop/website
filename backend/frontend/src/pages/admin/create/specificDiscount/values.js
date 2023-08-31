@@ -1,5 +1,8 @@
-// yup
+// Import yup
 import * as Yup from "yup";
+
+// Import create discount action
+import { createDiscount } from "../../../../toolkit/discounts/actions";
 
 export const initialValues = {
   userId: "",
@@ -12,21 +15,23 @@ export const initialValues = {
   end_time: "23:59",
 };
 
-export const validationSchema = Yup.object({
-  userId: Yup.string().required("Required"),
-  productId: Yup.string().required("Required"),
-  discountPercent: Yup.number().min(1).required("Required"),
-  start_date: Yup.date()
-    .min(new Date(Date.now() - 86400000), "Invalid start date")
-    .required("Required"),
-  start_time: Yup.string().required("Required"),
-  end_date: Yup.date()
-    .min(Yup.ref("start_date"), "Invalid end date")
-    .required("Required"),
-  end_time: Yup.string().required("Required"),
-});
+export const validationSchema = (t) => {
+  return Yup.object({
+    userId: Yup.string().required(t("validation.required")),
+    productId: Yup.string().required(t("validation.required")),
+    discountPercent: Yup.number().min(1).required(t("validation.required")),
+    start_date: Yup.date()
+      .min(new Date(Date.now() - 86400000), "Invalid start date")
+      .required(t("validation.required")),
+    start_time: Yup.string().required(t("validation.required")),
+    end_date: Yup.date()
+      .min(Yup.ref("start_date"), "Invalid end date")
+      .required(t("validation.required")),
+    end_time: Yup.string().required(t("validation.required")),
+  });
+};
 
-export const onSubmit = (values, dispatch, func) => {
+export const onSubmit = (values, dispatch) => {
   let data = {
     userId: values.userId,
     productId: values.productId,
@@ -50,7 +55,8 @@ export const onSubmit = (values, dispatch, func) => {
     " " +
     convertTime12to24(values.end_time) +
     ":00";
-  dispatch(func({ formData: data }));
+    
+  dispatch(createDiscount({ formData: data }));
 };
 
 const convertTime12to24 = (time12h) => {

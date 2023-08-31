@@ -17,7 +17,8 @@
     "edit": "რედაქტირება",
     "quantity": "რაოდენობა",
     "email": "ელ ფოსტა",
-    "service": "სერვისი"
+    "service": "სერვისი",
+    "create discount": "ფასდაკლების შექმნა"
   },
   "validation": {
     "name must contain only letters and numbers": "სახელი უნდა შეიცავდეს მხოლოდ ასოებს და ციფრებს",

@@ -67,7 +67,6 @@ const HeaderText = styled.h1`
   color: var(--white);
   font-size: var(--medium-m);
   text-transform: capitalize;
-
 `;
 
 const IconContainer = styled.div`
@@ -104,16 +103,28 @@ const Body = styled.div`
   gap: calc(var(--medium-s) * 5);
   justify-content: space-between;
 
+  & > div:first-of-type {
+    order: 1;
+  }
+
   ${respondTo.mobile`
     gap:0;
     flex-direction:column;
     justify-content: space-between;
+
+    & > div:last-of-type {
+      order: 2;
+    }
   `}
 
   ${respondTo.lowTablet`
     gap:0;
     flex-direction:column;
     justify-content: space-between;
+
+    & > div:last-of-type {
+      order: 2;
+    }
   `}
 `;
 

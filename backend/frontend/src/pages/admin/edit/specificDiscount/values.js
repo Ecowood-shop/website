@@ -1,13 +1,17 @@
-// yup
+// Import yup
 import * as Yup from "yup";
 
-export const initialValues = (user, product, discount) => {
-  let startDate = new Date(discount.start_date);
-  let endDate = new Date(discount.end_date);
+// Import create discount action
+import { updateDiscount } from "../../../../toolkit/discounts/actions";
+
+export const initialValues = (discount) => {
+  let startDate = new Date(discount ? discount.percentage.start_date : 0);
+  let endDate = new Date(discount ? discount.percentage.end_date : 0);
+
   return {
-    userId: user,
-    productId: product,
-    discountPercent: discount.percentage,
+    userId: discount ? discount.user : "",
+    productId: discount ? discount.product : "",
+    discountPercent: discount ? discount.percentage.percentage : 0,
     start_date: startDate,
     start_time:
       (startDate.getHours() < 10 ? "0" : "") +
@@ -15,7 +19,7 @@ export const initialValues = (user, product, discount) => {
       ":" +
       (startDate.getMinutes() < 10 ? "0" : "") +
       startDate.getMinutes(),
-    end_date: new Date(discount.end_date),
+    end_date: endDate,
     end_time:
       (endDate.getHours() < 10 ? "0" : "") +
       endDate.getHours() +
@@ -25,21 +29,23 @@ export const initialValues = (user, product, discount) => {
   };
 };
 
-export const validationSchema = Yup.object({
-  userId: Yup.string().required("Required"),
-  productId: Yup.string().required("Required"),
-  discountPercent: Yup.number().min(1).required("Required"),
-  start_date: Yup.date()
-    .max(Yup.ref("end_date"), "Invalid start date")
-    .required("Required"),
-  start_time: Yup.string().required("Required"),
-  end_date: Yup.date()
-    .min(new Date(Date.now() - 86400000), "Invalid end date")
-    .required("Required"),
-  end_time: Yup.string().required("Required"),
-});
+export const validationSchema = (t) => {
+  return Yup.object({
+    userId: Yup.string().required(t("validation.required")),
+    productId: Yup.string().required(t("validation.required")),
+    discountPercent: Yup.number().min(1).required(t("validation.required")),
+    start_date: Yup.date()
+      .min(new Date(Date.now() - 86400000), "Invalid start date")
+      .required(t("validation.required")),
+    start_time: Yup.string().required(t("validation.required")),
+    end_date: Yup.date()
+      .min(Yup.ref("start_date"), "Invalid end date")
+      .required(t("validation.required")),
+    end_time: Yup.string().required(t("validation.required")),
+  });
+};
 
-export const onSubmit = (values, id, dispatch, func) => {
+export const onSubmit = (values, id, dispatch) => {
   let data = {
     userId: values.userId,
     productId: values.productId,
@@ -64,7 +70,7 @@ export const onSubmit = (values, id, dispatch, func) => {
     convertTime12to24(values.end_time) +
     ":00";
 
-  dispatch(func({ id: id, formData: data }));
+  dispatch(updateDiscount({ id: id, formData: data }));
 };
 
 const convertTime12to24 = (time12h) => {

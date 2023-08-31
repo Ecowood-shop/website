@@ -74,9 +74,12 @@ function Table({ columns, data, link, linkEnd, Delete, text, user }) {
               <tr {...row.getRowProps()}>
                 {row.cells.map((cell) => {
                   return (
-                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                    <td {...cell.getCellProps()}>
+                      <div>{cell.render("Cell")} </div>
+                    </td>
                   );
                 })}
+
                 <td>
                   <SVG onClick={() => edit(row)}>
                     <EditSVG />
@@ -113,7 +116,15 @@ const Container = styled.div`
       text-transform: capitalize;
     }
 
+    div {
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 3; /* number of lines to show */
+      line-clamp: 3;
+      -webkit-box-orient: vertical;
+    }
     td {
+      padding: 0 0.5rem;
       border-radius: 10%;
       text-align: center;
       border: 3px solid var(--color-magenta);
