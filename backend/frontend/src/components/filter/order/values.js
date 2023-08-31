@@ -20,8 +20,7 @@ export const validationSchema = Yup.object({
   id: Yup.string(),
 });
 
-// On submit function which navigates to search page
-// with params satus,id and keyword
+// onSubmit function for admin orders page with params satus,id and keyword
 export const onSubmit = (values, navigate) => {
   navigate({
     search: `?${createSearchParams(

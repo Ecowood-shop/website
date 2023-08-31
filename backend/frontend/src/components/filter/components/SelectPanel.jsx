@@ -5,6 +5,7 @@ import { respondTo } from "../../../utils/styles/_respondTo";
 import Idinput from "./IdInput";
 import PriceSelect from "./PriceSelect";
 import CategorySelect from "./CategorySelect";
+import UserStatusSelect from "./UserStatusSelect";
 import OrderStatusSelect from "./OrderStatusSelect";
 
 // Main Container
@@ -53,6 +54,7 @@ function SelectPanel(props) {
 
         {props.order && <Idinput />}
         {props.order && <OrderStatusSelect />}
+        {props.user && <UserStatusSelect />}
       </InnerContainer>
     </Container>
   );

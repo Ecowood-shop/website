@@ -13,7 +13,6 @@ export const getShippingPrices = createAsyncThunk(
       const { data } = await useCustomAxios.get(
         `/api/orders/prices/?language=${language}`
       );
-      console.log(data);
       return data;
     } catch (err) {
       return rejectWithValue(Object.values(err.response.data)[0]);

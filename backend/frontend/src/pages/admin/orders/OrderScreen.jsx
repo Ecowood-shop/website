@@ -9,11 +9,10 @@ import { useTranslation } from "react-i18next";
 import { useSelector, useDispatch } from "react-redux";
 import { useSearchParams, useNavigate } from "react-router-dom";
 
-// COMPONENTS
+// Import components
 import Nav from "./Nav";
-import Table from "../../../components/table/Table";
 import { OrderFilter as Filter } from "../../../components/filter";
-import { Loader, Pagination, ErrorMessage } from "../../../components";
+import { Loader, Pagination, ErrorMessage, Table } from "../../../components";
 
 // Import actions
 import { reset } from "../../../toolkit/orders/orderSlice";
@@ -120,10 +119,10 @@ const columns = (t) => [
 
 // Export orders page
 function OrderScreen() {
-  const { t } = useTranslation(["admin"]);
   // Initialize hoooks
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { t } = useTranslation(["admin"]);
   const [searchParams] = useSearchParams();
 
   // Query params
@@ -132,7 +131,7 @@ function OrderScreen() {
   const page = searchParams.get("page");
   const id = searchParams.get("id");
 
-  // Get order from store
+  // Get orders from store
   const orderSlice = useSelector((state) => state.orders);
   const { error, isLoading, orders, success } = orderSlice;
 
@@ -166,13 +165,14 @@ function OrderScreen() {
               text={t("order.order")}
             />
           </InnerContainer>
+
           {/* Pagination for orders */}
           <Pagination pages={orders.pages} page={orders.page} />
         </>
       ) : (
         <MessageContainer>
           <ErrorSVG />
-          <p>{t("order.no orders")}</p>
+          <p>{t("order.no orders found")}</p>
         </MessageContainer>
       )}
     </Container>

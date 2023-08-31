@@ -10,6 +10,7 @@
     "images": "images",
     "submit": "submit",
     "product": "product",
+    "status": "status",
     "add": "add",
     "type": "type",
     "create": "create",
@@ -59,7 +60,8 @@
     "last name": "last name",
     "user": "user",
     "admin": "admin",
-    "phone": "phone"
+    "phone": "phone",
+    "no users found": "no users found"
   },
   "order": {
     "order": "order",
@@ -73,7 +75,7 @@
     "limit": "limit",
     "upper limit": "upper limit",
     "lower limit": "lower limit",
-    "no orders": "no orders",
+    "no orders found": "no orders found",
     "no shipping cities": "no shipping cities"
   }
 }

@@ -1,41 +1,88 @@
-// REACT
+// Import styles
+import { styled } from "styled-components";
+import { respondTo } from "../../../../utils/styles/_respondTo";
+
+// Import Hooks
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Formik, Form } from "formik";
 import { useParams } from "react-router-dom";
-
-// REDUX
-import { useSelector, useDispatch } from "react-redux";
-import { getUser, updateUser } from "../../../../toolkit/users/actions";
-import { reset } from "../../../../toolkit/users/usersSlice";
-import { useForm } from "react-hook-form";
-
-// COMPONENTS
-import Loader from "../../../../components/loader/Loader";
-import Message from "../../../../components/Message/Message";
-
-// OTHERS
-import styles from "./styles.module.scss";
-// translate
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useSelector, useDispatch } from "react-redux";
+
+// Import components
+import Button from "./components/Button";
+import Inputs from "./components/Inputs";
+import { LoaderMini, ErrorMessage } from "../../../../components";
+
+// Import action and values
+import { reset } from "../../../../toolkit/users/usersSlice";
+import { getUser } from "../../../../toolkit/users/actions";
+import { initialValues, validationSchema, onSubmit } from "./values";
+
+const Container = styled.div`
+  margin: 10rem;
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+
+  min-width: 30rem;
+  align-items: center;
+  border-radius: 20px;
+
+  background-color: var(--white);
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
+    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
+
+  ${respondTo.mobile`
+    width:100vw;
+    margin: 0rem;
+    box-shadow:none;
+    background:transparent;
+  `}
+
+  ${respondTo.lowTablet`
+    width:100vw;
+    margin: 0rem;
+    box-shadow:none;
+    background:transparent;
+  `}
+`;
+
+const Header = styled.h1`
+  text-align: center;
+  font-size: var(--medium-s);
+  color: var(--color-primary);
+`;
+
+const LoaderContainer = styled.div`
+  margin: 3rem 0;
+`;
+
+const ErrorContainer = styled.div`
+  * {
+    margin: 0;
+    stroke: var(--red);
+    color: var(--red);
+    background: transparent;
+  }
+
+  svg {
+    margin-right: 0.5rem;
+  }
+`;
+
+// Export update user page
 function User() {
-  const { t } = useTranslation(["admin"]);
-  // HOOKS
+  // Initialize hooks
+  const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { id } = useParams();
+  const { t } = useTranslation(["admin"]);
 
+  // Get user from store
   const usersSlice = useSelector((state) => state.users);
   const { error, isLoading, user, success } = usersSlice;
-
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-  } = useForm();
-
-  const onSubmit = (data) => {
-    dispatch(updateUser({ formData: data, id: id }));
-  };
 
   useEffect(() => {
     dispatch(getUser({ id: id }));
@@ -49,73 +96,38 @@ function User() {
   }, [dispatch, navigate, success]);
 
   return (
-    <article className={styles.container}>
-      <button
-        onClick={() => navigate("/admin/users/")}
-        className={styles.button}
-      >
-        {t("global.back")}
-      </button>
-      {isLoading && <Loader color="darkmagenta" />}{" "}
-      {error && <Message>{error}</Message>}
-      {user && (
-        <section>
-          <h1>{t("global.edit")}</h1>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div>
-              <label>{t("user.first name")}</label>
-              <input
-                placeholder="enter text..."
-                {...register("first_name")}
-                className={styles.input}
-                defaultValue={user ? user.first_name : ""}
-              />
-            </div>
-            <div>
-              <label>{t("user.last name")}</label>
-              <input
-                placeholder="enter text..."
-                {...register("last_name")}
-                className={styles.input}
-                defaultValue={user ? user.last_name : ""}
-              />
-            </div>
-            <div>
-              <label>{t("global.email")}</label>
-              <input
-                placeholder="enter email..."
-                type="email"
-                {...register("email")}
-                className={styles.input}
-                defaultValue={user ? user.email : ""}
-              />
-            </div>
-            <div>
-              <label>{t("user.phone")}</label>
-              <input
-                placeholder="enter text..."
-                type="tel"
-                {...register("phone")}
-                className={styles.input}
-                defaultValue={user ? user.phone : ""}
-              />
-            </div>
-            <div className={styles.admin}>
-              <input
-                type="checkbox"
-                {...register("is_staff")}
-                defaultChecked={user ? user.is_staff : false}
-                className={styles.checkbox}
-              />
-              <label>{t("user.admin")}</label>
-            </div>
-            <button type="submit" className={styles.button}>
-              {t("global.submit")}
-            </button>
-          </form>
-        </section>
+    <Container>
+      <Header>{t("global.edit")}</Header>
+
+      {!isLoading && error && (
+        <ErrorContainer>
+          <ErrorMessage>{error}</ErrorMessage>
+        </ErrorContainer>
       )}
-    </article>
+
+      {isLoading ? (
+        <LoaderContainer>
+          <LoaderMini color="darkmagenta" />
+        </LoaderContainer>
+      ) : (
+        user && (
+          <Formik
+            initialValues={initialValues(user)}
+            validationSchema={() => validationSchema(t)}
+            onSubmit={(e) => onSubmit(e, dispatch, id)}
+          >
+            {(formik) => {
+              return (
+                <Form className="w3-animate-right">
+                  <Inputs t={t} formik={formik} />
+                  <Button t={t} />
+                </Form>
+              );
+            }}
+          </Formik>
+        )
+      )}
+    </Container>
   );
 }
 
