@@ -2,6 +2,7 @@
 import { styled } from "styled-components";
 import { ErrorSVG } from "../../../static/icons/components";
 import { respondTo } from "../../../utils/styles/_respondTo";
+
 // Import hooks
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";

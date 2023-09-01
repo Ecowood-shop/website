@@ -18,7 +18,9 @@
     "quantity": "количество",
     "email": "электронная почта",
     "service": "услуга",
-    "Russian": "создать скидку"
+    "Russian": "создать скидку",
+    "no categories": "нет категорий",
+    "add category": "добавить категорию"
   },
   "validation": {
     "name must contain only letters and numbers": "имя должно содержать только буквы и цифры",
@@ -58,7 +60,9 @@
     "others": "другие",
     "main": "главный",
     "upload image": "загрузите картинки",
-    "specify type": "укажите тип"
+    "specify type": "укажите тип",
+    "add image": "добавить изображение",
+    "no images": "нет изображений"
   },
   "user": {
     "first name": "имя",

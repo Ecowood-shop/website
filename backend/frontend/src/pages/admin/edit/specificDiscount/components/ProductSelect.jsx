@@ -24,7 +24,7 @@ const Container = styled.div`
     border-radius: 20px;
     border-color: white;
 
-    font-size: var(--small-l);
+    font-size: var(--small-m);
     background-color: whitesmoke;
 
     ${respondTo.mobile`

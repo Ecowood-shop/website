@@ -18,7 +18,9 @@
     "quantity": "quantity",
     "email": "email",
     "service": "service",
-    "create discount": "create discount"
+    "create discount": "create discount",
+    "no categories": "no categories",
+    "add category": "add category"
   },
   "validation": {
     "name must contain only letters and numbers": "name must contain only letters and numbers",
@@ -54,7 +56,9 @@
     "others": "others",
     "main": "main",
     "upload image": "upload image",
-    "specify type": "specify type"
+    "specify type": "specify type",
+    "add image": "add image",
+    "no images": "no images"
   },
   "user": {
     "first name": "first name",

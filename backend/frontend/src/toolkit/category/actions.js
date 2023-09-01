@@ -41,7 +41,7 @@ export const createCategory = createAsyncThunk(
     try {
       await useCustomAxios.post("/api/products/category/create", formData);
     } catch (err) {
-      return rejectWithValue(Object.values(err.response.data)[0]);
+      return rejectWithValue(Object.values(err.data)[0]);
     }
   }
 );

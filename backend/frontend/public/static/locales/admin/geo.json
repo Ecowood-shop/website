@@ -18,7 +18,9 @@
     "quantity": "რაოდენობა",
     "email": "ელ ფოსტა",
     "service": "სერვისი",
-    "create discount": "ფასდაკლების შექმნა"
+    "create discount": "ფასდაკლების შექმნა",
+    "no categories": "კატეგორიები ცარიელია",
+    "add category": "კატეგორიის დამატება"
   },
   "validation": {
     "name must contain only letters and numbers": "სახელი უნდა შეიცავდეს მხოლოდ ასოებს და ციფრებს",
@@ -58,7 +60,9 @@
     "others": "სხვა",
     "main": "მთავარი",
     "upload image": "ატვირთეთ სურათი",
-    "specify type": "აირჩიეთ ტიპი"
+    "specify type": "აირჩიეთ ტიპი",
+    "add image": "სურათის დამატება",
+    "no images":"სურათები ცარიელია"
   },
   "user": {
     "first name": "სახელი",
