@@ -19,8 +19,18 @@
     "email": "электронная почта",
     "service": "услуга",
     "Russian": "создать скидку",
+    "no variants found": "цвета не найдены",
     "no categories": "нет категорий",
-    "add category": "добавить категорию"
+    "add category": "добавить категорию",
+    "delete1": "Вы уверены, что хотите удалить этот",
+    "delete2": "",
+    "deleteproduct": "продукт",
+    "deletecategory": "категорию",
+    "deletediscount": "скидку",
+    "deletecity": "город",
+    "deletevariant": "вариант",
+    "deleteorder": "заказ",
+    "deleteuser": "пользовател"
   },
   "validation": {
     "name must contain only letters and numbers": "имя должно содержать только буквы и цифры",
@@ -47,7 +57,7 @@
     "safety standard": "стандарт безопасности",
     "price": "цена",
     "brand": "бренд",
-
+    "no products found": "продукты не найдены",
     "cover": "покрытия",
     "layer": "слой",
     "size": "объём",

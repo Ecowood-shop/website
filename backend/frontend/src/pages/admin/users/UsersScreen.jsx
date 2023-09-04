@@ -133,7 +133,7 @@ function UsersScreen() {
                 link="/admin/users/"
                 linkEnd="/edit"
                 Delete={(id) => dispatch(deleteUser({ id: id }))}
-                text={t("user.user")}
+                text={t("global.deleteuser")}
               />
             </InnerContainer>
 

@@ -88,11 +88,9 @@ export const validationSchema = Yup.object({
 
   // discounts
   discountType: Yup.string().required("Required"),
-  discountPercent: Yup.number()
-    .min(0)
-    .when("discountType", (discountType, schema) =>
-      String(discountType) === "1" ? schema.required("Required") : schema
-    ),
+  discountPercent: Yup.number().when("discountType", (discountType, schema) =>
+    String(discountType) === "1" ? schema.min(1).required("Required") : schema
+  ),
   start_date: Yup.date()
     .min(new Date(Date.now() - 86400000), "Invalid start date")
     .when("discountType", (discountType, schema) =>

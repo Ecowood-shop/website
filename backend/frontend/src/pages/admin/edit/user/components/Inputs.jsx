@@ -119,13 +119,3 @@ function Inputs({ t, formik }) {
 }
 
 export default Inputs;
-
-// <div className={styles.admin}>
-//   <input
-//     type="checkbox"
-//     {...register("is_staff")}
-//     defaultChecked={user ? user.is_staff : false}
-//     className={styles.checkbox}
-//   />
-//   <label>{t("user.admin")}</label>
-// </div>

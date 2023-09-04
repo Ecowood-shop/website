@@ -31,8 +31,8 @@ const Button = styled.button`
     transition: fill 0.1s ease-in-out;
 
     fill: var(--white);
-    width: 1.5rem;
-    height: 1.5rem;
+    width: var(--medium-s);
+    height:  var(--medium-s);
   }
 
   &:hover {

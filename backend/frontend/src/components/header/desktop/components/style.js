@@ -58,7 +58,7 @@ export const SVGContainer = styled.div`
 // Export user panel
 export const UserPanel = styled.div`
   // Self position
-  z-index: 1;
+  z-index: 1001;
   display: flex;
   position: absolute;
   flex-direction: column;

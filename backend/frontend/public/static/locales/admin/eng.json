@@ -20,7 +20,16 @@
     "service": "service",
     "create discount": "create discount",
     "no categories": "no categories",
-    "add category": "add category"
+    "no variants found": "no variants",
+    "add category": "add category",
+    "delete1": "Are you sure you want to delete this",
+    "delete2": "",
+    "deleteproduct": "product",
+    "deletecategory": "category",
+    "deletediscount": "discount",
+    "deletecity": "city",
+    "deletevariant": "variant",
+    "deleteorder": "order"
   },
   "validation": {
     "name must contain only letters and numbers": "name must contain only letters and numbers",
@@ -49,7 +58,8 @@
     "brand": "brand",
     "size": "size",
     "coverage length": "coverage length",
-    "edit product": "edit product"
+    "edit product": "edit product",
+    "no products found": "no products found"
   },
   "images": {
     "images": "images",

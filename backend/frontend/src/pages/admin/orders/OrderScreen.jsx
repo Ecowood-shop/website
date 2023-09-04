@@ -162,7 +162,7 @@ function OrderScreen() {
               link="/order/"
               linkEnd=""
               Delete={(id) => dispatch(deleteOrder({ id: id }))}
-              text={t("order.order")}
+              text={t("global.deleteorder")}
             />
           </InnerContainer>
 

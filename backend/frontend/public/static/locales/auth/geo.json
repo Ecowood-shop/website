@@ -51,7 +51,8 @@
     "last name": "გვარი",
     "new password": "ახალი პაროლი",
     "confirm password": "გაიმეორეთ პაროლი",
-    "current password": "მიმდინარე პაროლი"
+    "current password": "მიმდინარე პაროლი",
+    "phone": "ტელეფონი"
   },
   "order": {
     "order": "შეკვეთა",

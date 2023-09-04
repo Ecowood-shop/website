@@ -114,7 +114,7 @@ function DiscountsScreen() {
                 link="/admin/discounts/"
                 linkEnd="/edit"
                 Delete={(id) => dispatch(deleteDiscount({ id: id }))}
-                text={t("product.discount")}
+                text={t("global.deletediscount")}
               />
             </InnerContainer>
 

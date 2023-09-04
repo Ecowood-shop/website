@@ -124,13 +124,13 @@ function CategoryScreen() {
             link="/admin/categories/"
             linkEnd="/edit"
             Delete={(id) => dispatch(deleteCategory({ id: id }))}
-            text={t("global.category")}
+            text={t("global.deletecategory")}
           />
         </InnerContainer>
       ) : (
         <MessageContainer>
           <ErrorSVG />
-          <p>{t("order.no shipping cities")}</p>
+          <p>{t("global.no categories")}</p>
         </MessageContainer>
       )}
     </Container>

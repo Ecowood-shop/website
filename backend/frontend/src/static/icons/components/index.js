@@ -1,5 +1,4 @@
 // Import custom svgs
-
 import RombSVG from "./RombSVG";
 import EditSVG from "./EditSVG";
 import PhoneSVG from "./PhoneSVG";

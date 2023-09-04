@@ -20,7 +20,17 @@
     "service": "სერვისი",
     "create discount": "ფასდაკლების შექმნა",
     "no categories": "კატეგორიები ცარიელია",
-    "add category": "კატეგორიის დამატება"
+    "no variants found": "ფერები არ მოიძებნა",
+    "add category": "კატეგორიის დამატება",
+    "delete1": "ნამდვილად გსურთ აღნიშნული",
+    "delete2": "წაშლა",
+    "deleteproduct": "პროდუქტის",
+    "deletecategory": "კატეგორიის",
+    "deletediscount": "ფასდაკლების",
+    "deletecity": "ქალაქის",
+    "deletevariant": "ვარიანტის",
+    "deleteorder": "შეკვეთის",
+    "deleteuser": "მომხმარებლის"
   },
   "validation": {
     "name must contain only letters and numbers": "სახელი უნდა შეიცავდეს მხოლოდ ასოებს და ციფრებს",
@@ -52,7 +62,7 @@
     "layer": "ფენა",
     "size": "ზომა",
     "coverage length": "დაფარვის სიგრძე",
-
+    "no products found": "პროდუქტი ვერ მოიძებნა",
     "edit product": "პროდუქტის რედაქტირება"
   },
   "images": {
@@ -62,7 +72,7 @@
     "upload image": "ატვირთეთ სურათი",
     "specify type": "აირჩიეთ ტიპი",
     "add image": "სურათის დამატება",
-    "no images":"სურათები ცარიელია"
+    "no images": "სურათები ცარიელია"
   },
   "user": {
     "first name": "სახელი",
