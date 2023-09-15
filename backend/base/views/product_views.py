@@ -14,6 +14,9 @@ from django.utils import timezone
 from rest_framework.decorators import api_view
 from rest_framework.exceptions import AuthenticationFailed, NotFound, ValidationError
 from rest_framework.response import Response
+from rest_framework import status
+
+from base.errors.translations import authentication, without_permission, product_with_id_not_exist
 
 
 def apply_user_discounts(products, user):
@@ -93,9 +96,6 @@ def getProducts(request):
     if page is None or page == "null":
         page = 1
 
-    page = int(page)
-    print('Page:', page)
-
     # Get user-specific discounts and apply them if they are greater than the general discount
     try:
         token = request.COOKIES.get('jwt')
@@ -121,12 +121,10 @@ def getProducts(request):
                         pass  # If no translation is found, keep the original value
         return Response({'products': serializer.data, 'page': page, 'pages': paginator.num_pages})
 
-    for e in products:
-        print(e.discount)
     apply_user_discounts(products, user)
-    for e in products:
-        print(e.discount)
+
     serializer = ProductSerializer(products, many=True)
+
     # Update the queryset with translated values if language is provided
     if language is not None and language != '':
         for product in serializer.data:
@@ -166,19 +164,20 @@ def getCategories(request):
 @api_view(['GET'])
 def getCategoryById(request, pk):
     token = request.COOKIES.get('jwt')
+    language = request.query_params.get('language')
 
     if not token:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     try:
         payload = jwt.decode(token, 'secret', algorithm=['HS256'])
     except jwt.ExpiredSignatureError:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     user = User.objects.filter(id=payload['id']).first()
 
     if not user.is_staff:
-        raise AuthenticationFailed('You do not have permission to perform this action.')
+        return without_permission(language)
 
     try:
         newDict = {}
@@ -205,19 +204,20 @@ def getCategoryById(request, pk):
 @api_view(['PUT'])
 def updateCategory(request, pk):
     token = request.COOKIES.get('jwt')
+    language = request.query_params.get('language')
 
     if not token:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     try:
         payload = jwt.decode(token, 'secret', algorithm=['HS256'])
     except jwt.ExpiredSignatureError:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     user = User.objects.filter(id=payload['id']).first()
 
     if not user.is_staff:
-        raise AuthenticationFailed('You do not have permission to perform this action.')
+        return without_permission(language)
 
     data = request.data
 
@@ -320,7 +320,15 @@ def getLatestProduct(request, pk):
     try:
         category = Category.objects.get(_id=pk)
     except:
-        raise ValidationError('Category with this name does not exist')
+        if language == 'GEO':
+            return Response({'კატეგორია ვერ მოიძებნა!'}, status=status.HTTP_404_NOT_FOUND)
+        elif language == 'ENG':
+            return Response({'Category not found!'}, status=status.HTTP_404_NOT_FOUND)
+        elif language == 'RUS':
+            return Response({'Категория не найдена!'}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            return Response({'Category not found!'}, status=status.HTTP_404_NOT_FOUND)
+
     products = []
 
     products += Product.objects.filter(category=category, active=True).order_by('-createdAt')[0:8]
@@ -376,7 +384,7 @@ def getProduct(request, pk):
     try:
         product = Product.objects.get(_id=pk, active=True)
     except:
-        raise ValidationError('Product with this ID does now exist')
+        return product_with_id_not_exist(language)
 
     variants = Variants.objects.filter(product_id=pk, active=True)
 
@@ -391,7 +399,7 @@ def getProduct(request, pk):
 
         product.discount = product.active_discounts()
         product.save()
-        
+
         if language is not None and language != '':
             product = serializer_data
             for field_name in ['name_geo', 'brand', 'category', 'size', 'technicalRequirements', 'instructionForUse',
@@ -467,22 +475,29 @@ def getJustProducts(request):
     token = request.COOKIES.get('jwt')
 
     if not token:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     try:
         payload = jwt.decode(token, 'secret', algorithm=['HS256'])
     except jwt.ExpiredSignatureError:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     user = User.objects.filter(id=payload['id']).first()
 
     if not user.is_staff:
-        raise AuthenticationFailed('You do not have permission to perform this action.')
+        return without_permission(language)
 
     try:
         products = Product.objects.filter(active=True)
     except:
-        raise ValidationError('There is no Product yet')
+        if language == 'GEO':
+            return Response({'პროდუქტები ჯერ არ დამატებულა.'}, status=status.HTTP_404_NOT_FOUND)
+        elif language == 'ENG':
+            return Response({'There is no Product yet.'}, status=status.HTTP_404_NOT_FOUND)
+        elif language == 'RUS':
+            return Response({'Товара еще нет.'}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            return Response({'There is no Product yet.'}, status=status.HTTP_404_NOT_FOUND)
 
     productSerializer = JustProductsSerializer(products, many=True)
 
@@ -506,7 +521,14 @@ def getProductVariants(request, pk):
     variants = Variants.objects.filter(product_id=pk, active=True)
 
     if len(variants) == 0:
-        raise ValidationError('Product with this ID does not have any variant')
+        if language == 'GEO':
+            return Response({'ამ ID-ის მქონე პროდუქტს არ აქვს ვარიანტები.'}, status=status.HTTP_404_NOT_FOUND)
+        elif language == 'ENG':
+            return Response({'Product with this ID does not have any variant.'}, status=status.HTTP_404_NOT_FOUND)
+        elif language == 'RUS':
+            return Response({'У продукта с этим идентификатором нет вариантов..'}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            return Response({'Product with this ID does not have any variant.'}, status=status.HTTP_404_NOT_FOUND)
 
     variantSerializer = VariantSerializer(variants, many=True)
 
@@ -531,7 +553,14 @@ def getProductColors(request):
     try:
         colors = Color.objects.all()
     except:
-        raise ValidationError('There is no color yet')
+        if language == 'GEO':
+            return Response({'ფერები ჯერ არ არის დამატებული.'}, status=status.HTTP_404_NOT_FOUND)
+        elif language == 'ENG':
+            return Response({'There is no color yet.'}, status=status.HTTP_404_NOT_FOUND)
+        elif language == 'RUS':
+            return Response({'Цвета еще нет.'}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            return Response({'There is no color yet.'}, status=status.HTTP_404_NOT_FOUND)
 
     serializer = ColorSerializer(colors, many=True)
 
@@ -552,19 +581,20 @@ def getProductColors(request):
 @api_view(['POST'])
 def createProduct(request):
     token = request.COOKIES.get('jwt')
+    language = request.query_params.get('language')
 
     if not token:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     try:
         payload = jwt.decode(token, 'secret', algorithm=['HS256'])
     except jwt.ExpiredSignatureError:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     user = User.objects.filter(id=payload['id']).first()
 
     if not user.is_staff:
-        raise AuthenticationFailed('You do not have permission to perform this action.')
+        return without_permission(language)
 
     data = request.data
 
@@ -636,19 +666,20 @@ def createProduct(request):
 @api_view(['POST'])
 def createCategory(request):
     token = request.COOKIES.get('jwt')
+    language = request.query_params.get('language')
 
     if not token:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     try:
         payload = jwt.decode(token, 'secret', algorithm=['HS256'])
     except jwt.ExpiredSignatureError:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     user = User.objects.filter(id=payload['id']).first()
 
     if not user.is_staff:
-        raise AuthenticationFailed('You do not have permission to perform this action.')
+        return without_permission(language)
 
     data = request.data
 
@@ -669,19 +700,20 @@ def createCategory(request):
 @api_view(['POST'])
 def createVariants(request):
     token = request.COOKIES.get('jwt')
+    language = request.query_params.get('language')
 
     if not token:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     try:
         payload = jwt.decode(token, 'secret', algorithm=['HS256'])
     except jwt.ExpiredSignatureError:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     user = User.objects.filter(id=payload['id']).first()
 
     if not user.is_staff:
-        raise AuthenticationFailed('You do not have permission to perform this action.')
+        return without_permission(language)
 
     data = request.data
 
@@ -717,19 +749,20 @@ def createVariants(request):
 @api_view(['GET'])
 def getDiscounts(request):
     token = request.COOKIES.get('jwt')
+    language = request.query_params.get('language')
 
     if not token:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     try:
         payload = jwt.decode(token, 'secret', algorithm=['HS256'])
     except jwt.ExpiredSignatureError:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     user = User.objects.filter(id=payload['id']).first()
 
     if not user.is_staff:
-        raise AuthenticationFailed('You do not have permission to perform this action.')
+        return without_permission(language)
 
     try:
         discount = Discount.objects.filter(active=True, start_date__lte=timezone.now(), end_date__gte=timezone.now())
@@ -743,19 +776,20 @@ def getDiscounts(request):
 @api_view(['POST'])
 def createDiscount(request):
     token = request.COOKIES.get('jwt')
+    language = request.query_params.get('language')
 
     if not token:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     try:
         payload = jwt.decode(token, 'secret', algorithm=['HS256'])
     except jwt.ExpiredSignatureError:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     user = User.objects.filter(id=payload['id']).first()
 
     if not user.is_staff:
-        raise AuthenticationFailed('You do not have permission to perform this action.')
+        return without_permission(language)
 
     data = request.data
 
@@ -779,19 +813,20 @@ def createDiscount(request):
 @api_view(['GET'])
 def getSpecificDiscounts(request):
     token = request.COOKIES.get('jwt')
+    language = request.query_params.get('language')
 
     if not token:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     try:
         payload = jwt.decode(token, 'secret', algorithm=['HS256'])
     except jwt.ExpiredSignatureError:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     user = User.objects.filter(id=payload['id']).first()
 
     if not user.is_staff:
-        raise AuthenticationFailed('You do not have permission to perform this action.')
+        return without_permission(language)
 
     query = request.query_params.get('keyword')
 
@@ -818,8 +853,6 @@ def getSpecificDiscounts(request):
         page = 1
 
     page = int(page)
-    print('Page:', page)
-    print(specificDiscounts)
 
     specificDiscounts = SpecificDiscountSerializer(specificDiscounts, many=True)
     return Response({'Specific Discounts': specificDiscounts.data, 'page': page, 'pages': paginator.num_pages})
@@ -828,19 +861,20 @@ def getSpecificDiscounts(request):
 @api_view(['GET'])
 def getSpecificDiscount(request, pk):
     token = request.COOKIES.get('jwt')
+    language = request.query_params.get('language')
 
     if not token:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     try:
         payload = jwt.decode(token, 'secret', algorithm=['HS256'])
     except jwt.ExpiredSignatureError:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     user = User.objects.filter(id=payload['id']).first()
 
     if not user.is_staff:
-        raise AuthenticationFailed('You do not have permission to perform this action.')
+        return without_permission(language)
 
     try:
         specificDiscount = SpecificDiscount.objects.get(id=pk)
@@ -854,19 +888,20 @@ def getSpecificDiscount(request, pk):
 @api_view(['POST'])
 def createSpecificDiscount(request):
     token = request.COOKIES.get('jwt')
+    language = request.query_params.get('language')
 
     if not token:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     try:
         payload = jwt.decode(token, 'secret', algorithm=['HS256'])
     except jwt.ExpiredSignatureError:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     user = User.objects.filter(id=payload['id']).first()
 
     if not user.is_staff:
-        raise AuthenticationFailed('You do not have permission to perform this action.')
+        return without_permission(language)
 
     data = request.data
 
@@ -959,19 +994,20 @@ def getProductAdmin(request, pk):
 @api_view(['PUT'])
 def updateSpecificDiscount(request, pk):
     token = request.COOKIES.get('jwt')
+    language = request.query_params.get('language')
 
     if not token:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     try:
         payload = jwt.decode(token, 'secret', algorithm=['HS256'])
     except jwt.ExpiredSignatureError:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     user = User.objects.filter(id=payload['id']).first()
 
     if not user.is_staff:
-        raise AuthenticationFailed('You do not have permission to perform this action.')
+        return without_permission(language)
 
     data = request.data
 
@@ -1011,14 +1047,15 @@ def updateSpecificDiscount(request, pk):
 @api_view(['POST'])
 def addToCart(request, pk):
     token = request.COOKIES.get('jwt')
+    language = request.query_params.get('language')
 
     if not token:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     try:
         payload = jwt.decode(token, 'secret', algorithm=['HS256'])
     except jwt.ExpiredSignatureError:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     product = Product.objects.get(_id=pk, active=True)
 
@@ -1029,26 +1066,41 @@ def addToCart(request, pk):
     variants = Variants.objects.get(id=data['variantID'], active=True)
 
     if AddToCart.objects.filter(user=user, product_id=product._id, variants=variants.id).exists():
-        raise ValidationError("This product is already in Cart")
+        if language == 'GEO':
+            return Response({'ეს პროდუქტი უკვე კალათაშია.'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        elif language == 'ENG':
+            return Response({'This product is already in Cart.'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        elif language == 'RUS':
+            return Response({'Этот товар уже в корзине.'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        else:
+            return Response({'This product is already in Cart.'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
     cart = AddToCart.objects.create(user=user, product=product, variants=variants, qty=data['qty'])
 
     cart.save()
 
-    return Response("Product Added")
+    if language == 'GEO':
+        return Response({'პროდუქტი წარმატებით დაემატა თქვენს კალათაში.'}, status=status.HTTP_201_CREATED)
+    elif language == 'ENG':
+        return Response({'The product has been successfully added to your cart.'}, status=status.HTTP_201_CREATED)
+    elif language == 'RUS':
+        return Response({'Товар успешно добавлен в корзину.'}, status=status.HTTP_201_CREATED)
+    else:
+        return Response({'The product has been successfully added to your cart.'}, status=status.HTTP_201_CREATED)
 
 
 @api_view(['PUT'])
 def updateCart(request, pk):
     token = request.COOKIES.get('jwt')
+    language = request.query_params.get('language')
 
     if not token:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     try:
         payload = jwt.decode(token, 'secret', algorithm=['HS256'])
     except jwt.ExpiredSignatureError:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     user = User.objects.filter(id=payload['id']).first()
 
@@ -1057,7 +1109,14 @@ def updateCart(request, pk):
     try:
         carts = AddToCart.objects.get(id=pk)
     except:
-        raise ValidationError('Variant with this id does not exist')
+        if language == 'GEO':
+            return Response({'ვარიანტი ამ ID-ით არ არსებობს.'}, status=status.HTTP_404_NOT_FOUND)
+        elif language == 'ENG':
+            return Response({'Variant with this ID does not exist.'}, status=status.HTTP_404_NOT_FOUND)
+        elif language == 'RUS':
+            return Response({'Варианта с таким идентификатором не существует.'}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            return Response({'Variant with this ID does not exist.'}, status=status.HTTP_404_NOT_FOUND)
 
     carts.qty = data['qty']
 
@@ -1075,12 +1134,12 @@ def getUserCart(request):
     token = request.COOKIES.get('jwt')
 
     if not token:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     try:
         payload = jwt.decode(token, 'secret', algorithm=['HS256'])
     except jwt.ExpiredSignatureError:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     user = User.objects.filter(id=payload['id']).first()
 
@@ -1182,19 +1241,20 @@ def deleteCart(request, pk):
 @api_view(['DELETE'])
 def deleteCategory(request, pk):
     token = request.COOKIES.get('jwt')
+    language = request.query_params.get('language')
 
     if not token:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     try:
         payload = jwt.decode(token, 'secret', algorithm=['HS256'])
     except jwt.ExpiredSignatureError:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     user = User.objects.filter(id=payload['id']).first()
 
     if not user.is_staff:
-        raise AuthenticationFailed('You do not have permission to perform this action.')
+        return without_permission(language)
 
     Category.objects.get(_id=pk).delete()
 
@@ -1204,19 +1264,20 @@ def deleteCategory(request, pk):
 @api_view(['DELETE'])
 def deleteDiscount(request, pk):
     token = request.COOKIES.get('jwt')
+    language = request.query_params.get('language')
 
     if not token:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     try:
         payload = jwt.decode(token, 'secret', algorithm=['HS256'])
     except jwt.ExpiredSignatureError:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     user = User.objects.filter(id=payload['id']).first()
 
     if not user.is_staff:
-        raise AuthenticationFailed('You do not have permission to perform this action.')
+        return without_permission(language)
 
     try:
         Discount.objects.get(id=pk).delete()
@@ -1228,19 +1289,20 @@ def deleteDiscount(request, pk):
 @api_view(['DELETE'])
 def deleteSpecificDiscount(request, pk):
     token = request.COOKIES.get('jwt')
+    language = request.query_params.get('language')
 
     if not token:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     try:
         payload = jwt.decode(token, 'secret', algorithm=['HS256'])
     except jwt.ExpiredSignatureError:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     user = User.objects.filter(id=payload['id']).first()
 
     if not user.is_staff:
-        raise AuthenticationFailed('You do not have permission to perform this action.')
+        return without_permission(language)
 
     try:
         SpecificDiscount.objects.get(id=pk).delete()
@@ -1252,19 +1314,20 @@ def deleteSpecificDiscount(request, pk):
 @api_view(['PUT'])
 def updateVariant(request, pk):
     token = request.COOKIES.get('jwt')
+    language = request.query_params.get('language')
 
     if not token:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     try:
         payload = jwt.decode(token, 'secret', algorithm=['HS256'])
     except jwt.ExpiredSignatureError:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     user = User.objects.filter(id=payload['id']).first()
 
     if not user.is_staff:
-        raise AuthenticationFailed('You do not have permission to perform this action.')
+        return without_permission(language)
 
     data = request.data
 
@@ -1294,19 +1357,20 @@ def updateVariant(request, pk):
 @api_view(['DELETE'])
 def deleteVariant(request, pk):
     token = request.COOKIES.get('jwt')
+    language = request.query_params.get('language')
 
     if not token:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     try:
         payload = jwt.decode(token, 'secret', algorithm=['HS256'])
     except jwt.ExpiredSignatureError:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     user = User.objects.filter(id=payload['id']).first()
 
     if not user.is_staff:
-        raise AuthenticationFailed('You do not have permission to perform this action.')
+        return without_permission(language)
 
     try:
         variant = Variants.objects.get(id=pk, active=True)
@@ -1320,19 +1384,20 @@ def deleteVariant(request, pk):
 @api_view(['PUT'])
 def updateProduct(request, pk):
     token = request.COOKIES.get('jwt')
+    language = request.query_params.get('language')
 
     if not token:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     try:
         payload = jwt.decode(token, 'secret', algorithm=['HS256'])
     except jwt.ExpiredSignatureError:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     user = User.objects.filter(id=payload['id']).first()
 
     if not user.is_staff:
-        raise AuthenticationFailed('You do not have permission to perform this action.')
+        return without_permission(language)
 
     data = request.data
     product = Product.objects.get(_id=pk, active=True)
@@ -1426,19 +1491,20 @@ def updateProduct(request, pk):
 @api_view(['DELETE'])
 def deleteProduct(request, pk):
     token = request.COOKIES.get('jwt')
+    language = request.query_params.get('language')
 
     if not token:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     try:
         payload = jwt.decode(token, 'secret', algorithm=['HS256'])
     except jwt.ExpiredSignatureError:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     user = User.objects.filter(id=payload['id']).first()
 
     if not user.is_staff:
-        raise AuthenticationFailed('You do not have permission to perform this action.')
+        return without_permission(language)
 
     try:
         product = Product.objects.get(_id=pk, active=True)
@@ -1451,10 +1517,26 @@ def deleteProduct(request, pk):
 
 @api_view(['POST'])
 def uploadImage(request):
+    token = request.COOKIES.get('jwt')
+    language = request.query_params.get('language')
+
+    if not token:
+        return authentication(language)
+
+    try:
+        payload = jwt.decode(token, 'secret', algorithm=['HS256'])
+    except jwt.ExpiredSignatureError:
+        return authentication(language)
+
+    user = User.objects.filter(id=payload['id']).first()
+
+    if not user.is_staff:
+        return without_permission(language)
+
     data = request.data
 
     product_id = data['product_id']
-    ord = data['ord']
+    order = data['ord']
 
     try:
         product = Product.objects.get(_id=product_id, active=True)
@@ -1463,7 +1545,7 @@ def uploadImage(request):
 
     picture = Picture()
     picture.product = product
-    picture.ord = ord
+    picture.ord = order
     picture.picture = request.FILES.get('picture')
     picture.save()
 
@@ -1473,19 +1555,20 @@ def uploadImage(request):
 @api_view(['DELETE'])
 def deleteImage(request, pk):
     token = request.COOKIES.get('jwt')
+    language = request.query_params.get('language')
 
     if not token:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     try:
         payload = jwt.decode(token, 'secret', algorithm=['HS256'])
     except jwt.ExpiredSignatureError:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     user = User.objects.filter(id=payload['id']).first()
 
     if not user.is_staff:
-        raise AuthenticationFailed('You do not have permission to perform this action.')
+        return without_permission(language)
 
     try:
         picture = Picture.objects.get(id=pk)
@@ -1519,19 +1602,20 @@ def getWarehouses(request):
 @api_view(['GET'])
 def getProductImagesById(request, pk):
     token = request.COOKIES.get('jwt')
+    language = request.query_params.get('language')
 
     if not token:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     try:
         payload = jwt.decode(token, 'secret', algorithm=['HS256'])
     except jwt.ExpiredSignatureError:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     user = User.objects.filter(id=payload['id']).first()
 
     if not user.is_staff:
-        raise AuthenticationFailed('You do not have permission to perform this action.')
+        return without_permission(language)
 
     try:
         product = Picture.objects.filter(product_id=pk)

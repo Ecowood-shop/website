@@ -19,6 +19,9 @@ from rest_framework.decorators import api_view
 from rest_framework.exceptions import AuthenticationFailed, NotFound, ValidationError
 from rest_framework.response import Response
 from rest_framework_jwt.settings import api_settings
+
+from base.errors.translations import authentication, user_not_found, current_password_not_correct, without_permission
+
 import threading
 
 # Get the JWT settings
@@ -39,13 +42,29 @@ def RegisterUser(request):
 @ratelimit(key='user', rate='5/m', block=True)
 @api_view(['POST'])
 def verify_email(request, pk, token):
+    language = request.query_params.get('language')
+
     try:
         user = User.objects.get(id=pk)
     except User.DoesNotExist:
-        raise AuthenticationFailed('User not found!')
+        if language == 'GEO':
+            return Response({'მომხმარებელი ვერ მოიძებნა!'}, status=status.HTTP_404_NOT_FOUND)
+        elif language == 'ENG':
+            return Response({'User not found!'}, status=status.HTTP_404_NOT_FOUND)
+        elif language == 'RUS':
+            return Response({'Пользователь не найден!'}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            return Response({'User not found!'}, status=status.HTTP_404_NOT_FOUND)
 
     if user.expiration_date < timezone.now():
-        return AuthenticationFailed('expired_token')
+        if language == 'GEO':
+            return Response({'ვერიფიკაციის დრო ამოიწურა'}, status=status.HTTP_408_REQUEST_TIMEOUT)
+        elif language == 'ENG':
+            return Response({'Verification Expired'}, status=status.HTTP_408_REQUEST_TIMEOUT)
+        elif language == 'RUS':
+            return Response({'Время проверки истекло!'}, status=status.HTTP_408_REQUEST_TIMEOUT)
+        else:
+            return Response({'No Order Items!'}, status=status.HTTP_408_REQUEST_TIMEOUT)
 
     if user.email_verification_token == token and not user.is_email_verified:
         user.is_email_verified = True
@@ -73,17 +92,25 @@ def verify_email(request, pk, token):
         }
         return response
 
-    return Response('message: Verification Rejected')
+    if language == 'GEO':
+        return Response({'ვერიფიკაცია უარყოფილია'}, status=status.HTTP_406_NOT_ACCEPTABLE)
+    elif language == 'ENG':
+        return Response({'Verification Rejected'}, status=status.HTTP_406_NOT_ACCEPTABLE)
+    elif language == 'RUS':
+        return Response({'Проверка отклонена'}, status=status.HTTP_406_NOT_ACCEPTABLE)
+    else:
+        return Response({'Verification Rejected'}, status=status.HTTP_406_NOT_ACCEPTABLE)
 
 
 @api_view(['POST'])
 def forgotPassword(request):
     email = request.data.get('email')
+    language = request.query_params.get('language')
 
     try:
         user = User.objects.get(email=email)
     except User.DoesNotExist:
-        raise AuthenticationFailed('Email address does not exist.')
+        return user_not_found(language)
 
     # Generate a password reset token and set its expiration date
     user = User.objects.get(email=email)
@@ -96,24 +123,47 @@ def forgotPassword(request):
                                  args=(user.id, user.first_name, user.email, user.password_reset_token), daemon=True)
     my_thread.start()
 
-    return Response('Password reset email sent.')
+    if language == 'GEO':
+        return Response({'პაროლის აღსადგენი მეილი გამოგზავნილია.'}, status=status.HTTP_200_OK)
+    elif language == 'ENG':
+        return Response({'Password reset email sent.'}, status=status.HTTP_200_OK)
+    elif language == 'RUS':
+        return Response({'Письмо для сброса пароля отправлено.'}, status=status.HTTP_200_OK)
+    else:
+        return Response({'Password reset email sent.'}, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
 def resetPassword(request, pk, token):
+    language = request.query_params.get('language')
+
     try:
         user = User.objects.get(id=pk, password_reset_token=token)
     except User.DoesNotExist:
-        raise AuthenticationFailed('Invalid reset link.')
+        return user_not_found(language)
 
     if user.password_reset_token_expiration_date < timezone.now():
-        raise AuthenticationFailed('Reset link expired.')
+        if language == 'GEO':
+            return Response({'აღდგენის ბმულის ვადა ამოიწურა.'}, status=status.HTTP_408_REQUEST_TIMEOUT)
+        elif language == 'ENG':
+            return Response({'Reset link expired.'}, status=status.HTTP_408_REQUEST_TIMEOUT)
+        elif language == 'RUS':
+            return Response({'Срок действия ссылки для сброса истек.'}, status=status.HTTP_408_REQUEST_TIMEOUT)
+        else:
+            return Response({'Reset link expired.'}, status=status.HTTP_408_REQUEST_TIMEOUT)
 
     password = request.data.get('password')
     confirm_password = request.data.get('confirm_password')
 
     if password != confirm_password:
-        raise ValidationError('Passwords do not match.')
+        if language == 'GEO':
+            return Response({'Პაროლები არ ემთხვევა.'}, status=status.HTTP_408_REQUEST_TIMEOUT)
+        elif language == 'ENG':
+            return Response({'Passwords do not match.'}, status=status.HTTP_408_REQUEST_TIMEOUT)
+        elif language == 'RUS':
+            return Response({'Пароли не совпадают.'}, status=status.HTTP_408_REQUEST_TIMEOUT)
+        else:
+            return Response({'Passwords do not match.'}, status=status.HTTP_408_REQUEST_TIMEOUT)
 
     validators.validate_password(password=password, user=User)
 
@@ -122,7 +172,14 @@ def resetPassword(request, pk, token):
     user.password_reset_token_expiration_date = None
     user.save()
 
-    return Response('Password reset successful.')
+    if language == 'GEO':
+        return Response({'პაროლის აღდგენა წარმატებით დასრულდა.'}, status=status.HTTP_200_OK)
+    elif language == 'ENG':
+        return Response({'Password reset successful.'}, status=status.HTTP_200_OK)
+    elif language == 'RUS':
+        return Response({'Сброс пароля прошел успешно.'}, status=status.HTTP_200_OK)
+    else:
+        return Response({'Password reset successful.'}, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
@@ -130,16 +187,33 @@ def LoginUser(request):
     email = request.data['email']
     password = request.data['password']
 
+    language = request.query_params.get('language')
+
     user = User.objects.filter(email=email).first()
 
     if user is None:
-        raise AuthenticationFailed('User not found!')
+        return user_not_found(language)
 
     if not user.is_email_verified:
-        raise AuthenticationFailed('You need to verify your account')
+        if language == 'GEO':
+            return Response({'გთხოვთ გაიაროთ ვერიფიკაცია.'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        elif language == 'ENG':
+            return Response({'You need to verify your account'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        elif language == 'RUS':
+            return Response({'Вам необходимо подтвердить свою учетную запись'},
+                            status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        else:
+            return Response({'You need to verify your account'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
     if not user.check_password(password):
-        raise AuthenticationFailed('Incorrect password!')
+        if language == 'GEO':
+            return Response({'პაროლი არასწორია!'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        elif language == 'ENG':
+            return Response({'Incorrect password!'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        elif language == 'RUS':
+            return Response({'Неверный пароль!'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        else:
+            return Response({'Incorrect password!'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
     payload = {
         'id': user.id,
@@ -164,13 +238,16 @@ def LoginUser(request):
 @api_view(['GET'])
 def getUserProfile(request):
     token = request.COOKIES.get('jwt')
+
+    language = request.query_params.get('language')
+
     if not token:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     try:
         payload = jwt.decode(token, 'secret', algorithm=['HS256'])
     except jwt.ExpiredSignatureError:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     user = User.objects.filter(id=payload['id']).first()
     serializer = UserSerializer(user)
@@ -182,13 +259,14 @@ def getUserProfile(request):
 def updateUserProfile(request):
     token = request.COOKIES.get('jwt')
 
-    if not token:
-        raise AuthenticationFailed('Unauthenticated!')
+    language = request.query_params.get('language')
 
+    if not token:
+        return authentication(language)
     try:
         payload = jwt.decode(token, 'secret', algorithm=['HS256'])
     except jwt.ExpiredSignatureError:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     user = User.objects.filter(id=payload['id']).first()
 
@@ -210,7 +288,14 @@ def updateUserProfile(request):
                         user.phone = data['phone']
 
                 except:
-                    raise ValidationError('Password missing uppercase, lowercase or digit.')
+                    if language == 'GEO':
+                        return Response({'პაროლი აუცილებლად უნდა შეიცავდეს მინიმუმ ერთ დიდ, პატარა ასოებს და რომელიმე ციფრს.'}, status=status.HTTP_400_BAD_REQUEST)
+                    elif language == 'ENG':
+                        return Response({'Password missing uppercase, lowercase or digit.'}, status=status.HTTP_400_BAD_REQUEST)
+                    elif language == 'RUS':
+                        return Response({'В пароле отсутствуют заглавные, строчные буквы или цифры.'}, status=status.HTTP_400_BAD_REQUEST)
+                    else:
+                        return Response({'Password missing uppercase, lowercase or digit.'}, status=status.HTTP_400_BAD_REQUEST)
 
             elif data['new_password'] == '' and data['confirm_password'] == '' and user.check_password(
                     data['password']):
@@ -221,9 +306,9 @@ def updateUserProfile(request):
                 if data['phone']:
                     user.phone = data['phone']
             else:
-                raise ValidationError("current password is not correct")
+                return current_password_not_correct(language)
         else:
-            raise ValidationError("current password is not correct")
+            return current_password_not_correct(language)
 
         user.save()
 
@@ -251,19 +336,20 @@ def LogoutUser(request):
 @api_view(['GET'])
 def getUsers(request):
     token = request.COOKIES.get('jwt')
-    
+    language = request.query_params.get('language')
+
     if not token:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     try:
         payload = jwt.decode(token, 'secret', algorithm=['HS256'])
     except jwt.ExpiredSignatureError:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     user = User.objects.filter(id=payload['id']).first()
 
     if not user.is_staff:
-        raise AuthenticationFailed('You do not have permission to perform this action.')
+        return without_permission(language)
 
     query = request.query_params.get('keyword')
 
@@ -294,8 +380,6 @@ def getUsers(request):
         page = 1
 
     page = int(page)
-    print('Page:', page)
-    print(users)
 
     serializer = UserSerializer(users, many=True)
     return Response({'users': serializer.data, 'page': page, 'pages': paginator.num_pages})
@@ -304,19 +388,20 @@ def getUsers(request):
 @api_view(['GET'])
 def getJustUsers(request):
     token = request.COOKIES.get('jwt')
+    language = request.query_params.get('language')
 
     if not token:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     try:
         payload = jwt.decode(token, 'secret', algorithm=['HS256'])
     except jwt.ExpiredSignatureError:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     user = User.objects.filter(id=payload['id']).first()
 
     if not user.is_staff:
-        raise AuthenticationFailed('You do not have permission to perform this action.')
+        return without_permission(language)
 
     try:
         users = User.objects.all()
@@ -330,24 +415,25 @@ def getJustUsers(request):
 @api_view(['GET'])
 def getUserById(request, pk):
     token = request.COOKIES.get('jwt')
+    language = request.query_params.get('language')
 
     if not token:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     try:
         payload = jwt.decode(token, 'secret', algorithm=['HS256'])
     except jwt.ExpiredSignatureError:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     user = User.objects.filter(id=payload['id']).first()
 
     if not user.is_staff:
-        raise AuthenticationFailed('You do not have permission to perform this action.')
+        return without_permission(language)
 
     try:
         userById = User.objects.get(id=pk)
     except:
-        raise NotFound()
+        return user_not_found(language)
 
     serializer = UserSerializer(userById, many=False)
     return Response(serializer.data)
@@ -356,24 +442,25 @@ def getUserById(request, pk):
 @api_view(['PUT'])
 def updateUserById(request, pk):
     token = request.COOKIES.get('jwt')
+    language = request.query_params.get('language')
 
     if not token:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     try:
         payload = jwt.decode(token, 'secret', algorithm=['HS256'])
     except jwt.ExpiredSignatureError:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     user = User.objects.filter(id=payload['id']).first()
 
     if not user.is_staff:
-        raise AuthenticationFailed('You do not have permission to perform this action.')
+        return without_permission(language)
 
     try:
         userById = User.objects.get(id=pk)
     except:
-        raise NotFound()
+        return user_not_found(language)
 
     data = request.data
 
@@ -397,19 +484,20 @@ def updateUserById(request, pk):
 @api_view(['DELETE'])
 def deleteUser(request, pk):
     token = request.COOKIES.get('jwt')
+    language = request.query_params.get('language')
 
     if not token:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     try:
         payload = jwt.decode(token, 'secret', algorithm=['HS256'])
     except jwt.ExpiredSignatureError:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     user = User.objects.filter(id=payload['id']).first()
 
     if not user.is_staff:
-        raise AuthenticationFailed('You do not have permission to perform this action.')
+        return without_permission(language)
 
     try:
         userForDeletion = User.objects.get(id=pk)
