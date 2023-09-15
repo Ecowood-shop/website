@@ -35,8 +35,6 @@ class UserSerializer(serializers.ModelSerializer):
                                          args=(user.id, user.first_name, user.email, user.email_verification_token),
                                          daemon=True)
             my_thread.start()
-            print('ageeeeeeeeeeeeeer')
-
 
         except Exception as e:
             user.delete()

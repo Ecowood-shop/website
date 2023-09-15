@@ -19,6 +19,8 @@ import threading
 import json
 
 from base.payment.JustPay import justPay, transactionInformation
+from base.errors.translations import authentication, no_items, out_of_stock, order_not_exist, without_permission, \
+    order_with_id_not_exist
 
 
 def apply_user_discounts(products, user):
@@ -36,12 +38,12 @@ def addOrderItems(request):
     language = request.query_params.get('language')
 
     if not token:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     try:
         payload = jwt.decode(token, 'secret', algorithm=['HS256'])
     except jwt.ExpiredSignatureError:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     user = User.objects.filter(id=payload['id']).first()
     data = request.data
@@ -49,7 +51,7 @@ def addOrderItems(request):
     orderItems = AddToCart.objects.filter(user=user)
 
     if len(orderItems) == 0:
-        return Response({'detail': 'No Order Items'}, status=status.HTTP_400_BAD_REQUEST)
+        return no_items(language)
     else:
         discounted_sum_price = 0.0
         for item in orderItems:
@@ -126,7 +128,7 @@ def addOrderItems(request):
                         variant.save()
 
                     else:
-                        return Response({'detail': 'Out of stock'}, status=status.HTTP_400_BAD_REQUEST)
+                        return out_of_stock(language)
 
                 if language == 'ENG':
                     lan = 'EN'
@@ -208,19 +210,19 @@ def getMyOrders(request):
     language = request.query_params.get('language')
 
     if not token:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     try:
         payload = jwt.decode(token, 'secret', algorithm=['HS256'])
     except jwt.ExpiredSignatureError:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     user = User.objects.filter(id=payload['id']).first()
     orders = user.order_set.all().order_by('-createdAt')
 
     page = request.query_params.get('page')
 
-    paginator = Paginator(orders, 20)
+    paginator = Paginator(orders, 10)
 
     try:
         orders = paginator.page(page)
@@ -233,8 +235,6 @@ def getMyOrders(request):
         page = 1
 
     page = int(page)
-    print('Page:', page)
-    print(orders)
 
     serializer = OrderSerializer(orders, many=True)
 
@@ -256,19 +256,20 @@ def getMyOrders(request):
 @api_view(['GET'])
 def getOrders(request):
     token = request.COOKIES.get('jwt')
+    language = request.query_params.get('language')
 
     if not token:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     try:
         payload = jwt.decode(token, 'secret', algorithm=['HS256'])
     except jwt.ExpiredSignatureError:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     user = User.objects.filter(id=payload['id']).first()
 
     if not user.is_staff:
-        raise AuthenticationFailed('You do not have permission to perform this action.')
+        return without_permission(language)
 
     query = request.query_params.get('keyword')
     ordID = request.query_params.get('ordID')
@@ -304,8 +305,6 @@ def getOrders(request):
         page = 1
 
     page = int(page)
-    print('Page:', page)
-    print(orders)
 
     serializer = OrderSerializer(orders, many=True)
     return Response({'Orders': serializer.data, 'page': page, 'pages': paginator.num_pages})
@@ -318,19 +317,19 @@ def getOrderById(request, pk):
     language = request.query_params.get('language')
 
     if not token:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     try:
         payload = jwt.decode(token, 'secret', algorithm=['HS256'])
     except jwt.ExpiredSignatureError:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     user = User.objects.filter(id=payload['id']).first()
 
     try:
         order = Order.objects.get(_id=pk)
     except:
-        raise ValidationError('Order with this ID does not exist')
+        return order_with_id_not_exist(language)
 
     orderItems = order.orderitem_set.all()
     variant = []
@@ -379,89 +378,110 @@ def getOrderById(request, pk):
 
         return Response({'Order': serializer.data, 'variants': variantSerializer.data, 'size': productSerializer.data})
     else:
-        Response({'detail': 'Not authorized to view this order'},
-                 status=status.HTTP_400_BAD_REQUEST)
-    return Response({'detail': 'Order does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+        return without_permission(language)
 
 
 @api_view(['PUT'])
 def updateOrderToPaid(request, pk):
     token = request.COOKIES.get('jwt')
+    language = request.query_params.get('language')
 
     if not token:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     try:
         payload = jwt.decode(token, 'secret', algorithm=['HS256'])
     except jwt.ExpiredSignatureError:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     user = User.objects.filter(id=payload['id']).first()
 
     if not user.is_staff:
-        raise AuthenticationFailed('You do not have permission to perform this action.')
-
+        return without_permission(language)
     try:
         order = Order.objects.get(_id=pk)
     except:
-        return Response({'detail': 'Order does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+        return order_with_id_not_exist(language)
 
     order.isPaid = True
     order.paidAt = datetime.now()
     order.save()
 
-    return Response('Order was paid')
+    if language == 'GEO':
+        return Response({'შეკვეთა გადახდილია'}, status=status.HTTP_200_OK)
+    elif language == 'ENG':
+        return Response({'Order was paid'}, status=status.HTTP_200_OK)
+    elif language == 'RUS':
+        return Response({'Заказ оплачен'}, status=status.HTTP_200_OK)
+    else:
+        return Response({'Order was paid'}, status=status.HTTP_200_OK)
 
 
 @api_view(['PUT'])
 def updateOrderToDelivered(request, pk):
     token = request.COOKIES.get('jwt')
+    language = request.query_params.get('language')
 
     if not token:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     try:
         payload = jwt.decode(token, 'secret', algorithm=['HS256'])
     except jwt.ExpiredSignatureError:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     user = User.objects.filter(id=payload['id']).first()
 
     if not user.is_staff:
-        raise AuthenticationFailed('You do not have permission to perform this action.')
+        return without_permission(language)
 
     try:
         order = Order.objects.get(_id=pk)
     except:
-        return Response({'detail': 'Order does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+        return order_with_id_not_exist(language)
 
     order.isDelivered = True
     order.deliveredAt = datetime.now()
     order.save()
 
-    return Response('Order was delivered')
+    if language == 'GEO':
+        return Response({'შეკვეთა მიტანილია'}, status=status.HTTP_200_OK)
+    elif language == 'ENG':
+        return Response({'Order was delivered'}, status=status.HTTP_200_OK)
+    elif language == 'RUS':
+        return Response({'Заказ был доставлен'}, status=status.HTTP_200_OK)
+    else:
+        return Response({'Order was delivered'}, status=status.HTTP_200_OK)
 
 
 @api_view(['DELETE'])
 def deleteOrder(request, pk):
     token = request.COOKIES.get('jwt')
+    language = request.query_params.get('language')
 
     if not token:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     try:
         payload = jwt.decode(token, 'secret', algorithm=['HS256'])
     except jwt.ExpiredSignatureError:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     user = User.objects.filter(id=payload['id']).first()
 
     if not user.is_staff:
-        raise AuthenticationFailed('You do not have permission to perform this action.')
+        return without_permission
 
     Order.objects.get(_id=pk).delete()
 
-    return Response("Order Deleted")
+    if language == 'GEO':
+        return Response({'შეკვეთა წაშლილია'}, status=status.HTTP_200_OK)
+    elif language == 'ENG':
+        return Response({'Order Deleted'}, status=status.HTTP_200_OK)
+    elif language == 'RUS':
+        return Response({'Заказ удален'}, status=status.HTTP_200_OK)
+    else:
+        return Response({'Order Deleted'}, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
@@ -471,12 +491,12 @@ def getShippingPrices(request):
     token = request.COOKIES.get('jwt')
 
     if not token:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     try:
         payload = jwt.decode(token, 'secret', algorithm=['HS256'])
     except jwt.ExpiredSignatureError:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     prices = ShippingPrices.objects.all()
     serializer = ShippingPricesSerializer(prices, many=True)
@@ -497,19 +517,20 @@ def getShippingPrices(request):
 @api_view(['GET'])
 def getShippingPricesById(request, pk):
     token = request.COOKIES.get('jwt')
+    language = request.query_params.get('language')
 
     if not token:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     try:
         payload = jwt.decode(token, 'secret', algorithm=['HS256'])
     except jwt.ExpiredSignatureError:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     user = User.objects.filter(id=payload['id']).first()
 
     if not user.is_staff:
-        raise AuthenticationFailed('You do not have permission to perform this action.')
+        return without_permission(language)
 
     try:
         newDict = {}
@@ -536,19 +557,20 @@ def getShippingPricesById(request, pk):
 @api_view(['POST'])
 def createShippingPrice(request):
     token = request.COOKIES.get('jwt')
+    language = request.query_params.get('language')
 
     if not token:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     try:
         payload = jwt.decode(token, 'secret', algorithm=['HS256'])
     except jwt.ExpiredSignatureError:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     user = User.objects.filter(id=payload['id']).first()
 
     if not user.is_staff:
-        raise AuthenticationFailed('You do not have permission to perform this action.')
+        return without_permission(language)
 
     data = request.data
 
@@ -573,6 +595,22 @@ def createShippingPrice(request):
 
 @api_view(['DELETE'])
 def deleteShippingPrice(request, pk):
+    token = request.COOKIES.get('jwt')
+    language = request.query_params.get('language')
+
+    if not token:
+        return authentication(language)
+
+    try:
+        payload = jwt.decode(token, 'secret', algorithm=['HS256'])
+    except jwt.ExpiredSignatureError:
+        return authentication(language)
+
+    user = User.objects.filter(id=payload['id']).first()
+
+    if not user.is_staff:
+        return without_permission(language)
+
     ShippingPrices.objects.get(_id=pk).delete()
 
     return Response("Location Successfully Deleted")
@@ -581,19 +619,20 @@ def deleteShippingPrice(request, pk):
 @api_view(['PUT'])
 def updateShippingPrice(request, pk):
     token = request.COOKIES.get('jwt')
+    language = request.query_params.get('language')
 
     if not token:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     try:
         payload = jwt.decode(token, 'secret', algorithm=['HS256'])
     except jwt.ExpiredSignatureError:
-        raise AuthenticationFailed('Unauthenticated!')
+        return authentication(language)
 
     user = User.objects.filter(id=payload['id']).first()
 
     if not user.is_staff:
-        raise AuthenticationFailed('You do not have permission to perform this action.')
+        return without_permission(language)
 
     data = request.data
 
