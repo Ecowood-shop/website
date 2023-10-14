@@ -90,11 +90,11 @@ const IconContainer = styled.div`
 `;
 
 // Export forgot password components
-function ForgotPassword({ t, pageChanger }) {
+function ForgotPassword({ t, i18n, pageChanger }) {
   const dispatch = useDispatch();
 
   const onSubmit = (values) => {
-    dispatch(forgotPassword(values));
+    dispatch(forgotPassword({ values: values, language: i18n.language }));
   };
 
   const forgotPasswordSlice = useSelector((state) => state.forgotPassword);

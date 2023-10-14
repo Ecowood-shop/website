@@ -75,7 +75,7 @@ function CreateCityScreen() {
   // Initialize hooks
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { t } = useTranslation(["admin"]);
+  const { t, i18n } = useTranslation(["admin"]);
 
   // Get shipping prices from store
   const shippingPriceSlice = useSelector((state) => state.shippingPrices);
@@ -108,7 +108,7 @@ function CreateCityScreen() {
         <Formik
           initialValues={initialValues}
           validationSchema={() => validationSchema(t)}
-          onSubmit={(e) => onSubmit(e, dispatch)}
+          onSubmit={(e) => onSubmit(e, i18n.language, dispatch)}
         >
           {() => {
             return (

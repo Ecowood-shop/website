@@ -15,10 +15,10 @@ const initialState = {
 export const resetPassword = createAsyncThunk(
   "auth/resetPassword",
   async (args, { rejectWithValue }) => {
-    const { id, token, formData } = args;
+    const { id, token, formData, language } = args;
     try {
       const { data } = await useAxios.post(
-        `/api/users/reset/password/${id}/${token}/`,
+        `/api/users/reset/password/${id}/${token}/?language=${language.toUpperCase()}`,
         formData
       );
       return data;

@@ -38,7 +38,7 @@ const Container = styled.div`
 `;
 
 // Export product select
-function ProductSelect({ formik }) {
+function ProductSelect({ formik, i18n }) {
   // Initialize hooks
   const dispatch = useDispatch();
 
@@ -46,8 +46,8 @@ function ProductSelect({ formik }) {
   const { products } = useSelector((state) => state.discountProducts);
 
   useEffect(() => {
-    dispatch(getProducts());
-  }, [dispatch]);
+    dispatch(getProducts({ language: i18n.language }));
+  }, [dispatch, i18n.language]);
 
   // Formilize products
 

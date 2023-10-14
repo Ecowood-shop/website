@@ -77,7 +77,7 @@ const MessageContainer = styled.div`
   }
 `;
 
-function MobileTable({ cart, t }) {
+function MobileTable({ cart, t, i18n }) {
   // Initialize hooks
   const navigate = useNavigate();
 
@@ -103,6 +103,7 @@ function MobileTable({ cart, t }) {
                     (item) => item._id === cartItem.product
                   )}
                   t={t}
+                  i18n={i18n}
                   key={index}
                   variant={cart.variants.find(
                     (item) => item.id === cartItem.variants

@@ -16,9 +16,11 @@ const initialState = {
 export const getImages = createAsyncThunk(
   "images/get",
   async (args, { rejectWithValue }) => {
-    const { id } = args;
+    const { id, language } = args;
     try {
-      const { data } = await useCustomAxios.get(`/api/products/image/${id}/`);
+      const { data } = await useCustomAxios.get(
+        `/api/products/image/${id}/?language=${language.toUpperCase()}`
+      );
       return data;
     } catch (err) {
       return rejectWithValue(Object.values(err.response.data)[0]);
@@ -30,9 +32,12 @@ export const getImages = createAsyncThunk(
 export const createImage = createAsyncThunk(
   "image/create",
   async (args, { rejectWithValue }) => {
-    const { formData } = args;
+    const { formData, language } = args;
     try {
-      await useCustomFileAxios.post("/api/products/upload/", formData);
+      await useCustomFileAxios.post(
+        `/api/products/upload/?language=${language.toUpperCase()}`,
+        formData
+      );
     } catch (err) {
       return rejectWithValue(Object.values(err.response.data)[0]);
     }
@@ -43,9 +48,11 @@ export const createImage = createAsyncThunk(
 export const deleteImage = createAsyncThunk(
   "image/delete",
   async (args, { rejectWithValue }) => {
-    const { id } = args;
+    const { id, language } = args;
     try {
-      await useCustomAxios.delete(`/api/products/image/delete/${id}/`);
+      await useCustomAxios.delete(
+        `/api/products/image/delete/${id}/?language=${language.toUpperCase()}`
+      );
     } catch (err) {
       return rejectWithValue(Object.values(err.response.data)[0]);
     }

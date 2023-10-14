@@ -8,10 +8,10 @@ import { useCustomAxios } from "../../utils/hooks/useAxios";
 export const getOrders = createAsyncThunk(
   "orders/get",
   async (args, { rejectWithValue }) => {
-    const { page, word, status, id } = args;
+    const { page, word, status, id, language } = args;
     try {
       const { data } = await useCustomAxios.get(
-        `/api/orders/?keyword=${word}&page=${page}&delivered=${status}&ordID=${id}`
+        `/api/orders/?keyword=${word}&page=${page}&delivered=${status}&ordID=${id}&language=${language.toUpperCase()}`
       );
       return data;
     } catch (err) {
@@ -61,9 +61,12 @@ export const createOrder = createAsyncThunk(
 export const delivered = createAsyncThunk(
   "order/delivered",
   async (args, { rejectWithValue }) => {
-    const { id } = args;
+    const { id, language } = args;
     try {
-      await useCustomAxios.put(`/api/orders/${id}/deliver/`, {});
+      await useCustomAxios.put(
+        `/api/orders/${id}/deliver/?language=${language.toUpperCase()}`,
+        {}
+      );
     } catch (err) {
       return rejectWithValue(Object.values(err.data)[0]);
     }
@@ -74,9 +77,11 @@ export const delivered = createAsyncThunk(
 export const deleteOrder = createAsyncThunk(
   "order/delete",
   async (args, { rejectWithValue }) => {
-    const { id } = args;
+    const { id, language } = args;
     try {
-      await useCustomAxios.delete(`/api/orders/${id}/delete/`);
+      await useCustomAxios.delete(
+        `/api/orders/${id}/delete/?language=${language.toUpperCase()}`
+      );
     } catch (err) {
       return rejectWithValue(Object.values(err.data)[0]);
     }

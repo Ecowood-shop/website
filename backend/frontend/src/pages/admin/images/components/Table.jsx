@@ -30,7 +30,7 @@ const Container = styled.div`
   form {
     width: 100%;
   }
-  
+
   ${respondTo.mobile`
     width:100vw;
     margin: 0rem;
@@ -53,7 +53,7 @@ const Header = styled.h1`
 `;
 
 // Export table component
-function Table({ t, id }) {
+function Table({ t, id, i18n }) {
   // Initialize hooks
   const dispatch = useDispatch();
 
@@ -64,7 +64,7 @@ function Table({ t, id }) {
       <Formik
         initialValues={initialValues}
         validationSchema={() => validationSchema(t)}
-        onSubmit={(e) => onSubmit(e, dispatch, id)}
+        onSubmit={(e) => onSubmit(e, dispatch, i18n.language, id)}
       >
         {(formik) => {
           return (

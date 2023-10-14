@@ -78,7 +78,7 @@ function UpdateCityScreen() {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { t } = useTranslation(["admin"]);
+  const { t, i18n } = useTranslation(["admin"]);
 
   // Get shipping prices from store
   const shippingPriceSlice = useSelector((state) => state.shippingPrices);
@@ -87,11 +87,11 @@ function UpdateCityScreen() {
   useEffect(() => {
     success
       ? navigate("/admin/cities/")
-      : dispatch(getShippingPrice({ id: id }));
+      : dispatch(getShippingPrice({ id: id, language: i18n.language }));
     return () => {
       dispatch(reset());
     };
-  }, [dispatch, navigate, success, id]);
+  }, [dispatch, navigate, success, i18n.language, id]);
 
   return (
     <Container>
@@ -112,7 +112,7 @@ function UpdateCityScreen() {
           <Formik
             initialValues={initialValues(shippingPrice)}
             validationSchema={() => validationSchema(t)}
-            onSubmit={(e) => onSubmit(e, dispatch, id)}
+            onSubmit={(e) => onSubmit(e, dispatch, i18n.language, id)}
           >
             {(formik) => {
               return (

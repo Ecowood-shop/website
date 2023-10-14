@@ -78,15 +78,15 @@ function User() {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { t } = useTranslation(["admin"]);
+  const { t, i18n } = useTranslation(["admin"]);
 
   // Get user from store
   const usersSlice = useSelector((state) => state.users);
   const { error, isLoading, user, success } = usersSlice;
 
   useEffect(() => {
-    dispatch(getUser({ id: id }));
-  }, [dispatch, id]);
+    dispatch(getUser({ id: id, language: i18n.language }));
+  }, [dispatch, i18n.language, id]);
 
   useEffect(() => {
     if (success) navigate("/admin/users/");
@@ -114,7 +114,7 @@ function User() {
           <Formik
             initialValues={initialValues(user)}
             validationSchema={() => validationSchema(t)}
-            onSubmit={(e) => onSubmit(e, dispatch, id)}
+            onSubmit={(e) => onSubmit(e, dispatch, id, i18n.language)}
           >
             {(formik) => {
               return (

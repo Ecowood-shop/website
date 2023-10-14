@@ -25,7 +25,7 @@ const Container = styled.div`
   `}
 `;
 
-function Header({ user }) {
+function Header({ user, setIsMessengerShown }) {
   // Window dimensions
   const { width } = useWindowDimensions();
 
@@ -37,7 +37,7 @@ function Header({ user }) {
           <Navbar user={user} />
         </>
       ) : (
-        <Menu user={user} />
+        <Menu user={user} setIsMessengerShown={setIsMessengerShown} />
       )}
     </Container>
   );

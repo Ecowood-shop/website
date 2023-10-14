@@ -8,10 +8,10 @@ import { useCustomAxios } from "../../utils/hooks/useAxios";
 export const getDiscounts = createAsyncThunk(
   "discounts/get",
   async (args, { rejectWithValue }) => {
-    const { page, word } = args;
+    const { page, word, language } = args;
     try {
       const { data } = await useCustomAxios.get(
-        `/api/products/specific/discounts/?keyword=${word}&page=${page}`
+        `/api/products/specific/discounts/?keyword=${word}&page=${page}&language=${language.toUpperCase()}`
       );
       return data;
     } catch (err) {
@@ -24,10 +24,10 @@ export const getDiscounts = createAsyncThunk(
 export const getDiscount = createAsyncThunk(
   "discount/get",
   async (args, { rejectWithValue }) => {
-    const { id } = args;
+    const { id, language } = args;
     try {
       const { data } = await useCustomAxios.get(
-        `/api/products/specific/discounts/${id}/`
+        `/api/products/specific/discounts/${id}/?language=${language.toUpperCase()}`
       );
       return data;
     } catch (err) {
@@ -40,11 +40,15 @@ export const getDiscount = createAsyncThunk(
 export const createDiscount = createAsyncThunk(
   "discount/create",
   async (args, { rejectWithValue }) => {
-    const { formData } = args;
+    const { formData, language } = args;
+
     try {
-      await useCustomAxios.post(`/api/products/specific/discount/create/`, {
-        ...formData,
-      });
+      await useCustomAxios.post(
+        `/api/products/specific/discount/create/?language=${language.toUpperCase()}`,
+        {
+          ...formData,
+        }
+      );
     } catch (err) {
       return rejectWithValue(Object.values(err.data)[0]);
     }
@@ -55,10 +59,10 @@ export const createDiscount = createAsyncThunk(
 export const updateDiscount = createAsyncThunk(
   "discount/update",
   async (args, { rejectWithValue }) => {
-    const { id, formData } = args;
+    const { id, formData, language } = args;
     try {
       await useCustomAxios.put(
-        `/api/products/specific/discount/update/${id}/`,
+        `/api/products/specific/discount/update/${id}/?language=${language.toUpperCase()}`,
         formData
       );
     } catch (err) {
@@ -71,10 +75,10 @@ export const updateDiscount = createAsyncThunk(
 export const deleteDiscount = createAsyncThunk(
   "discount/delete",
   async (args, { rejectWithValue }) => {
-    const { id } = args;
+    const { id, language } = args;
     try {
       await useCustomAxios.delete(
-        `/api/products/delete/specific/discount/${id}/`
+        `/api/products/delete/specific/discount/${id}/?language=${language.toUpperCase()}`
       );
     } catch (err) {
       return rejectWithValue(Object.values(err.data)[0]);

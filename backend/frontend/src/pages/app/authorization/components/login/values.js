@@ -18,6 +18,6 @@ export const validationSchema = (t) => {
   });
 };
 
-export const onSubmit = (values, dispatch) => {
-  dispatch(login(values));
+export const onSubmit = (values, language, dispatch) => {
+  dispatch(login({ values, language }));
 };

@@ -17,9 +17,14 @@ const initialState = {
 // API request for updating user profile
 export const updateUser = createAsyncThunk(
   "profile/update",
-  async (formData, { dispatch, rejectWithValue }) => {
+  async (props, { dispatch, rejectWithValue }) => {
+    const { values, language } = props;
+
     try {
-      await useCustomAxios.put("/api/users/profile/update/", formData);
+      await useCustomAxios.put(
+        `/api/users/profile/update/?language=${language.toUpperCase()}`,
+        values
+      );
       dispatch(getUser());
     } catch (err) {
       return rejectWithValue(Object.values(err.data)[0]);

@@ -14,9 +14,13 @@ const initialState = {
 // API request for register
 export const register = createAsyncThunk(
   "auth/register",
-  async (formData, { rejectWithValue }) => {
+  async (args, { rejectWithValue }) => {
+    const { values, language } = args;
     try {
-      const { data } = await useAxios.post("/api/users/register/", formData);
+      const { data } = await useAxios.post(
+        `/api/users/register/?language=${language.toUpperCase()}`,
+        values
+      );
       return data;
     } catch (err) {
       return rejectWithValue(Object.values(err.response.data)[0]);

@@ -23,6 +23,6 @@ export const validationSchema = (t, variant) =>
   });
 
 // Export form submit function
-export const onSubmit = (values, dispatch, id) => {
-  dispatch(updateCart({ id: id, qty: values.quantity }));
+export const onSubmit = (values, dispatch,language, id) => {
+  dispatch(updateCart({ id: id, qty: values.quantity ,language: language}));
 };

@@ -49,12 +49,16 @@ export const validationSchema = (t, user) =>
   });
 
 // Export form submit function
-export const onSubmit = (values, actions, dispatch, product) => {
+export const onSubmit = (values, actions, dispatch, language, product) => {
   setTimeout(() => {
     dispatch(
       addToCart({
         id: product._id,
-        formData: { variantID: values.color.id, qty: values.quantity },
+        formData: {
+          variantID: values.color.id,
+          qty: values.quantity,
+        },
+        language: language,
       })
     );
     actions.setSubmitting(false);

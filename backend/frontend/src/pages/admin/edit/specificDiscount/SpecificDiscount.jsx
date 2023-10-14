@@ -81,15 +81,15 @@ function SpecificDiscount() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { id } = useParams();
-  const { t } = useTranslation(["admin"]);
+  const { t, i18n } = useTranslation(["admin"]);
 
   // Get specific discount from store
   const discountSlice = useSelector((state) => state.discounts);
   const { error, isLoading, discount, success } = discountSlice;
 
   useEffect(() => {
-    dispatch(getDiscount({ id: id }));
-  }, [dispatch, id]);
+    dispatch(getDiscount({ id: id, language: i18n.language }));
+  }, [dispatch, i18n.language, id]);
 
   useEffect(() => {
     if (success) navigate("/admin/discounts/");
@@ -115,12 +115,12 @@ function SpecificDiscount() {
         <Formik
           initialValues={initialValues(discount)}
           validationSchema={() => validationSchema(t)}
-          onSubmit={(e) => onSubmit(e, id, dispatch)}
+          onSubmit={(e) => onSubmit(e, id, i18n.language, dispatch)}
         >
           {(formik) => {
             return (
               <Form className="w3-animate-right">
-                <Inputs t={t} formik={formik} />
+                <Inputs t={t} i18n={i18n} formik={formik} />
                 <Button t={t} />
               </Form>
             );

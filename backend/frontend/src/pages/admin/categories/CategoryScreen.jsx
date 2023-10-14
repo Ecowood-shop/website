@@ -123,7 +123,9 @@ function CategoryScreen() {
             data={categories}
             link="/admin/categories/"
             linkEnd="/edit"
-            Delete={(id) => dispatch(deleteCategory({ id: id }))}
+            Delete={(id) =>
+              dispatch(deleteCategory({ id: id, language: i18n.language }))
+            }
             text={t("global.deletecategory")}
           />
         </InnerContainer>

@@ -79,7 +79,7 @@ function SpecificDiscount() {
   // Initialize hooks
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { t } = useTranslation(["admin"]);
+  const { t, i18n } = useTranslation(["admin"]);
 
   // Get specific discount from store
   const discountSlice = useSelector((state) => state.discounts);
@@ -109,12 +109,12 @@ function SpecificDiscount() {
         <Formik
           initialValues={initialValues}
           validationSchema={() => validationSchema(t)}
-          onSubmit={(e) => onSubmit(e, dispatch)}
+          onSubmit={(e) => onSubmit(e, i18n.language, dispatch)}
         >
           {(formik) => {
             return (
               <Form className="w3-animate-right">
-                <Inputs t={t} formik={formik} />
+                <Inputs t={t} i18n={i18n} formik={formik} />
                 <Button t={t} />
               </Form>
             );

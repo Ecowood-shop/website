@@ -81,7 +81,7 @@ export const validationSchema = Yup.object({
   instructionForUse_eng: Yup.string(),
   instructionForUse_rus: Yup.string(),
 
-  // safety standarts
+  // safety standards
   safetyStandard_geo: Yup.string().required("Required"),
   safetyStandard_eng: Yup.string(),
   safetyStandard_rus: Yup.string(),
@@ -117,7 +117,7 @@ export const validationSchema = Yup.object({
   ),
 });
 
-export const onSubmit = (values, dispatch) => {
+export const onSubmit = (values, language, dispatch) => {
   let data = {
     // name
     name_geo: values.name_geo,
@@ -181,7 +181,7 @@ export const onSubmit = (values, dispatch) => {
       values.discountPercent < 1 ? 0 : values.discountPercent;
   }
 
-  dispatch(createProduct(data));
+  dispatch(createProduct({ values: data, language: language }));
 };
 
 const convertTime12to24 = (time12h) => {

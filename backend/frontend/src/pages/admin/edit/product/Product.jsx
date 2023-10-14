@@ -139,7 +139,7 @@ function Product() {
       navigate("/admin/products/");
     } else {
       dispatch(getCategories({ language: i18n.language }));
-      dispatch(getProductAdmin({ id: id }));
+      dispatch(getProductAdmin({ id: id, language: i18n.language }));
     }
     return () => {
       dispatch(reset());
@@ -168,7 +168,7 @@ function Product() {
             <Formik
               initialValues={initialValues(product.products)}
               validationSchema={validationSchema}
-              onSubmit={(e) => onSubmit(e, dispatch, id)}
+              onSubmit={(e) => onSubmit(e, dispatch, i18n.language, id)}
             >
               {(formik) => {
                 return (

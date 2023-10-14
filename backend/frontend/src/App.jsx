@@ -1,5 +1,5 @@
 // Import react
-import { Suspense, useEffect } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { useCookies } from "react-cookie";
 // Import redux
@@ -22,6 +22,11 @@ function App() {
   const userSlice = useSelector((state) => state.user);
   const { user, isLoading } = userSlice;
 
+  // Additional hook for hiding messenger-customer-chat when:
+  // 1. calculator is shown on product page
+  // 2. menu is opened in mobile mode
+  const [IsMessengerShown, setIsMessengerShown] = useState(true);
+
   // Getting User profile
   useEffect(() => {
     dispatch(getUser());
@@ -35,15 +40,19 @@ function App() {
         {/* Web pages */}
         <ScrollToTop visible={cookies.cookieConsent}>
           <GlobalStyle />
-          <Header user={user} />
-          <Router user={user} loading={isLoading} />
+          <Header user={user} setIsMessengerShown={setIsMessengerShown} />
+          <Router
+            user={user}
+            loading={isLoading}
+            setIsMessengerShown={setIsMessengerShown}
+          />
           <Footer />
         </ScrollToTop>
         {/* Cookie popup */}
         {!cookies.cookieConsent && <CookieConsent />}
 
         {/* Messenger */}
-        {cookies.cookieConsent && (
+        {cookies.cookieConsent && IsMessengerShown && (
           <MessengerCustomerChat
             pageId="101479372628795"
             appId="1202628510495152"

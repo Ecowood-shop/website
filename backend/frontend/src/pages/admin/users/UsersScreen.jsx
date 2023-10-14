@@ -94,7 +94,7 @@ const columns = (t) => [
 function UsersScreen() {
   // Initialize hoooks
   const dispatch = useDispatch();
-  const { t } = useTranslation(["admin"]);
+  const { t, i18n } = useTranslation(["admin"]);
   const [searchParams] = useSearchParams();
 
   // Query params
@@ -107,11 +107,18 @@ function UsersScreen() {
   const { error, isLoading, users, success } = usersSlice;
 
   useEffect(() => {
-    dispatch(getUsers({ page: page, word: word, status: status }));
+    dispatch(
+      getUsers({
+        page: page,
+        word: word,
+        status: status,
+        language: i18n.language,
+      })
+    );
     return () => {
       dispatch(reset());
     };
-  }, [dispatch, word, status, page, success]);
+  }, [dispatch, word, status, page, success, i18n.language]);
 
   return (
     <Container>
@@ -132,7 +139,7 @@ function UsersScreen() {
                 data={users.users}
                 link="/admin/users/"
                 linkEnd="/edit"
-                Delete={(id) => dispatch(deleteUser({ id: id }))}
+                Delete={(id) => dispatch(deleteUser({ id: id,language: i18n.language}))}
                 text={t("global.deleteuser")}
               />
             </InnerContainer>

@@ -35,7 +35,7 @@ const HeaderText = styled.h1`
 `;
 
 // Export product component
-function Product() {
+function Product({ setIsMessengerShown }) {
   // Initialize hooks
   const dispatch = useDispatch();
   const params = useParams();
@@ -67,7 +67,9 @@ function Product() {
             <Table
               product={product.products}
               variants={product.variants}
+              setIsMessengerShown={setIsMessengerShown}
               t={t}
+              i18n={i18n}
             />
 
             {/* Product details */}

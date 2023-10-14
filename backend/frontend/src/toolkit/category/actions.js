@@ -24,9 +24,11 @@ export const getCategories = createAsyncThunk(
 export const getCategory = createAsyncThunk(
   "category/get",
   async (args, { rejectWithValue }) => {
-    const { id } = args;
+    const { id, language } = args;
     try {
-      const { data } = await useAxios.get(`/api/products/categories/${id}/`);
+      const { data } = await useAxios.get(
+        `/api/products/categories/${id}/?language=${language.toUpperCase()}`
+      );
       return data;
     } catch (err) {
       return rejectWithValue(Object.values(err.response.data)[0]);
@@ -37,9 +39,13 @@ export const getCategory = createAsyncThunk(
 // API request for creating category
 export const createCategory = createAsyncThunk(
   "category/create",
-  async (formData, { rejectWithValue }) => {
+  async (args, { rejectWithValue }) => {
+    const { values, language } = args;
     try {
-      await useCustomAxios.post("/api/products/category/create", formData);
+      await useCustomAxios.post(
+        `/api/products/category/create?language=${language.toUpperCase()}`,
+        values
+      );
     } catch (err) {
       return rejectWithValue(Object.values(err.data)[0]);
     }
@@ -50,9 +56,12 @@ export const createCategory = createAsyncThunk(
 export const updateCategory = createAsyncThunk(
   "category/update",
   async (args, { rejectWithValue }) => {
-    const { id, formData } = args;
+    const { id, formData, language } = args;
     try {
-      await useAxios.put(`/api/products/category/update/${id}/`, formData);
+      await useAxios.put(
+        `/api/products/category/update/${id}/?language=${language.toUpperCase()}`,
+        formData
+      );
     } catch (err) {
       return rejectWithValue(Object.values(err.response.data)[0]);
     }
@@ -63,9 +72,11 @@ export const updateCategory = createAsyncThunk(
 export const deleteCategory = createAsyncThunk(
   "category/delete",
   async (args, { rejectWithValue }) => {
-    const { id } = args;
+    const { id, language } = args;
     try {
-      await useCustomAxios.delete(`/api/products/category/delete/${id}`);
+      await useCustomAxios.delete(
+        `/api/products/category/delete/${id}?language=${language.toUpperCase()}`
+      );
     } catch (err) {
       return rejectWithValue(Object.values(err.response.data)[0]);
     }

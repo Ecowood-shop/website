@@ -24,9 +24,11 @@ export const getShippingPrices = createAsyncThunk(
 export const getShippingPrice = createAsyncThunk(
   "shippingPrice/get",
   async (args, { rejectWithValue }) => {
-    const { id } = args;
+    const { id, language } = args;
     try {
-      const { data } = await useCustomAxios.get(`/api/orders/prices/${id}/`);
+      const { data } = await useCustomAxios.get(
+        `/api/orders/prices/${id}/?language=${language.toUpperCase()}`
+      );
       return data;
     } catch (err) {
       return rejectWithValue(Object.values(err.response.data)[0]);
@@ -38,9 +40,12 @@ export const getShippingPrice = createAsyncThunk(
 export const createShippingPrice = createAsyncThunk(
   "shippingPrice/create",
   async (args, { rejectWithValue }) => {
-    const { formData } = args;
+    const { formData, language } = args;
     try {
-      await useCustomAxios.post("/api/orders/shippingPrice/create/", formData);
+      await useCustomAxios.post(
+        `/api/orders/shippingPrice/create/?language=${language.toUpperCase()}`,
+        formData
+      );
     } catch (err) {
       return rejectWithValue(
         err?.response
@@ -55,10 +60,10 @@ export const createShippingPrice = createAsyncThunk(
 export const updateShippingPrice = createAsyncThunk(
   "shippingPrice/update",
   async (args, { rejectWithValue }) => {
-    const { id, formData } = args;
+    const { id, formData, language } = args;
     try {
       await useCustomAxios.put(
-        `/api/orders/shippingPrice/update/${id}/`,
+        `/api/orders/shippingPrice/update/${id}/?language=${language.toUpperCase()}`,
         formData
       );
     } catch (err) {
@@ -71,9 +76,11 @@ export const updateShippingPrice = createAsyncThunk(
 export const deleteShippingPrice = createAsyncThunk(
   "shippingPrice/delete",
   async (args, { rejectWithValue }) => {
-    const { id } = args;
+    const { id, language } = args;
     try {
-      await useCustomAxios.delete(`/api/orders/shippingPrice/delete/${id}/`);
+      await useCustomAxios.delete(
+        `/api/orders/shippingPrice/delete/${id}/?language=${language.toUpperCase()}`
+      );
     } catch (err) {
       return rejectWithValue(Object.values(err.response.data)[0]);
     }

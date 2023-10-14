@@ -27,6 +27,6 @@ export const validationSchema = (t) => {
 };
 
 // On submit function which creates shipping price based on city
-export const onSubmit = (values, dispatch) => {
-  dispatch(createShippingPrice({ formData: values }));
+export const onSubmit = (values, language, dispatch) => {
+  dispatch(createShippingPrice({ formData: values, language: language }));
 };

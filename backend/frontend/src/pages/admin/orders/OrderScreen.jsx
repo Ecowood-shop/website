@@ -122,7 +122,7 @@ function OrderScreen() {
   // Initialize hoooks
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { t } = useTranslation(["admin"]);
+  const { t, i18n } = useTranslation(["admin"]);
   const [searchParams] = useSearchParams();
 
   // Query params
@@ -136,11 +136,19 @@ function OrderScreen() {
   const { error, isLoading, orders, success } = orderSlice;
 
   useEffect(() => {
-    dispatch(getOrders({ page: page, word: word, status: status, id: id }));
+    dispatch(
+      getOrders({
+        page: page,
+        word: word,
+        status: status,
+        id: id,
+        language: i18n.language,
+      })
+    );
     return () => {
       dispatch(reset());
     };
-  }, [dispatch, page, word, status, id, success]);
+  }, [dispatch, page, word, status, i18n.language, id, success]);
 
   return (
     <Container>
@@ -161,7 +169,9 @@ function OrderScreen() {
               data={orders.Orders}
               link="/order/"
               linkEnd=""
-              Delete={(id) => dispatch(deleteOrder({ id: id }))}
+              Delete={(id) =>
+                dispatch(deleteOrder({ id: id, language: i18n.language }))
+              }
               text={t("global.deleteorder")}
             />
           </InnerContainer>

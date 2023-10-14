@@ -39,7 +39,7 @@ const Container = styled.div`
 `;
 
 // Export user select
-function UserSelect({ formik }) {
+function UserSelect({ formik, i18n }) {
   // Initialize hooks
   const dispatch = useDispatch();
 
@@ -47,8 +47,8 @@ function UserSelect({ formik }) {
   const { users } = useSelector((state) => state.discountUsers);
 
   useEffect(() => {
-    dispatch(getUsers());
-  }, [dispatch]);
+    dispatch(getUsers({ language: i18n.language }));
+  }, [dispatch, i18n.language]);
 
   // Formilize users
   let customUsers =

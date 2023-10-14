@@ -75,7 +75,7 @@ function CreateCategoryScreen() {
   // Initialize hooks
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { t } = useTranslation(["admin"]);
+  const { t, i18n } = useTranslation(["admin"]);
 
   // Get category from store
   const categorySlice = useSelector((state) => state.categories);
@@ -108,7 +108,7 @@ function CreateCategoryScreen() {
         <Formik
           initialValues={initialValues}
           validationSchema={() => validationSchema(t)}
-          onSubmit={(e) => onSubmit(e, dispatch)}
+          onSubmit={(e) => onSubmit(e, i18n.language, dispatch)}
         >
           {(formik) => {
             return (

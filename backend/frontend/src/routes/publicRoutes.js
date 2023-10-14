@@ -5,7 +5,7 @@ import { lazyLayouts } from "../layouts";
 import { lazyPages } from "../pages";
 
 // Export Public router
-export default function PublicRoutes() {
+export default function PublicRoutes(setIsMessengerShown) {
   const { PublicLayout } = lazyLayouts;
 
   return {
@@ -43,7 +43,9 @@ export default function PublicRoutes() {
       },
       {
         path: "product/:id",
-        element: <lazyPages.ProductPage />,
+        element: (
+          <lazyPages.ProductPage setIsMessengerShown={setIsMessengerShown} />
+        ),
       },
 
       // Cart

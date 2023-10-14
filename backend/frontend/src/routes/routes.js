@@ -7,9 +7,9 @@ import AuthorizedRoutes from "./authorizedRoutes";
 import AdminRoutes from "./adminRoutes";
 
 // Export global router
-export default function Router({ user, loading }) {
+export default function Router({ user, loading, setIsMessengerShown }) {
   return useRoutes([
-    PublicRoutes(),
+    PublicRoutes(setIsMessengerShown),
     AuthorizedRoutes(user, loading),
     AdminRoutes(user, loading),
   ]);

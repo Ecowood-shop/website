@@ -67,7 +67,7 @@ const FormContainer = styled.div`
 `;
 
 // Export variant component
-function Variant({ t, variant, id, colors }) {
+function Variant({ t, i18n, variant, id, colors }) {
   // Initialize hooks
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
@@ -93,13 +93,18 @@ function Variant({ t, variant, id, colors }) {
           <Formik
             initialValues={initialValues(variant)}
             validationSchema={validationSchema}
-            onSubmit={(e) => onSubmit(e, dispatch, id, variant)}
+            onSubmit={(e) => onSubmit(e, dispatch, id, i18n.language, variant)}
           >
             {(formik) => {
               return (
                 <Form>
                   <Inputs t={t} dropdownOptions={dropdownOptions} />
-                  <Button t={t} variant={variant} dispatch={dispatch} />
+                  <Button
+                    t={t}
+                    i18n={i18n}
+                    variant={variant}
+                    dispatch={dispatch}
+                  />
                 </Form>
               );
             }}

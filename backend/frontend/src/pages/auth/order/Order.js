@@ -116,7 +116,7 @@ function Order() {
               <Header>
                 {t("order.order")} N{params.id}
               </Header>
-              <Details t={t} order={order} id={params.id} />
+              <Details t={t} i18n={i18n} order={order} id={params.id} />
             </InnerContainer>
 
             {width > 1024 ? (

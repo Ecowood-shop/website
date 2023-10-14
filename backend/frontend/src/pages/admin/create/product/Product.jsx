@@ -157,7 +157,7 @@ function Product() {
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
-            onSubmit={(e) => onSubmit(e, dispatch)}
+            onSubmit={(e) => onSubmit(e, i18n.language, dispatch)}
           >
             {(formik) => {
               return (

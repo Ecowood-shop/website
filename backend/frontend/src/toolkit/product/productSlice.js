@@ -43,9 +43,11 @@ export const getProduct = createAsyncThunk(
 export const getProductAdmin = createAsyncThunk(
   "admin/getProduct",
   async (args, { rejectWithValue }) => {
-    const { id } = args;
+    const { id, language } = args;
     try {
-      const { data } = await useAxios.get(`/api/products/${id}/admin`);
+      const { data } = await useAxios.get(
+        `/api/products/${id}/admin?language=${language.toUpperCase()}`
+      );
       return data;
     } catch (err) {
       return rejectWithValue(Object.values(err.response.data)[0]);
@@ -56,9 +58,13 @@ export const getProductAdmin = createAsyncThunk(
 // API request for creating product
 export const createProduct = createAsyncThunk(
   "product/create",
-  async (formData, { rejectWithValue }) => {
+  async (args, { rejectWithValue }) => {
+    const { values, language } = args;
     try {
-      await useCustomAxios.post("/api/products/create/", formData);
+      await useCustomAxios.post(
+        `/api/products/create/?language=${language.toUpperCase()}`,
+        values
+      );
     } catch (err) {
       return rejectWithValue(Object.values(err.response.data)[0]);
     }
@@ -69,9 +75,12 @@ export const createProduct = createAsyncThunk(
 export const updateProduct = createAsyncThunk(
   "product/update",
   async (args, { rejectWithValue }) => {
-    const { id, formData } = args;
+    const { id, formData, language } = args;
     try {
-      await useCustomAxios.put(`/api/products/update/${id}/`, formData);
+      await useCustomAxios.put(
+        `/api/products/update/${id}/?language=${language.toUpperCase()}`,
+        formData
+      );
     } catch (err) {
       return rejectWithValue(Object.values(err.response.data)[0]);
     }
@@ -82,10 +91,10 @@ export const updateProduct = createAsyncThunk(
 export const deleteProduct = createAsyncThunk(
   "product/delete",
   async (args, { rejectWithValue }) => {
-    const { id } = args;
+    const { id, language } = args;
     try {
       const { data } = await useCustomAxios.delete(
-        `/api/products/delete/${id}/`
+        `/api/products/delete/${id}/?language=${language.toUpperCase()}`
       );
       return data;
     } catch (err) {

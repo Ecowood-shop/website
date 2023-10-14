@@ -58,7 +58,7 @@ const ErrorContainer = styled.div`
 // Export reset password page
 function ResetPassword() {
   // Initialize hooks
-  const { t } = useTranslation(["app"]);
+  const { t, i18n } = useTranslation(["app"]);
 
   // Get success from state
   const resetPasswordSlice = useSelector((state) => state.resetPassword);
@@ -76,7 +76,11 @@ function ResetPassword() {
               <ErrorMessage>{error}</ErrorMessage>
             </ErrorContainer>
           )}
-          {isLoading ? <LoaderMini color={"darkmagenta"} /> : <Form t={t} />}
+          {isLoading ? (
+            <LoaderMini color={"darkmagenta"} />
+          ) : (
+            <Form t={t} i18n={i18n} />
+          )}
         </>
       )}
     </Container>

@@ -67,7 +67,7 @@ const StyledButton = styled.button`
   `};
 `;
 
-function Button({ t, dispatch, variant }) {
+function Button({ t, i18n, dispatch, variant }) {
   return (
     <Container $margin={variant}>
       <StyledButton type="submit">
@@ -79,7 +79,9 @@ function Button({ t, dispatch, variant }) {
         <StyledButton
           type="button"
           $delete
-          onClick={() => dispatch(deleteVariant({ id: variant.id }))}
+          onClick={() =>
+            dispatch(deleteVariant({ id: variant.id, language: i18n.language }))
+          }
         >
           <CloseSVG />
         </StyledButton>

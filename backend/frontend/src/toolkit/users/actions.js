@@ -8,10 +8,10 @@ import { useCustomAxios } from "../../utils/hooks/useAxios";
 export const getUsers = createAsyncThunk(
   "users/get",
   async (args, { rejectWithValue }) => {
-    const { page, word, status } = args;
+    const { page, word, status, language } = args;
     try {
       const { data } = await useCustomAxios.get(
-        `/api/users/?keyword=${word}&page=${page}&is_staff=${status}`
+        `/api/users/?keyword=${word}&page=${page}&is_staff=${status}&language=${language.toUpperCase()}`
       );
       return data;
     } catch (err) {
@@ -24,9 +24,11 @@ export const getUsers = createAsyncThunk(
 export const getUser = createAsyncThunk(
   "user/get",
   async (args, { rejectWithValue }) => {
-    const { id } = args;
+    const { id, language } = args;
     try {
-      const { data } = await useCustomAxios.get(`/api/users/${id}`);
+      const { data } = await useCustomAxios.get(
+        `/api/users/${id}?language=${language.toUpperCase()}`
+      );
       return data;
     } catch (err) {
       return rejectWithValue(Object.values(err.response.data)[0]);
@@ -38,9 +40,12 @@ export const getUser = createAsyncThunk(
 export const updateUser = createAsyncThunk(
   "user/update",
   async (args, { rejectWithValue }) => {
-    const { id, formData } = args;
+    const { id, formData, language } = args;
     try {
-      await useCustomAxios.put(`/api/users/update/${id}/`, formData);
+      await useCustomAxios.put(
+        `/api/users/update/${id}/?language=${language.toUpperCase()}`,
+        formData
+      );
     } catch (err) {
       return rejectWithValue(Object.values(err.response.data)[0]);
     }
@@ -51,9 +56,11 @@ export const updateUser = createAsyncThunk(
 export const deleteUser = createAsyncThunk(
   "user/delete",
   async (args, { rejectWithValue }) => {
-    const { id } = args;
+    const { id, language } = args;
     try {
-      await useCustomAxios.delete(`/api/users/delete/${id}/`);
+      await useCustomAxios.delete(
+        `/api/users/delete/${id}/?language=${language.toUpperCase()}`
+      );
     } catch (err) {
       return rejectWithValue(Object.values(err.response.data)[0]);
     }

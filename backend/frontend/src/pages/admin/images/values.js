@@ -18,8 +18,8 @@ export const validationSchema = (t) => {
   });
 };
 
-// On submit function which adds image to product 
-export const onSubmit = (values, dispatch, id) => {
+// On submit function which adds image to product
+export const onSubmit = (values, dispatch, language, id) => {
   const formData = new FormData();
   formData.append("picture", values.image);
   formData.append("product_id", id);
@@ -27,6 +27,7 @@ export const onSubmit = (values, dispatch, id) => {
   dispatch(
     createImage({
       formData: formData,
+      language: language,
     })
   );
 };

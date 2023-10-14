@@ -18,12 +18,15 @@ const initialState = {
 export const verifyEmail = createAsyncThunk(
   "auth/resetPassword",
   async (args, { dispatch, rejectWithValue }) => {
-    const { id, token } = args;
+    const { id, token, language } = args;
     try {
-      await useAxios.post(`/api/users/verify/${id}/${token}/`, {
-        id: id,
-        token: token,
-      });
+      await useAxios.post(
+        `/api/users/verify/${id}/${token}/?language=${language.toUpperCase()}`,
+        {
+          id: id,
+          token: token,
+        }
+      );
       dispatch(getUser());
     } catch (err) {
       return rejectWithValue(Object.values(err.response.data)[0]);

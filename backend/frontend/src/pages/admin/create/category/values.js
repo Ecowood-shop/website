@@ -21,6 +21,6 @@ export const validationSchema = (t) => {
 };
 
 // On submit function which adds category
-export const onSubmit = (values, dispatch) => {
-  dispatch(createCategory(values));
+export const onSubmit = (values, language, dispatch) => {
+  dispatch(createCategory({ values: values, language: language }));
 };

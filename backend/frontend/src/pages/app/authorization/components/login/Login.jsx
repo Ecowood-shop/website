@@ -44,7 +44,7 @@ const IconContainer = styled.div`
 `;
 
 // Export login component
-function Login({ t, pageChanger }) {
+function Login({ t, i18n, pageChanger }) {
   // Initialize hooks
   const dispatch = useDispatch();
 
@@ -61,7 +61,7 @@ function Login({ t, pageChanger }) {
       <Formik
         initialValues={initialValues}
         validationSchema={() => validationSchema(t)}
-        onSubmit={(e) => onSubmit(e, dispatch)}
+        onSubmit={(e) => onSubmit(e, i18n.language, dispatch)}
       >
         {(formik) => {
           return (

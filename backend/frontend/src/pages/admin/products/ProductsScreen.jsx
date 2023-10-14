@@ -147,7 +147,9 @@ function ProductsScreen() {
               data={products.products}
               link="/admin/products/"
               linkEnd="/edit"
-              Delete={(id) => dispatch(deleteProduct({ id: id }))}
+              Delete={(id) =>
+                dispatch(deleteProduct({ id: id, language: i18n.language }))
+              }
               text={t("global.deleteproduct")}
             />
           </InnerContainer>

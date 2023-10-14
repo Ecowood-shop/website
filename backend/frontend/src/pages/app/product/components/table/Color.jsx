@@ -24,7 +24,7 @@ function Color({ variants, error }) {
     return () => {
       dispatch(reset());
     };
-  }, [dispatch,values]);
+  }, [dispatch, values]);
 
   return (
     <Container>

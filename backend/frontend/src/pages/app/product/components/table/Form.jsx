@@ -34,14 +34,14 @@ const ErrorContainer = styled.div`
   font-size: var(--small-m);
   transition: color 0.1s ease-in-out;
 
-  &::first-letter{
+  &::first-letter {
     text-transform: capitalize;
   }
   ${(props) =>
     props.$cursor && "cursor:pointer; &:hover{color:var(--redWithOpacity)}"}
 `;
 
-function Form({ product, variants, t }) {
+function Form({ product, variants, t, i18n }) {
   // Initialize hooks
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -63,7 +63,7 @@ function Form({ product, variants, t }) {
         initialValues={initialValues(variants)}
         validationSchema={validationSchema(t, user)}
         onSubmit={(values, actions) =>
-          onSubmit(values, actions, dispatch, product)
+          onSubmit(values, actions, dispatch, i18n.language, product)
         }
       >
         {({ errors, values }) => {

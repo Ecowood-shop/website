@@ -28,12 +28,12 @@ const Container = styled.div`
 function Profile() {
   // Hooks
   const navigate = useNavigate();
-  const { t } = useTranslation(["auth"]);
+  const { t, i18n } = useTranslation(["auth"]);
 
   return (
     <Container>
       <Details t={t} navigate={navigate} />
-      <Orders t={t} navigate={navigate} />
+      <Orders t={t} i18n={i18n} navigate={navigate} />
     </Container>
   );
 }

@@ -127,7 +127,9 @@ function CitiesScreen() {
             data={shippingPrices}
             link="/admin/cities/"
             linkEnd="/edit"
-            Delete={(id) => dispatch(deleteShippingPrice({ id: id }))}
+            Delete={(id) =>
+              dispatch(deleteShippingPrice({ id: id, language: i18n.language }))
+            }
             text={t("global.deletecity")}
           />
         </InnerContainer>
