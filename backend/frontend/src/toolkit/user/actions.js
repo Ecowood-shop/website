@@ -22,9 +22,13 @@ export const logout = createAsyncThunk(
 // API request for login
 export const login = createAsyncThunk(
   "user/login",
-  async (formData, { dispatch, rejectWithValue }) => {
+  async (props, { dispatch, rejectWithValue }) => {
+    const { values, language } = props;
     try {
-      await useAxios.post("/api/users/login/", formData);
+      await useAxios.post(
+        `/api/users/login/?language=${language.toUpperCase()}`,
+        values
+      );
       dispatch(getUser());
     } catch (err) {
       return rejectWithValue(Object.values(err.response.data)[0]);

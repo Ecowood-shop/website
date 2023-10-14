@@ -129,13 +129,13 @@ const IconContainer = styled.div`
 `;
 
 // Export form for product quantity
-function Form({ variant, cart, t }) {
+function Form({ variant, cart, t, i18n }) {
   // Initialize hooks
   const dispatch = useDispatch();
 
   // Initialize formik
   const formikProps = useFormik({
-    onSubmit: (values) => onSubmit(values, dispatch, cart.id),
+    onSubmit: (values) => onSubmit(values, dispatch, i18n.language, cart.id),
     initialValues: initialValues(cart.qty),
     validationSchema: validationSchema(t, variant),
     validateOnMount: true,

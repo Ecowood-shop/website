@@ -7,9 +7,13 @@ import { useCustomAxios } from "../../utils/hooks/useAxios";
 // API request for getting users for discount
 export const getUsers = createAsyncThunk(
   "discount/getUsers",
-  async (_, { rejectWithValue }) => {
+  async (props, { rejectWithValue }) => {
+    const { language } = props;
+    
     try {
-      const { data } = await useCustomAxios.get(`/api/users/getJustUsers`);
+      const { data } = await useCustomAxios.get(
+        `/api/users/getJustUsers/?language=${language.toUpperCase()}`
+      );
       return data;
     } catch (err) {
       return rejectWithValue(Object.values(err.response.data)[0]);

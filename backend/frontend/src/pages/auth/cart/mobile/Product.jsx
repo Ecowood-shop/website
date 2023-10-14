@@ -206,7 +206,7 @@ const IconContainer = styled.div`
     }
   }
 `;
-function Product({ product, variant, cart, t }) {
+function Product({ product, variant, cart, t, i18n }) {
   // Initialize hooks
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -231,11 +231,15 @@ function Product({ product, variant, cart, t }) {
 
       {/* Product variant color */}
       <Tcolor>
-        <Color variant={variant} t={t} />
+        <Color variant={variant} t={t} i18n={i18n} />
       </Tcolor>
 
       <Tdelete>
-        <IconContainer onClick={() => dispatch(deleteCart({ id: cart.id }))}>
+        <IconContainer
+          onClick={() =>
+            dispatch(deleteCart({ id: cart.id, language: i18n.language }))
+          }
+        >
           <CloseSVG />
         </IconContainer>
       </Tdelete>
@@ -245,7 +249,7 @@ function Product({ product, variant, cart, t }) {
 
       {/* Product variant quantity */}
       <Tquantity>
-        <Form t={t} cart={cart} variant={variant} />
+        <Form t={t} i18n={i18n} cart={cart} variant={variant} />
       </Tquantity>
 
       {/* Product price */}

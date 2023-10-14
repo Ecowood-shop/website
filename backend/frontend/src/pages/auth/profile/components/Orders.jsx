@@ -46,7 +46,7 @@ const ErrorContainer = styled.div`
   }
 `;
 // Export orders component
-function Orders({ t }) {
+function Orders({ t, i18n }) {
   // Hooks
   const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
@@ -58,8 +58,8 @@ function Orders({ t }) {
 
   // Get user orders
   useEffect(() => {
-    dispatch(getOrders(page));
-  }, [dispatch, page]);
+    dispatch(getOrders({ page: page, language: i18n.language }));
+  }, [dispatch, page, i18n.language]);
 
   return (
     <Container>

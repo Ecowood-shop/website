@@ -14,9 +14,13 @@ const initialState = {
 // API request for getting colors
 export const getColors = createAsyncThunk(
   "colors/get",
-  async (_, { rejectWithValue }) => {
+  async (args, { rejectWithValue }) => {
+    const { language } = args;
+    
     try {
-      const { data } = await useCustomAxios.get("/api/products/colors/");
+      const { data } = await useCustomAxios.get(
+        `/api/products/colors/?language=${language.toUpperCase()}`
+      );
       return data;
     } catch (err) {
       return rejectWithValue(Object.values(err.response.data)[0]);

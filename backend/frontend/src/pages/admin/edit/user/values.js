@@ -27,6 +27,6 @@ export const validationSchema = (t) => {
 };
 
 // On submit function which updates user info
-export const onSubmit = (values, dispatch, id) => {
-  dispatch(updateUser({ formData: values, id: id }));
+export const onSubmit = (values, dispatch, id, language) => {
+  dispatch(updateUser({ formData: values, id: id, language: language }));
 };

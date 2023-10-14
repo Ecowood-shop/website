@@ -82,7 +82,7 @@ const InnerContainer = styled.div`
 `;
 
 // Export table
-function Table({ product, variants, t }) {
+function Table({ product, variants, setIsMessengerShown, t, i18n }) {
   return (
     <Container className="w3-animate-right">
       {/* Gallery */}
@@ -92,8 +92,12 @@ function Table({ product, variants, t }) {
       <InnerContainer>
         <Discount product={product} />
         <Description product={product} t={t} />
-        <Form product={product} variants={variants} t={t} />
-        <Calculator product={product} t={t} />
+        <Form product={product} variants={variants} t={t} i18n={i18n} />
+        <Calculator
+          product={product}
+          setIsMessengerShown={setIsMessengerShown}
+          t={t}
+        />
       </InnerContainer>
     </Container>
   );

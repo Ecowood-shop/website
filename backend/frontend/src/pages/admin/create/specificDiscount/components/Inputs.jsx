@@ -60,18 +60,18 @@ const Label = styled.label`
   ${(props) => props.$date && "text-align:center;"}
 `;
 
-function Inputs({ formik, t }) {
+function Inputs({ formik, t, i18n }) {
   return (
     <Container>
       <Item>
         <Label>{t("user.user")}</Label>
 
-        <UserSelect t={t} formik={formik} />
+        <UserSelect t={t} i18n={i18n} formik={formik} />
       </Item>
 
       <Item>
         <Label>{t("global.product")}</Label>
-        <ProductSelect t={t} formik={formik} />
+        <ProductSelect t={t} i18n={i18n} formik={formik} />
       </Item>
 
       <Item>

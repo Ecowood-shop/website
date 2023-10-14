@@ -3,7 +3,7 @@ import { styled } from "styled-components";
 import { CloseSVG } from "../../../../../static/icons/components";
 import { respondTo } from "../../../../../utils/styles/_respondTo";
 // Import hooks
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Container = styled.div``;
 
@@ -58,7 +58,7 @@ const Button = styled.button`
 const InnerContainer = styled.div`
   right: 1rem;
   bottom: 1rem;
-  z-index: 1001;
+  z-index: 1000;
   min-width: 10%;
   position: fixed;
 
@@ -150,15 +150,24 @@ const BlackText = styled.b`
 `;
 
 // Export calculator
-function Calculator({ t, product }) {
+function Calculator({ t, product, setIsMessengerShown }) {
   // Initialize hooks
   const [isOpen, setIsOpen] = useState(false);
   const [answer, setAnswer] = useState(0);
 
+  // callback that closes the calculator and opens/closes the messenger-customer-chat
   const changer = () => {
     if (isOpen) setAnswer(0);
-    setIsOpen(!isOpen);
+    
+    setIsOpen(!isOpen);setIsMessengerShown(isOpen);
   };
+
+  // run callback that displays the messenger-customer-chat in case when the calculator is left opened
+  useEffect(() => {
+    return () => {
+      setIsMessengerShown(true);
+    };
+  }, []);
 
   return (
     <Container>

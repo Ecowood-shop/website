@@ -75,7 +75,7 @@ function DiscountsScreen() {
   // Initialize hoooks
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { t } = useTranslation(["admin"]);
+  const { t, i18n } = useTranslation(["admin"]);
   const [searchParams] = useSearchParams();
 
   // Query params
@@ -87,11 +87,11 @@ function DiscountsScreen() {
   const { error, isLoading, discounts, success } = discountSlice;
 
   useEffect(() => {
-    dispatch(getDiscounts({ page: page, word: word }));
+    dispatch(getDiscounts({ page: page, word: word, language: i18n.language }));
     return () => {
       dispatch(reset());
     };
-  }, [dispatch, success, page, word, navigate]);
+  }, [dispatch, success, page, word, i18n.language, navigate]);
 
   return (
     <Container>
@@ -113,7 +113,9 @@ function DiscountsScreen() {
                 data={discounts ? discounts["Specific Discounts"] : discounts}
                 link="/admin/discounts/"
                 linkEnd="/edit"
-                Delete={(id) => dispatch(deleteDiscount({ id: id }))}
+                Delete={(id) =>
+                  dispatch(deleteDiscount({ id: id, language: i18n.language }))
+                }
                 text={t("global.deletediscount")}
               />
             </InnerContainer>

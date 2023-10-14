@@ -78,15 +78,15 @@ function Category() {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { t } = useTranslation(["admin"]);
+  const { t, i18n } = useTranslation(["admin"]);
 
   // Get category from store
   const categorySlice = useSelector((state) => state.categories);
   const { error, isLoading, category, success } = categorySlice;
 
   useEffect(() => {
-    dispatch(getCategory({ id: id }));
-  }, [dispatch, id]);
+    dispatch(getCategory({ id: id, language: i18n.language }));
+  }, [dispatch, i18n.language, id]);
 
   useEffect(() => {
     if (success) navigate("/admin/categories/");
@@ -114,7 +114,7 @@ function Category() {
           <Formik
             initialValues={initialValues(category)}
             validationSchema={() => validationSchema(t)}
-            onSubmit={(e) => onSubmit(e, dispatch, id)}
+            onSubmit={(e) => onSubmit(e, dispatch, id, i18n.language)}
           >
             {(formik) => {
               return (

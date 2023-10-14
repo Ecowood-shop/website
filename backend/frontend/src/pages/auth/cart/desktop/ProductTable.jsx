@@ -88,7 +88,7 @@ const MessageContainer = styled.div`
 `;
 
 // Export product table
-function ProductTable({ cart, t }) {
+function ProductTable({ cart, t, i18n }) {
   // Initialize hooks
   const navigate = useNavigate();
 
@@ -130,6 +130,7 @@ function ProductTable({ cart, t }) {
                         (item) => item._id === cartItem.product
                       )}
                       t={t}
+                      i18n={i18n}
                       key={index}
                       variant={cart.variants.find(
                         (item) => item.id === cartItem.variants

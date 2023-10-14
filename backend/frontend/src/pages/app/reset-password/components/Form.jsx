@@ -14,7 +14,7 @@ const Container = styled.div`
   width: 100%;
 `;
 // Export form component
-function Form({ t }) {
+function Form({ t, i18n }) {
   // Initialize hooks
   const params = useParams();
   const dispatch = useDispatch();
@@ -24,7 +24,7 @@ function Form({ t }) {
       <Formik
         initialValues={initialValues}
         validationSchema={() => validationSchema(t)}
-        onSubmit={(values) => onSubmit(values, dispatch, params)}
+        onSubmit={(values) => onSubmit(values, dispatch, params, i18n.language)}
       >
         {(formik) => {
           return (

@@ -14,11 +14,12 @@ const initialState = {
 // API request for sending reset password link
 export const forgotPassword = createAsyncThunk(
   "auth/forgotPassword",
-  async (formData, { rejectWithValue }) => {
+  async (props, { rejectWithValue }) => {
+    const { values, language } = props;
     try {
       const { data } = await useAxios.post(
-        "/api/users/forgot/password/",
-        formData
+        `/api/users/forgot/password/?language=${language.toUpperCase()}`,
+        values
       );
       return data;
     } catch (err) {

@@ -177,7 +177,7 @@ const Button = styled.button`
 `;
 
 // Export details order component
-function Details({ t, order, id }) {
+function Details({ t, i18n, order, id }) {
   // Initialize hooks
   const dispatch = useDispatch();
   // Get user from store
@@ -265,7 +265,11 @@ function Details({ t, order, id }) {
 
         <TableItem $last>
           {user.is_staff && !order.Order.isDelivered && (
-            <Button onClick={() => dispatch(delivered({ id: id }))}>
+            <Button
+              onClick={() =>
+                dispatch(delivered({ id: id, language: i18n.language }))
+              }
+            >
               {t("order.delivered")}
             </Button>
           )}

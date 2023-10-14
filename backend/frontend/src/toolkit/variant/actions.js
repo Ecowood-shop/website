@@ -8,9 +8,11 @@ import { useCustomAxios } from "../../utils/hooks/useAxios";
 export const getVariants = createAsyncThunk(
   "variants/get",
   async (args, { rejectWithValue }) => {
-    const { id } = args;
+    const { id, language } = args;
     try {
-      const { data } = await useCustomAxios.get(`/api/products/variants/${id}`);
+      const { data } = await useCustomAxios.get(
+        `/api/products/variants/${id}?language=${language.toUpperCase()}`
+      );
       return data;
     } catch (err) {
       return rejectWithValue(Object.values(err.data)[0]);
@@ -22,9 +24,12 @@ export const getVariants = createAsyncThunk(
 export const createVariant = createAsyncThunk(
   "variant/create",
   async (args, { rejectWithValue }) => {
-    const { formData } = args;
+    const { formData, language } = args;
     try {
-      await useCustomAxios.post("/api/products/variants/create", formData);
+      await useCustomAxios.post(
+        `/api/products/variants/create?language=${language.toUpperCase()}`,
+        formData
+      );
     } catch (err) {
       return rejectWithValue(Object.values(err.data)[0]);
     }
@@ -35,10 +40,12 @@ export const createVariant = createAsyncThunk(
 export const updateVariant = createAsyncThunk(
   "variant/update",
   async (args, { rejectWithValue }) => {
-    const { formData } = args;
+    const { formData, language } = args;
     try {
       await useCustomAxios.put(
-        `/api/products/variants/update/${formData.id}/`,
+        `/api/products/variants/update/${
+          formData.id
+        }/?language=${language.toUpperCase()}`,
         formData
       );
     } catch (err) {
@@ -51,9 +58,11 @@ export const updateVariant = createAsyncThunk(
 export const deleteVariant = createAsyncThunk(
   "variant/delete",
   async (args, { rejectWithValue }) => {
-    const { id } = args;
+    const { id, language } = args;
     try {
-      await useCustomAxios.delete(`/api/products/variants/delete/${id}`);
+      await useCustomAxios.delete(
+        `/api/products/variants/delete/${id}?language=${language.toUpperCase()}`
+      );
     } catch (err) {
       return rejectWithValue(Object.values(err.data)[0]);
     }

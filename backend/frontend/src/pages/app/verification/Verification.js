@@ -1,16 +1,13 @@
 // REACT
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
 import { verifyEmail, reset } from "../../../toolkit/auth/verificationSlice";
 
 // COMPONENTS
-import Message from "../../../components/Message/Message";
-import Loader from "../../../components/loader/Loader";
-
+import { ErrorMessage, Loader } from "../../../components";
 // OTHERS
 import styles from "./styles.module.scss";
 
@@ -21,14 +18,20 @@ function Verification() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const params = useParams();
-  const { t } = useTranslation(["app"]);
+  const { i18n } = useTranslation(["app"]);
 
   const verificationSlice = useSelector((state) => state.verification);
   const { isLoading, success, error } = verificationSlice;
 
   useEffect(() => {
-    dispatch(verifyEmail({ id: params.id, token: params.token }));
-  }, [dispatch, params.id, params.token]);
+    dispatch(
+      verifyEmail({
+        id: params.id,
+        token: params.token,
+        language: i18n.language,
+      })
+    );
+  }, [dispatch, params.id, params.token, i18n.language]);
 
   useEffect(() => {
     if (success) {
@@ -41,7 +44,7 @@ function Verification() {
   return (
     <div className={styles.container}>
       <div className={styles.content}>
-        {isLoading ? <Loader /> : error && <Message>{error}</Message>}
+        {isLoading ? <Loader /> : error && <ErrorMessage>{error}</ErrorMessage>}
       </div>
     </div>
   );

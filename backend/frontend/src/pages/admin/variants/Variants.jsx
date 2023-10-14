@@ -90,7 +90,7 @@ function Variants() {
   // Initialize hooks
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { t } = useTranslation(["admin"]);
+  const { t, i18n } = useTranslation(["admin"]);
 
   // Get product variants from store
   const variantsSlice = useSelector((state) => state.variants);
@@ -100,19 +100,19 @@ function Variants() {
   const { colors } = useSelector((state) => state.colors);
 
   useEffect(() => {
-    dispatch(getColors());
-  }, [dispatch]);
+    dispatch(getColors({ language: i18n.language }));
+  }, [dispatch, i18n.language]);
 
   useEffect(() => {
-    dispatch(getVariants({ id: id }));
+    dispatch(getVariants({ id: id, language: i18n.language }));
     return () => {
       dispatch(reset());
     };
-  }, [dispatch, success, id]);
+  }, [dispatch, success, i18n.language, id]);
   return (
     <Container>
       <InnerContainer className="w3-animate-right">
-        {colors && <Variant colors={colors} id={id} t={t} />}
+        {colors && <Variant colors={colors} id={id} t={t} i18n={i18n} />}
       </InnerContainer>
 
       {!isLoading && error && <ErrorMessage>{error}</ErrorMessage>}
@@ -121,7 +121,7 @@ function Variants() {
       ) : variants?.length > 0 ? (
         <FlexContainer className="w3-animate-right">
           {variants.map((variant) => (
-            <Variant variant={variant} key={variant.id} t={t} />
+            <Variant variant={variant} key={variant.id} t={t} i18n={i18n} />
           ))}
         </FlexContainer>
       ) : (

@@ -154,7 +154,7 @@ export const validationSchema = Yup.object({
   ),
 });
 
-export const onSubmit = (values, dispatch, id) => {
+export const onSubmit = (values, dispatch, language, id) => {
   let data = {
     // name
     name_geo: values.name_geo,
@@ -217,7 +217,7 @@ export const onSubmit = (values, dispatch, id) => {
     data.discountPercent =
       values.discountPercent < 1 ? 0 : values.discountPercent;
   }
-  dispatch(updateProduct({ id: id, formData: data }));
+  dispatch(updateProduct({ id: id, formData: data ,language: language}));
 };
 
 const convertTime12to24 = (time12h) => {

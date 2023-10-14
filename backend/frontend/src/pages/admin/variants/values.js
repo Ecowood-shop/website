@@ -16,14 +16,14 @@ export const validationSchema = Yup.object({
 });
 
 // On submit function which updates or adds product color variant
-export const onSubmit = (values, dispatch, id, variant) => {
+export const onSubmit = (values, dispatch, id, language, variant) => {
   if (id) {
     values.variantTitle = "productID=" + id + " color=" + values.color;
     values.productID = id;
-    dispatch(createVariant({ formData: values }));
+    dispatch(createVariant({ formData: values, language: language }));
   } else {
     values.id = variant.id;
     values.title = variant.title;
-    dispatch(updateVariant({ formData: values }));
+    dispatch(updateVariant({ formData: values, language: language }));
   }
 };

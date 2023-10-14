@@ -91,7 +91,7 @@ function Images() {
   // Initialize hooks
   const dispatch = useDispatch();
   const { id } = useParams();
-  const { t } = useTranslation(["admin"]);
+  const { t, i18n } = useTranslation(["admin"]);
 
   // Get images from store
   const imagesSlice = useSelector((state) => state.images);
@@ -104,17 +104,17 @@ function Images() {
   ];
 
   useEffect(() => {
-    dispatch(getImages({ id: id }));
+    dispatch(getImages({ id: id, language: i18n.language }));
     return () => {
       dispatch(reset());
     };
-  }, [dispatch, success, id]);
+  }, [dispatch, success, i18n.language, id]);
 
   const imagesClone = [...images];
   return (
     <Container>
       <InnerContainer>
-        <Table t={t} id={id} />
+        <Table t={t} id={id} i18n={i18n} />
       </InnerContainer>
 
       {!isLoading && error && <ErrorMessage>{error}</ErrorMessage>}
@@ -129,6 +129,7 @@ function Images() {
                 id={element.id}
                 key={element.id}
                 image={element}
+                i18n={i18n}
                 order={
                   options.filter((option) => option.value === element.ord)[0]
                     .label

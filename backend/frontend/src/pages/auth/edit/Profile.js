@@ -70,7 +70,7 @@ function Profile() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isFirstPage, setIsFirstPage] = useState(true);
-  const { t } = useTranslation(["auth"]);
+  const { t, i18n } = useTranslation(["auth"]);
 
   // Get user from store
   const { user } = useSelector((state) => state.user);
@@ -111,6 +111,7 @@ function Profile() {
         user && (
           <Form
             t={t}
+            i18n={i18n}
             user={user}
             isFirstPage={isFirstPage}
             setIsFirstPage={setIsFirstPage}

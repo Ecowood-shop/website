@@ -24,13 +24,13 @@ export const getCart = createAsyncThunk(
 export const addToCart = createAsyncThunk(
   "cart/add",
   async (args, { rejectWithValue }) => {
-    const { id, formData } = args;
+    const { id, formData, language } = args;
     try {
       const { data } = await useCustomAxios.post(
-        `/api/products/cartload/${id}/`,
+        `/api/products/cartload/${id}/?language=${language.toUpperCase()}`,
         formData
       );
-      return data;
+      return data; 
     } catch (err) {
       return rejectWithValue(Object.values(err.data)[0]);
     }
@@ -41,9 +41,12 @@ export const addToCart = createAsyncThunk(
 export const updateCart = createAsyncThunk(
   "cart/update",
   async (args, { rejectWithValue }) => {
-    const { id, qty } = args;
+    const { id, qty, language } = args;
     try {
-      await useCustomAxios.put(`/api/products/updatecart/${id}/`, { qty: qty });
+      await useCustomAxios.put(
+        `/api/products/updatecart/${id}/?language=${language.toUpperCase()}`,
+        { qty: qty }
+      );
     } catch (err) {
       return rejectWithValue(Object.values(err.data)[0]);
     }
@@ -54,9 +57,11 @@ export const updateCart = createAsyncThunk(
 export const deleteCart = createAsyncThunk(
   "cart/delete",
   async (args, { rejectWithValue }) => {
-    const { id } = args;
+    const { id, language } = args;
     try {
-      await useCustomAxios.delete(`/api/products/removecart/${id}`);
+      await useCustomAxios.delete(
+        `/api/products/removecart/${id}?language=${language.toUpperCase()}`
+      );
     } catch (err) {
       return rejectWithValue(Object.values(err.data)[0]);
     }

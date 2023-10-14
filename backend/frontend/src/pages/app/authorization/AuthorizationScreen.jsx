@@ -98,7 +98,7 @@ const CarouselContainer = styled.div`
 function AuthorizationScreen() {
   // Initialize hooks
   const [page, setPage] = useState("login");
-  const { t } = useTranslation(["app"]);
+  const { t, i18n } = useTranslation(["app"]);
   const navigate = useNavigate();
 
   // Get user from user slice
@@ -119,10 +119,14 @@ function AuthorizationScreen() {
     <Container>
       <InnerContainer>
         <Table className="w3-animate-left">
-          {page === "login" && <Login pageChanger={pageChanger} t={t} />}
-          {page === "register" && <Register pageChanger={pageChanger} t={t} />}
+          {page === "login" && (
+            <Login pageChanger={pageChanger} t={t} i18n={i18n} />
+          )}
+          {page === "register" && (
+            <Register pageChanger={pageChanger} t={t} i18n={i18n} />
+          )}
           {page === "forgot" && (
-            <ForgotPassword pageChanger={pageChanger} t={t} />
+            <ForgotPassword pageChanger={pageChanger} t={t} i18n={i18n} />
           )}
         </Table>
         <CarouselContainer>

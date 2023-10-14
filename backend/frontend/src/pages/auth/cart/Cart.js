@@ -66,11 +66,11 @@ function Cart() {
         <InnerContainer>
           {width > 1024 ? (
             <>
-              <ProductTable cart={cart} t={t} />
+              <ProductTable cart={cart} t={t} i18n={i18n} />
               <Table cart={cart} t={t} />
             </>
           ) : (
-            <MobileTable cart={cart} t={t} />
+            <MobileTable cart={cart} t={t} i18n={i18n} />
           )}
         </InnerContainer>
       )}

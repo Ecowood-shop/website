@@ -23,7 +23,7 @@ const Container = styled.div`
 `;
 
 // Export form component
-function Form({ user, t, isFirstPage, setIsFirstPage }) {
+function Form({ user, t, i18n, isFirstPage, setIsFirstPage }) {
   // Initialize hooks
   const dispatch = useDispatch();
 
@@ -44,7 +44,7 @@ function Form({ user, t, isFirstPage, setIsFirstPage }) {
       data.confirm_password = values.confirmPassword;
     }
 
-    dispatch(updateUser(data));
+    dispatch(updateUser({ values: data, language: i18n.language }));
   };
   return (
     <Container>

@@ -24,12 +24,13 @@ export const validationSchema = (t) => {
   });
 };
 
-export const onSubmit = (values, dispatch, params) => {
+export const onSubmit = (values, dispatch, params, language) => {
   dispatch(
     resetPassword({
       id: params.id,
       token: params.token,
       formData: values,
+      language: language,
     })
   );
 };

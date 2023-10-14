@@ -31,7 +31,7 @@ export const validationSchema = (t) => {
   });
 };
 
-export const onSubmit = (values, dispatch) => {
+export const onSubmit = (values, language, dispatch) => {
   let data = {
     userId: values.userId,
     productId: values.productId,
@@ -55,8 +55,8 @@ export const onSubmit = (values, dispatch) => {
     " " +
     convertTime12to24(values.end_time) +
     ":00";
-    
-  dispatch(createDiscount({ formData: data }));
+
+  dispatch(createDiscount({ formData: data, language: language }));
 };
 
 const convertTime12to24 = (time12h) => {

@@ -29,7 +29,7 @@ export const validationSchema = (t) => {
 };
 
 // On submit function which updates shipping price based on city
-export const onSubmit = (values, dispatch, id) => {
+export const onSubmit = (values, dispatch, language, id) => {
   let data = {
     location: values.location,
     name_eng: values.name_eng,
@@ -38,5 +38,5 @@ export const onSubmit = (values, dispatch, id) => {
     lowerLimit: values.lowerLimit,
     upperLimit: values.upperLimit,
   };
-  dispatch(updateShippingPrice({ formData: data, id: id }));
+  dispatch(updateShippingPrice({ formData: data, id: id, language: language }));
 };

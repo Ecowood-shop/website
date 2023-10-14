@@ -45,6 +45,6 @@ export const validationSchema = (t) => {
   });
 };
 
-export const onSubmit = (values, dispatch) => {
-  dispatch(register(values));
+export const onSubmit = (values, language, dispatch) => {
+  dispatch(register({ values: values, language: language }));
 };

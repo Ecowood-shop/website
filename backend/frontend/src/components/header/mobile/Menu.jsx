@@ -67,7 +67,7 @@ const IconsPanel = styled.div`
 `;
 
 // Export Menu component
-function Menu({ user }) {
+function Menu({ user, setIsMessengerShown }) {
   // create hooks
   const navigate = useNavigate();
   const location = useLocation();
@@ -81,6 +81,11 @@ function Menu({ user }) {
   useEffect(() => {
     if (location.pathname.includes("search")) setIsOpenSearch(false);
   }, [location.pathname]);
+
+  // if the menu is open hide messenger-customer-chat
+  useEffect(() => {
+    setIsMessengerShown(!isOpenMenu);
+  }, [setIsMessengerShown, isOpenMenu]);
 
   return (
     <Container className="w3-animate-top">

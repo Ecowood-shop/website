@@ -95,7 +95,7 @@ const ResendButton = styled.button`
 `;
 
 // Export register component
-function Register({ t, pageChanger }) {
+function Register({ t, i18n, pageChanger }) {
   // Initialize hooks
   const dispatch = useDispatch();
 
@@ -114,7 +114,7 @@ function Register({ t, pageChanger }) {
       <Formik
         initialValues={initialValues}
         validationSchema={() => validationSchema(t)}
-        onSubmit={(e) => onSubmit(e, dispatch)}
+        onSubmit={(e) => onSubmit(e, i18n.language, dispatch)}
       >
         {(formik) => {
           return (

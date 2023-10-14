@@ -7,10 +7,11 @@ import { useCustomAxios } from "../../utils/hooks/useAxios";
 // API request for getting products for discount
 export const getProducts = createAsyncThunk(
   "discount/getProducts",
-  async (_, { rejectWithValue }) => {
+  async (args, { rejectWithValue }) => {
+    const { language } = args;
     try {
       const { data } = await useCustomAxios.get(
-        `/api/products/getJustProducts`
+        `/api/products/getJustProducts?language=${language.toUpperCase()}`
       );
       return data;
     } catch (err) {

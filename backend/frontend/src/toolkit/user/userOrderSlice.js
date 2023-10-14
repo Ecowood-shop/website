@@ -14,10 +14,11 @@ const initialState = {
 // API request for getting user orders
 export const getOrders = createAsyncThunk(
   "user/getOrders",
-  async (page, { rejectWithValue }) => {
+  async (args, { rejectWithValue }) => {
+    const { page, language } = args;
     try {
       const { data } = await useCustomAxios.get(
-        `api/orders/myorders/?page=${page}`
+        `api/orders/myorders/?page=${page}&language=${language.toUpperCase()}`
       );
       return data;
     } catch (err) {

@@ -23,6 +23,6 @@ export const validationSchema = (t) => {
 };
 
 // On submit function which updates category based on id
-export const onSubmit = (values, dispatch, id) => {
-  dispatch(updateCategory({ formData: values, id: id }));
+export const onSubmit = (values, dispatch, id, language) => {
+  dispatch(updateCategory({ formData: values, id: id, language: language }));
 };
